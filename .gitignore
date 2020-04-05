@@ -1,0 +1,9 @@
+# Default ignored files
+/*
+!.gitignore
+!README.md
+!pom.xml
+!resources/
+!src/
+!javadoc/
+!Deliverables/
