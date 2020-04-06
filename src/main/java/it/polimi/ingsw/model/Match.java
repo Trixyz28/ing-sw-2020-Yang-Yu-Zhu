@@ -4,6 +4,7 @@ import it.polimi.ingsw.Observable;
 
 import java.util.ArrayList;
 
+
 public class Match extends Observable {
 
     public Match(int playersNumber) {
@@ -55,9 +56,12 @@ public class Match extends Observable {
 
     }
 
+    public void setCurrentTurn(){
+
+    }
 
 
-
-
-
+    public ArrayList<Player> getPlayersList() {
+        return playersList;
+    }
 }
