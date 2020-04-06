@@ -34,5 +34,11 @@ public class Match {
 
     }
 
+    public void setCurrentTurn(){
 
+    }
+
+
+    public ArrayList<Player> getPlayersList() {
+    }
 }
