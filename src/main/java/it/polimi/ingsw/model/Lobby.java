@@ -34,13 +34,12 @@ public class Lobby {
     }
 
     //If the lobby is complete -> true
-    private boolean checkIfFull;
-
+    private boolean checkFull;
     //if playersNumber == availablePlayerNumber
     public boolean isFull(int playersNumber,int availablePlayerNumber) {
 
 
-        return checkIfFull;
+        return checkFull;
     }
 
 

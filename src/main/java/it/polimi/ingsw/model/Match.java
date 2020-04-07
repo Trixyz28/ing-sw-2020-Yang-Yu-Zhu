@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.Observable;
 
 import java.util.ArrayList;
-
 import java.util.Random;
 
 
@@ -18,19 +17,39 @@ public class Match extends Observable {
         }
         this.playersNumber = playersNumber;
     }
-    private int playersNumber;
 
     private Map map = new Map();
 
-    private ArrayList<Player> playersList;
+    private final int playersNumber;
 
-    public ArrayList<Player> getPlayersList() { return playersList; }
+    private ArrayList<Player> playersList;
+    public ArrayList<Player> getPlayersList() {
+        return playersList;
+    }
+
+
 
     private int challengerID;
+    public int getChallengerID() {
+        return challengerID;
+    }
+    //Choose a Challenger from playersList in a random way
+    public void randomChooseChallenger() {
+        Random r = new Random();
+        challengerID = (r.nextInt(playersNumber))+1;
+    }
 
-    public int getChallengerID() { return challengerID; }
+
+
 
     private int startingPlayerID;
+    public int getStartingPlayerID() {
+        return startingPlayerID;
+    }
+    public void setStartingPlayerID(int id){
+        startingPlayerID = id;
+    }
+
 
     private GodList godsList = new GodList(playersNumber);  //ho cambiato l'ArrayList in classe GodList
 
@@ -51,23 +70,32 @@ public class Match extends Observable {
         return p;
     }
 
-    //Choose a Challenger from playersList in a random way
-    public void randomChooseChallenger() {
-        Random r = new Random();
-        challengerID = (r.nextInt(playersNumber))+1;
 
-    }
+
 
     //ancora da decidere (???
     public void startCurrentTurn(){
-        currentTurn = new Turn();
+        currentTurn = new Turn(playersList.get(startingPlayerID));
+
     }
 
-    //Set StartingPlayer
-    public void setStartingPlayerID(int id){
-        startingPlayerID = id;
+
+
+
+
+    public void checkWin() {
+
     }
 
+
+
+    public void checkLose() {
+
+    }
+
+    public void gameOver() {
+
+    }
 
 
 }

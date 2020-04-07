@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.God.Apollo;
+
 import java.util.List;
 
 public class Player {
@@ -19,7 +21,6 @@ public class Player {
     public String getPlayerNickname() {
         return playerNickname;
     }
-
     public void setPlayerNickname(String playerNickname) {
         this.playerNickname = playerNickname;
     }
@@ -30,9 +31,6 @@ public class Player {
     public boolean isChallenger() {
         return isChallenger;
     }
-
-    private String startPlayerID;
-
 
 
     private String godCard;
@@ -65,14 +63,52 @@ public class Player {
 
     //Create 2 specific worker classes as indicated in godCard
     public List<Worker> createWorker(String godCard) {
+        if(godCard.equals("APOLLO")) {
+            workerList.add();
+
+        }
+        if(godCard.equals("ARTEMIS")) {
+
+        }
+
+        if(godCard.equals("ATHENA")) {
+
+        }
+
+        if(godCard.equals("ATLAS")) {
+
+        }
+
+        if(godCard.equals("DEMETER")) {
+
+        }
+
+        if(godCard.equals("HEPHAESTUS")) {
+
+        }
+
+        if(godCard.equals("MINOTAUR")) {
+
+        }
+
+        if(godCard.equals("PAN")) {
+
+        }
+
+        if(godCard.equals("PROMETHEUS")) {
+
+        }
+
+
+
 
         return workerList;
     }
 
     //Select the worker to move/build
-    public void chooseWorker(int index) {
+    public Worker chooseWorker(int index) {
 
-
+        return workerList.get(index);
     }
 
     //Lost in 3-players game, delete workers
@@ -81,9 +117,6 @@ public class Player {
     }
 
 
-    public void losingCondition() {
-
-    }
 
 
 

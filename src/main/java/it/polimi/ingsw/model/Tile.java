@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 public class Tile {
 
 
-
     private int row;
     public int getRow() {
         return row;
@@ -55,45 +54,49 @@ public class Tile {
 
 
 
+    public boolean adjacentTile(Tile dest) {
+        if(this.row - dest.row <=1 && this.row - dest.row >=-1
+           && this.column - dest.column <=1 && this.column - dest.column >=-1) {
+            return true;
+        }
 
-
-
-    public void getTilePosition(){
-
-
+        return false;
     }
 
-    public void adjacentTile() {
+    public boolean availableToMove(Tile dest) {
+        if(adjacentTile(dest) && !dest.domePresence && !dest.occupiedByWorker
+                && dest.getBlockLevel()-this.getBlockLevel()<=1 ) {
+            return true;
+        }
 
+        return false;
     }
 
-    public void availableToMove() {
+    public boolean availableToBuild(Tile dest) {
+        if(adjacentTile(dest) && !dest.domePresence && !dest.occupiedByWorker) {
+            return true;
+        }
 
+        return false;
     }
 
-    public void availableToBuild() {
 
+    public void addBlockLevel() {
+        blockLevel++;
     }
 
-    //Block++
-    public int addBlockLevel() {
 
-        return blockLevel;
-    }
-
-    //Build dome
     public void blockToDome() {
-
+        domePresence = true;
     }
 
 
     public void freeWorker() {
-
+        occupiedByWorker = false;
     }
 
     public void setWorker() {
-
+        occupiedByWorker = true;
     }
-
 
 }

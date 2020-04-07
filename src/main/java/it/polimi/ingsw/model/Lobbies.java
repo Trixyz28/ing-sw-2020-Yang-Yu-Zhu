@@ -26,6 +26,7 @@ public class Lobbies {
     }
 
     public void setCurrentLobby(Lobby currentLobby) {
+
         this.currentLobby = currentLobby;
     }
 

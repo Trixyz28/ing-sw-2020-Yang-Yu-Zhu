@@ -2,41 +2,17 @@ package it.polimi.ingsw.model;
 
 public abstract class Worker {
 
-    private String belongToPlayer;
+    private int belongToPlayer;
 
     private int workerID;
+    private String workerType;
+
 
     private Tile currentPosition;
 
-    private String positionRow;
-
-    private String positionColumn;
 
 
-
-    private int workerHeight;
-    public int getWorkerHeight() {
-        return workerHeight;
-    }
-
-    public void setWorkerHeight(int workerHeight) {
-        this.workerHeight = workerHeight;
-    }
-
-
-
-
-    public void getPosition() {
-
-    }
-    public void setPosition() {
-
-    }
-
-
-
-
-    public void canMove(Tile t) {
+    public void canMove(Tile currentPosition) {
 
     }
 
@@ -44,7 +20,8 @@ public abstract class Worker {
 
     }
 
-    public void move() {
+    public void move(Tile t) {
+
 
     }
 
@@ -68,13 +45,8 @@ public abstract class Worker {
 
     }
 
-    public void removeWorker() {
 
-    }
 
-    public void endOperation() {
-
-    }
 
 
 }

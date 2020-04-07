@@ -5,6 +5,21 @@ import java.util.List;
 
 public class Observable<T> {
 
+    private boolean changed = false;
+    public boolean isChanged() {
+        return changed;
+    }
+
+    public void setChanged() {
+
+        this.changed = true;
+    }
+    public void clearChanged() {
+        this.changed = false;
+    }
+
+
+
     private List<Observer<T>> observers = new ArrayList<>();
 
     public void addObservers(Observer<T> observer){
@@ -16,5 +31,4 @@ public class Observable<T> {
             observer.update(message);
         }
     }
-
 }
