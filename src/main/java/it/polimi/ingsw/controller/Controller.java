@@ -23,14 +23,13 @@ public class Controller implements Observer {
 
 
     public void initializeMatch(Player p){
-        match.createPlayers();  /* match.playersList = playersList (come parametro) */
         match.randomChooseChallenger(); /* scegliere challenger per Random e riordinare la lista dei Players */
-        match.setCurrentTurn(); /* creare un nuovo Turn */
+        match.startCurrentTurn(); /* creare un nuovo Turn */
 
     }
 
     public void challengerStart(){
-        Player challenger = match.getPlayersList().get(0);
+        Player challenger = match.getPlayersList().get(match.getChallengerID()-1); /* ID = indice +1 */
         challenger.defineGodList(); /* far scegliere Gods attraverso la view (view.defineGodList()) */
         for(Player p : match.getPlayersList()){
             if(p!=challenger) {  /* challenger deve essere ultimo a scegliere */

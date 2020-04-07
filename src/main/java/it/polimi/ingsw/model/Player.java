@@ -6,11 +6,11 @@ public class Player {
 
 
     //ID assigned to each player in order by their playing turn
-    private String playerID;
-    public String getPlayerID() {
+    private int playerID;
+    public int getPlayerID() {
         return playerID;
     }
-    public void setPlayerID(String playerID) {
+    public void setPlayerID(int playerID) {
         this.playerID = playerID;
     }
 
@@ -59,7 +59,7 @@ public class Player {
 
 
     //Choose a start player if isChallenger == true
-    public void chooseStartPlayer(String id) {
+    public void chooseStartPlayer(int id) {
 
     }
 
