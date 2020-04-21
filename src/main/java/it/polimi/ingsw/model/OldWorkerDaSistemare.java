@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-// da sistemare
+// da sistemare (rimane una classe con lista che associa ogni tile della mappa con un worker di un player(attributes)
 public class Worker {
 
 
@@ -13,7 +13,7 @@ public class Worker {
     private Tile currentPosition;
 
 
-
+   //metodi da spostare nel decorator pattern
     public void canMove(Tile currentPosition) {
 
     }

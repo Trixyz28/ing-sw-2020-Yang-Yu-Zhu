@@ -6,6 +6,9 @@ import java.util.List;
 
 public class Player {
 
+    // da sistemare implementazione dei workers: prima c'era una classe astratta worker estesa dai vari gods(worker)
+    //introduzione di interfaccia workerMove, workerBuild
+
 
     //ID assigned to each player in order by their playing turn
     private int playerID;
@@ -56,7 +59,7 @@ public class Player {
 
 
 
-    //Choose a start player if isChallenger == true
+    //Choose a start player if isChallenger == true ( a chiamata dal controller, da sistemare
     public void chooseStartPlayer(int id) {
 
     }
