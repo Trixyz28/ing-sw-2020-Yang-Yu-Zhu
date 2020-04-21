@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-public abstract class Worker {
+// da sistemare
+public class Worker {
+
 
     private int belongToPlayer;
 
