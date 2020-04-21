@@ -31,7 +31,7 @@ public class Lobby {
     }
 
     //Set()of checkFull
-    public void setCheckFull {
+    public void setCheckFull() {
 
         this.checkFull = true;
     }
@@ -44,7 +44,7 @@ public class Lobby {
     }
 
     //Set() of the nuber of the Lobby players
-    public void setLobbyPlayersNumber(Int playersNumber) {
+    public void setLobbyPlayersNumber(int playersNumber) {
 
         this.lobbyPlayersNumber = playersNumber;
     }
@@ -53,9 +53,9 @@ public class Lobby {
     public void getPlayersNameList() {
 
         for (int i = 0; i < lobbyPlayersNumber; i++) {
-            String helper = playersNameList.get(i)
+            String helper = playersNameList.get(i);
             if(helper == "0000")
-                System.out.println("Player not available yet.")
+                System.out.println("Player not available yet.");
                 else {
                     System.out.println(helper);
             }
@@ -64,13 +64,13 @@ public class Lobby {
     }
 
     //Set() of the playersNameList from Lobbies at creation of Lobby
-    public void setPlayersNameList(Arraylist<String> parameterList){
+    public void setPlayersNameList(ArrayList<String> parameterList){
 
-        ArrayList<String> playersNameList = ArrayList<String>parameterList.clone();
+        ArrayList<String> playersNameList = (ArrayList<String>)parameterList.clone();
     }
 
     //Adds a player name to the List: if value is "000" it is changed to the player name then return
-    public void ArrayList<String> addPlayer(String playerName) {
+    public void addPlayer(String playerName) {
 
         int flag = 0;
 
@@ -110,9 +110,7 @@ public class Lobby {
     }
 
     //new match creator on call
-    public void createMatch() {
-
-        Match newMatch = new Match(lobbyPlayersNumber,playersNameList);
-
+    public void createMatch(Model model) {
+        model.initialize(lobbyPlayersNumber, playersNameList);
     }
 }

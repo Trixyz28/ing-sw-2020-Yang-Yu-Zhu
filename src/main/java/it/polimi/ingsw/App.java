@@ -1,22 +1,19 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.model.Match;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.view.View;
-
-import java.util.ArrayList;
 
 
 public class App {
 
 
     public static void main(String[] args) {
-        Match match = new Match();
+        Model model = new Model();
         View view = new View();
-        Controller controller = new Controller(match, view);
+        Controller controller = new Controller(model, view);
         view.addObservers(controller);
-        match.addObservers(view);
+        model.addObservers(view);
         view.run();
 
     }

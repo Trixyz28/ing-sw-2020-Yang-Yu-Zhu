@@ -7,8 +7,8 @@ public class Worker {
     private int belongToPlayer;
 
     private int workerID;
-    private String workerType;
 
+    private String workerType;
 
     private Tile currentPosition;
 

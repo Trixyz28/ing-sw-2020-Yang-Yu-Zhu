@@ -72,7 +72,6 @@ public class Player {
     //Create 2 specific worker classes as indicated in godCard
     public List<Worker> createWorker(String godCard) {
         if(godCard.equals("APOLLO")) {
-            workerList.add();
 
         }
         if(godCard.equals("ARTEMIS")) {

@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import junit.framework.TestCase;
 
-public class MatchTest extends TestCase {
+public class ModelTest extends TestCase {
 
     public void testCreateMap() {
     }

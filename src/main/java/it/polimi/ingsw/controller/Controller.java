@@ -1,21 +1,17 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.Match;
+import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.Observer;
-
-import it.polimi.ingsw.model.Player;
-
-import java.util.ArrayList;
 
 
 public class Controller implements Observer {
 
-    protected Match match;
+    protected Model model;
     protected View view;
 
-    public Controller(Match match, View view) {
-        this.match = match;
+    public Controller(Model model, View view) {
+        this.model = model;
         this.view = view;
     }
 
