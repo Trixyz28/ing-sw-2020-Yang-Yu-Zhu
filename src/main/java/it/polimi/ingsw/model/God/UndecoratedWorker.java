@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.God;
 
 //interfaccia estesa da tutte le divinità decoratrici
 

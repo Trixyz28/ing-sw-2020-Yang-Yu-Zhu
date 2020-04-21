@@ -25,11 +25,11 @@ public class InitController extends Controller {
     }
 
     public void challengerStart(){
-        Player challenger = model.getPlayersList().get(model.getChallengerID()-1); /* ID = indice +1 */
+        Player challenger = model.getMatchPlayersList().get(model.getChallengerID()-1); /* ID = indice +1 */
         GodList godList = model.getGodsList(); /* ottenere la GodList per poter accedere alla currentGodList dal Challenger */
         defineGodList(challenger, godList);  //eseguire solo al challenger
         int index = challenger.getPlayerID();  /* challengerID = indice del player next al challenger */
-        for (Player p = model.getPlayersList().get(index); index < model.getPlayersList().size() && p != challenger; index++) {
+        for (Player p = model.getMatchPlayersList().get(index); index < model.getMatchPlayersList().size() && p != challenger; index++) {
             /* challenger deve essere ultimo a scegliere */
             do {
                 //view.godChoice(p);  -> fa scegliere al player il god e notify(God scelto)
@@ -43,7 +43,7 @@ public class InitController extends Controller {
             p.godChoice(god);  /* scegliere god dalla view */
             p.createWorker(god);  /* creare worker determinato God */
             godList.removeFromGodList(god);  /* eliminare dalla currentGodList il god scelto */
-            if(index == model.getPlayersList().size()-1){  /* quando l'indice arriva alla fine riiniziare fino ad arrivare al challenger*/
+            if(index == model.getMatchPlayersList().size()-1){  /* quando l'indice arriva alla fine riiniziare fino ad arrivare al challenger*/
                 index = 0;
             }
         }

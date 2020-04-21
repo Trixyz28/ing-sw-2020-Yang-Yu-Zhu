@@ -18,7 +18,7 @@ public class Turn {
     private Tile finalTile;
 
     //Tile where there it was built
-    private Tile initialTile;
+    private Tile builtTile;
 
 
     //Turn constructor: il turno viene creato a inizio match con turn number 0 ed è gestito dal turnController
@@ -34,7 +34,7 @@ public class Turn {
         return turnNumber;
     }
 
-    //set() of the trun number
+    //set() of the turn number
     public void setTurnNumber(int turnNumber) {
 
         this.turnNumber = turnNumber;

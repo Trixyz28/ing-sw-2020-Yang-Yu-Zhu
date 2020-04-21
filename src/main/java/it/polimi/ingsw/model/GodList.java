@@ -30,6 +30,7 @@ public class GodList {
 
     //Initializing completeGodList
     public void setComplete(){
+
         completeGodList[0] = "APOLLO";
         completeGodList[1] = "ARTEMIS";
         completeGodList[2] = "ATHENA";
@@ -57,6 +58,9 @@ public class GodList {
         */
     }
 
+    public String getSelectedGod() {
+        return selectedGod;
+    }
 
     //Select a god to add to currentGodList (manca ancora il check per la decisione)
     public void selectGod(String selectedGod) {
@@ -96,6 +100,7 @@ public class GodList {
             }
         }
     }
+
 
     //Check the dimension of currentGodList == playerNumber
     public boolean checkLength(){

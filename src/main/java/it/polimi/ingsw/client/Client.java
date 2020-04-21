@@ -12,8 +12,4 @@ public class Client {
         this.port = port;
     }
 
-
-
-
-
 }

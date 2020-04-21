@@ -21,6 +21,7 @@ public class View extends Observable implements Observer, Runnable {
     public View(){
         scanner = new Scanner(System.in);
         outputStream = new PrintStream(System.out);
+        endGame = false;
     }
 
 
@@ -36,7 +37,6 @@ public class View extends Observable implements Observer, Runnable {
         while(!endGame) {
 
             outputStream.println("Player " + currentID + "'s turn");
-
 
             chooseWorker();
         }
@@ -77,7 +77,7 @@ public class View extends Observable implements Observer, Runnable {
     }
 
     private void move(int row, int col) {
-        setChanged();
+
         notify();
     }
 
@@ -87,20 +87,24 @@ public class View extends Observable implements Observer, Runnable {
 
 
 
-    private void print(Map map) {
-        Tile[][] tiles = map.getMap();
+    private void printMap(Map map) {
+
         for(int i=0; i<5; i++){
+            System.out.print("|");
+
             for(int j=0; j<5; j++){
 
-                if(tiles[i][j].isDomePresence()) {
-                    outputStream.print("D ");
+                Tile t = map.getTile(i,j);
+
+                if(t.isDomePresence()) {
+                    outputStream.print("  D");
+                } else if (t.isOccupiedByWorker()) {
+                    outputStream.print("  W");
+                } else {
+                    outputStream.format("%3d",t.getBlockLevel());
                 }
-                else if (tiles[i][j].isOccupiedByWorker()) {
-                    outputStream.print("W ");
-                }
-                else {
-                    outputStream.print(tiles[i][j].getBlockLevel() + " ");
-                }
+
+                outputStream.print("|");
             }
             outputStream.println();
         }

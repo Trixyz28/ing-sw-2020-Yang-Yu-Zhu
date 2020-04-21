@@ -74,6 +74,7 @@ public class Player {
         if(godCard.equals("APOLLO")) {
 
         }
+
         if(godCard.equals("ARTEMIS")) {
 
         }
@@ -119,14 +120,9 @@ public class Player {
     }
 
     //Lost in 3-players game, delete workers
-    public void clearWorker() {
+    public void deleteWorker() {
 
     }
-
-
-
-
-
 
 
 }

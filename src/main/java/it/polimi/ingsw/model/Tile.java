@@ -4,6 +4,15 @@ public class Tile {
 
 
     private int row;
+    private int column;
+
+    //Block level on the tile, default 0
+    private int blockLevel;
+
+    private boolean occupiedByWorker;
+    private boolean domePresence;
+
+
     public int getRow() {
         return row;
     }
@@ -12,8 +21,6 @@ public class Tile {
     }
 
 
-
-    private int column;
     public int getColumn() {
         return column;
     }
@@ -22,9 +29,6 @@ public class Tile {
     }
 
 
-
-    //Block level on the tile, default 0
-    private int blockLevel;
     public int getBlockLevel() {
         return blockLevel;
     }
@@ -33,8 +37,6 @@ public class Tile {
     }
 
 
-
-    private boolean occupiedByWorker;
     public boolean isOccupiedByWorker() {
         return occupiedByWorker;
     }
@@ -43,15 +45,12 @@ public class Tile {
     }
 
 
-
-    private boolean domePresence;
     public boolean isDomePresence() {
         return domePresence;
     }
     public void setDomePresence(boolean domePresence) {
         this.domePresence = domePresence;
     }
-
 
 
     public boolean adjacentTile(Tile dest) {

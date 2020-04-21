@@ -8,85 +8,100 @@ import java.util.Random;
 
 public class Model extends Observable {
 
-
-    private Map map = new Map();
-
-    private int playersNumber;
-
-    private ArrayList<Player> playersList;
-
+    //ID of the challenger
     private int challengerID;
 
+    //ID of the starting player
     private int startingPlayerID;
 
-    private GodList godsList;  //ho cambiato l'ArrayList in classe GodList
+    //ArrayList of the players
+    private ArrayList<Player> matchPlayersList;
 
+    //Map: 5x5 tiles
+    private Map map = new Map();
+
+    //Number of players in the match
+    private int playersNumber;
+
+    //GodList for the choice of the ispiring God for each player
+    private GodList godsList = new GodList(playersNumber);  //ho cambiato l'ArrayList in classe GodList
+
+    //Current turn
     private Turn currentTurn;
 
-    //private Model currentMatch;
+    //Next playerID
+    private int nextPlayerID;
 
 
+    //Constructor for Match class
     public void initialize(int playersNumber, ArrayList<String> playersNameList) {
-        playersList = new ArrayList<>();
-        for(String s : playersNameList){  //inizializzare playerList con i playerName in parametro
+
+        matchPlayersList = new ArrayList<Player>();  //inizializzare playerList con i playerName in parametro
+
+        for(String s : playersNameList){
             Player p = createPlayers(s);
-            playersList.add(p);
+            matchPlayersList.add(p);
             p.setPlayerID(playersNameList.size());  //ID = la dimensione dell'ArrayList 1, 2, ... (indice = ID - 1)
         }
+
         this.playersNumber = playersNumber;
-        godsList = new GodList(playersNumber);
     }
 
-    public ArrayList<Player> getPlayersList() {
-        return playersList;
+
+    //get() of the arraylist made by Players
+    public ArrayList<Player> getMatchPlayersList() {
+
+        return matchPlayersList;
     }
 
-    public GodList getGodsList() { return godsList; }
-
-    /*
-    public Model getCurrentMatch() {
-        return currentMatch;
-    }
-    */
-
-    //Create the players
-    public Player createPlayers(String playerName) {
-        Player p = new Player();
-        p.setPlayerNickname(playerName);  //settare i Nickname con i playerName nell'arrayList playersNameList
-        return p;
-    }
-
+    //get() of the challengerID
     public int getChallengerID() {
+
         return challengerID;
     }
 
     //Choose a Challenger from playersList in a random way
     public void randomChooseChallenger() {
+
         Random r = new Random();
         challengerID = (r.nextInt(playersNumber))+1;
-        Player challenger = getPlayersList().get(challengerID-1); /* Challenger indice = ID - 1 */
-        challenger.setChallenger();  /* challenger.isChallenger = true */
-
     }
 
+    //get() starting playerID
     public int getStartingPlayerID() {
+
         return startingPlayerID;
     }
 
+    //set of the starting playerID
     public void setStartingPlayerID(int id){
+
         startingPlayerID = id;
     }
 
-    //ancora da decidere (???
-    public void startCurrentTurn(){
-        currentTurn = new Turn(playersList.get(startingPlayerID));
+    //get() of the GodList
+    public GodList getGodsList() {
+
+        return godsList;
     }
 
-    //notificare la view per printare la lista completa
-    public void showCompleteGodList(){
-        notify(godsList.showComplete());  /* tipo parametro = String [] */
+
+   //Create the players
+    public Player createPlayers(String playerName) {
+        Player p = new Player();
+        p.setPlayerNickname(playerName);
+        return p;
     }
 
+    public void startCurrentTurn() {
+        currentTurn = new Turn(matchPlayersList.get(startingPlayerID));
+    }
+
+
+    //turn advancer nel turn controller/funzione che prosegue con la scelta del player successive, più  futura
+    //implementazione oggetto chronobreak per salvare le partite
+
+    //metodi da implementare con il controller
     public void checkWin() {
 
     }

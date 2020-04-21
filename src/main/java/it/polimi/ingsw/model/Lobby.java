@@ -43,7 +43,7 @@ public class Lobby {
         return lobbyPlayersNumber;
     }
 
-    //Set() of the nuber of the Lobby players
+    //Set() of the number of the Lobby players
     public void setLobbyPlayersNumber(int playersNumber) {
 
         this.lobbyPlayersNumber = playersNumber;
@@ -54,10 +54,10 @@ public class Lobby {
 
         for (int i = 0; i < lobbyPlayersNumber; i++) {
             String helper = playersNameList.get(i);
-            if(helper == "0000")
+            if (helper.equals("0000")) {
                 System.out.println("Player not available yet.");
-                else {
-                    System.out.println(helper);
+            } else {
+                System.out.println(helper);
             }
 
         }
@@ -80,9 +80,8 @@ public class Lobby {
 
             if (flag == 1) {
                 System.out.println("Done.");
-                return;
             }
-            if (helper == "0000") {
+            if (helper.equals("0000")) {
                 playersNameList.set(0,playerName);
                 flag = 1;
             }
@@ -101,7 +100,7 @@ public class Lobby {
         for (int i = 0; i < lobby.lobbyPlayersNumber; i++) {
 
             String helper = lobby.playersNameList.get(i);
-            if ( helper != "0000") {
+            if (!helper.equals("0000")) {
                 availablePlayers++;
             }
         }

@@ -3,16 +3,37 @@ package it.polimi.ingsw.model.God;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.Worker;
 
+
 public class Apollo extends WorkerDecorator {
 
     public Apollo (UndecoratedWorker worker){
-        super(worker)
+        super(worker);
     }
 
-    @override
+    @Override
     public void canMove() {
         //specific move: he can move to non occupied or occupied tiles
         //normal canMove + apolloCanMove
+    }
+
+    @Override
+    public void buildBlock() {
+
+    }
+
+    @Override
+    public void canBuildBlock() {
+
+    }
+
+    @Override
+    public void buildDome() {
+
+    }
+
+    @Override
+    public void canBuildDome() {
+
     }
 
     private void apolloCanMove(){
@@ -20,7 +41,7 @@ public class Apollo extends WorkerDecorator {
 
         }
 
-    @override
+    @Override
     public void move() {
         //specific move: if he moves to an occupied tile he can exchange spot with the other worker
         //normal move()+apolloMove() if there's a worker in the tile it's moving to
