@@ -30,7 +30,6 @@ public class GodList {
 
     //Initializing completeGodList
     public void setComplete(){
-
         completeGodList[0] = "APOLLO";
         completeGodList[1] = "ARTEMIS";
         completeGodList[2] = "ATHENA";
@@ -49,10 +48,13 @@ public class GodList {
 
 
     //Print completeGodList
-    public void showComplete() {
+    public String[] showComplete() {  /* notificare la view dal model */
+        return completeGodList;
+        /*
         for(String s : completeGodList){
             System.out.println(s);
         }
+        */
     }
 
 
@@ -63,12 +65,26 @@ public class GodList {
 
     //Add selectedGod to currentGodList & listLength+1
     public void addInGodList() {
-        currentGodList.add(selectedGod);
-        listLength++;
+        if(!checkGod()) {
+            currentGodList.add(selectedGod);
+            listLength++;
+        }
+    }
+    //controllare se il god scelto sia già presente in currentGodList -> true se esiste già
+    public boolean checkGod(){
+        for(String s : currentGodList){
+            if(s.equals(selectedGod)){
+                return true;
+            }
+        }
+        return false;
     }
 
+
     //Get the dimension of currentGodList -> listLength
-    public int getLength() { return listLength; }
+    public int getLength() {
+        return listLength;
+    }
 
     //Remove a God from currentGodList & listLength-1
     public void removeFromGodList(String selectedGod) {
@@ -82,7 +98,9 @@ public class GodList {
     }
 
     //Check the dimension of currentGodList == playerNumber
-    public boolean checkLength(){ return listLength==playerNumber; }
+    public boolean checkLength(){
+        return listLength==playerNumber;
+    }
 
 
 

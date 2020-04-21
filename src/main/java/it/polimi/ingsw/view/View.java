@@ -26,7 +26,9 @@ public class View extends Observable implements Observer, Runnable {
 
     @Override
     public void update(Object message) {
-
+        if(message instanceof String[]){
+            showComplete((String[])message);
+        }
     }
 
     @Override
@@ -37,7 +39,6 @@ public class View extends Observable implements Observer, Runnable {
 
 
             chooseWorker();
-            startMove();
         }
     }
 
@@ -45,6 +46,14 @@ public class View extends Observable implements Observer, Runnable {
         outputStream.println("Which worker do you want to choose?");
 
 
+    }
+
+    //printare GodList completo
+    private void showComplete(String[] completeList){
+        outputStream.println("Le divinità che puoi scegliere sono:");
+        for(String s : completeList){
+            outputStream.println(s);
+        }
     }
 
 

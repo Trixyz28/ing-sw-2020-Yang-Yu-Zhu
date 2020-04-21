@@ -26,8 +26,10 @@ public class Player {
     }
 
 
-
-    private boolean isChallenger;
+    private boolean isChallenger;  /* non è più necessario (può essere usato per i test) */
+    public void setChallenger(){
+        isChallenger = true;
+    }
     public boolean isChallenger() {
         return isChallenger;
     }
@@ -39,16 +41,19 @@ public class Player {
     }
 
 
-
-    //Select the full God list if isChallenger == true
+    /* Select the full God list if isChallenger == true da mettere nella view e controller
     public void defineGodList() {
+        if(isChallenger == true){
+            while(!godList.checkLength()) {
 
+            }
+        }
     }
+    */
 
     //Choose a God from the list
-    public String godChoice(String god) {
+    public void godChoice(String god) {
         godCard = god;
-        return godCard;
     }
 
     //Workers owned by this player
@@ -56,15 +61,14 @@ public class Player {
 
 
 
-    //Choose a start player if isChallenger == true
-    public void chooseStartPlayer(int id) {
-
-    }
+    //Choose a start player if isChallenger == true -> non è necessario metterlo nel Player
+    /*
+    public void chooseStartPlayer(int id) {    }
+    */
 
     //Create 2 specific worker classes as indicated in godCard
     public List<Worker> createWorker(String godCard) {
         if(godCard.equals("APOLLO")) {
-            workerList.add();
 
         }
         if(godCard.equals("ARTEMIS")) {
