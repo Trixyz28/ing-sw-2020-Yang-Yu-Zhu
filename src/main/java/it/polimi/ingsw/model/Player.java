@@ -6,6 +6,9 @@ import java.util.List;
 
 public class Player {
 
+    // da sistemare implementazione dei workers: prima c'era una classe astratta worker estesa dai vari gods(worker)
+    //introduzione di interfaccia workerMove, workerBuild
+
 
     //ID assigned to each player in order by their playing turn
     private int playerID;
@@ -69,6 +72,7 @@ public class Player {
     //Create 2 specific worker classes as indicated in godCard
     public List<Worker> createWorker(String godCard) {
         if(godCard.equals("APOLLO")) {
+            workerList.add();
 
         }
         if(godCard.equals("ARTEMIS")) {
