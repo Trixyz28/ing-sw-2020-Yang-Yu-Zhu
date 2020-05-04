@@ -21,15 +21,17 @@ public class InitController extends Controller {
     public void initializeMatch(Lobby lobby){
         lobby.createMatch(model);
         model.randomChooseChallenger(); /* scegliere challenger per Random  */
-        model.startCurrentTurn(); /* creare un nuovo Turn */
     }
 
     public void challengerStart(){
-        Player challenger = model.getMatchPlayersList().get(model.getChallengerID()-1); /* ID = indice +1 */
+        Player challenger = model.getMatchPlayersList().get(model.getChallengerID()); /* ID = indice */
         GodList godList = model.getGodsList(); /* ottenere la GodList per poter accedere alla currentGodList dal Challenger */
         defineGodList(challenger, godList);  //eseguire solo al challenger
-        int index = challenger.getPlayerID();  /* challengerID = indice del player next al challenger */
-        for (Player p = model.getMatchPlayersList().get(index); index < model.getMatchPlayersList().size() && p != challenger; index++) {
+        int index = challenger.getPlayerID()+1;  /* challengerID = indice del challenger */
+        if(index == model.getMatchPlayersList().size()){
+            index = 0;
+        }
+        for (Player p = model.getMatchPlayersList().get(index); p != challenger; index++) {
             /* challenger deve essere ultimo a scegliere */
             do {
                 //view.godChoice(p);  -> fa scegliere al player il god e notify(God scelto)
@@ -56,7 +58,7 @@ public class InitController extends Controller {
 
         //view.chooseStartPlayer(challenger);  //scegliere da view (notify un player)
         model.setStartingPlayerID(startingPlayer.getPlayerID());  //settare il startingPlayerID del model
-        //challenger.chooseStartPlayer(startingPlayer.getPlayerID());  /* scegliere player che inizia e cambiare ordine lista Players */
+
     }
 
     public void defineGodList(Player challenger, GodList godList){
@@ -72,6 +74,7 @@ public class InitController extends Controller {
         if(arg instanceof Lobby){  /* ??? non va bene ArrayList */
             initializeMatch((Lobby)arg);
             challengerStart();
+            model.startCurrentTurn(); /* creare un nuovo Turn */
         }
         if(arg instanceof String){ /* variabile provvisoria del God scelto */
             god = (String)arg;

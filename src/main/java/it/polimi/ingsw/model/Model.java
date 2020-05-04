@@ -30,7 +30,7 @@ public class Model extends Observable {
     private Turn currentTurn;
 
     //Next playerID
-    private int nextPlayerID;
+    private int nextPlayerIndex;
 
 
     //Constructor for Match class
@@ -41,10 +41,20 @@ public class Model extends Observable {
         for(String s : playersNameList){
             Player p = createPlayers(s);
             matchPlayersList.add(p);
-            p.setPlayerID(playersNameList.size());  //ID = la dimensione dell'ArrayList 1, 2, ... (indice = ID - 1)
+            p.setPlayerID(playersNameList.size()-1);  //ID = indice iniziale dei players
         }
 
         this.playersNumber = playersNumber;
+    }
+
+    //get the index of the nextPlayer
+    public int getNextPlayerIndex(){
+        int index = matchPlayersList.indexOf(currentTurn.getCurrentPlayer())+1;
+        if(index == matchPlayersList.size()){
+            return 0;
+        }else{
+            return index;
+        }
     }
 
 
@@ -64,7 +74,7 @@ public class Model extends Observable {
     public void randomChooseChallenger() {
 
         Random r = new Random();
-        challengerID = (r.nextInt(playersNumber))+1;
+        challengerID = (r.nextInt(playersNumber));
     }
 
     //get() starting playerID
@@ -97,6 +107,9 @@ public class Model extends Observable {
         currentTurn = new Turn(matchPlayersList.get(startingPlayerID));
     }
 
+    public Turn getCurrentTurn() {
+        return currentTurn;
+    }
 
     //turn advancer nel turn controller/funzione che prosegue con la scelta del player successive, più  futura
     //implementazione oggetto chronobreak per salvare le partite

@@ -27,6 +27,15 @@ public class Turn {
         this.currentPlayer = currentPlayer;
     }
 
+    //get() of the currentPlayer
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    //set() of the currentPlayer
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
 
     //get() of the turn number
     public int getTurnNumber() {
@@ -38,6 +47,11 @@ public class Turn {
     public void setTurnNumber(int turnNumber) {
 
         this.turnNumber = turnNumber;
+    }
+
+    //set() of the chosenWorker
+    public void setChosenWorker(Worker chosenWorker) {
+        this.chosenWorker = chosenWorker;
     }
 
     //get() of the initial tile

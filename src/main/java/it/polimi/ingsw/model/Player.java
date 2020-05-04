@@ -20,6 +20,7 @@ public class Player {
     }
 
 
+
     private String playerNickname;
     public String getPlayerNickname() {
         return playerNickname;

@@ -4,6 +4,7 @@ import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.Observer;
 
 import it.polimi.ingsw.model.Map;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tile;
 
 import java.io.PrintStream;
@@ -109,5 +110,9 @@ public class View extends Observable implements Observer, Runnable {
             outputStream.println();
         }
         outputStream.println();
+    }
+
+    public void placeWorkers(Player player){
+
     }
 }

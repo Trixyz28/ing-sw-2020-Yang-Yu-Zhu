@@ -12,10 +12,14 @@ public class Worker {
 
     private Tile currentPosition;
 
+    //get() the currentPosition
+    public Tile getCurrentPosition() {
+        return currentPosition;
+    }
 
-   //metodi da spostare nel decorator pattern
-    public void canMove(Tile currentPosition) {
-
+    //metodi da spostare nel decorator pattern
+    public boolean canMove() {
+        return true;
     }
 
     public void canMoveUp(Tile t) {
