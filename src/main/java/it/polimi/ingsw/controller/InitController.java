@@ -1,25 +1,27 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.GodList;
-import it.polimi.ingsw.model.Lobby;
+import it.polimi.ingsw.lobby.Lobby;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.View;
 
-import java.util.ArrayList;
-
 public class InitController extends Controller {
+
+    private Model model;
+    private View view;
 
     public String god;
     public Player startingPlayer;
 
+
+
     public InitController(Model model, View view) {
-        super(model, view);
+        super(model,view);
     }
 
 
     public void initializeMatch(Lobby lobby){
-        lobby.createMatch(model);
         model.randomChooseChallenger(); /* scegliere challenger per Random  */
     }
 

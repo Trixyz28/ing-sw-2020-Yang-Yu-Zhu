@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+
 // da sistemare (rimane una classe con lista che associa ogni tile della mappa con un worker di un player(attributes)
 public class Worker {
 

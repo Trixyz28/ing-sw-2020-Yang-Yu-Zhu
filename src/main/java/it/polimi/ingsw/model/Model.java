@@ -41,7 +41,7 @@ public class Model extends Observable {
         for(String s : playersNameList){
             Player p = createPlayers(s);
             matchPlayersList.add(p);
-            p.setPlayerID(playersNameList.size()-1);  //ID = indice iniziale dei players
+            p.setPlayerID(matchPlayersList.size()-1);  //ID = indice iniziale dei players
         }
 
         this.playersNumber = playersNumber;
@@ -113,6 +113,13 @@ public class Model extends Observable {
 
     //turn advancer nel turn controller/funzione che prosegue con la scelta del player successive, più  futura
     //implementazione oggetto chronobreak per salvare le partite
+
+
+    public Tile commandToTile(int row,int column) {
+        return map.getTile(row,column);
+    }
+
+
 
     //metodi da implementare con il controller
     public void checkWin() {

@@ -8,16 +8,15 @@ public class Map {
 
     //Constructor for the map
     public Map() {
-
         initializeTiles();
     }
 
 
     //get() of the map
     public Tile[][] getMap() {
-
         return map;
     }
+
 
     //Initialize the empty board
     public void initializeTiles(){

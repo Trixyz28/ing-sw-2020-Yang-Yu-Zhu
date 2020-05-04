@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.God.WorkerDecorator;
+
 public class Turn {
 
     //Current player
@@ -39,13 +41,11 @@ public class Turn {
 
     //get() of the turn number
     public int getTurnNumber() {
-
         return turnNumber;
     }
 
     //set() of the turn number
     public void setTurnNumber(int turnNumber) {
-
         this.turnNumber = turnNumber;
     }
 
@@ -54,40 +54,36 @@ public class Turn {
         this.chosenWorker = chosenWorker;
     }
 
+
     //get() of the initial tile
     public Tile getInitialTile() {
-
         return initialTile;
     }
 
     //set() of the initial tile
     public void setInitialTile(Tile initialTile) {
-
         this.initialTile = initialTile;
     }
 
 
     //get() of the final tile
     public Tile getFinalTile() {
-
         return finalTile;
     }
 
     //set() of the final tile
     public void setFinalTile(Tile finalTile) {
-
         this.finalTile = finalTile;
     }
 
+
    //get() of the built tile
     public Tile getBuiltTile() {
-
         return builtTile;
     }
 
     //set() of the built tile
     public void setBuiltTile(Tile buildTile) {
-
         this.builtTile = buildTile;
     }
 

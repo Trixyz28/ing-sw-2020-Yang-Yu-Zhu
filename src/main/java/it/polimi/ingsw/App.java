@@ -1,24 +1,21 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.model.Model;
-import it.polimi.ingsw.view.View;
-
-import java.util.ArrayList;
+import it.polimi.ingsw.lobby.LobbyController;
+import it.polimi.ingsw.lobby.Lobbies;
+import it.polimi.ingsw.lobby.LobbyView;
 
 
 public class App {
 
-
     public static void main(String[] args) {
-        Model model = new Model();
-        View view = new View();
-        Controller controller = new Controller(model, view);
-        view.addObservers(controller);
-        model.addObservers(view);
-        view.run();
+
+        Lobbies lobbies = new Lobbies();
+        LobbyView lobbyView = new LobbyView();
+        LobbyController lobbyController = new LobbyController(lobbies,lobbyView);
+
+        lobbyView.addObservers(lobbyController);
+        lobbies.addObservers(lobbyView);
+        lobbyView.run();
 
     }
-
-
 }

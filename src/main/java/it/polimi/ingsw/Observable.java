@@ -11,8 +11,10 @@ public class Observable<T> {
         observers.add(observer);
     }
 
-    public void notify(Observer o,T message){
-        o.update(message);
+    public void notify(T message){
+        for(Observer o: observers) {
+            o.update(message);
+        }
     }
 
 }

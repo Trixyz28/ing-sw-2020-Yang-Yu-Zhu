@@ -4,6 +4,7 @@ import it.polimi.ingsw.Observable;
 import it.polimi.ingsw.Observer;
 
 import it.polimi.ingsw.model.Map;
+import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tile;
 
@@ -26,6 +27,21 @@ public class View extends Observable implements Observer, Runnable {
     }
 
 
+    public void setGame() {
+
+        notify("setup");
+    }
+
+
+    public void readName() {
+        String name = "Ciao";
+        notify("readname");
+    }
+
+
+
+
+
     @Override
     public void update(Object message) {
         if(message instanceof String[]){
@@ -35,6 +51,9 @@ public class View extends Observable implements Observer, Runnable {
 
     @Override
     public void run() {
+
+        setGame();
+
         while(!endGame) {
 
             outputStream.println("Player " + currentID + "'s turn");
@@ -61,30 +80,67 @@ public class View extends Observable implements Observer, Runnable {
 
     private void operation() {
 
-        while(true) {
-            outputStream.println("Where do you want to move?");
-            String str = scanner.next();
 
+
+
+
+    }
+
+    private void move() {
+
+        int row = -1;
+        int column = -1;
+        boolean done = false;
+
+        outputStream.println("Where do you want to move? (row,column)");
+
+        while(!done) {
+            outputStream.println("Choose row and column from 1 to 5");
+            String str = scanner.next();
             try {
                 String[] inputs = str.split(",");
-                move(Integer.parseInt(inputs[0]),Integer.parseInt(inputs[1]));
-                break;
-
-            } catch (NumberFormatException e) {
+                row = Integer.parseInt(inputs[0]);
+                column = Integer.parseInt(inputs[1]);
+            } catch(NumberFormatException e) {
                 outputStream.println("Command error!");
             }
 
+            if(row>=1 && row<=5 && column>=1 && column<=5) {
+                done=true;
+            }
         }
+
+        notify(new Operation(1,row-1,column-1));
     }
 
-    private void move(int row, int col) {
-
-        notify();
-    }
 
     private void build() {
 
+        int row = -1;
+        int column = -1;
+        boolean done = false;
+
+        outputStream.println("Where do you want to build? (row,column)");
+
+        while(!done) {
+            outputStream.println("Choose row and column from 1 to 5");
+            String str = scanner.next();
+            try {
+                String[] inputs = str.split(",");
+                row = Integer.parseInt(inputs[0]);
+                column = Integer.parseInt(inputs[1]);
+            } catch(NumberFormatException e) {
+                outputStream.println("Command error!");
+            }
+
+            if(row>=1 && row<=5 && column>=1 && column<=5) {
+                done=true;
+            }
+        }
+
+        notify(new Operation(2,row-1,column-1));
     }
+
 
 
 

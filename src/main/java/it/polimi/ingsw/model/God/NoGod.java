@@ -3,36 +3,55 @@ package it.polimi.ingsw.model.God;
 //class that implements undecorated worker
 
 
+import it.polimi.ingsw.model.Tile;
+
+
 public class NoGod implements UndecoratedWorker {
-   @Override
-   public void move() {
 
+   private Tile position;
+   private int belongToPlayer;
+   private int workerID;
+
+
+   //Check if the worker can move from position to t
+   @Override
+   public boolean canMove(Tile t) {
+      return position.availableToMove(t);
    }
 
+   //Move the worker from position to t
    @Override
-   public void canMove() {
-
+   public void move(Tile t) {
+      position.setOccupiedByWorker(false);
+      t.setOccupiedByWorker(true);
+      position = t;
    }
 
+   //Check if the worker can build a block(not dome!) on tile t
    @Override
-   public void buildBlock() {
-
+   public boolean canBuildBlock(Tile t) {
+      return position.availableToBuild(t) && t.getBlockLevel() < 3;
    }
 
+   //Build a block on tile t
    @Override
-   public void canBuildBlock() {
-
+   public void buildBlock(Tile t) {
+      t.setBlockLevel(t.getBlockLevel()+1);
    }
 
+   //Check if the worker can build a dome on t
    @Override
-   public void buildDome() {
-
+   public boolean canBuildDome(Tile t) {
+      return position.availableToBuild(t) && t.getBlockLevel() == 3;
    }
 
+   //Build a dome on t
    @Override
-   public void canBuildDome() {
-
+   public void buildDome(Tile t) {
+      t.setDomePresence(true);
    }
+
+
 
  /*all basic methods
     void move(){

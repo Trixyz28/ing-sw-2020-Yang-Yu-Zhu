@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.lobby.Lobby;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -9,8 +10,8 @@ public class LobbyTest extends TestCase {
 
     @Test
     public void testLobbyID() {
-        lobby.setLobbyID("A");
-        assertEquals("A",lobby.getLobbyID());
+        lobby.setLobbyID(1);
+        assertEquals(1,lobby.getLobbyID());
     }
 
     /*

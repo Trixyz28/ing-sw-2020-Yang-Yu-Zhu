@@ -1,11 +1,16 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.lobby;
+
+import it.polimi.ingsw.Observable;
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.model.Model;
+import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
 
-public class Lobby {
+public class Lobby extends Observable {
 
     //Value of the id of the Lobby
-    private String lobbyID;
+    private int lobbyID;
 
     //Names of players in this Lobby
     private ArrayList<String> playersNameList;
@@ -14,32 +19,34 @@ public class Lobby {
     private int lobbyPlayersNumber;
 
     //If the Lobby is complete -> true
-    private boolean checkFull = false;
-
+    private boolean full = false;
 
 
     //Get() of the LobbyID
-    public String getLobbyID() {
-
+    public int getLobbyID() {
         return lobbyID;
     }
 
     //Set() of the LobbyID
-    public void setLobbyID(String lobby) {
-
-        this.lobbyID = lobby;
+    public void setLobbyID(int lobbyID) {
+        this.lobbyID = lobbyID;
     }
 
-    //Set()of checkFull
-    public void setCheckFull() {
 
-        this.checkFull = true;
+    //Get() of full
+    public boolean isFull() {
+        return full;
     }
+
+    //Set() of full
+    public void setFull(boolean full) {
+        this.full = full;
+    }
+
 
 
     //Get() of the number of the Lobby players
     public int getLobbyPlayersNumber() {
-
         return lobbyPlayersNumber;
     }
 
@@ -66,29 +73,27 @@ public class Lobby {
     //Set() of the playersNameList from Lobbies at creation of Lobby
     public void setPlayersNameList(ArrayList<String> parameterList){
 
-        ArrayList<String> playersNameList = (ArrayList<String>)parameterList.clone();
+        playersNameList = (ArrayList<String>) parameterList.clone();
     }
 
-    //Adds a player name to the List: if value is "000" it is changed to the player name then return
+    //Adds a player name to the List: if value is "0000" it is changed to the player name then return
     public void addPlayer(String playerName) {
 
         int flag = 0;
 
-        for (int i = 0; i < lobbyPlayersNumber ; i++) {
+        for (int i = 0; i < lobbyPlayersNumber; i++) {
 
             String helper = playersNameList.get(i);
 
-            if (flag == 1) {
-                System.out.println("Done.");
-            }
             if (helper.equals("0000")) {
-                playersNameList.set(0,playerName);
+                playersNameList.set(i,playerName);
                 flag = 1;
             }
 
         }
-        if (flag == 0){
+        if (flag == 1){
             System.out.println("Lobby is full");
+            setFull(true);
         }
     }
 
@@ -109,7 +114,17 @@ public class Lobby {
     }
 
     //new match creator on call
-    public void createMatch(Model model) {
+    public void createMatch() {
+
+        Model model = new Model();
         model.initialize(lobbyPlayersNumber, playersNameList);
+        View view = new View();
+        Controller controller = new Controller(model, view);
+        controller.minorControllers(model,view);
+
+        view.addObservers(controller);
+        model.addObservers(view);
+        view.run();
+
     }
 }

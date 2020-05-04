@@ -10,44 +10,49 @@ public class Apollo extends WorkerDecorator {
         super(worker);
     }
 
+
     @Override
-    public void canMove() {
+    public boolean canMove(Tile t) {
         //specific move: he can move to non occupied or occupied tiles
         //normal canMove + apolloCanMove
+        return false;
     }
 
     @Override
-    public void buildBlock() {
+    public void move(Tile t) {
+        //specific move: if he moves to an occupied tile he can exchange spot with the other worker
+        //normal move()+apolloMove() if there's a worker in the tile it's moving to
+    }
+
+    @Override
+    public boolean canBuildBlock(Tile t) {
+        return false;
+    }
+
+    @Override
+    public void buildBlock(Tile t) {
 
     }
 
     @Override
-    public void canBuildBlock() {
-
+    public boolean canBuildDome(Tile t) {
+        return false;
     }
 
     @Override
-    public void buildDome() {
-
-    }
-
-    @Override
-    public void canBuildDome() {
+    public void buildDome(Tile t) {
 
     }
 
     private void apolloCanMove(){
             //checks adjacent tiles +/-1 height difference (normal can move would check same tiles minus occupied tiles)
-
-        }
-
-    @Override
-    public void move() {
-        //specific move: if he moves to an occupied tile he can exchange spot with the other worker
-        //normal move()+apolloMove() if there's a worker in the tile it's moving to
     }
+
+
+
     private void apolloMove(){
             //move the worker to the selected tile and exchange the two workers
-        }
+    }
+
 
 }

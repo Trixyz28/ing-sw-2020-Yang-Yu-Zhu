@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.God;
 
 
+import it.polimi.ingsw.model.Tile;
+
+
 public abstract class WorkerDecorator implements UndecoratedWorker {
 
     //undecorated worker associated
@@ -15,7 +18,7 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
 
 
     @Override
-    public void move(){
+    public void move(Tile t){
 
        // return worker.decorate();
     }
