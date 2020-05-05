@@ -39,9 +39,8 @@ public class Controller implements Observer {
     public void update(Object arg) {
 
         if(arg.equals("setup")) {
-
-
-
+            initController.initializeMatch();  /* inizializzazione con decisioni Challenger */
+            turnController.nextTurn();  /* inizio partita con Turn 1*/
         }
 
 
@@ -49,6 +48,8 @@ public class Controller implements Observer {
             Operation operation = (Operation)arg;
 
             if(operation.getType()==1) {
+
+
 
                 //moveController.
 

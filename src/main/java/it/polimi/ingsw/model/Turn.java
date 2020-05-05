@@ -54,6 +54,10 @@ public class Turn {
         this.chosenWorker = chosenWorker;
     }
 
+    //get() of the chosenWorker
+    public Worker getChosenWorker() {
+        return chosenWorker;
+    }
 
     //get() of the initial tile
     public Tile getInitialTile() {

@@ -31,6 +31,7 @@ public class TurnController extends Controller {
         if(arg instanceof Tile){
             builtTile = (Tile)arg;
         }
+
     }
 
     public void endMove() {
@@ -45,6 +46,8 @@ public class TurnController extends Controller {
     }
 
     public void nextTurn() {
+        currentTurn = model.getCurrentTurn();
+        playerList = model.getMatchPlayersList();
         int turnNumber = currentTurn.getTurnNumber() + 1;
         currentTurn.setTurnNumber(turnNumber);
         int index = model.getNextPlayerIndex();  //trovare indice del player successivo
@@ -57,16 +60,4 @@ public class TurnController extends Controller {
         //view.moveWorker();  ->  passare alla scelta della mossa
     }
 
-    public void initialize() {  /* fase di preparazione alla partita in Turno 0 per posizionare i workers */
-        currentTurn = model.getCurrentTurn();
-        playerList = model.getMatchPlayersList();
-        Player currentPlayer;
-        for (int i = 0; i < playerList.size(); i++) {
-            currentPlayer = currentTurn.getCurrentPlayer();
-            view.placeWorkers(currentPlayer);  // chiedere ai players di posizionare i workers
-            currentTurn.setCurrentPlayer(playerList.get(model.getNextPlayerIndex()));
-        }
-        //fine inizializzazione
-        nextTurn(); /* inizio partita con TurnNumber = 1 */
-    }
 }

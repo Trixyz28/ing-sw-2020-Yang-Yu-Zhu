@@ -1,19 +1,18 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.GodList;
-import it.polimi.ingsw.lobby.Lobby;
-import it.polimi.ingsw.model.Model;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.View;
+
+import java.util.ArrayList;
 
 public class InitController extends Controller {
 
     private Model model;
     private View view;
 
-    public String god;
-    public Player startingPlayer;
-
+    private String god;
+    private Player startingPlayer;
+    private Tile currentPosition;
 
 
     public InitController(Model model, View view) {
@@ -21,11 +20,14 @@ public class InitController extends Controller {
     }
 
 
-    public void initializeMatch(Lobby lobby){
+    public void initializeMatch(){
         model.randomChooseChallenger(); /* scegliere challenger per Random  */
+        challengerStart();  /* inizia il Challenger */
+        model.startCurrentTurn(); /* creare un nuovo Turn */
+        initializeTurn();
     }
 
-    public void challengerStart(){
+    private void challengerStart(){
         Player challenger = model.getMatchPlayersList().get(model.getChallengerID()); /* ID = indice */
         GodList godList = model.getGodsList(); /* ottenere la GodList per poter accedere alla currentGodList dal Challenger */
         defineGodList(challenger, godList);  //eseguire solo al challenger
@@ -63,7 +65,7 @@ public class InitController extends Controller {
 
     }
 
-    public void defineGodList(Player challenger, GodList godList){
+    private void defineGodList(Player challenger, GodList godList){
         while(!godList.checkLength()) {
             //view.defineGodList(challenger -> far scegliere Gods attraverso la view dal challenger )
             godList.selectGod(god);
@@ -71,18 +73,37 @@ public class InitController extends Controller {
         }
     }
 
+    private void initializeTurn(){   /* fase di preparazione alla partita in Turno 0 per posizionare i workers */
+        Turn currentTurn = model.getCurrentTurn();
+        ArrayList<Player> playerList = model.getMatchPlayersList();
+        Player currentPlayer;
+        for (int i = 0; i < playerList.size(); i++) {  /* far posizionare i workers dai players */
+            currentPlayer = currentTurn.getCurrentPlayer();
+            for (int j = 0; j < 2; j++) {  /* ciclo per i 2 workers */
+                view.placeWorkers(currentPlayer);  // chiedere ai players di posizionare il worker
+                /* dalla view passa al controller notificando la posizione (Operation) */
+                currentPlayer.chooseWorker(j).move(currentPosition);  /* posizionare il worker al currentPosition */
+            }
+            currentTurn.setCurrentPlayer(playerList.get(model.getNextPlayerIndex()));  /* passare al nextPlayer */
+        }
+        //fine inizializzazione Turno
+
+    }
+
     @Override
     public void update(Object arg) {
-        if(arg instanceof Lobby){  /* ??? non va bene ArrayList */
-            initializeMatch((Lobby)arg);
-            challengerStart();
-            model.startCurrentTurn(); /* creare un nuovo Turn */
-        }
+
         if(arg instanceof String){ /* variabile provvisoria del God scelto */
             god = (String)arg;
         }
         if(arg instanceof Player){  /* notificata dalla view per sceglire il startingPlayer */
             startingPlayer = (Player)arg;
+        }
+        if(arg instanceof Operation){  //per ora: ottenere posizione iniziale workers
+            if(((Operation) arg).getType() == 0){  //type 0 -> posizione default
+                currentPosition = model.commandToTile(((Operation) arg).getRow(), ((Operation) arg).getColumn());
+                //currentPosition = Tile dove posizionare il worker
+            }
         }
     }
 }
