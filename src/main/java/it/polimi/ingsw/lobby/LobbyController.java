@@ -17,13 +17,15 @@ public class LobbyController implements Observer {
     @Override
     public void update(Object message) {
         if (message.equals("setup")) {
+            System.out.println("Hi, first player!");
             String name = setNickname();
             intoLobby(name);
 
-            //For testing at this moment: 2 players
-            name = setNickname();
-            intoLobby(name);
-
+            for(int i=2;i<lobbies.getLobbyList().get(0).getLobbyPlayersNumber()+1;i++) {
+                System.out.println("Player " + i + " ");
+                name = setNickname();
+                intoLobby(name);
+            }
 
         }
     }

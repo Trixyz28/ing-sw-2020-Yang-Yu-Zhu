@@ -28,18 +28,8 @@ public class View extends Observable implements Observer, Runnable {
 
 
     public void setGame() {
-
         notify("setup");
     }
-
-
-    public void readName() {
-        String name = "Ciao";
-        notify("readname");
-    }
-
-
-
 
 
     @Override
@@ -52,6 +42,8 @@ public class View extends Observable implements Observer, Runnable {
     @Override
     public void run() {
 
+        System.out.println("run() in View");
+        /*
         setGame();
 
         while(!endGame) {
@@ -60,6 +52,7 @@ public class View extends Observable implements Observer, Runnable {
 
             chooseWorker();
         }
+         */
     }
 
     private void chooseWorker() {
@@ -74,6 +67,13 @@ public class View extends Observable implements Observer, Runnable {
         for(String s : completeList){
             outputStream.println(s);
         }
+    }
+
+    //Reserved to challenger - pick a god card
+    private String defineGodList() {
+        System.out.println("Select a god card:");
+        return scanner.next();
+
     }
 
 

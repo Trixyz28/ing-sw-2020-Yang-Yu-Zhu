@@ -10,6 +10,7 @@ public class TurnTest extends TestCase {
 
     @Test
     public void testTurnNumber() {
+        assertEquals(0,turn.getTurnNumber());
         turn.setTurnNumber(10);
         assertEquals(10,turn.getTurnNumber());
     }
@@ -33,6 +34,19 @@ public class TurnTest extends TestCase {
         Tile t = new Tile();
         turn.setBuiltTile(t);
         assertEquals(t,turn.getBuiltTile());
+    }
+
+    @Test
+    public void testCurrentPlayer() {
+        turn.setCurrentPlayer(player);
+        assertSame(player,turn.getCurrentPlayer());
+    }
+
+    @Test
+    public void testChosenWorker() {
+        Worker worker = new Worker();
+        turn.setChosenWorker(worker);
+        assertSame(worker,turn.getChosenWorker());
     }
 
 }

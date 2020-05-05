@@ -22,11 +22,8 @@ public class PlayerTest extends TestCase {
 
     @Test
     public void testChallenger() {
-        player.setChallenger();
+        player.setChallenger(true);
         assertTrue(player.isChallenger());
-    }
-
-    public void testDefineGodList() {
     }
 
     @Test
@@ -35,22 +32,13 @@ public class PlayerTest extends TestCase {
         assertEquals("APOLLO",player.getGodCard());
     }
 
-    public void testChooseStartPlayer() {
-    }
 
     public void testCreateWorker() {
     }
 
     public void testChooseWorker() {
+
     }
-
-    public void testLosingCondition() {
-    }
-
-
-
-
-
 
     public void testDeleteWorker() {
     }

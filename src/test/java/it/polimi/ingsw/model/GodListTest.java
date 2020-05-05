@@ -29,6 +29,11 @@ public class GodListTest extends TestCase{
         godList.addInGodList();
         assertEquals("APOLLO",godList.getCurrentGodList().get(0));
         assertEquals(1,godList.getLength());
+
+        godList.selectGod("APOLLO");
+        assertTrue(godList.checkGod());
+        godList.selectGod("ATHENA");
+        assertFalse(godList.checkGod());
     }
 
     @Test

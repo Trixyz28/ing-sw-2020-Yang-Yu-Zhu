@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.God.Apollo;
+import it.polimi.ingsw.model.God.WorkerDecorator;
 
 import java.util.List;
 
@@ -10,8 +11,16 @@ public class Player {
     //introduzione di interfaccia workerMove, workerBuild
 
 
-    //ID assigned to each player in order by their playing turn
+    //ID assigned to each player in order by their join succession
     private int playerID;
+    private String playerNickname;
+    private boolean challenger;  /* non è più necessario (può essere usato per i test) */
+    private String godCard;
+
+    //Workers owned by this player
+    private List<Worker> workerList;
+
+
     public int getPlayerID() {
         return playerID;
     }
@@ -20,8 +29,6 @@ public class Player {
     }
 
 
-
-    private String playerNickname;
     public String getPlayerNickname() {
         return playerNickname;
     }
@@ -30,16 +37,13 @@ public class Player {
     }
 
 
-    private boolean isChallenger;  /* non è più necessario (può essere usato per i test) */
-    public void setChallenger(){
-        isChallenger = true;
+    public void setChallenger(boolean challenger){
+        this.challenger = challenger;
     }
     public boolean isChallenger() {
-        return isChallenger;
+        return challenger;
     }
 
-
-    private String godCard;
     public String getGodCard() {
         return godCard;
     }
@@ -60,8 +64,7 @@ public class Player {
         godCard = god;
     }
 
-    //Workers owned by this player
-    private List<Worker> workerList;
+
 
 
 
@@ -107,9 +110,6 @@ public class Player {
         if(godCard.equals("PROMETHEUS")) {
 
         }
-
-
-
 
         return workerList;
     }

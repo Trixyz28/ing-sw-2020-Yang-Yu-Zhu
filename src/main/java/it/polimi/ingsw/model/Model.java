@@ -17,6 +17,8 @@ public class Model extends Observable {
     //ArrayList of the players
     private ArrayList<Player> matchPlayersList;
 
+
+
     //Map: 5x5 tiles
     private Map map = new Map();
 
@@ -47,6 +49,10 @@ public class Model extends Observable {
         this.playersNumber = playersNumber;
     }
 
+    public Map getMap() {
+        return map;
+    }
+
     //get the index of the nextPlayer
     public int getNextPlayerIndex(){
         int index = matchPlayersList.indexOf(currentTurn.getCurrentPlayer())+1;
@@ -72,9 +78,9 @@ public class Model extends Observable {
 
     //Choose a Challenger from playersList in a random way
     public void randomChooseChallenger() {
-
         Random r = new Random();
-        challengerID = (r.nextInt(playersNumber));
+        challengerID = (r.nextInt(playersNumber-1));
+        matchPlayersList.get(challengerID).setChallenger(true);
     }
 
     //get() starting playerID
@@ -85,7 +91,6 @@ public class Model extends Observable {
 
     //set of the starting playerID
     public void setStartingPlayerID(int id){
-
         startingPlayerID = id;
     }
 
@@ -100,6 +105,7 @@ public class Model extends Observable {
     public Player createPlayers(String playerName) {
         Player p = new Player();
         p.setPlayerNickname(playerName);
+        p.setChallenger(false);
         return p;
     }
 
@@ -122,8 +128,11 @@ public class Model extends Observable {
 
 
     //metodi da implementare con il controller
-    public void checkWin() {
-
+    public boolean checkWin() {
+        if (currentTurn.getInitialTile().getBlockLevel()==2 && currentTurn.getFinalTile().getBlockLevel()==3) {
+            return true;
+        }
+        return false;
     }
 
     public void checkLose() {

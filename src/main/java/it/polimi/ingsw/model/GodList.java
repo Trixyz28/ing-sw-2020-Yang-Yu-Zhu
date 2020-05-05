@@ -50,12 +50,12 @@ public class GodList {
 
     //Print completeGodList
     public String[] showComplete() {  /* notificare la view dal model */
-        return completeGodList;
         /*
         for(String s : completeGodList){
             System.out.println(s);
         }
         */
+        return completeGodList;
     }
 
     public String getSelectedGod() {

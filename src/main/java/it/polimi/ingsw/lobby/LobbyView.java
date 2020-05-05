@@ -16,7 +16,7 @@ public class LobbyView extends Observable implements Observer {
         scanner = new Scanner(System.in);
     }
 
-
+    //Show all players who join this server session
     @Override
     public void update(Object message) {
         if(message instanceof ArrayList) {
@@ -41,13 +41,13 @@ public class LobbyView extends Observable implements Observer {
         notify("setup");
     }
 
-
+    //Read the nickname of the player from input
     public String readNickname() {
         System.out.println("What's your nickname?");
         return scanner.next();
     }
 
-
+    //The first player (creator) chooses the number of players in the lobby
     public int readPlayerNumber(){
 
         int num;

@@ -12,11 +12,16 @@ public class MapTest extends TestCase {
         map.initializeTiles();
 
         Tile t = map.getTile(1,1);
+        assertSame(t,map.getMap()[1][1]);
+
         assertEquals(1,t.getRow());
         assertEquals(1,t.getColumn());
         assertEquals(0,t.getBlockLevel());
         assertFalse(t.isOccupiedByWorker());
         assertFalse(t.isDomePresence());
+
+
     }
+
 
 }

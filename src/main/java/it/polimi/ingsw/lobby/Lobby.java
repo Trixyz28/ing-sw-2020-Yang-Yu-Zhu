@@ -57,7 +57,7 @@ public class Lobby extends Observable {
     }
 
     //Get() : Print on screen the list of players;if value is "0000" the players doesn't exist yet
-    public void getPlayersNameList() {
+    public void printPlayersNameList() {
 
         for (int i = 0; i < lobbyPlayersNumber; i++) {
             String helper = playersNameList.get(i);
@@ -70,6 +70,10 @@ public class Lobby extends Observable {
         }
     }
 
+    public ArrayList<String> getPlayersNameList() {
+        return playersNameList;
+    }
+
     //Set() of the playersNameList from Lobbies at creation of Lobby
     public void setPlayersNameList(ArrayList<String> parameterList){
 
@@ -80,31 +84,32 @@ public class Lobby extends Observable {
     public void addPlayer(String playerName) {
 
         int flag = 0;
+        int i;
 
-        for (int i = 0; i < lobbyPlayersNumber; i++) {
+        for (i = 0; (i < lobbyPlayersNumber && flag==0); i++) {
 
             String helper = playersNameList.get(i);
 
             if (helper.equals("0000")) {
                 playersNameList.set(i,playerName);
-                flag = 1;
+                flag++;
             }
 
         }
-        if (flag == 1){
+        if (i==lobbyPlayersNumber) {
             System.out.println("Lobby is full");
             setFull(true);
         }
     }
 
     //Get() of the value of the available Players : for every player not "0000" availablePlayers +1
-    public int getAvailablePlayerNumber(Lobby lobby) {
+    public int getAvailablePlayerNumber() {
 
         int availablePlayers = 0;
 
-        for (int i = 0; i < lobby.lobbyPlayersNumber; i++) {
+        for (int i = 0; i < lobbyPlayersNumber; i++) {
 
-            String helper = lobby.playersNameList.get(i);
+            String helper = playersNameList.get(i);
             if (!helper.equals("0000")) {
                 availablePlayers++;
             }

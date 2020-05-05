@@ -51,10 +51,14 @@ public class TileTest extends TestCase {
         t.setRow(1);
         t.setColumn(1);
 
-        destination.setRow(1);
-        destination.setColumn(2);
+        destination.setRow(2);
+        destination.setColumn(3);
+        assertFalse(t.adjacentTile(destination));
 
+        destination.setRow(2);
+        destination.setColumn(2);
         assertTrue(t.adjacentTile(destination));
+
     }
 
 
@@ -66,8 +70,12 @@ public class TileTest extends TestCase {
         destination.setBlockLevel(1);
         destination.setDomePresence(false);
         destination.setOccupiedByWorker(false);
-
         assertTrue(t.availableToMove(destination));
+
+        destination.setBlockLevel(2);
+        destination.setDomePresence(false);
+        destination.setOccupiedByWorker(false);
+        assertFalse(t.availableToMove(destination));
     }
 
 
@@ -77,8 +85,10 @@ public class TileTest extends TestCase {
 
         destination.setDomePresence(false);
         destination.setOccupiedByWorker(false);
-
         assertTrue(t.availableToBuild(destination));
+
+        destination.setOccupiedByWorker(true);
+        assertFalse(t.availableToBuild(destination));
     }
 
 
