@@ -5,42 +5,40 @@ import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
 
-public class TurnController extends Controller {
+public class TurnController {
 
+    private Model model;
     private View view;
 
     public TurnController(Model model, View view) {
-        super(model, view);
+        this.model = model;
+        this.view = view;
     }
 
     private Turn currentTurn;
     private ArrayList<Player> playerList;
     private Worker chosenWorker;
-    private Tile builtTile;
 
-    @Override
-    public void update(Object arg) {
-        if(arg instanceof Worker){
 
-            if(((Worker)arg).canMove()){  //controllare se il Worker scelta possa fare la mossa o no
-                chosenWorker = (Worker)arg;
-            }else{
-                //view.chooseWorker;  -> richiedere la scelta
-            }
+    public void setChosenWorker(int index){
+        Worker worker = currentTurn.getCurrentPlayer().chooseWorker(index);
+        if(worker.canMove()) {   /* controllare se il Worker scelta possa fare la mossa o no */
+            chosenWorker = worker;
+        }else {
+            //view.chooseWorker; -> richiedere scelta
         }
-        if(arg instanceof Tile){
-            builtTile = (Tile)arg;
-        }
-
     }
 
     public void endMove() {
         currentTurn.setFinalTile(chosenWorker.getCurrentPosition());
-        //view.build();  ->  chiedere al player di Buildare
+        if(checkWin()){
+            //view.win(currentTurn.getCurrentPlayer());  /* il currentPlayer vince */
+        }
+        view.build();  /* chiedere al player di Buildare */
     }
 
-    public void endTurn() {
-        currentTurn.setBuiltTile(builtTile);
+    public void endTurn(Operation build) {
+        currentTurn.setBuiltTile(model.commandToTile(build.getRow(), build.getColumn()));  /* ottenere le coordinate del Tile dalla Operation */
         //illustrare qualche messaggio sulla view -> attesa end
         nextTurn();
     }
@@ -48,16 +46,26 @@ public class TurnController extends Controller {
     public void nextTurn() {
         currentTurn = model.getCurrentTurn();
         playerList = model.getMatchPlayersList();
-        int turnNumber = currentTurn.getTurnNumber() + 1;
+        int turnNumber = currentTurn.getTurnNumber() + 1;  /* nextTurnNumber */
         currentTurn.setTurnNumber(turnNumber);
         int index = model.getNextPlayerIndex();  //trovare indice del player successivo
         currentTurn.setCurrentPlayer(playerList.get(index));
         //view.chooseWorker;  -> far scegliere al player il worker dalla view
         currentTurn.setChosenWorker(chosenWorker);
         currentTurn.setInitialTile(chosenWorker.getCurrentPosition());
-        currentTurn.setFinalTile(null);  //inizializzare Final e Buit
+        currentTurn.setFinalTile(null);  //inizializzare Final e Built
         currentTurn.setBuiltTile(null);
-        //view.moveWorker();  ->  passare alla scelta della mossa
+        view.move();  /* ->  passare alla scelta della mossa */
+    }
+
+    private boolean checkWin(){
+        return currentTurn.getChosenWorker().checkWinningMove();
+        /*
+        *   if(currentTurn.getInitialTile().getBlockLevel()==3 && currentTurn.getFinalTile().getBlockLevel()==0){
+        *      return true;
+        *  }
+        *  return false;
+        */
     }
 
 }

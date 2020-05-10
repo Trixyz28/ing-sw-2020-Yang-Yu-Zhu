@@ -100,6 +100,11 @@ public class Model extends Observable {
         return godsList;
     }
 
+    //print completeList
+    public void showCompleteGodList(){
+        notify(godsList.showComplete());
+    }
+
 
    //Create the players
     public Player createPlayers(String playerName) {

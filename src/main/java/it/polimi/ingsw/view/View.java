@@ -40,6 +40,11 @@ public class View extends Observable implements Observer, Runnable {
     }
 
     @Override
+    public void updateGod(String god) {
+
+    }
+
+    @Override
     public void run() {
 
         System.out.println("run() in View");
@@ -86,7 +91,7 @@ public class View extends Observable implements Observer, Runnable {
 
     }
 
-    private void move() {
+    public void move() {
 
         int row = -1;
         int column = -1;
@@ -114,7 +119,7 @@ public class View extends Observable implements Observer, Runnable {
     }
 
 
-    private void build() {
+    public void build() {
 
         int row = -1;
         int column = -1;
@@ -168,7 +173,30 @@ public class View extends Observable implements Observer, Runnable {
         outputStream.println();
     }
 
-    public void placeWorkers(Player player){
+    public void placeWorker(Player player){
+        int row = -1;
+        int column = -1;
+        boolean done = false;
+
+        outputStream.println("Where do you want to place? (row,column)");
+
+        while(!done) {
+            outputStream.println("Choose row and column from 1 to 5");
+            String str = scanner.next();
+            try {
+                String[] inputs = str.split(",");
+                row = Integer.parseInt(inputs[0]);
+                column = Integer.parseInt(inputs[1]);
+            } catch(NumberFormatException e) {
+                outputStream.println("Command error!");
+            }
+
+            if(row>=1 && row<=5 && column>=1 && column<=5) {
+                done=true;
+            }
+        }
+
+        notify(new Operation(0,row-1,column-1));
 
     }
 }

@@ -17,4 +17,10 @@ public class Observable<T> {
         }
     }
 
+    public void notifyGod(String god){
+        for(Observer o: observers) {
+            o.updateGod(god.toUpperCase());
+        }
+    }
+
 }

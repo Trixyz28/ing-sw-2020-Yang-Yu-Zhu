@@ -43,33 +43,48 @@ public class Controller implements Observer {
             turnController.nextTurn();  /* inizio partita con Turn 1*/
         }
 
+        if(arg instanceof String){
+            initController.setStartingPlayer((String)arg);  /* set il StartingPlayer dal Nickname */
+        }
+
 
         if(arg instanceof Operation) {
             Operation operation = (Operation)arg;
 
-            if(operation.getType()==1) {
-
-
-
-                //moveController.
-
-
-
+            if(operation.getType() == 0){  //type 0 -> posizione default
+                initController.setCurrentPosition((Operation)arg);
             }
 
-            if(operation.getType()==2) {
+            if(operation.getType()==1) {  //type 1 -> move
+                boolean flag = moveController.moveWorker((Operation)arg);
+                if(flag) {  /* flag : true = move riuscita; false = richiedere move */
+                    turnController.endMove();  /* aggiornare Turn fine Move */
+                }else{
+                    //mostrare view messaggio di posizione errata e ripetere mossa
+                    view.move();
+                }
+            }
 
-                //buildController.
-
-
+            if(operation.getType()==2) {  //type 2 -> build
+                boolean flag = buildController.build((Operation) arg);
+                if(flag) {  /* flag : true = build riuscita; false = richiedere build */
+                    turnController.endTurn((Operation) arg);  /* aggiornare Turn fine Build */
+                }else{
+                    //messaggio view errato comando e ripetere scelta
+                    view.build();
+                }
             }
 
         }
 
+        if(arg instanceof Integer){  /* indice del Worker scelto 0 o 1 */
+            turnController.setChosenWorker((Integer) arg);
+        }
 
+    }
 
-
-
-
+    @Override
+    public void updateGod(String god) {  /* variabile provvisoria del God scelto */
+        initController.setGod(god);
     }
 }

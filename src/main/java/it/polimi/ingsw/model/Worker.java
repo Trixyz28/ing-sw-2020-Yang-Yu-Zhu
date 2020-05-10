@@ -32,8 +32,8 @@ public class Worker {
 
     }
 
-    public void checkWinningMove() {
-
+    public boolean checkWinningMove() {
+        return true;
     }
 
     public void canBuild() {

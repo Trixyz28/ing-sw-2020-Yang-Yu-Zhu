@@ -6,27 +6,31 @@ import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.Worker;
 import it.polimi.ingsw.view.View;
 
-public class BuildController extends Controller {
+public class BuildController {
+
+    private Model model;
+    private View view;
 
     private Tile position;
     private Worker worker;
 
     public BuildController(Model model, View view) {
-        super(model, view);
+        this.model = model;
+        this.view = view;
     }
 
-    public void build(Operation operation){
+    public boolean build(Operation operation){
         worker = model.getCurrentTurn().getChosenWorker();
         position = model.commandToTile(operation.getRow(), operation.getColumn());
         if(checkPosition(position)){
             worker.build(position);
+            return true;  /* build andato a buon fine */
         }else{
-            //messaggio view errato comando
+            return false;  /* da ripetere build */
         }
     }
 
     private boolean checkPosition(Tile position){
-        //worker.canBuild;  da usare
-        return worker.getCurrentPosition().availableToBuild(position);
+        return worker.getCurrentPosition().availableToBuild(position);  /* worker.canBuild;  da usare */
     }
 }
