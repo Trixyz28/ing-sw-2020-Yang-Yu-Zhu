@@ -3,6 +3,9 @@ package it.polimi.ingsw.model.God;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.Worker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Apollo extends WorkerDecorator {
 
@@ -15,17 +18,16 @@ public class Apollo extends WorkerDecorator {
     @Override
     public List<Tile> canMove(Tile t) {
 
-
-        ArrayList<Tile> tempList = new ArrayList<Tile>();
-        tempList = super.canMove();
+        List<Tile> tempList;
+        tempList = super.canMove(t);
 
 
         for(int i=0;i<5;i++) {
             for(int j=0;j<5;j++) {
-                T = getTile(i,j);
-                adjTile = availableApolloToMove(T);
+                Tile tempTile = getTile(i,j);
+                boolean adjTile = availableApolloToMove(tempTile);
                 if (adjTile == true){
-                    tempList.add(T);
+                    tempList.add(tempTile);
                 }
             }
         }
@@ -36,21 +38,21 @@ public class Apollo extends WorkerDecorator {
 
     @Override
     public void move(Tile t) {
-        if(t.occupiedByWorker == false){
-            return super.move();
+        if(!t.isOccupiedByWorker()){
+            super.move(t);
         }
-        if(t.occupiedByWorker == true){
+        if(t.isOccupiedByWorker()){
             NoGod transferWorker = new NoGod();
             transferWorker = getTileWorker(t);
-            transferWorker.move(super.this.position);
-            super.move();
+            transferWorker.move(super.position);
+            super.move(t);
 
         }
     }
 
     @Override
     public boolean canBuildBlock(Tile t) {
-        return super.canBuildBlock();
+        return super.canBuildBlock(t);
     }
 
     @Override
@@ -59,7 +61,7 @@ public class Apollo extends WorkerDecorator {
 
     @Override
     public boolean canBuildDome(Tile t) {
-        return super.canBuildDome();
+        return super.canBuildDome(t);
     }
 
     @Override
@@ -70,8 +72,8 @@ public class Apollo extends WorkerDecorator {
 
 
     public boolean availableApolloToMove(Tile dest) {
-        if(adjacentTile(dest) && !dest.domePresence
-                && dest.getBlockLevel()-this.getBlockLevel()<=1 ) {
+        if(this.position.adjacentTile(dest) && !dest.isDomePresence()
+                && dest.getBlockLevel()-this.position.getBlockLevel()<=1 ) {
             return true;
         }
 

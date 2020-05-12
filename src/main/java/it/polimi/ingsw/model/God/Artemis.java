@@ -3,6 +3,9 @@ package it.polimi.ingsw.model.God;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.Worker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Artemis extends WorkerDecorator {
 
@@ -19,21 +22,21 @@ public class Artemis extends WorkerDecorator {
 
         if(counter == 1) {
             setOriginalTile(super.position);
-            public ArrayList<Tile> tempList = new ArrayList<Tile>();
-            public tempTile =new Tile();
+            List<Tile> tempList;
+            Tile tempTile = new Tile();
 
-            tempList = super.canMove();
+            tempList = super.canMove(t);
 
-            for (i = 0; i < tempList.size(); i++) {
-                tempTile = get(i).tempList;
+            for (int i = 0; i < tempList.size(); i++) {
+                tempTile = tempList.get(i);
                 if (tempTile == originalTile) {
-                    remove(i);
+                    tempList.remove(i);
                 }
             }
             return tempList;
         }
         else{
-            return super.canMove();
+            return super.canMove(t);
         }
     }
 
@@ -41,10 +44,10 @@ public class Artemis extends WorkerDecorator {
     @Override
     public void move(Tile t) {
         if(counter == 1){
-            super.move();
+            super.move(t);
         }
         if(counter == 0){
-            super.move();
+            super.move(t);
             setCounter(1);
             view.MoveArtemis;
             //richiede un move ulteriore per il worker scelto con lo stesso worker
@@ -75,18 +78,18 @@ public class Artemis extends WorkerDecorator {
     }
 
     public Tile getOriginalTile() {
-            return originalTile;
-        }
+        return originalTile;
+    }
 
-     public void setOriginalTile(Tile t) {
-            this.originalTile = t;
-        }
+    public void setOriginalTile(Tile t) {
+        this.originalTile = t;
+    }
 
     public int getCounter() {
-            return counter;
-        }
+        return counter;
+    }
 
-     public void setCounter(int i) {
-            this.counter = i;
-        }
+    public void setCounter(int i) {
+        this.counter = i;
+    }
 }

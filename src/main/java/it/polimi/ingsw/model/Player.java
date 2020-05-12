@@ -125,7 +125,10 @@ public class Player {
 
     }
 
+    /*
     public Tile getWorkerPosition(){
         // da sistemare
     }
+    */
+
 }

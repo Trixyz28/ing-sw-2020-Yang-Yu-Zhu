@@ -5,11 +5,11 @@ import it.polimi.ingsw.Observer;
 
 public class LobbyController implements Observer {
 
-    private Lobbies lobbies;
+    private LobbyHandler lobbyHandler;
     private LobbyView lobbyView;
 
-    public LobbyController(Lobbies lobbies, LobbyView lobbyView) {
-        this.lobbies = lobbies;
+    public LobbyController(LobbyHandler lobbyHandler, LobbyView lobbyView) {
+        this.lobbyHandler = lobbyHandler;
         this.lobbyView = lobbyView;
     }
 
@@ -21,7 +21,7 @@ public class LobbyController implements Observer {
             String name = setNickname();
             intoLobby(name);
 
-            for(int i=2;i<lobbies.getLobbyList().get(0).getLobbyPlayersNumber()+1;i++) {
+            for(int i = 2; i< lobbyHandler.getLobbyList().get(0).getLobbyPlayersNumber()+1; i++) {
                 System.out.println("Player " + i + " ");
                 name = setNickname();
                 intoLobby(name);
@@ -39,7 +39,7 @@ public class LobbyController implements Observer {
             flag = true;
             s = lobbyView.readNickname();
 
-            for (String name : lobbies.getPlayerList()) {
+            for (String name : lobbyHandler.getPlayerList()) {
                 if (s.equals(name)) {
                     System.out.println("Nickname in use, choose another one");
                     flag = false;
@@ -47,7 +47,7 @@ public class LobbyController implements Observer {
             }
         } while(!flag);
 
-        lobbies.addPlayer(s);
+        lobbyHandler.addPlayer(s);
 
         return s;
     }
@@ -55,13 +55,13 @@ public class LobbyController implements Observer {
 
     public void intoLobby(String name) {
 
-        if(!lobbies.checkAvailableLobby()){
+        if(!lobbyHandler.checkAvailableLobby()){
             int num;
 
             num = lobbyView.readPlayerNumber();
-            lobbies.createLobby(num);
+            lobbyHandler.createLobby(num);
         } else {
-            lobbies.joinLobby(name);
+            lobbyHandler.joinLobby(name);
         }
     }
 

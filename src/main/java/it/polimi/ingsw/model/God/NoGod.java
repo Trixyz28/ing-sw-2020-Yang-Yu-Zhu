@@ -5,7 +5,7 @@ package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.Map;
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class NoGod implements UndecoratedWorker {
@@ -18,8 +18,7 @@ public class NoGod implements UndecoratedWorker {
    //Returns a list of available tiles where the worker can be moved to
    @Override
    public List<Tile> canMove(Tile t) {
-
-      return position.movableTileList;
+      return position.movableTileList(t);
    }
 
    //Move the worker from position to t

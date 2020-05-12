@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.God;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.Worker;
 
+import java.util.List;
+
 
 public class Minotaur extends WorkerDecorator {
 
@@ -15,16 +17,16 @@ public class Minotaur extends WorkerDecorator {
     @Override
     public List<Tile> canMove(Tile t) {
 
-        ArrayList<String> tempList = new ArrayList<String>();
-        tempList = super.canMove();
+        List<Tile> tempList;
+        tempList = super.canMove(t);
 
 
         for(int i=0;i<5;i++) {
             for(int j=0;j<5;j++) {
-                T = getTile(i,j);
-                adjTile = availableMinotaurToMove(T,this.position);
+                Tile tempTile = getTile(i,j);
+                boolean adjTile = availableMinotaurToMove(tempTile,this.position);
                 if (adjTile == true){
-                    tempList.add(T);
+                    tempList.add(tempTile);
                 }
             }
         }
@@ -36,23 +38,23 @@ public class Minotaur extends WorkerDecorator {
 
     @Override
     public void move(Tile t) {
-        super.move();
+        super.move(t);
         minotaurMove(t,this.position);
     }
 
     @Override
     public boolean canBuildBlock(Tile t) {
-        return super.canBuildBlock();
+        return super.canBuildBlock(t);
     }
 
     @Override
     public void buildBlock(Tile t) {
-        super.buildBlock;
+        super.buildBlock(t);
     }
 
     @Override
     public boolean canBuildDome(Tile t) {
-        return super.canBuildDome();
+        return super.canBuildDome(t);
     }
 
     @Override
@@ -60,9 +62,9 @@ public class Minotaur extends WorkerDecorator {
     }
 
 
-    public boolean availableMinotaurToMove(Tile dest,Tile minoutar) {
-        if(adjacentTile(dest) && !dest.domePresence && headbuttMinotaur(dest,minotaur)
-                && dest.getBlockLevel()-this.getBlockLevel()<=1 ) {
+    public boolean availableMinotaurToMove(Tile dest,Tile minotaur) {
+        if(this.position.adjacentTile(dest) && !dest.isDomePresence() && headbuttMinotaur(dest,minotaur)
+                && dest.getBlockLevel()-this.position.getBlockLevel()<=1 ) {
             return true;
         }
 
@@ -70,19 +72,19 @@ public class Minotaur extends WorkerDecorator {
     }
     //dest= destionation tile, minotaur = tile where the minotaur worker is
     public boolean headbuttMinotaur(Tile dest, Tile minotaur){
-        return minotaurTile(dest,minotaur).isOccupiedWorker() && minotaurTile(dest,minotaur).isDomePresence()
+        return minotaurTile(dest,minotaur).isOccupiedByWorker() && minotaurTile(dest,minotaur).isDomePresence()
 
     }
     //minotaur is original tile where Minotaur worker was and mover is the headbutted worker's tile
-    public boolean minotaurMove(Tile mover, Tile minotaur ){
+    public boolean minotaurMove(Tile mover, Tile minotaur){
         NoGod transferWorker = new NoGod();
         transferWorker = getTileWorker(mover);
         transferWorker.move(minotaurTile(mover,minotaur));
     }
     //tile where the other worker is headbutted to
     public Tile minotaurTile(Tile dest, Tile minotaur){
-        int x = getRow(dest) + getRow(dest) - getRow(minotaur);
-        int y = getColumn(dest) + getColumn(dest) - getColumnd(minotaur);
+        int x = dest.getRow() + dest.getRow() - minotaur.getRow();
+        int y = dest.getColumn() + dest.getColumn() - minotaur.getColumn();
 
         return getTile(x,y);
     }

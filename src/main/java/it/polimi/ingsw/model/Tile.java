@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import it.polimi.ingsw.model.Map;
 
 public class Tile {
@@ -17,7 +19,6 @@ public class Tile {
 
     //Dome presence
     private boolean domePresence;
-
 
 
     public int getRow() {
@@ -91,7 +92,6 @@ public class Tile {
         blockLevel++;
     }
 
-
     public void blockToDome() {
         domePresence = true;
     }
@@ -108,16 +108,14 @@ public class Tile {
 
     public List<Tile> movableTileList(Tile t) {
 
-        public ArrayList<Tile> tempList= new ArrayList<Tile>();
-        tempTile T = new Tile();
-        boolean adjTile=false;
+        ArrayList<Tile> tempList= new ArrayList<Tile>();
 
         for(int i=0;i<5;i++) {
             for(int j=0;j<5;j++) {
-                T = getTile(i,j);
-                adjTile = availableToMove(T);
+                Tile tempTile = getTile(i,j);
+                boolean adjTile = availableToMove(tempTile);
                 if (adjTile == true){
-                    tempList.add(T);
+                    tempList.add(tempTile);
                 }
             }
         }
@@ -126,6 +124,7 @@ public class Tile {
     }
 
     public boolean movedUp(Tile position, Tile t){
+
         int plusone = position.getBlockLevel() + 1;
         if( plusone == t.getBlockLevel()){
             return true;

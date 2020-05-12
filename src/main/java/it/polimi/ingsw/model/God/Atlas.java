@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.God;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.Worker;
 
+import java.util.List;
+
 
 public class Atlas extends WorkerDecorator {
 
@@ -14,7 +16,7 @@ public class Atlas extends WorkerDecorator {
 
     @Override
     public List<Tile> canMove(Tile t) {
-        return super.canMove();
+        return super.canMove(t);
     }
 
 
@@ -24,7 +26,7 @@ public class Atlas extends WorkerDecorator {
 
     @Override
     public boolean canBuildBlock(Tile t) {
-        return super.canBuildBlock();
+        return super.canBuildBlock(t);
     }
 
     @Override

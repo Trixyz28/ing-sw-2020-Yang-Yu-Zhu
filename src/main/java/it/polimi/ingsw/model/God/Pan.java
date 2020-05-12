@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.God;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.Worker;
 
+import java.util.List;
+
 
 public class Pan extends WorkerDecorator {
 
@@ -14,13 +16,13 @@ public class Pan extends WorkerDecorator {
 
     @Override
     public List<Tile> canMove(Tile t) {
-        return super.canMove();
+        return super.canMove(t);
     }
 
 
     @Override
     public void move(Tile t) {
-        super.move();
+        super.move(t);
         panCheck(t,this.position);
     }
 
@@ -35,17 +37,17 @@ public class Pan extends WorkerDecorator {
 
     @Override
     public boolean canBuildDome(Tile t) {
-        return canBuildDome();
+        return canBuildDome(t);
     }
 
     @Override
     public void buildDome(Tile t) {
-
+        super.buildDome(t);
     }
 
     //T was the destination, jumpedFrom was the original tile; if blocklevel jumpedFrom - t = 2 pan win
     public void panCheck(Tile t, Tile jumpedFrom){
-        if( getBlockLevel(jumpedFrom) - getBlockLevel(t) == 2) {
+        if(jumpedFrom.getBlockLevel() - t.getBlockLevel() == 2) {
             panWinningCondition();
             //on view, pans wins
         }

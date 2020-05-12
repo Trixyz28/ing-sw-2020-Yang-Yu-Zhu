@@ -6,7 +6,7 @@ import it.polimi.ingsw.lobby.Lobby;
 import java.util.ArrayList;
 
 
-public class Lobbies extends Observable {
+public class LobbyHandler extends Observable {
 
 
 
@@ -17,7 +17,7 @@ public class Lobbies extends Observable {
     private ArrayList<String> playerList;
 
 
-    public Lobbies() {
+    public LobbyHandler() {
         lobbyList = new ArrayList<Lobby>();
         playerList = new ArrayList<String>();
     }

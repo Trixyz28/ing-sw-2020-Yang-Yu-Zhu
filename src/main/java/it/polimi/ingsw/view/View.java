@@ -39,7 +39,6 @@ public class View extends Observable implements Observer, Runnable {
         }
     }
 
-    @Override
     public void updateGod(String god) {
 
     }

@@ -4,9 +4,11 @@ package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
 
+import java.util.List;
+
 public interface UndecoratedWorker {
 
-    boolean canMove(Tile t);
+    List<Tile> canMove(Tile t);
 
     void move(Tile t);
 

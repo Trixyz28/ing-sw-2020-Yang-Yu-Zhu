@@ -83,7 +83,6 @@ public class Controller implements Observer {
 
     }
 
-    @Override
     public void updateGod(String god) {  /* variabile provvisoria del God scelto */
         initController.setGod(god);
     }
