@@ -4,6 +4,8 @@ package it.polimi.ingsw.model.God;
 
 
 import it.polimi.ingsw.model.Tile;
+import it.polimi.ingsw.model.Map;
+import java.util.ArrayList;
 
 
 public class NoGod implements UndecoratedWorker {
@@ -13,10 +15,11 @@ public class NoGod implements UndecoratedWorker {
    private int workerID;
 
 
-   //Check if the worker can move from position to t
+   //Returns a list of available tiles where the worker can be moved to
    @Override
-   public boolean canMove(Tile t) {
-      return position.availableToMove(t);
+   public List<Tile> canMove(Tile t) {
+
+      return position.movableTileList;
    }
 
    //Move the worker from position to t
@@ -50,6 +53,7 @@ public class NoGod implements UndecoratedWorker {
    public void buildDome(Tile t) {
       t.setDomePresence(true);
    }
+
 
 
 

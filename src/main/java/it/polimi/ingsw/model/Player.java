@@ -73,7 +73,7 @@ public class Player {
     public void chooseStartPlayer(int id) {    }
     */
 
-    //Create 2 specific worker classes as indicated in godCard
+    //Create 2 specific worker classes as indicated in godCard ( da sistemare)
     public List<Worker> createWorker(String godCard) {
         if(godCard.equals("APOLLO")) {
 
@@ -125,5 +125,7 @@ public class Player {
 
     }
 
-
+    public Tile getWorkerPosition(){
+        // da sistemare
+    }
 }

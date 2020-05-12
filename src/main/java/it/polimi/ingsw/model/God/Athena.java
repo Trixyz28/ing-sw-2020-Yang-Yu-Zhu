@@ -14,17 +14,21 @@ public class Athena extends WorkerDecorator {
     public void move(Tile t){
         //if athena worker moved up ( check move controller) then modify AthenaRule in object Conditions
         //normal move + if worker moves up: change AthenaRule to true.
+        super.move();
+        boolean athenaBoolean = movedUp(position,t);
+        setAthenaRule(athenaBoolean);
     }
 
     @Override
-    public boolean canMove(Tile t) {
-        return true;
+    public List<Tile> canMove(Tile t) {
+
+        return canMove;
     }
 
 
     @Override
     public boolean canBuildBlock(Tile t) {
-        return true;
+        return canBuildBlock;
     }
 
     @Override
@@ -34,7 +38,8 @@ public class Athena extends WorkerDecorator {
 
     @Override
     public boolean canBuildDome(Tile t) {
-        return false;
+
+        return super.canBuildDOme;
     }
 
     @Override
@@ -42,10 +47,8 @@ public class Athena extends WorkerDecorator {
 
     }
 
-
-    private void athenaRuling(){
-        //also in turnController if player has athena as god set athenaRule false every time the turn is passed to the player
-        //setAthenaRule(true);
+    //also in turnController if player has athena as god set athenaRule false every time the turn is passed to the player
+    //setAthenaRule(true);
     }
 }
 

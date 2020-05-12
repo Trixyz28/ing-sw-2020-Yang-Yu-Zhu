@@ -7,24 +7,42 @@ import it.polimi.ingsw.model.Tile;
 public abstract class WorkerDecorator implements UndecoratedWorker {
 
     //undecorated worker associated
-    private UndecoratedWorker worker;
+    protected UndecoratedWorker worker;
 
-    public WorkerDecorator(UndecoratedWorker worker) {
-
+    public WorkerDecorator( UndecoratedWorker worker){
+        this.worker = worker;
     }
 
-    // standard constructors
-    // esempio con move()
-
+    //standard constructors
 
     @Override
     public void move(Tile t){
+        return this.worker.move();
 
-       // return worker.decorate();
     }
-    // canMove();
-    // buildBlock();
-    // canBuildBlock();
-    // buildDome();
-    // canBuildDome();
+
+    @Override
+    public boolean canMove(){
+        return this.worker.canMove;
+    }
+
+    @Override
+    public void buildBlock(
+            return this.worker.buildBlock;
+    )
+
+    @Override
+    public boolean canBuildBlock(
+           return this.worker.canBuildblock;
+   )
+
+     @Override
+    public void buildDome{
+        return this.worker.buildDome;
+    }
+   @Override
+    public boolean canBuildDome{
+        return this.worker.canBuildDome;
+    }
+
 }

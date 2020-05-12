@@ -93,5 +93,9 @@ public class Turn {
 
     // methods that interacts with the turn controller for the turn succession,eventually for the chronobreak of the turns
     // i check di validità delle mosse sono chiamati dal moveController e dal buildController con la logica nella classe Tile
+
+
+    //!! metodo per azzerare tutti i counter di tutti i worker all'inizio di ogni turno
+
 }
 

@@ -1,16 +1,23 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+import it.polimi.ingsw.model.Map;
+
 public class Tile {
 
-
+    //Row value and Column value
     private int row;
     private int column;
 
     //Block level on the tile, default 0
     private int blockLevel;
 
+    //Worker presence
     private boolean occupiedByWorker;
+
+    //Dome presence
     private boolean domePresence;
+
 
 
     public int getRow() {
@@ -96,6 +103,36 @@ public class Tile {
 
     public void setWorker() {
         occupiedByWorker = true;
+    }
+
+
+    public List<Tile> movableTileList(Tile t) {
+
+        public ArrayList<Tile> tempList= new ArrayList<Tile>();
+        tempTile T = new Tile();
+        boolean adjTile=false;
+
+        for(int i=0;i<5;i++) {
+            for(int j=0;j<5;j++) {
+                T = getTile(i,j);
+                adjTile = availableToMove(T);
+                if (adjTile == true){
+                    tempList.add(T);
+                }
+            }
+        }
+
+        return tempList;
+    }
+
+    public boolean movedUp(Tile position, Tile t){
+        int plusone = position.getBlockLevel() + 1;
+        if( plusone == t.getBlockLevel()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }

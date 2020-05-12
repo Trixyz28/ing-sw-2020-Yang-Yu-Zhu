@@ -13,47 +13,45 @@ public class Worker {
 
     private Tile currentPosition;
 
+    public Worker(int belongToPLayer,int workerID,String workerType,Tile currentPosition){
+       this.belongToPlayer = belongToPLayer;
+       this.workerID = workerID;
+       this.workerType = workerType;
+       this.currentPosition = currentPosition;
+    }
+
+
+
+
+    //initializing list
+    public void initializeWorkerList{
+
+        public ArrayList<Worker> WorkersList = new Arraylist<Worker>()
+
+        for (int i = 0; i < matchPlayersList.size(); i++) {
+            for (int j = 0; j < workerList.size(); j++) {
+                    list.add(new Worker(match.PlayersList.get(i).getPlayerID,j,match.PlayersList.get(i).getGodCard,match.workerList.get(j)
+                            .getWorkerPosition));
+            }
+        }
+
+    }
+
+
+
     //get() the currentPosition
-    public Tile getCurrentPosition() {
-        return currentPosition;
+    public Tile getCurrentPosition(Worker w) {
+        return w.currentPosition;
     }
 
-    //metodi da spostare nel decorator pattern
-    public boolean canMove() {
-        return true;
-    }
+    //method that return the worker in the tile
+    public NoGod getTileWorker(Tile t){
 
-    public void canMoveUp(Tile t) {
-
-    }
-
-    public void move(Tile t) {
-
-
-    }
-
-    public boolean checkWinningMove() {
-        return true;
-    }
-
-    public void canBuild() {
-
-    }
-
-    public void build(Tile t) {
-
-    }
-
-    public void buildBlock() {
-
-    }
-
-    public void buildDome() {
-
-    }
-
-
-
+        for (int i = 0; i < WorkerList.size(); i++){
+            if( worker.getCurrenPosition == t){
+                return NoGod;
+            }
+        }
 
 
 }
