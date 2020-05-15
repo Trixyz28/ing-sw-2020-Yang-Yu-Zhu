@@ -4,15 +4,16 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class TurnController {
 
     private Model model;
-    private View view;
+    private Map<Player, View> views;
 
-    public TurnController(Model model, View view) {
+    public TurnController(Model model, Map views) {
         this.model = model;
-        this.view = view;
+        this.views = views;
     }
 
     private Turn currentTurn;
@@ -36,8 +37,10 @@ public class TurnController {
         currentTurn.setFinalTile(chosenWorker.getCurrentPosition(chosenWorker));
         if(checkWin()){
             //view.win(currentTurn.getCurrentPlayer());  /* il currentPlayer vince */
+            views.get(currentTurn.getCurrentPlayer()).showMessage("Hai vintoooooo!!!");
         }
-        view.build();  /* chiedere al player di Buildare */
+        //view.build();  /* chiedere al player di Buildare */
+        views.get(currentTurn.getCurrentPlayer()).showMessage("Builda!");
     }
 
     public void endTurn(Operation build) {
@@ -58,7 +61,8 @@ public class TurnController {
         currentTurn.setInitialTile(chosenWorker.getCurrentPosition(chosenWorker));
         currentTurn.setFinalTile(null);  //inizializzare Final e Built
         currentTurn.setBuiltTile(null);
-        view.move();  /* ->  passare alla scelta della mossa */
+        //view.move();  /* ->  passare alla scelta della mossa */
+        views.get(currentTurn.getCurrentPlayer()).showMessage("Move!!!");
     }
 
     private boolean checkWin(){

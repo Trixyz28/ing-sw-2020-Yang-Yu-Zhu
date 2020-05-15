@@ -9,15 +9,13 @@ import it.polimi.ingsw.view.View;
 public class MoveController {
 
     private Model model;
-    private View view;
 
     private Tile position;
     private Worker worker;
 
 
-    public MoveController(Model model, View view) {
+    public MoveController(Model model) {
         this.model = model;
-        this.view = view;
     }
 
     public boolean moveWorker(Operation move){

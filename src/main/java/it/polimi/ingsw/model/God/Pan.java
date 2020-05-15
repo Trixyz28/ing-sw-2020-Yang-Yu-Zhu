@@ -22,8 +22,9 @@ public class Pan extends WorkerDecorator {
 
     @Override
     public void move(Tile t) {
+
+        panCheck(t, this.position);
         super.move(t);
-        panCheck(t,this.position);
     }
 
     @Override

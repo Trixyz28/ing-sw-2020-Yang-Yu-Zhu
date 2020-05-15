@@ -12,17 +12,18 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 
-public class View extends Observable implements Observer, Runnable {
+public abstract class View extends Observable implements Observer{
 
+    private Player player;
     private Scanner scanner;
     private PrintStream outputStream;
     private boolean endGame = false;
     private int currentID;
 
 
-    public View(){
-        scanner = new Scanner(System.in);
-        outputStream = new PrintStream(System.out);
+
+    public View(Player player){
+        this.player = player;
         endGame = false;
     }
 
@@ -34,30 +35,8 @@ public class View extends Observable implements Observer, Runnable {
 
     @Override
     public void update(Object message) {
-        if(message instanceof String[]){
-            showComplete((String[])message);
-        }
     }
 
-    public void updateGod(String god) {
-
-    }
-
-    @Override
-    public void run() {
-
-        System.out.println("run() in View");
-        /*
-        setGame();
-
-        while(!endGame) {
-
-            outputStream.println("Player " + currentID + "'s turn");
-
-            chooseWorker();
-        }
-         */
-    }
 
     private void chooseWorker() {
         outputStream.println("Which worker do you want to choose?");
@@ -65,13 +44,7 @@ public class View extends Observable implements Observer, Runnable {
 
     }
 
-    //printare GodList completo
-    private void showComplete(String[] completeList){
-        outputStream.println("Le divinità che puoi scegliere sono:");
-        for(String s : completeList){
-            outputStream.println(s);
-        }
-    }
+
 
     //Reserved to challenger - pick a god card
     private String defineGodList() {
@@ -79,6 +52,8 @@ public class View extends Observable implements Observer, Runnable {
         return scanner.next();
 
     }
+
+    public abstract void showMessage(String message);
 
 
 

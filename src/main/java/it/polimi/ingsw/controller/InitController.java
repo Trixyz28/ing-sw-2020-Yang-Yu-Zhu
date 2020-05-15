@@ -4,24 +4,41 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InitController {
 
     private Model model;
-    private View view;
+    private Map<Player, View> views = new HashMap<>();
 
     private String god;
     private Player startingPlayer;
+    private Player challenger;
     private Tile currentPosition;
+    private boolean changed;
+    private boolean godChanged;
+    private boolean nameChanged;
 
 
-    public InitController(Model model, View view) {
+    public InitController(Model model, Map views) {
         this.model = model;
-        this.view = view;
+        this.views = views;
+        changed = false;
+        nameChanged = false;
+        godChanged = false;
     }
 
     public void setGod(String god) {
         this.god = god;
+    }
+
+    protected boolean isGodChanged(){
+        return godChanged;
+    }
+
+    protected void setChanged() {
+        changed = true;
     }
 
     public void initializeMatch(){
@@ -32,23 +49,37 @@ public class InitController {
     }
 
     private void challengerStart(){
-        Player challenger = model.getMatchPlayersList().get(model.getChallengerID()); /* ID = indice iniziale */
+        challenger = model.getMatchPlayersList().get(model.getChallengerID()); /* ID = indice iniziale */
         GodList godList = model.getGodsList(); /* ottenere la GodList per poter accedere alla currentGodList dal Challenger */
         defineGodList(challenger, godList);  //eseguire solo al challenger
         int index = challenger.getPlayerID()+1;  /* Player next al Challenger */
         if(index == model.getMatchPlayersList().size()){
             index = 0;
         }
+        View view;
         for (Player p = model.getMatchPlayersList().get(index); p != challenger; index++) {
             /* challenger deve essere ultimo a scegliere */
+            view = views.get(p);
             do {
                 //view.godChoice(p);  -> fa scegliere al player il god e notify(God scelto)
+
+                changed = false;
+                view.showMessage("Scegli la tua divinità");
+                /* necessario aspettare risposta dal client */
+                while(true){
+                    if(changed){
+                        break;
+                    }
+                }
                 godList.selectGod(god);
                 if(godList.checkGod()){
                     //far printare alla view la conferma della scelta
+                    view.showMessage("Hai scelto" + god + "!");
                 }else{
                     //far printare alla view la richiesta di ripetere la scelta
+                    view.showMessage("Riprova!");
                 }
+                changed = false;
             }while(!godList.checkGod());  //ripetere la scelta se il god scelto non è nella currentList
             p.godChoice(god);  /* assegnare al Player il God scelto */
             p.createWorker(god);  /* creare worker determinato God */
@@ -58,22 +89,50 @@ public class InitController {
             }
         }
 
-        //view.godChoice(challenger); -> scelta God in view e notify(God scelto)  /* alternativa: dare direttamente la god rimanente */
+        /* alternativa: dare direttamente la god rimanente al Challenger */
+        view = views.get(challenger);
+        view.showMessage("Il god rimasto è " + god + "!");  //far printare alla view il messaggio del god assegnato
         god = godList.getCurrentGodList().get(0);  /* il god rimanente nella currentGodList viene assegnata al challenger */
         challenger.godChoice(god);
         challenger.createWorker(god);
-        //far printare alla view il messaggio del god assegnato
+        godChanged = true;
+        /* fine parte scelta God */
 
+        changed = false;
+        view.showMessage("Scegli il Player che inizia la partita!");
         //view.chooseStartPlayer(challenger);  //scegliere da view (notify playerNickname)
+        /* necessario aspettare risposta dal client */
+        do{
+            while (true) {
+                if (changed) {
+                    break;
+                }
+            }
+        }while(!nameChanged);
+        changed = false;
         model.setStartingPlayerID(startingPlayer.getPlayerID());  //settare il startingPlayerID del model
+        //messaggio di conferma
+        for(Player p : model.getMatchPlayersList()){  /* notificare a tutti i Player il StartingPlayer */
+            views.get(p).showMessage("Il primo player che fa la mossa è " + startingPlayer.getPlayerNickname());
+
+        }
 
     }
 
     private void defineGodList(Player challenger, GodList godList){
+        changed = false;
+        views.get(challenger).showMessage("Sei il Challenger!\nScegli le divinità tra questi della partita");
+        model.showCompleteGodList();  /* mandare al Challenger la lista completa dei God */
         while(!godList.checkLength()) {
             //view.defineGodList(challenger) -> far scegliere Gods attraverso la view dal challenger )
+            while(true){
+                if(changed){
+                    break;
+                }
+            }
             godList.selectGod(god);
             godList.addInGodList();
+            changed = false;
         }
     }
 
@@ -81,13 +140,21 @@ public class InitController {
         Turn currentTurn = model.getCurrentTurn();
         ArrayList<Player> playerList = model.getMatchPlayersList();
         Player currentPlayer;
+
         for (int i = 0; i < playerList.size(); i++) {  /* far posizionare i workers dai players */
             currentPlayer = currentTurn.getCurrentPlayer();  /* primo currentPlayer == StartingPlayer */
             for (int j = 0; j < 2; j++) {  /* ciclo per i 2 workers */
-                while(currentPosition.isOccupiedByWorker()) {  /* ripetere la scelta se il Tile scelto è occupato */
-                    view.placeWorker(currentPlayer);  // chiedere ai players di posizionare il worker
+                changed = false;
+                do {  /* ripetere la scelta se il Tile scelto è occupato */
+                    views.get(currentPlayer).showMessage("Posiziona il worker" + j);// chiedere ai players di posizionare il worker
                     /* dalla view passa al Controller notificando la posizione (Operation) */
-                }
+                    while (true) {
+                        if (changed) {
+                            break;
+                        }
+                    }
+                    changed = false;
+                }while(currentPosition.isOccupiedByWorker());
                 // currentPlayer.chooseWorker(j).move(currentPosition);  /* posizionare il worker al currentPosition */
             }
             currentTurn.setCurrentPlayer(playerList.get(model.getNextPlayerIndex()));  /* passare al nextPlayer */
@@ -97,13 +164,24 @@ public class InitController {
     }
 
     public void setStartingPlayer(String startingPlayerNickname){  /* per sceglire il startingPlayer attraverso Nickname */
-        for(Player p : model.getMatchPlayersList()){
-            if(p.getPlayerNickname().equals(startingPlayerNickname)) {
-                startingPlayer = p;
+
+        if(startingPlayer.equals(challenger.getPlayerNickname())) {
+            views.get(challenger).showMessage("Non puoi scegliere te stesso!!!");
+            nameChanged = false;
+        }else if(nameChanged) {
+            for (Player p : model.getMatchPlayersList()) {
+                if (p.getPlayerNickname().equals(startingPlayerNickname)) {
+                    startingPlayer = p;
+                    nameChanged = true;
+                    break;
+                }
             }
         }
         /* se esce dal for -> Nickname non trovato riprovare a chiedere */
-        //view.chooseStartPlayer(challenger);
+        if(!nameChanged) {
+            views.get(challenger).showMessage("Riprova!");
+        }
+
     }
 
     public void setCurrentPosition(Operation position){  //currentPosition = Tile dove posizionare il worker
