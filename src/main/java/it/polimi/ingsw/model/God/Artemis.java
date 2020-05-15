@@ -49,7 +49,7 @@ public class Artemis extends WorkerDecorator {
         if(counter == 0){
             super.move(t);
             setCounter(1);
-            view.MoveArtemis;
+            //view.MoveArtemis;
             //richiede un move ulteriore per il worker scelto con lo stesso worker
         }
 
@@ -59,7 +59,7 @@ public class Artemis extends WorkerDecorator {
 
     @Override
     public boolean canBuildBlock(Tile t) {
-        return super.canBuildBlock();
+        return super.canBuildBlock(t);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class Artemis extends WorkerDecorator {
 
     @Override
     public boolean canBuildDome(Tile t) {
-        return super.canBuildDome();
+        return super.canBuildDome(t);
     }
 
     @Override

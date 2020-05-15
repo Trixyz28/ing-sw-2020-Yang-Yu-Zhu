@@ -49,7 +49,7 @@ public class Worker {
     }
 
 
-
+/*
     //method that return the worker in the tile
     public NoGod getTileWorker(Tile t) {
         NoGod worker;
@@ -61,5 +61,7 @@ public class Worker {
             }
         }
     }
+
+ */
 
 }

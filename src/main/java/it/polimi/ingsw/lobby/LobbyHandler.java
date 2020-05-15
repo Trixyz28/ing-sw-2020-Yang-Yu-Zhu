@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class LobbyHandler extends Observable {
 
 
-
     //List of all active lobbies
     private ArrayList<Lobby> lobbyList;
 
@@ -51,7 +50,7 @@ public class LobbyHandler extends Observable {
 
 
     //Creation of a new lobby and setting up groundwork for the players List
-    public void createLobby(int playerNumber) {
+    public int newLobby(String name,int playerNumber) {
 
         Lobby newLobby = new Lobby();
         lobbyList.add(newLobby);
@@ -62,25 +61,14 @@ public class LobbyHandler extends Observable {
 
         ArrayList<String> temporaryList = new ArrayList<String>();
         //First player nickname added in position [0], unknown players coded as "0000"
-        temporaryList.add(playerList.get(0));
+        temporaryList.add(name);
         for (int i = 1; i < playerNumber; i++) {
             temporaryList.add("0000");
         }
         //copies temporaryList into the attribute of the associated Lobby object
         newLobby.setPlayersNameList(temporaryList);
-    }
 
-
-    public void joinLobby(String name) {
-
-        lobbyList.get(0).addPlayer(name);
-
-        if(lobbyList.get(0).isFull()) {
-            System.out.println("Match starting");
-            lobbyList.get(0).createMatch();
-        } else {
-            System.out.println("Wait for other players");
-        }
+        return newLobby.getLobbyID();
     }
 
 }

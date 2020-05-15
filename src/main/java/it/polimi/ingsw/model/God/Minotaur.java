@@ -20,7 +20,7 @@ public class Minotaur extends WorkerDecorator {
         List<Tile> tempList;
         tempList = super.canMove(t);
 
-
+/*
         for(int i=0;i<5;i++) {
             for(int j=0;j<5;j++) {
                 Tile tempTile = getTile(i,j);
@@ -31,6 +31,8 @@ public class Minotaur extends WorkerDecorator {
             }
         }
 
+ */
+
         return tempList;
 
     }
@@ -39,7 +41,7 @@ public class Minotaur extends WorkerDecorator {
     @Override
     public void move(Tile t) {
         super.move(t);
-        minotaurMove(t,this.position);
+        //minotaurMove(t,this.position);
     }
 
     @Override
@@ -61,6 +63,7 @@ public class Minotaur extends WorkerDecorator {
     public void buildDome(Tile t) {
     }
 
+    /*
 
     public boolean availableMinotaurToMove(Tile dest,Tile minotaur) {
         if(this.position.adjacentTile(dest) && !dest.isDomePresence() && headbuttMinotaur(dest,minotaur)
@@ -72,15 +75,18 @@ public class Minotaur extends WorkerDecorator {
     }
     //dest= destionation tile, minotaur = tile where the minotaur worker is
     public boolean headbuttMinotaur(Tile dest, Tile minotaur){
-        return minotaurTile(dest,minotaur).isOccupiedByWorker() && minotaurTile(dest,minotaur).isDomePresence()
+        return minotaurTile(dest,minotaur).isOccupiedByWorker() && minotaurTile(dest,minotaur).isDomePresence();
 
     }
     //minotaur is original tile where Minotaur worker was and mover is the headbutted worker's tile
+
+
     public boolean minotaurMove(Tile mover, Tile minotaur){
         NoGod transferWorker = new NoGod();
         transferWorker = getTileWorker(mover);
         transferWorker.move(minotaurTile(mover,minotaur));
     }
+
     //tile where the other worker is headbutted to
     public Tile minotaurTile(Tile dest, Tile minotaur){
         int x = dest.getRow() + dest.getRow() - minotaur.getRow();
@@ -88,4 +94,6 @@ public class Minotaur extends WorkerDecorator {
 
         return getTile(x,y);
     }
+
+     */
 }

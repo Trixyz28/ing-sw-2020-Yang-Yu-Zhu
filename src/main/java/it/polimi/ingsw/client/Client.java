@@ -74,6 +74,7 @@ public class Client {
 
                         if(inputObject instanceof String) {
                             System.out.println((String)inputObject);
+
                         } else if(inputObject instanceof Map) {
                             System.out.println("Print map");
                         } else {

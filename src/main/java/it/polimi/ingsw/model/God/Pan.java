@@ -28,7 +28,7 @@ public class Pan extends WorkerDecorator {
 
     @Override
     public boolean canBuildBlock(Tile t) {
-        return super.canBuildBlock();
+        return super.canBuildBlock(t);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Pan extends WorkerDecorator {
     //T was the destination, jumpedFrom was the original tile; if blocklevel jumpedFrom - t = 2 pan win
     public void panCheck(Tile t, Tile jumpedFrom){
         if(jumpedFrom.getBlockLevel() - t.getBlockLevel() == 2) {
-            panWinningCondition();
+            //panWinningCondition();
             //on view, pans wins
         }
         else{

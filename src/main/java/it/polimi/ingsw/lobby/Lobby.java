@@ -44,7 +44,6 @@ public class Lobby extends Observable {
     }
 
 
-
     //Get() of the number of the Lobby players
     public int getLobbyPlayersNumber() {
         return lobbyPlayersNumber;
@@ -87,17 +86,14 @@ public class Lobby extends Observable {
         int i;
 
         for (i = 0; (i < lobbyPlayersNumber && flag==0); i++) {
-
             String helper = playersNameList.get(i);
-
             if (helper.equals("0000")) {
                 playersNameList.set(i,playerName);
                 flag++;
             }
-
         }
+
         if (i==lobbyPlayersNumber) {
-            System.out.println("Lobby is full");
             setFull(true);
         }
     }
@@ -122,14 +118,6 @@ public class Lobby extends Observable {
     public void createMatch() {
 
         Model model = new Model();
-        model.initialize(lobbyPlayersNumber, playersNameList);
-        View view = new View();
-        Controller controller = new Controller(model, view);
-        controller.minorControllers(model,view);
-
-        view.addObservers(controller);
-        model.addObservers(view);
-        view.run();
-
+        System.out.println("Model created");
     }
 }

@@ -6,11 +6,9 @@ import it.polimi.ingsw.Observer;
 public class LobbyController implements Observer {
 
     private LobbyHandler lobbyHandler;
-    private LobbyView lobbyView;
 
-    public LobbyController(LobbyHandler lobbyHandler, LobbyView lobbyView) {
+    public LobbyController(LobbyHandler lobbyHandler) {
         this.lobbyHandler = lobbyHandler;
-        this.lobbyView = lobbyView;
     }
 
 
@@ -18,51 +16,40 @@ public class LobbyController implements Observer {
     public void update(Object message) {
         if (message.equals("setup")) {
             System.out.println("Hi, first player!");
-            String name = setNickname();
-            intoLobby(name);
 
             for(int i = 2; i< lobbyHandler.getLobbyList().get(0).getLobbyPlayersNumber()+1; i++) {
                 System.out.println("Player " + i + " ");
-                name = setNickname();
-                intoLobby(name);
             }
 
         }
     }
 
-    public String setNickname() {
+    public boolean canUseNickname(String s) {
 
-        boolean flag;
-        String s;
-
-        do {
-            flag = true;
-            s = lobbyView.readNickname();
-
-            for (String name : lobbyHandler.getPlayerList()) {
-                if (s.equals(name)) {
-                    System.out.println("Nickname in use, choose another one");
-                    flag = false;
-                }
+        for (String name : lobbyHandler.getPlayerList()) {
+            if (s.equals(name)) {
+                return false;
             }
-        } while(!flag);
-
-        lobbyHandler.addPlayer(s);
-
-        return s;
+        }
+        return true;
     }
+
+    public int createLobby(String name,int playerNumber) {
+        return lobbyHandler.newLobby(name,playerNumber);
+    }
+
+    public int joinLobby(String name) {
+        Lobby lobby = lobbyHandler.getLobbyList().get(lobbyHandler.getLobbyList().size()-1);
+        lobby.addPlayer(name);
+        return lobby.getLobbyID();
+    }
+
+
+
 
 
     public void intoLobby(String name) {
 
-        if(!lobbyHandler.checkAvailableLobby()){
-            int num;
-
-            num = lobbyView.readPlayerNumber();
-            lobbyHandler.createLobby(num);
-        } else {
-            lobbyHandler.joinLobby(name);
-        }
     }
 
 

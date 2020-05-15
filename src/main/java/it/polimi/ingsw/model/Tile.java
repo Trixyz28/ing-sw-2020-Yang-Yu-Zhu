@@ -110,6 +110,7 @@ public class Tile {
 
         ArrayList<Tile> tempList= new ArrayList<Tile>();
 
+        /*
         for(int i=0;i<5;i++) {
             for(int j=0;j<5;j++) {
                 Tile tempTile = getTile(i,j);
@@ -119,6 +120,8 @@ public class Tile {
                 }
             }
         }
+
+         */
 
         return tempList;
     }

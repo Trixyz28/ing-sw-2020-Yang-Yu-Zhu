@@ -19,8 +19,9 @@ public class Prometheus extends WorkerDecorator {
     @Override
     public List<Tile> canMove(Tile t) {
         //counter 0= player can choose to build first
+
         if (getCounter() == 0) {
-            view.PrometheusFirstChoice();
+            //view.PrometheusFirstChoice();
         }
         //on view let choose if he want to build move first,if he builds he cant move up and can build again
 
@@ -28,7 +29,7 @@ public class Prometheus extends WorkerDecorator {
         if (getCounter() == 1) {
             List<Tile> tempList = super.canMove(t);
 
-
+/*
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
                     T = getTile(i, j);
@@ -38,10 +39,10 @@ public class Prometheus extends WorkerDecorator {
                     }
                 }
             }
-
+*/
             return tempList;
         } else {
-            return super.canMove();
+            return super.canMove(t);
         }
     }
 
@@ -54,16 +55,19 @@ public class Prometheus extends WorkerDecorator {
 
     @Override
     public boolean canBuildBlock(Tile t) {
-        return super.canBuildBlock();
+        return super.canBuildBlock(t);
     }
 
 
     @Override
     public void buildBlock(Tile t) {
+        /*
         return super.buildBlock(t);
         if (getCounter() == 1) {
             return super.canMove();
         }
+
+         */
     }
 
     @Override
@@ -73,19 +77,25 @@ public class Prometheus extends WorkerDecorator {
 
     @Override
     public void buildDome(Tile t) {
+        /*
         return super.buildDome(t);
         if (getCounter() == 1) {
             return super.canMove();
         }
+
+         */
     }
 
     public boolean prometheusLimitation (Tile dest){
+        /*
         if (adjacentTile(dest) && !dest.domePresence && !dest.occupiedByWorker
                 && dest.getBlockLevel() - this.getBlockLevel() <= 0) {
             return true;
         }
-
+    */
         return false;
+
+
     }
 
     public int getCounter() {

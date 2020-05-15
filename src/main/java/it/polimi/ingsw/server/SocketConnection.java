@@ -12,8 +12,10 @@ import java.util.Scanner;
 public class SocketConnection extends Observable<String> implements Connection,Runnable {
 
     private Socket socket;
-    private ObjectOutputStream out;
     private Server server;
+
+    private Scanner in;
+    private ObjectOutputStream out;
 
     private boolean active = true;
 
@@ -60,7 +62,7 @@ public class SocketConnection extends Observable<String> implements Connection,R
 
 
     @Override
-    public void asyncSend(Object message) {
+    public void asyncSend(final Object message) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -72,26 +74,78 @@ public class SocketConnection extends Observable<String> implements Connection,R
 
     @Override
     public void run() {
-        Scanner in;
-        String name;
+
+        String playerName;
+        int lobbyID;
+        int playerID;
+
 
         try {
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
 
-            send("Welcome! What is your name?");
-            String read = in.nextLine();
-            name = read;
-            System.out.println(name + "connected");
+
+            //Set nickname
+            send("Welcome! What is your nickname?");
+            String readName;
+            boolean check;
+            do {
+                readName = in.nextLine();
+                check = server.getLobbyController().canUseNickname(readName);
+                if(!check) {
+                    send("Nickname in use, choose another one");
+                } else {
+                    send("You can use this nickname!");
+                }
+            } while(!check);
+
+            playerName = readName;
+            server.getLobbyHandler().addPlayer(playerName);
+            send("Hi, " + playerName + "!");
+
+
+
+            //Create a lobby
+            if(!server.getLobbyHandler().checkAvailableLobby()) {
+                int number;
+
+                send("You can create a lobby");
+                send("How many players can join this match?");
+
+                do {
+                    send("Insert 2 or 3");
+                    number = in.nextInt();
+                } while(number!=2 && number!=3);
+
+                lobbyID = server.getLobbyController().createLobby(playerName,number);
+                send("Create the lobby n." + lobbyID);
+            }
+
+            //Join a lobby
+            else {
+                lobbyID = server.getLobbyController().joinLobby(playerName);
+                send("Successfully join the lobby n." + lobbyID);
+            }
+
+
+
+
+
 
             //Add the connection to the lobby(?)
-            server.lobby(this,name);
+            server.lobby(this,playerName);
 
             //Read commands
             while(isActive()) {
-                read = in.nextLine();
+                String read = in.nextLine();
+                System.out.println("Received: " + read);
                 notify(read);
             }
+
+
+
+
+
         } catch(IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         } finally {
@@ -99,6 +153,12 @@ public class SocketConnection extends Observable<String> implements Connection,R
         }
     }
 
+
+    public void sendPlayersList() {
+
+
+
+    }
 
 
 }

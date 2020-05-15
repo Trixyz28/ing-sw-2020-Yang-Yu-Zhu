@@ -42,11 +42,5 @@ public class TurnTest extends TestCase {
         assertSame(player,turn.getCurrentPlayer());
     }
 
-    @Test
-    public void testChosenWorker() {
-        Worker worker = new Worker();
-        turn.setChosenWorker(worker);
-        assertSame(worker,turn.getChosenWorker());
-    }
 
 }

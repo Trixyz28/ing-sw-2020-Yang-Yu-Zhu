@@ -88,7 +88,7 @@ public class InitController {
                     view.placeWorker(currentPlayer);  // chiedere ai players di posizionare il worker
                     /* dalla view passa al Controller notificando la posizione (Operation) */
                 }
-                currentPlayer.chooseWorker(j).move(currentPosition);  /* posizionare il worker al currentPosition */
+                // currentPlayer.chooseWorker(j).move(currentPosition);  /* posizionare il worker al currentPosition */
             }
             currentTurn.setCurrentPlayer(playerList.get(model.getNextPlayerIndex()));  /* passare al nextPlayer */
         }

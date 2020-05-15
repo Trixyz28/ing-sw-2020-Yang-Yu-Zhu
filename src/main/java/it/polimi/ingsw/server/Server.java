@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.lobby.Lobby;
 import it.polimi.ingsw.lobby.LobbyController;
 import it.polimi.ingsw.lobby.LobbyHandler;
 import it.polimi.ingsw.lobby.LobbyView;
@@ -34,16 +33,18 @@ public class Server {
 
 
     public void setWaitingRoom() {
-        lobbyHandler = new LobbyHandler();
-        lobbyView = new LobbyView();
-        lobbyController = new LobbyController(lobbyHandler,lobbyView);
 
-        lobbyView.addObservers(lobbyController);
-        lobbyHandler.addObservers(lobbyView);
+        lobbyHandler = new LobbyHandler();
+        lobbyController = new LobbyController(lobbyHandler);
 
     }
 
+
+
     public void startServer() {
+
+        setWaitingRoom();
+        System.out.println("Waiting room ready");
 
         System.out.println("Server socket ready on port: " + port);
 
@@ -55,8 +56,10 @@ public class Server {
 
                 //Connection handle
                 SocketConnection socketConnection = new SocketConnection(newSocket,this);
-                executor.submit(socketConnection);
                 System.out.println("There is a new connected client");
+
+                executor.submit(socketConnection);
+
 
             } catch (IOException e) {
                 System.out.println("Connection Error");
@@ -107,14 +110,28 @@ public class Server {
             if(turno==0) {
                 c1.asyncSend("move");
                 c2.asyncSend("wait");
-                turno = 1;
             } else {
                 c2.asyncSend("move");
                 c1.asyncSend("wait");
-                turno = 0;
             }
 
         }
+    }
+
+    public LobbyHandler getLobbyHandler() {
+        return lobbyHandler;
+    }
+
+    public LobbyController getLobbyController() {
+        return lobbyController;
+    }
+
+    public boolean canCreateLobby() {
+        if(waitingConnection.size()==0) {
+            return true;
+        }
+
+        return false;
     }
 
 }

@@ -21,6 +21,7 @@ public class Apollo extends WorkerDecorator {
         List<Tile> tempList;
         tempList = super.canMove(t);
 
+        /*
 
         for(int i=0;i<5;i++) {
             for(int j=0;j<5;j++) {
@@ -31,6 +32,8 @@ public class Apollo extends WorkerDecorator {
                 }
             }
         }
+
+         */
 
         return tempList;
     }
@@ -43,7 +46,7 @@ public class Apollo extends WorkerDecorator {
         }
         if(t.isOccupiedByWorker()){
             NoGod transferWorker = new NoGod();
-            transferWorker = getTileWorker(t);
+            // transferWorker = getTileWorker(t);
             transferWorker.move(super.position);
             super.move(t);
 

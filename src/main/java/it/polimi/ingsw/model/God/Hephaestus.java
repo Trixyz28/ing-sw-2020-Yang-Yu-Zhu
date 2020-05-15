@@ -32,10 +32,13 @@ public class Hephaestus extends WorkerDecorator {
     @Override
     public void buildBlock(Tile t) {
         super.buildBlock(t);
+        /*
         view.Hephaestus;
         if (answerFromView == true) {
             super.buildBlock(t);
         }
+
+         */
     }
 
     @Override

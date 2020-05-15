@@ -9,10 +9,12 @@ public class Conditions {
  //if true in currentTurn worker cant move up
     private boolean athenaRule = false;
 
-
+/*
     public boolean getAthenaRule() {
         return counter;
     }
+
+ */
 
 
     public void setAthenaRule(boolean i) {

@@ -18,7 +18,7 @@ public class Athena extends WorkerDecorator {
         //normal move + if worker moves up: change AthenaRule to true.
         super.move(t);
         boolean athenaBoolean = this.position.movedUp(position,t);
-        setAthenaRule(athenaBoolean);
+        // setAthenaRule(athenaBoolean);
     }
 
     @Override
@@ -51,7 +51,6 @@ public class Athena extends WorkerDecorator {
 
     //also in turnController if player has athena as god set athenaRule false every time the turn is passed to the player
     //setAthenaRule(true);
-    }
 }
 
 

@@ -25,7 +25,7 @@ public class MoveController {
         worker = model.getCurrentTurn().getChosenWorker();
         position = model.commandToTile(move.getRow(), move.getColumn());
         if(checkPosition(position)) {
-           worker.move(position);
+          // worker.move(position);
             return true;  /* move andato a buon fine */
         }else{
             return false;  /* da ripetere move */
@@ -33,7 +33,7 @@ public class MoveController {
     }
 
     private boolean checkPosition(Tile position){  /* controllo posizione */
-        return worker.getCurrentPosition().availableToMove(position);  /* worker.canMove; da usare */
+        return worker.getCurrentPosition(worker).availableToMove(position);  /* worker.canMove; da usare */
     }
 
 }

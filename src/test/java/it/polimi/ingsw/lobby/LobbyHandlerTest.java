@@ -7,6 +7,7 @@ import org.junit.Test;
 public class LobbyHandlerTest extends TestCase {
 
     LobbyHandler lobbyHandler = new LobbyHandler();
+    LobbyController lobbyController = new LobbyController(lobbyHandler);
 
     @Test
     public void testAddPlayer() {
@@ -18,9 +19,8 @@ public class LobbyHandlerTest extends TestCase {
 
     @Test
     public void testCheckAvailableLobbyFalse() {
-        lobbyHandler.addPlayer("A");
-        lobbyHandler.createLobby(2);
-        lobbyHandler.joinLobby("B");
+        lobbyHandler.newLobby("A",2);
+        lobbyController.joinLobby("B");
 
         assertFalse(lobbyHandler.checkAvailableLobby());
 
@@ -28,8 +28,7 @@ public class LobbyHandlerTest extends TestCase {
 
     @Test
     public void testCheckAvailableLobbyTrue() {
-        lobbyHandler.addPlayer("A");
-        lobbyHandler.createLobby(2);
+        lobbyHandler.newLobby("A",2);
 
         assertTrue(lobbyHandler.checkAvailableLobby());
     }
@@ -37,8 +36,7 @@ public class LobbyHandlerTest extends TestCase {
 
     @Test
     public void testCreateLobby() {
-        lobbyHandler.addPlayer("A");
-        lobbyHandler.createLobby(3);
+        lobbyHandler.newLobby("A",3);
         assertTrue(lobbyHandler.getLobbyList().get(0).getLobbyID()==0);
         assertTrue(lobbyHandler.getLobbyList().get(0).getLobbyPlayersNumber()==3);
         assertEquals("A", lobbyHandler.getLobbyList().get(0).getPlayersNameList().get(0));
@@ -49,14 +47,14 @@ public class LobbyHandlerTest extends TestCase {
 
     @Test
     public void testJoinLobby() {
-        lobbyHandler.addPlayer("A");
-        lobbyHandler.createLobby(3);
 
-        lobbyHandler.joinLobby("B");
+        lobbyHandler.newLobby("A",3);
+
+        lobbyController.joinLobby("B");
         assertEquals("B", lobbyHandler.getLobbyList().get(0).getPlayersNameList().get(1));
         assertFalse(lobbyHandler.getLobbyList().get(0).isFull());
 
-        lobbyHandler.joinLobby("C");
+        lobbyController.joinLobby("C");
         assertEquals("C", lobbyHandler.getLobbyList().get(0).getPlayersNameList().get(2));
         assertTrue(lobbyHandler.getLobbyList().get(0).isFull());
     }

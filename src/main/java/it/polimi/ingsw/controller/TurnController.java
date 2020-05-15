@@ -22,15 +22,18 @@ public class TurnController {
 
     public void setChosenWorker(int index){
         Worker worker = currentTurn.getCurrentPlayer().chooseWorker(index);
-        if(worker.canMove()) {   /* controllare se il Worker scelta possa fare la mossa o no */
+
+        /*
+        if(worker.canMove()) {    controllare se il Worker scelta possa fare la mossa o no
             chosenWorker = worker;
         }else {
             //view.chooseWorker; -> richiedere scelta
         }
+        */
     }
 
     public void endMove() {
-        currentTurn.setFinalTile(chosenWorker.getCurrentPosition());
+        currentTurn.setFinalTile(chosenWorker.getCurrentPosition(chosenWorker));
         if(checkWin()){
             //view.win(currentTurn.getCurrentPlayer());  /* il currentPlayer vince */
         }
@@ -52,20 +55,21 @@ public class TurnController {
         currentTurn.setCurrentPlayer(playerList.get(index));
         //view.chooseWorker;  -> far scegliere al player il worker dalla view
         currentTurn.setChosenWorker(chosenWorker);
-        currentTurn.setInitialTile(chosenWorker.getCurrentPosition());
+        currentTurn.setInitialTile(chosenWorker.getCurrentPosition(chosenWorker));
         currentTurn.setFinalTile(null);  //inizializzare Final e Built
         currentTurn.setBuiltTile(null);
         view.move();  /* ->  passare alla scelta della mossa */
     }
 
     private boolean checkWin(){
-        return currentTurn.getChosenWorker().checkWinningMove();
         /*
+        return currentTurn.getChosenWorker().checkWinningMove();
         *   if(currentTurn.getInitialTile().getBlockLevel()==3 && currentTurn.getFinalTile().getBlockLevel()==0){
         *      return true;
         *  }
         *  return false;
         */
+        return false;
     }
 
 }
