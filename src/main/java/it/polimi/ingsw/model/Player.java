@@ -77,61 +77,50 @@ public class Player {
     public List<UndecoratedWorker> createWorker(String godCard) {
 
         workerList = new ArrayList<>();
-        workerList.add(new NoGod());
-        workerList.add(new NoGod());
 
         if(godCard.equals("APOLLO")) {
-            for(UndecoratedWorker worker : workerList){
-                worker = new Apollo(worker);
-            }
+            workerList.add(new Apollo(new NoGod()));
+            workerList.add(new Apollo(new NoGod()));
         }
 
         if(godCard.equals("ARTEMIS")) {
-            for(UndecoratedWorker worker : workerList){
-                worker = new Artemis(worker);
-            }
+            workerList.add(new Artemis(new NoGod()));
+            workerList.add(new Artemis(new NoGod()));
         }
 
         if(godCard.equals("ATHENA")) {
-            for(UndecoratedWorker worker : workerList){
-                worker = new Athena(worker);
-            }
+            workerList.add(new Athena(new NoGod()));
+            workerList.add(new Athena(new NoGod()));
         }
 
         if(godCard.equals("ATLAS")) {
-            for(UndecoratedWorker worker : workerList){
-                worker = new Atlas(worker);
-            }
+            workerList.add(new Atlas(new NoGod()));
+            workerList.add(new Atlas(new NoGod()));
         }
 
         if(godCard.equals("DEMETER")) {
-            for(UndecoratedWorker worker : workerList){
-                worker = new Demeter(worker);
-            }
+            workerList.add(new Demeter(new NoGod()));
+            workerList.add(new Demeter(new NoGod()));
         }
 
         if(godCard.equals("HEPHAESTUS")) {
-            for(UndecoratedWorker worker : workerList){
-                worker = new Hephaestus(worker);
-            }
+            workerList.add(new Hephaestus(new NoGod()));
+            workerList.add(new Hephaestus(new NoGod()));
         }
 
         if(godCard.equals("MINOTAUR")) {
-            for(UndecoratedWorker worker : workerList){
-                worker = new Minotaur(worker);
-            }
+            workerList.add(new Minotaur(new NoGod()));
+            workerList.add(new Minotaur(new NoGod()));
         }
 
         if(godCard.equals("PAN")) {
-            for(UndecoratedWorker worker : workerList){
-                worker = new Pan(worker);
-            }
+            workerList.add(new Pan(new NoGod()));
+            workerList.add(new Pan(new NoGod()));
         }
 
         if(godCard.equals("PROMETHEUS")) {
-            for(UndecoratedWorker worker : workerList){
-                worker = new Prometheus(worker);
-            }
+            workerList.add(new Prometheus(new NoGod()));
+            workerList.add(new Prometheus(new NoGod()));
         }
 
         return workerList;

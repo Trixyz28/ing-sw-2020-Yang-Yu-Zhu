@@ -4,8 +4,6 @@ import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.Worker;
-import it.polimi.ingsw.view.View;
 
 public class MoveController {
 
@@ -32,6 +30,7 @@ public class MoveController {
         }
         if(checkPosition(position)) {
             worker.move(position);
+            model.showBoard(); /* mostrare mappa dopo move */
             return true;  /* move andato a buon fine */
         }else{
             return false;  /* da ripetere move */

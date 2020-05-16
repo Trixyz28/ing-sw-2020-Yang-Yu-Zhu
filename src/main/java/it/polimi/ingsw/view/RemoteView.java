@@ -1,9 +1,7 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observers.Observer;
-import it.polimi.ingsw.model.GameMessage;
-import it.polimi.ingsw.model.Operation;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.SocketConnection;
 
 
@@ -15,28 +13,37 @@ public class RemoteView extends View {
 
         @Override
         public void update(Object message) {  /* ricevere messaggi dal Client: Nickname o God */
-            String input = (String) message;
-            System.out.println("Received: " + input);
-            try{
-                RemoteView.this.notify(input);
-            }catch (IllegalArgumentException e){
-                clientConnection.asyncSend("Error");
+            if(message instanceof String) {
+                String input = (String) message;
+                System.out.println("Received: " + input);
+                try {
+                    RemoteView.this.notify(input);
+                } catch (IllegalArgumentException e) {
+                    clientConnection.asyncSend("Error");
+                }
             }
-
-        }
-    }
-
-    private class OperationReceiver implements Observer {  /* ricevere Operation modificata dal Client */
-
-        @Override
-        public void update(Object message) {
-            Operation operation = (Operation) message;
-            System.out.println("Received: Operation type " + operation.getType() + " ("
-                    + operation.getRow() + ", " + operation.getColumn() + ")");
-            try{
-                RemoteView.this.notify(operation);
-            }catch (IllegalArgumentException e){
-                clientConnection.asyncSend("Error");
+            if(message instanceof Operation){
+                Operation operation = (Operation) message;
+                System.out.println("Received: Operation type " + operation.getType() + " ("
+                        + operation.getRow() + ", " + operation.getColumn() + ")");
+                try{
+                    RemoteView.this.notify(operation);
+                }catch (IllegalArgumentException e){
+                    clientConnection.asyncSend("Error");
+                }
+            }
+            if(message instanceof GameMessage){
+                GameMessage gm = (GameMessage) message;
+                System.out.println("Received: Answer : " + gm.getAnswer());
+                try{
+                    if(gm.getMessage().equals(Messages.Worker)){  //Answer = 0 o 1
+                        RemoteView.this.notify(Integer.parseInt(gm.getAnswer()));
+                    }else {
+                        RemoteView.this.notify(gm);
+                    }
+                }catch (IllegalArgumentException e){
+                    clientConnection.asyncSend("Error");
+                }
             }
         }
     }
@@ -45,7 +52,6 @@ public class RemoteView extends View {
         super(player);
         this.clientConnection = c;
         c.addObservers(new MessageReceiver());
-        c.addObservers(new OperationReceiver());
     }
 
     public void showMessage(String message){  /* utilizzato dal Controller per messaggi al Client */
@@ -57,6 +63,10 @@ public class RemoteView extends View {
 
         if(message instanceof String[]){  /* godList Completo */
             showComplete((String[]) message);
+        }
+
+        if(message instanceof Board){  /* Mappa */
+            clientConnection.asyncSend(message);
         }
 
         if(message instanceof Operation){  /* inviare l'Operation con tipo già definito solo al currentPlayer*/

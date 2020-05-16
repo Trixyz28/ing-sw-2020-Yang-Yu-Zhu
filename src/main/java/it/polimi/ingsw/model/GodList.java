@@ -78,8 +78,8 @@ public class GodList {
                 }
             }
             if(flag){
-            currentGodList.add(selectedGod);
-            listLength++;
+                currentGodList.add(selectedGod);
+                listLength++;
             }
         }
     }

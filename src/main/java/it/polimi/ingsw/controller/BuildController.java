@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.God.Hephaestus;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
-import it.polimi.ingsw.view.View;
 
 public class BuildController {
 
@@ -54,6 +53,7 @@ public class BuildController {
         position = model.commandToTile(operation.getRow(), operation.getColumn());
         if(checkPosition(position)){
             //worker.build(position);
+            model.showBoard();  /* mostrare mappa dopo build */
             return true;  /* build andato a buon fine */
         }else{
             return false;  /* da ripetere build */

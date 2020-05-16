@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class InitController {
@@ -143,6 +142,8 @@ public class InitController {
                     /* dalla view passa al Controller notificando la posizione (Operation) */
                     waitChange();
                     changed = false;
+                    /* mostrare mappa aggiornata */
+                    model.showBoard();
                 }while(currentPosition.isOccupiedByWorker());
                 // currentPlayer.chooseWorker(j).move(currentPosition);  /* posizionare il worker al currentPosition */
             }

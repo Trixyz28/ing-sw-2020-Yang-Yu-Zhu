@@ -130,6 +130,7 @@ public class Controller implements Observer {
             }
             if(message.equals(Messages.Hephaestus)){
                 if(answer.equals("YES")){
+                    model.showBoard();
                     Operation op = buildController.getOperation();  /* ultima build effettuata */
                     model.getCurrentTurn().getChosenWorker().buildBlock(model.commandToTile(op.getRow(), op.getColumn()));
                 }

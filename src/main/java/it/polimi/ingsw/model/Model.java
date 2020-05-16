@@ -2,10 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.model.God.Pan;
-import it.polimi.ingsw.model.God.UndecoratedWorker;
-import jdk.nashorn.api.tree.NewTree;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -50,6 +48,10 @@ public class Model extends Observable {
 
     public Board getBoard() {
         return board;
+    }
+
+    public void showBoard() {
+        notify(board);
     }
 
     //get the index of the nextPlayer

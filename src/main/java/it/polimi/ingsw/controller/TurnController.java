@@ -101,7 +101,8 @@ public class TurnController {
 
     public void endTurn(Operation build) {
         currentTurn.setBuiltTile(model.commandToTile(build.getRow(), build.getColumn()));  /* ottenere le coordinate del Tile dalla Operation */
-        //illustrare qualche messaggio sulla view -> attesa end
+        //illustrare qualche messaggio sulla view
+        currentView.showMessage("Il tuo turno è terminato!");  /* mandare solo alla view*/
         nextTurn();
     }
 
@@ -124,7 +125,8 @@ public class TurnController {
             currentView.showMessage("Spiacenti! Non sei più in grado di fare mosse, hai perso!!!!");
             //model.lose();
         }
-        currentView.showMessage("Scegli il worker che vuoi fare la mossa");
+        currentView.showMessage("Ecco il tuo turno!\nScegli il worker che vuoi fare la mossa");
+        model.sendMessage(Messages.Worker);  /* inviare richiesta worker */
         /* attesa scelta worker */
         while(true){
             if(workerChanged){

@@ -7,4 +7,6 @@ public class Messages {
     public static String Hephaestus = "Hephaestus";
     public static String Prometheus = "Prometheus";
 
+    public static String Worker = "Worker";
+
 }
