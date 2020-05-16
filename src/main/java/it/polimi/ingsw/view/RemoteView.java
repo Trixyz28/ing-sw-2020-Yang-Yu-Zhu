@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.Observer;
+import it.polimi.ingsw.model.GameMessage;
 import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.Connection;
@@ -24,7 +25,7 @@ public class RemoteView extends View {
         }
     }
 
-    private class OperationReceiver implements Observer {  /* ricevere move o build dal Client */
+    private class OperationReceiver implements Observer {  /* ricevere Operation modificata dal Client */
 
         @Override
         public void update(Object message) {
@@ -55,6 +56,17 @@ public class RemoteView extends View {
 
         if(message instanceof String[]){  /* godList Completo */
             showComplete((String[]) message);
+        }
+
+        if(message instanceof Operation){  /* inviare l'Operation con tipo già definito solo al currentPlayer*/
+            if(((Operation) message).getPlayer().getPlayerNickname().equals(player.getPlayerNickname())) {
+                clientConnection.asyncSend(message);
+            }
+        }
+        if(message instanceof GameMessage){  /* inviare richiesta solo al currentPlayer*/
+            if(((GameMessage) message).getPlayer().getPlayerNickname().equals(player.getPlayerNickname())) {
+                clientConnection.asyncSend(message);
+            }
         }
     }
 

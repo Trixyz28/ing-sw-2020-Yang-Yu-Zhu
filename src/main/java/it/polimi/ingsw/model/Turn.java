@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.model.God.WorkerDecorator;
 
 public class Turn {
@@ -11,7 +12,7 @@ public class Turn {
     private int turnNumber;
 
     //Chosen worker by the current player
-    private Worker chosenWorker;
+    private UndecoratedWorker chosenWorker;
 
     //Initial tile of the move
     private Tile initialTile;
@@ -50,12 +51,12 @@ public class Turn {
     }
 
     //set() of the chosenWorker
-    public void setChosenWorker(Worker chosenWorker) {
+    public void setChosenWorker(UndecoratedWorker chosenWorker) {
         this.chosenWorker = chosenWorker;
     }
 
     //get() of the chosenWorker
-    public Worker getChosenWorker() {
+    public UndecoratedWorker getChosenWorker() {
         return chosenWorker;
     }
 

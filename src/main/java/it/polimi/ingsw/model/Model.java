@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.Observable;
+import it.polimi.ingsw.model.God.Pan;
+import it.polimi.ingsw.model.God.UndecoratedWorker;
+import jdk.nashorn.api.tree.NewTree;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -130,6 +133,22 @@ public class Model extends Observable {
         return map.getTile(row,column);
     }
 
+    public void sendMessage(String message){
+        notify(new GameMessage(currentTurn.getCurrentPlayer(), message));
+    }
+
+    public void place(){  /* type 0 = place */
+        notify(new Operation(currentTurn.getCurrentPlayer(),0, -1, -1));
+    }
+
+    public void move(){  /* type 0 = move */
+        notify(new Operation(currentTurn.getCurrentPlayer(),1, -1, -1));
+    }
+
+    public void build(){  /* type 0 = build */
+        notify(new Operation(currentTurn.getCurrentPlayer(),2, -1,-1));
+    }
+
 
 
     //metodi da implementare con il controller
@@ -137,13 +156,22 @@ public class Model extends Observable {
         if (currentTurn.getInitialTile().getBlockLevel()==2 && currentTurn.getFinalTile().getBlockLevel()==3) {
             return true;
         }
+        if(currentTurn.getChosenWorker() instanceof Pan){
+            ((Pan) currentTurn.getChosenWorker()).panCheck(currentTurn.getFinalTile(), currentTurn.getInitialTile());
+        }
         return false;
     }
 
-    public void checkLose() {
-
+    public boolean checkLose() {  /* se tutti i worker non hanno più tile da poter andare -> perde*/
+        /*
+        for (int i = 0; i < 2; i++) {
+            if (currentTurn.getCurrentPlayer().chooseWorker(i).canMove().size() != 0) {
+                return false;
+            }
+        }
+        */
+        return true;
     }
-
     public void gameOver() {
 
     }

@@ -10,7 +10,7 @@ import java.util.Map;
 public class InitController {
 
     private Model model;
-    private Map<Player, View> views = new HashMap<>();
+    private Map<Player, View> views;
 
     private String god;
     private Player startingPlayer;
@@ -35,6 +35,10 @@ public class InitController {
 
     protected boolean isGodChanged(){
         return godChanged;
+    }
+
+    protected boolean isNameChanged(){
+        return nameChanged;
     }
 
     protected void setChanged() {
@@ -62,15 +66,10 @@ public class InitController {
             view = views.get(p);
             do {
                 //view.godChoice(p);  -> fa scegliere al player il god e notify(God scelto)
-
                 changed = false;
                 view.showMessage("Scegli la tua divinità");
                 /* necessario aspettare risposta dal client */
-                while(true){
-                    if(changed){
-                        break;
-                    }
-                }
+                waitChange();
                 godList.selectGod(god);
                 if(godList.checkGod()){
                     //far printare alla view la conferma della scelta
@@ -103,11 +102,7 @@ public class InitController {
         //view.chooseStartPlayer(challenger);  //scegliere da view (notify playerNickname)
         /* necessario aspettare risposta dal client */
         do{
-            while (true) {
-                if (changed) {
-                    break;
-                }
-            }
+            waitChange();
         }while(!nameChanged);
         changed = false;
         model.setStartingPlayerID(startingPlayer.getPlayerID());  //settare il startingPlayerID del model
@@ -116,20 +111,17 @@ public class InitController {
             views.get(p).showMessage("Il primo player che fa la mossa è " + startingPlayer.getPlayerNickname());
 
         }
+        /* fine parte scelta StartingPlayer inizio nameChanged = true */
 
     }
 
     private void defineGodList(Player challenger, GodList godList){
         changed = false;
-        views.get(challenger).showMessage("Sei il Challenger!\nScegli le divinità tra questi della partita");
+        views.get(challenger).showMessage("Sei il Challenger!");
         model.showCompleteGodList();  /* mandare al Challenger la lista completa dei God */
         while(!godList.checkLength()) {
             //view.defineGodList(challenger) -> far scegliere Gods attraverso la view dal challenger )
-            while(true){
-                if(changed){
-                    break;
-                }
-            }
+            waitChange();
             godList.selectGod(god);
             godList.addInGodList();
             changed = false;
@@ -147,12 +139,9 @@ public class InitController {
                 changed = false;
                 do {  /* ripetere la scelta se il Tile scelto è occupato */
                     views.get(currentPlayer).showMessage("Posiziona il worker" + j);// chiedere ai players di posizionare il worker
+                    model.place();
                     /* dalla view passa al Controller notificando la posizione (Operation) */
-                    while (true) {
-                        if (changed) {
-                            break;
-                        }
-                    }
+                    waitChange();
                     changed = false;
                 }while(currentPosition.isOccupiedByWorker());
                 // currentPlayer.chooseWorker(j).move(currentPosition);  /* posizionare il worker al currentPosition */
@@ -187,5 +176,14 @@ public class InitController {
     public void setCurrentPosition(Operation position){  //currentPosition = Tile dove posizionare il worker
         currentPosition = model.commandToTile(position.getRow(), position.getColumn());
     }
+
+    private void waitChange(){
+        while (true) {
+            if (changed) {
+                break;
+            }
+        }
+    }
+
 
 }

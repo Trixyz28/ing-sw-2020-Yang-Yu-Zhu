@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.God.Apollo;
-import it.polimi.ingsw.model.God.WorkerDecorator;
+import it.polimi.ingsw.model.God.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -18,7 +18,7 @@ public class Player {
     private String godCard;
 
     //Workers owned by this player
-    private List<Worker> workerList;
+    private List<UndecoratedWorker> workerList;
 
 
     public int getPlayerID() {
@@ -74,48 +74,71 @@ public class Player {
     */
 
     //Create 2 specific worker classes as indicated in godCard ( da sistemare)
-    public List<Worker> createWorker(String godCard) {
-        if(godCard.equals("APOLLO")) {
+    public List<UndecoratedWorker> createWorker(String godCard) {
 
+        workerList = new ArrayList<>();
+        workerList.add(new NoGod());
+        workerList.add(new NoGod());
+
+        if(godCard.equals("APOLLO")) {
+            for(UndecoratedWorker worker : workerList){
+                worker = new Apollo(worker);
+            }
         }
 
         if(godCard.equals("ARTEMIS")) {
-
+            for(UndecoratedWorker worker : workerList){
+                worker = new Artemis(worker);
+            }
         }
 
         if(godCard.equals("ATHENA")) {
-
+            for(UndecoratedWorker worker : workerList){
+                worker = new Athena(worker);
+            }
         }
 
         if(godCard.equals("ATLAS")) {
-
+            for(UndecoratedWorker worker : workerList){
+                worker = new Atlas(worker);
+            }
         }
 
         if(godCard.equals("DEMETER")) {
-
+            for(UndecoratedWorker worker : workerList){
+                worker = new Demeter(worker);
+            }
         }
 
         if(godCard.equals("HEPHAESTUS")) {
-
+            for(UndecoratedWorker worker : workerList){
+                worker = new Hephaestus(worker);
+            }
         }
 
         if(godCard.equals("MINOTAUR")) {
-
+            for(UndecoratedWorker worker : workerList){
+                worker = new Minotaur(worker);
+            }
         }
 
         if(godCard.equals("PAN")) {
-
+            for(UndecoratedWorker worker : workerList){
+                worker = new Pan(worker);
+            }
         }
 
         if(godCard.equals("PROMETHEUS")) {
-
+            for(UndecoratedWorker worker : workerList){
+                worker = new Prometheus(worker);
+            }
         }
 
         return workerList;
     }
 
     //Select the worker to move/build
-    public Worker chooseWorker(int index) {
+    public UndecoratedWorker chooseWorker(int index) {
 
         return workerList.get(index);
     }

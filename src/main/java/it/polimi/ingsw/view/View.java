@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public abstract class View extends Observable implements Observer{
 
-    private Player player;
+    protected Player player;
     private Scanner scanner;
     private PrintStream outputStream;
     private boolean endGame = false;
@@ -64,7 +64,7 @@ public abstract class View extends Observable implements Observer{
 
 
     }
-
+    /*
     public void move() {
 
         int row = -1;
@@ -119,7 +119,7 @@ public abstract class View extends Observable implements Observer{
 
         notify(new Operation(2,row-1,column-1));
     }
-
+    */
 
 
 
@@ -147,6 +147,7 @@ public abstract class View extends Observable implements Observer{
         outputStream.println();
     }
 
+    /*
     public void placeWorker(Player player){
         int row = -1;
         int column = -1;
@@ -173,4 +174,5 @@ public abstract class View extends Observable implements Observer{
         notify(new Operation(0,row-1,column-1));
 
     }
+     */
 }
