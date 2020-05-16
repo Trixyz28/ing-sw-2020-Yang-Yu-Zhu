@@ -1,9 +1,7 @@
 package it.polimi.ingsw.lobby;
 
-import it.polimi.ingsw.Observer;
 
-
-public class LobbyController implements Observer {
+public class LobbyController {
 
     private LobbyHandler lobbyHandler;
 
@@ -11,18 +9,6 @@ public class LobbyController implements Observer {
         this.lobbyHandler = lobbyHandler;
     }
 
-
-    @Override
-    public void update(Object message) {
-        if (message.equals("setup")) {
-            System.out.println("Hi, first player!");
-
-            for(int i = 2; i< lobbyHandler.getLobbyList().get(0).getLobbyPlayersNumber()+1; i++) {
-                System.out.println("Player " + i + " ");
-            }
-
-        }
-    }
 
     public boolean canUseNickname(String s) {
 

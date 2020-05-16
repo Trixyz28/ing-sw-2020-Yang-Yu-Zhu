@@ -1,12 +1,9 @@
 package it.polimi.ingsw.lobby;
 
-import it.polimi.ingsw.Observable;
-import it.polimi.ingsw.lobby.Lobby;
-
 import java.util.ArrayList;
 
 
-public class LobbyHandler extends Observable {
+public class LobbyHandler {
 
 
     //List of all active lobbies
@@ -24,7 +21,6 @@ public class LobbyHandler extends Observable {
     //Add a new player in the waiting room
     public void addPlayer(String name) {
         playerList.add(name);
-        notify(playerList);
     }
 
     //Get() of lobbyList

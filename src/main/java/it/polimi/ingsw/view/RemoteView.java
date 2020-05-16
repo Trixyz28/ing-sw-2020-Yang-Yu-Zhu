@@ -1,14 +1,15 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.Observer;
+import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.model.GameMessage;
 import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.server.Connection;
+import it.polimi.ingsw.server.SocketConnection;
+
 
 public class RemoteView extends View {
 
-    private Connection clientConnection;
+    private SocketConnection clientConnection;
 
     private class MessageReceiver implements Observer {
 
@@ -40,7 +41,7 @@ public class RemoteView extends View {
         }
     }
 
-    public RemoteView(Player player, Connection c){
+    public RemoteView(Player player, SocketConnection c){
         super(player);
         this.clientConnection = c;
         c.addObservers(new MessageReceiver());

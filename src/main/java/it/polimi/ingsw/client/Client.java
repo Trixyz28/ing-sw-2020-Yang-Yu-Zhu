@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.model.Map;
+import it.polimi.ingsw.model.Board;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -75,7 +75,7 @@ public class Client {
                         if(inputObject instanceof String) {
                             System.out.println((String)inputObject);
 
-                        } else if(inputObject instanceof Map) {
+                        } else if(inputObject instanceof Board) {
                             System.out.println("Print map");
                         } else {
                             throw new IllegalArgumentException();

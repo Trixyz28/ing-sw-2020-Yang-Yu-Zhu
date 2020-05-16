@@ -47,24 +47,28 @@ public class TileTest extends TestCase {
 
 
     @Test
-    public void testAdjacentTile() {
+    public void testIsAdjacentTo() {
         t.setRow(1);
         t.setColumn(1);
 
         destination.setRow(2);
         destination.setColumn(3);
-        assertFalse(t.adjacentTile(destination));
+        assertFalse(t.isAdjacentTo(destination));
+
+        destination.setRow(1);
+        destination.setColumn(1);
+        assertFalse(t.isAdjacentTo(destination));
 
         destination.setRow(2);
         destination.setColumn(2);
-        assertTrue(t.adjacentTile(destination));
+        assertTrue(t.isAdjacentTo(destination));
 
     }
 
 
     @Test
     public void testAvailableToMove() {
-        testAdjacentTile();
+        testIsAdjacentTo();
         t.setBlockLevel(0);
 
         destination.setBlockLevel(1);
@@ -81,7 +85,7 @@ public class TileTest extends TestCase {
 
     @Test
     public void testAvailableToBuild() {
-        testAdjacentTile();
+        testIsAdjacentTo();
 
         destination.setDomePresence(false);
         destination.setOccupiedByWorker(false);

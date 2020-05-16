@@ -5,7 +5,8 @@ import org.junit.Test;
 
 public class OperationTest extends TestCase {
 
-    Operation operation = new Operation(2,1,0);
+    Player player = new Player();
+    Operation operation = new Operation(player,2,1,0);
 
     @Test
     public void testType() {

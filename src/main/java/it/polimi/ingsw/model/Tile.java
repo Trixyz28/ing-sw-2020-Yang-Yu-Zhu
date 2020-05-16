@@ -3,8 +3,6 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.polimi.ingsw.model.Map;
-
 public class Tile {
 
     //Row value and Column value
@@ -19,6 +17,14 @@ public class Tile {
 
     //Dome presence
     private boolean domePresence;
+
+    private List<Tile> adjacentTiles;
+
+    public Tile() {
+        setBlockLevel(0);
+        setOccupiedByWorker(false);
+        setDomePresence(false);
+    }
 
 
     public int getRow() {
@@ -61,9 +67,10 @@ public class Tile {
     }
 
 
-    public boolean adjacentTile(Tile dest) {
+    public boolean isAdjacentTo(Tile dest) {
         if(this.row - dest.row <=1 && this.row - dest.row >=-1
-           && this.column - dest.column <=1 && this.column - dest.column >=-1) {
+           && this.column - dest.column <=1 && this.column - dest.column >=-1
+           && !(this.row == dest.row && this.column == dest.column)) {
             return true;
         }
 
@@ -71,7 +78,7 @@ public class Tile {
     }
 
     public boolean availableToMove(Tile dest) {
-        if(adjacentTile(dest) && !dest.domePresence && !dest.occupiedByWorker
+        if(isAdjacentTo(dest) && !dest.domePresence && !dest.occupiedByWorker
                 && dest.getBlockLevel()-this.getBlockLevel()<=1 ) {
             return true;
         }
@@ -80,7 +87,7 @@ public class Tile {
     }
 
     public boolean availableToBuild(Tile dest) {
-        if(adjacentTile(dest) && !dest.domePresence && !dest.occupiedByWorker) {
+        if(isAdjacentTo(dest) && !dest.domePresence && !dest.occupiedByWorker) {
             return true;
         }
 

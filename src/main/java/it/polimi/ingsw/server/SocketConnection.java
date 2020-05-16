@@ -1,7 +1,9 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.Observable;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.observers.Observable;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -9,13 +11,16 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 
-public class SocketConnection extends Observable<String> implements Connection,Runnable {
+public class SocketConnection extends Observable<String> implements Runnable {
 
     private Socket socket;
     private Server server;
 
     private Scanner in;
     private ObjectOutputStream out;
+
+    private int lobbyID;
+    private Player player;
 
     private boolean active = true;
 
@@ -40,7 +45,6 @@ public class SocketConnection extends Observable<String> implements Connection,R
     }
 
 
-    @Override
     public void closeConnection() {
         send("Connection closed!");
 
@@ -53,15 +57,16 @@ public class SocketConnection extends Observable<String> implements Connection,R
         active = false;
     }
 
+
     private void close() {
         closeConnection();
-        System.out.println("Deregistering client");
+        System.out.println("Deregistering player " + player.getPlayerNickname() + " of lobby n." + lobbyID);
         server.deregisterConnection(this);
         System.out.println("Client disconnected");
     }
 
 
-    @Override
+
     public void asyncSend(final Object message) {
         new Thread(new Runnable() {
             @Override
@@ -71,14 +76,13 @@ public class SocketConnection extends Observable<String> implements Connection,R
         }).start();
     }
 
+    public synchronized void syncSend(Object message) {
+        send(message);
+    }
+
 
     @Override
     public void run() {
-
-        String playerName;
-        int lobbyID;
-        int playerID;
-
 
         try {
             in = new Scanner(socket.getInputStream());
@@ -99,9 +103,10 @@ public class SocketConnection extends Observable<String> implements Connection,R
                 }
             } while(!check);
 
-            playerName = readName;
-            server.getLobbyHandler().addPlayer(playerName);
-            send("Hi, " + playerName + "!");
+            player = new Player();
+            player.setPlayerNickname(readName);
+            server.getLobbyHandler().addPlayer(player.getPlayerNickname());
+            send("Hi, " + player.getPlayerNickname() + "!");
 
 
 
@@ -109,37 +114,35 @@ public class SocketConnection extends Observable<String> implements Connection,R
             if(!server.getLobbyHandler().checkAvailableLobby()) {
                 int number;
 
-                send("You can create a lobby");
-                send("How many players can join this match?");
+                send("You can create a lobby\nHow many players can join this match?");
 
                 do {
                     send("Insert 2 or 3");
                     number = in.nextInt();
                 } while(number!=2 && number!=3);
 
-                lobbyID = server.getLobbyController().createLobby(playerName,number);
+                lobbyID = server.getLobbyController().createLobby(player.getPlayerNickname(),number);
                 send("Create the lobby n." + lobbyID);
             }
 
             //Join a lobby
             else {
-                lobbyID = server.getLobbyController().joinLobby(playerName);
+                lobbyID = server.getLobbyController().joinLobby(player.getPlayerNickname());
                 send("Successfully join the lobby n." + lobbyID);
             }
 
 
 
+            //Add the connection to the connection list & setup match
+            server.match(lobbyID,this);
 
 
-
-            //Add the connection to the lobby(?)
-            server.lobby(this,playerName);
 
             //Read commands
             while(isActive()) {
                 String read = in.nextLine();
-                System.out.println("Received: " + read);
-                notify(read);
+                System.out.println("From " + player.getPlayerNickname() + ": " + read);
+                //notify(read);
             }
 
 
@@ -158,6 +161,15 @@ public class SocketConnection extends Observable<String> implements Connection,R
 
 
 
+    }
+
+    public int getLobbyID() {
+        return lobbyID;
+    }
+
+
+    public Player getPlayer() {
+        return player;
     }
 
 

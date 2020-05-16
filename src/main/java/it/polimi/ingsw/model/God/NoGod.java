@@ -4,7 +4,7 @@ package it.polimi.ingsw.model.God;
 
 
 import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.Map;
+
 import java.util.List;
 
 

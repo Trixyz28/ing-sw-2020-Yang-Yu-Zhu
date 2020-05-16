@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.Observable;
+import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.model.God.Pan;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 import jdk.nashorn.api.tree.NewTree;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,10 +21,10 @@ public class Model extends Observable {
     //ArrayList of the players
     private ArrayList<Player> matchPlayersList;
 
-
-
     //Map: 5x5 tiles
-    private Map map = new Map();
+    private Board board;
+
+
 
     //Number of players in the match
     private int playersNumber;
@@ -34,26 +35,21 @@ public class Model extends Observable {
     //Current turn
     private Turn currentTurn;
 
-    //Next playerID
-    private int nextPlayerIndex;
+    //Current player ID
+    private int currentPlayerID;
 
 
     //Constructor for Match class
-    public void initialize(int playersNumber, ArrayList<String> playersNameList) {
-
-        matchPlayersList = new ArrayList<Player>();  //inizializzare playerList con i playerName in parametro
-
-        for(String s : playersNameList){
-            Player p = createPlayers(s);
-            matchPlayersList.add(p);
-            p.setPlayerID(matchPlayersList.size()-1);  //ID = indice iniziale dei players
-        }
-
+    public void initialize(int playersNumber) {
+        matchPlayersList = new ArrayList<>();  //inizializzare playerList con i playerName in parametri
         this.playersNumber = playersNumber;
+
+        board = new Board();
+
     }
 
-    public Map getMap() {
-        return map;
+    public Board getBoard() {
+        return board;
     }
 
     //get the index of the nextPlayer
@@ -66,10 +62,12 @@ public class Model extends Observable {
         }
     }
 
+    public int getPlayersNumber() {
+        return playersNumber;
+    }
 
     //get() of the arraylist made by Players
     public ArrayList<Player> getMatchPlayersList() {
-
         return matchPlayersList;
     }
 
@@ -88,7 +86,6 @@ public class Model extends Observable {
 
     //get() starting playerID
     public int getStartingPlayerID() {
-
         return startingPlayerID;
     }
 
@@ -110,11 +107,9 @@ public class Model extends Observable {
 
 
    //Create the players
-    public Player createPlayers(String playerName) {
-        Player p = new Player();
-        p.setPlayerNickname(playerName);
-        p.setChallenger(false);
-        return p;
+    public void addPlayer(Player player) {
+        matchPlayersList.add(player);
+        player.setChallenger(false);
     }
 
     public void startCurrentTurn() {
@@ -130,7 +125,7 @@ public class Model extends Observable {
 
 
     public Tile commandToTile(int row,int column) {
-        return map.getTile(row,column);
+        return board.getTile(row,column);
     }
 
     public void sendMessage(String message){

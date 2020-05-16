@@ -1,9 +1,9 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.Observable;
-import it.polimi.ingsw.Observer;
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.observers.Observable;
+import it.polimi.ingsw.observers.Observer;
 
-import it.polimi.ingsw.model.Map;
 import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tile;
@@ -123,14 +123,14 @@ public abstract class View extends Observable implements Observer{
 
 
 
-    private void printMap(Map map) {
+    private void printMap(Board board) {
 
         for(int i=0; i<5; i++){
             System.out.print("|");
 
             for(int j=0; j<5; j++){
 
-                Tile t = map.getTile(i,j);
+                Tile t = board.getTile(i,j);
 
                 if(t.isDomePresence()) {
                     outputStream.print("  D");

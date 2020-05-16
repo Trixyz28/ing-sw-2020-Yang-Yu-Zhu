@@ -1,13 +1,19 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.lobby.Lobby;
 import it.polimi.ingsw.lobby.LobbyController;
 import it.polimi.ingsw.lobby.LobbyHandler;
-import it.polimi.ingsw.lobby.LobbyView;
+import it.polimi.ingsw.model.Model;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.view.RemoteView;
+import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Connection;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,11 +24,9 @@ public class Server {
     private int port;
     private ServerSocket serverSocket;
     private ExecutorService executor = Executors.newCachedThreadPool();
-    private Map<String, Connection> waitingConnection = new HashMap<>();
-    private Map<Connection, Connection> playingConnection = new HashMap<>();
+    private Map<Integer, List<SocketConnection>> matchConnection = new HashMap<>();
 
     private LobbyHandler lobbyHandler;
-    private LobbyView lobbyView;
     private LobbyController lobbyController;
 
 
@@ -33,10 +37,8 @@ public class Server {
 
 
     public void setWaitingRoom() {
-
         lobbyHandler = new LobbyHandler();
         lobbyController = new LobbyController(lobbyHandler);
-
     }
 
 
@@ -68,55 +70,95 @@ public class Server {
     }
 
 
-    public synchronized void deregisterConnection(Connection c) {
+    public synchronized void deregisterConnection(SocketConnection c) {
 
-        Connection opponent = playingConnection.get(c);
+        int lobbyID = c.getLobbyID();
 
-        if(opponent!=null) {
-            opponent.closeConnection();
-        }
-
-        playingConnection.remove(c);
-        playingConnection.remove(opponent);
-
-        Iterator<String> iterator = waitingConnection.keySet().iterator();
-        while(iterator.hasNext()) {
-            if(waitingConnection.get(iterator.next())==c) {
-                iterator.remove();
+        for(SocketConnection connection : matchConnection.get(lobbyID)) {
+            if(connection.getPlayer().getPlayerID()!=c.getPlayer().getPlayerID()) {
+                connection.closeConnection();
             }
         }
+
     }
 
 
-    public synchronized void lobby(Connection c, String name) {
+    public synchronized void match(int lobbyID, SocketConnection c) {
 
-        waitingConnection.put(name,c);
+        //The match is not registered yet
+        if(!matchConnection.containsKey(lobbyID)) {
+            List<SocketConnection> connections = new ArrayList<>();
+            matchConnection.put(lobbyID, connections);
+        }
 
-        if(waitingConnection.size() == 2) {
-            List<String> keys = new ArrayList<>(waitingConnection.keySet());
+        //Add the connection into the match
+        matchConnection.get(lobbyID).add(c);
 
-            Connection c1 = waitingConnection.get(keys.get(0));
-            Connection c2 = waitingConnection.get(keys.get(1));
+        //All players ready to start
+        if(matchConnection.get(lobbyID).size()==lobbyHandler.getLobbyList().get(lobbyID).getLobbyPlayersNumber()) {
 
-            playingConnection.put(c1,c2);
-            playingConnection.put(c2,c1);
-            waitingConnection.clear();
 
-            c1.asyncSend("Print map");
-            c2.asyncSend("Print map");
+            for(SocketConnection connection : matchConnection.get(lobbyID)) {
 
-            int turno = 0;
+                //Set player ID
+                connection.getPlayer().setPlayerID(matchConnection.get(lobbyID).indexOf(connection));
 
-            if(turno==0) {
-                c1.asyncSend("move");
-                c2.asyncSend("wait");
-            } else {
-                c2.asyncSend("move");
-                c1.asyncSend("wait");
+                //Display match players info
+                connection.syncSend("Match Starting\nPlayers in game are: ");
+                for(String name : lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList()) {
+                    connection.syncSend(name);
+                }
+
+            }
+
+            //Create and initialize Model
+            Model model = new Model();
+            model.initialize(lobbyHandler.getLobbyList().get(lobbyID).getLobbyPlayersNumber());
+
+            //Set players in model
+            model.addPlayer(matchConnection.get(lobbyID).get(0).getPlayer());
+            model.addPlayer(matchConnection.get(lobbyID).get(1).getPlayer());
+
+
+            //Create and connect RemoteView
+            Map<Player,View> views = new HashMap<>();
+            View view0 = new RemoteView(matchConnection.get(lobbyID).get(0).getPlayer(),matchConnection.get(lobbyID).get(0));
+            View view1 = new RemoteView(matchConnection.get(lobbyID).get(1).getPlayer(),matchConnection.get(lobbyID).get(1));
+            views.put(matchConnection.get(lobbyID).get(0).getPlayer(),view0);
+            views.put(matchConnection.get(lobbyID).get(1).getPlayer(),view1);
+
+            //Create Controller
+            Controller controller = new Controller(model,views);
+
+            //Set observers
+            model.addObservers(view0);
+            model.addObservers(view1);
+            view0.addObservers(controller);
+            view1.addObservers(controller);
+
+
+            //3 players case
+            if(model.getPlayersNumber()==3) {
+                model.addPlayer(matchConnection.get(lobbyID).get(2).getPlayer());
+                View view2 = new RemoteView(matchConnection.get(lobbyID).get(2).getPlayer(),matchConnection.get(lobbyID).get(2));
+                views.put(matchConnection.get(lobbyID).get(2).getPlayer(),view2);
+
+                model.addObservers(view2);
+                view2.addObservers(controller);
+
+            }
+
+            for(SocketConnection connection : matchConnection.get(lobbyID)) {
+                connection.asyncSend("Setup completed");
             }
 
         }
+
+
     }
+
+
+
 
     public LobbyHandler getLobbyHandler() {
         return lobbyHandler;
@@ -126,12 +168,7 @@ public class Server {
         return lobbyController;
     }
 
-    public boolean canCreateLobby() {
-        if(waitingConnection.size()==0) {
-            return true;
-        }
 
-        return false;
-    }
+
 
 }

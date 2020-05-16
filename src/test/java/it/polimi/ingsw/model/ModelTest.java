@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import junit.framework.TestCase;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -13,20 +12,19 @@ public class ModelTest extends TestCase {
 
     @Test
     public void testInitialize() {
-        ArrayList<String> playerName = new ArrayList<>();
-        playerName.add("A");
-        playerName.add("B");
-        model.initialize(2,playerName);
-    }
+        Player player1 = new Player();
+        player1.setPlayerNickname("A");
+        Player player2 = new Player();
+        player2.setPlayerNickname("B");
 
-    @Test
-    public void testGetMatchPlayersList() {
-        testInitialize();
+        model.initialize(2);
+        model.addPlayer(player1);
+        model.addPlayer(player2);
+
         assertEquals("A",model.getMatchPlayersList().get(0).getPlayerNickname());
         assertEquals("B",model.getMatchPlayersList().get(1).getPlayerNickname());
-        assertEquals(0,model.getMatchPlayersList().get(0).getPlayerID());
-        assertEquals(1,model.getMatchPlayersList().get(1).getPlayerID());
     }
+
 
     @Test
     public void testChallenger() {
@@ -56,7 +54,7 @@ public class ModelTest extends TestCase {
     @Test
     public void testCommandToTile() {
         testInitialize();
-        assertSame(model.getMap().getMap()[2][3],model.commandToTile(2,3));
+        assertSame(model.getBoard().getMap()[2][3],model.commandToTile(2,3));
     }
 
     @Test

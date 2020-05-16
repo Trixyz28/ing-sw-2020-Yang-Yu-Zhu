@@ -779,7 +779,7 @@
 											"top": 622,
 											"width": 318,
 											"height": 13,
-											"text": "+print(map: Map): void",
+											"text": "+print(board: Map): void",
 											"horizontalAlignment": 0
 										}
 									],
@@ -1353,7 +1353,7 @@
 											"top": 1050,
 											"width": 487,
 											"height": 13,
-											"text": "-map: Map",
+											"text": "-board: Map",
 											"horizontalAlignment": 0
 										},
 										{
@@ -11311,7 +11311,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFxVN12GYmV0Dc="
 									},
-									"name": "map",
+									"name": "board",
 									"type": {
 										"$ref": "AAAAAAFxL8rqb90RBss="
 									}
@@ -11535,7 +11535,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFxL4s/HZ8tz0M="
 							},
-							"name": "map",
+							"name": "board",
 							"visibility": "private",
 							"type": "Map"
 						},

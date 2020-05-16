@@ -75,7 +75,7 @@ public class Apollo extends WorkerDecorator {
 
 
     public boolean availableApolloToMove(Tile dest) {
-        if(this.position.adjacentTile(dest) && !dest.isDomePresence()
+        if(this.position.isAdjacentTo(dest) && !dest.isDomePresence()
                 && dest.getBlockLevel()-this.position.getBlockLevel()<=1 ) {
             return true;
         }

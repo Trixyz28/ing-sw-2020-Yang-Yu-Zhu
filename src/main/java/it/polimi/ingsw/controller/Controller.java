@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.Observer;
+import it.polimi.ingsw.observers.Observer;
 
 import java.util.HashMap;
 import java.util.Map;

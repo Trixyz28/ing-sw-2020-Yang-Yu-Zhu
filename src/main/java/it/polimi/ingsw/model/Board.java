@@ -1,13 +1,16 @@
 package it.polimi.ingsw.model;
 
-public class Map {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Board {
 
     //map creation 5x5 blocks
     private Tile[][] map = new Tile[5][5];
 
 
     //Constructor for the map
-    public Map() {
+    public Board() {
         initializeTiles();
     }
 
@@ -26,12 +29,29 @@ public class Map {
 
                 map[i][j].setRow(i);
                 map[i][j].setColumn(j);
-                map[i][j].setBlockLevel(0);
-                map[i][j].setOccupiedByWorker(false);
-                map[i][j].setDomePresence(false);
+
             }
         }
     }
+
+    //Fill the adjacent tiles list for a tile
+    public List<Tile> getAdjacentList(Tile t) {
+
+        ArrayList<Tile> adjacentList = new ArrayList<>();
+        int row = t.getRow();
+        int column = t.getColumn();
+
+        for(int i=-1;i<2 && row+i<5;i++) {
+            for(int j=-1;j<2 && column+j<5;j++) {
+
+                if(row+i>=0 && column+j>=0 && t.isAdjacentTo(getTile(row+i,column+j))) {
+                    adjacentList.add(map[row+i][column+j]);
+                }
+            }
+        }
+        return adjacentList;
+    }
+
 
     public Tile getTile(int i, int j) {
         return map[i][j];
