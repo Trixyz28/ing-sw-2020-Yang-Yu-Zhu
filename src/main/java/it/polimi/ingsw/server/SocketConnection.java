@@ -146,9 +146,6 @@ public class SocketConnection extends Observable<String> implements Runnable {
             }
 
 
-
-
-
         } catch(IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         } finally {

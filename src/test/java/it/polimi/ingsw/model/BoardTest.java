@@ -22,8 +22,6 @@ public class BoardTest extends TestCase {
         assertEquals(0,t.getBlockLevel());
         assertFalse(t.isOccupiedByWorker());
         assertFalse(t.isDomePresence());
-
-
     }
 
 
@@ -32,7 +30,7 @@ public class BoardTest extends TestCase {
         board.initializeTiles();
 
         Tile t1 = board.getTile(1,1);
-        List adjacentTot1 = board.getAdjacentList(t1);
+        List adjacentTot1 = t1.getAdjacentTiles();
 
         assertEquals(8,adjacentTot1.size());
         assertSame(board.getTile(0,0),adjacentTot1.get(0));
@@ -46,7 +44,7 @@ public class BoardTest extends TestCase {
 
 
         Tile t2 = board.getTile(4,4);
-        List adjacentTot2 = board.getAdjacentList(t2);
+        List adjacentTot2 = t2.getAdjacentTiles();
 
         assertEquals(3,adjacentTot2.size());
         assertSame(board.getTile(3,3),adjacentTot2.get(0));

@@ -24,6 +24,7 @@ public class Tile {
         setBlockLevel(0);
         setOccupiedByWorker(false);
         setDomePresence(false);
+        adjacentTiles = new ArrayList<>();
     }
 
 
@@ -103,7 +104,6 @@ public class Tile {
         domePresence = true;
     }
 
-
     public void freeWorker() {
         occupiedByWorker = false;
     }
@@ -142,6 +142,10 @@ public class Tile {
         else{
             return false;
         }
+    }
+
+    public List<Tile> getAdjacentTiles() {
+        return adjacentTiles;
     }
 
 }

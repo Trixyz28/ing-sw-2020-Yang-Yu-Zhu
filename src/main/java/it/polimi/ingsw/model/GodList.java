@@ -108,7 +108,6 @@ public class GodList {
             if(s.equals(selectedGod)){
                 currentGodList.remove(s);
                 listLength--;
-                break;
             }
         }
     }

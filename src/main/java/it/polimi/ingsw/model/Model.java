@@ -26,7 +26,7 @@ public class Model extends Observable {
     private int playersNumber;
 
     //GodList for the choice of the ispiring God for each player
-    private GodList godsList = new GodList(playersNumber);  //ho cambiato l'ArrayList in classe GodList
+    private GodList godsList;  //ho cambiato l'ArrayList in classe GodList
 
     //Current turn
     private Turn currentTurn;
@@ -37,11 +37,11 @@ public class Model extends Observable {
 
     //Constructor for Match class
     public void initialize(int playersNumber) {
-        matchPlayersList = new ArrayList<>();  //inizializzare playerList con i playerName in parametri
         this.playersNumber = playersNumber;
+        matchPlayersList = new ArrayList<>();  //inizializzare playerList con i playerName in parametri
+        godsList = new GodList(playersNumber);
 
         board = new Board();
-
     }
 
     public Board getBoard() {

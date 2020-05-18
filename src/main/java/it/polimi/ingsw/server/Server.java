@@ -158,7 +158,6 @@ public class Server {
             //Initialize match conditions
             view0.notify("setup");
 
-
         }
 
 

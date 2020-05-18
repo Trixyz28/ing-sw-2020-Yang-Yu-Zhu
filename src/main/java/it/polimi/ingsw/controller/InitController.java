@@ -72,7 +72,7 @@ public class InitController {
             godList.selectGod(god);
             if(godList.checkGod()){
                 //far printare alla view la conferma della scelta
-                views.get(currentPlayer).showMessage("Hai scelto" + god + "!");
+                views.get(currentPlayer).showMessage("Hai scelto " + god + "!");
                 currentPlayer.godChoice(god);  /* assegnare al Player il God scelto */
                 currentPlayer.createWorker(god);  /* creare worker determinato God */
                 godList.removeFromGodList(god);  /* eliminare dalla currentGodList il god scelto */
@@ -125,6 +125,7 @@ public class InitController {
                 for(Player p : model.getMatchPlayersList()){
                     views.get(p).showMessage("Il Challenger ha finito di scegliere i God");
                 }
+
                 startChoosingGod();
             }
         }

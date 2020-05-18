@@ -19,6 +19,7 @@ public class Observable<T> {
                 o.update(message);
             }
         }
+
     }
 
     /*
