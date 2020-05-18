@@ -10,8 +10,6 @@ public class BuildController {
     private Tile position;
     private UndecoratedWorker worker;
     private boolean isAtlas;
-    private boolean isHephaestus;
-    private boolean changed = false;
     private Operation operation;
 
     protected boolean isAtlas(){
@@ -37,19 +35,12 @@ public class BuildController {
         return false;
     }
 
-    protected void setChanged(){
-        changed = true;
-    }
+
 
     public boolean build(Operation operation){
         isAtlas = false;
-        isHephaestus = false;
-        changed = false;
         this.operation = operation;
         worker = model.getCurrentTurn().getChosenWorker();
-        if(worker instanceof Hephaestus){
-            isHephaestus = true;
-        }
         position = model.commandToTile(operation.getRow(), operation.getColumn());
         if(checkPosition(position)){
             //worker.build(position);
@@ -68,13 +59,6 @@ public class BuildController {
         }
         if(worker.canBuildBlock(position)){
             worker.buildBlock(position);
-            if(isHephaestus){  /* Hephaestus build un blocco in più */
-                if (worker.canBuildBlock(position)){
-                    model.sendMessage(Messages.Hephaestus);
-                    waitChange();
-
-                }
-            }
             return true;
         }
         if(worker.canBuildDome(position)){
@@ -84,12 +68,13 @@ public class BuildController {
         return false;
     }
 
-    private void waitChange(){
-        while(true){
-            if(changed){
-                break;
-            }
+
+    protected boolean buildHephaestus(){  /* Hephaestus build un blocco in più */
+        if (worker.canBuildBlock(position)){
+            model.sendMessage(Messages.Hephaestus);
+            return true;
+        } else {
+            return false;
         }
-        changed = false;
     }
 }

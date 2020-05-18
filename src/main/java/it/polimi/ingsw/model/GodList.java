@@ -67,8 +67,9 @@ public class GodList {
         this.selectedGod = selectedGod;
     }
 
+
     //Add selectedGod to currentGodList & listLength+1
-    public void addInGodList() {
+    public boolean addInGodList() {  /* true: andato a buon fine   false: non aggiunto */
         if(!checkGod()) {
             boolean flag = false;
             for(String god : completeGodList){  /* controllare se il selectedGod sia un God */
@@ -80,8 +81,10 @@ public class GodList {
             if(flag){
                 currentGodList.add(selectedGod);
                 listLength++;
+                return true;
             }
         }
+        return false;
     }
     //controllare se il god scelto sia già presente in currentGodList -> true se esiste già
     public boolean checkGod(){

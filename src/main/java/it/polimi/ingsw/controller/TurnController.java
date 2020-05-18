@@ -16,26 +16,26 @@ public class TurnController {
         this.model = model;
         this.views = views;
         canMoveUp = true;
+        workerChanged = false;
+        isArtemis = false;
+        isDemeter = false;
+        isPrometheus = false;
+        isAthena = false;
     }
 
     private Turn currentTurn;
-    private ArrayList<Player> playerList;
     private UndecoratedWorker chosenWorker;
     private View currentView;
-    private boolean workerChanged = false;
-    private boolean changed = false;
-    private boolean isArtemis = false;
-    private boolean isDemeter = false;
-    private boolean isPrometheus = false;
-    private boolean isAthena = false;
+    private boolean workerChanged;
+    private boolean isArtemis;
+    private boolean isDemeter;
+    private boolean isPrometheus;
+    private boolean isAthena;
+    private boolean isHephaestus;
     private boolean canMoveUp;
 
     protected boolean isWorkerChanged(){
         return workerChanged;
-    }
-
-    protected void setChanged(){
-        changed = true;
     }
 
     protected boolean isArtemis(){
@@ -50,8 +50,13 @@ public class TurnController {
         return isPrometheus;
     }
 
+    protected boolean isHephaestus() {
+        return isHephaestus;
+    }
+
     protected void movePrometheus() {
         isPrometheus = false;
+        startMove();
     }
 
     public void setChosenWorker(int index){
@@ -69,8 +74,11 @@ public class TurnController {
             }else if (chosenWorker instanceof Athena){
                 isAthena = true;
                 canMoveUp = true;  /* ripristinare canMoveUp al turno di Athena */
+            }else if(chosenWorker instanceof Hephaestus){
+                isHephaestus = true;
             }
             workerChanged = true;
+            choosedWorker();
         }else {
             //view.chooseWorker; -> richiedere scelta
             currentView.showMessage("Riprova con un altro");
@@ -108,17 +116,17 @@ public class TurnController {
 
     public void nextTurn() {
         currentTurn = model.getCurrentTurn();
-        playerList = model.getMatchPlayersList();
+        ArrayList<Player> playerList = model.getMatchPlayersList();
         int turnNumber = currentTurn.getTurnNumber() + 1;  /* nextTurnNumber */
         currentTurn.setTurnNumber(turnNumber);
         int index = model.getNextPlayerIndex();  //trovare indice del player successivo
         currentTurn.setCurrentPlayer(playerList.get(index));
         workerChanged = false;  /* da ripristinare ad ogni inizio turno (per scelta worker) */
-        changed = false;  /* ripristinare checkChange */
         isArtemis = false;
         isDemeter = false;
         isPrometheus = false;
         isAthena = false;
+        isHephaestus = false;
         currentView = views.get(currentTurn.getCurrentPlayer());
         //view.chooseWorker;  -> far scegliere al player il worker dalla view
         if(model.checkLose()){
@@ -128,28 +136,38 @@ public class TurnController {
         currentView.showMessage("Ecco il tuo turno!\nScegli il worker che vuoi fare la mossa");
         model.sendMessage(Messages.Worker);  /* inviare richiesta worker */
         /* attesa scelta worker */
-        while(true){
-            if(workerChanged){
-                break;
-            }
-        }
+    }
+
+    protected void choosedWorker(){
+
         currentTurn.setChosenWorker(chosenWorker);
         //currentTurn.setInitialTile(chosenWorker.getCurrentPosition());
         currentTurn.setFinalTile(null);  //inizializzare Final e Built
         currentTurn.setBuiltTile(null);
         //view.move();  /* ->  passare alla scelta della mossa */
-        startMove();
-    }
-
-    private void startMove(){
         if(isPrometheus) {
             model.sendMessage(Messages.Prometheus);  /* chiedere se fare move o build */
-            waitChange();
+        }else {
+            startMove();
         }
+    }
+
+    protected void startMove(){
+
         currentView.showMessage("Move!!!");
         model.move();
+
+    }
+
+    private void startBuild(){
+        currentView.showMessage("Builda!");
+        model.build();
+
+    }
+
+
+    protected void moveArtemis(){  /* prima move fa uscire dal while la seconda come move normale */
         if (isArtemis) {
-            waitChange();  /* fine prima move */
             //currentTurn.setFinalTile(chosenWorker.getCurrentPosition());
             if(model.checkWin()){
                 //view.win(currentTurn.getCurrentPlayer());  /* il currentPlayer vince */
@@ -159,44 +177,28 @@ public class TurnController {
             currentTurn.setInitialTile(currentTurn.getFinalTile());
             if(chosenWorker.canMove(currentTurn.getInitialTile()).size() != 0) {  /* se il worker può fare un'altra mossa */
                 model.sendMessage(Messages.Artemis);  /* chiedere al Player se vuole fare move in più */
+                isArtemis = false;
             }
+        }else{
+            currentView.showMessage("Move again");
+            model.move();
         }
-    }
-
-    private void startBuild(){
-        currentView.showMessage("Builda!");
-        model.build();
-        if(isDemeter){
-            waitChange();  /* fine primo build */
-            changed = false;
-            model.sendMessage(Messages.Demeter);  /* chiedere al Player se vuole fare build in più */
-        }
-    }
-
-    private void waitChange(){
-        while(true){
-            if(changed){
-                break;
-            }
-        }
-        changed = false;
-    }
-
-    protected void moveArtemis(){  /* prima move fa uscire dal while la seconda come move normale */
-        isArtemis = false;
-        currentView.showMessage("Move again");
-        model.move();
     }
 
     protected void buildDemeter(){  /* primo build fa uscire dalla while secondo normale build */
-        isDemeter = false;
-        currentView.showMessage("Build again");
-        model.build();
+        if(isDemeter){
+            model.sendMessage(Messages.Demeter);  /* chiedere al Player se vuole fare build in più */
+            isDemeter = false;
+        }else{
+            currentView.showMessage("Build again");
+            model.build();
+        }
     }
 
     private boolean checkMoveUpAthena(){  /* se Athena sale di livello */
         return (currentTurn.getFinalTile().getBlockLevel() > currentTurn.getInitialTile().getBlockLevel());
     }
+
 
 
 }
