@@ -1,12 +1,8 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.observers.Observer;
-
-import it.polimi.ingsw.model.Operation;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Tile;
 
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -120,6 +116,30 @@ public abstract class View extends Observable implements Observer{
         notify(new Operation(2,row-1,column-1));
     }
     */
+
+    void messageString(String input) {
+        GameMessage gm = new GameMessage(player, null);
+        gm.setAnswer(input);
+        notify(gm);
+    }
+
+    void messageOperation(Operation operation){
+        System.out.println("Operation type " + operation.getType() + " ("
+                + operation.getRow() + ", " + operation.getColumn() + ")");
+        notify(operation);
+    }
+
+    void workerIndex(String answer){
+        int index = Integer.parseInt(answer);
+        System.out.println("WorkerIndex : " + index);
+        notify(index);
+    }
+
+    void gameMessage(GameMessage gm){
+        System.out.println("Answer : " + gm.getAnswer());
+        notify(gm);
+
+    }
 
 
 

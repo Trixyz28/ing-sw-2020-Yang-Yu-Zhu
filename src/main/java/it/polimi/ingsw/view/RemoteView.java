@@ -17,31 +17,28 @@ public class RemoteView extends View {
                 String input = (String) message;
                 System.out.println("Received: " + input);
                 try {
-                    GameMessage gm = new GameMessage(player, null);
-                    gm.setAnswer(input);
-                    RemoteView.this.notify(gm);
+                    messageString(input);
                 } catch (IllegalArgumentException e) {
                     clientConnection.asyncSend("Error");
                 }
             }
             if(message instanceof Operation){
                 Operation operation = (Operation) message;
-                System.out.println("Received: Operation type " + operation.getType() + " ("
-                        + operation.getRow() + ", " + operation.getColumn() + ")");
+                System.out.println("Received: Operation");
                 try{
-                    RemoteView.this.notify(operation);
+                    messageOperation(operation);
                 }catch (IllegalArgumentException e){
                     clientConnection.asyncSend("Error");
                 }
             }
             if(message instanceof GameMessage){
                 GameMessage gm = (GameMessage) message;
-                System.out.println("Received: Answer : " + gm.getAnswer());
+                System.out.println("Received: GameMessage");
                 try{
                     if(gm.getMessage().equals(Messages.Worker)){  //Answer = 0 o 1
-                        RemoteView.this.notify(Integer.parseInt(gm.getAnswer()));
+                        workerIndex(gm.getAnswer());
                     }else {
-                        RemoteView.this.notify(gm);
+                        gameMessage(gm);
                     }
                 }catch (IllegalArgumentException e){
                     clientConnection.asyncSend("Error");

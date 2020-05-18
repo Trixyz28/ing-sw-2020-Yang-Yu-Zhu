@@ -49,7 +49,7 @@ public class Controller implements Observer {
 
         if (arg.equals("setup")) {
             initController.initializeMatch();  /* inizializzazione con decisioni Challenger */
-            turnController.nextTurn();  /* inizio partita con Turn 1 */
+
         }else
 
         if (arg instanceof Operation) {
@@ -58,6 +58,9 @@ public class Controller implements Observer {
 
                 if (operation.getType() == 0) {  //type 0 -> posizione default
                     initController.placeWorker((Operation) arg);
+                    if(initController.isEndInitialize()){  /* inizio partita con Turn 1 */
+                        turnController.nextTurn();
+                    }
                 } else
 
                 if (operation.getType() == 1) {  //type 1 -> move

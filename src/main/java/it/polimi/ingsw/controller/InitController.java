@@ -37,6 +37,10 @@ public class InitController {
         return nameChanged;
     }
 
+    protected boolean isEndInitialize(){
+        return endInitialize;
+    }
+
     public void initializeMatch(){
         model.randomChooseChallenger(); /* scegliere challenger per Random  */
         challengerStart();  /* inizia il Challenger */
@@ -167,7 +171,7 @@ public class InitController {
         if(startingPlayerNickname.equals(challenger.getPlayerNickname())) {
             views.get(challenger).showMessage("Non puoi scegliere te stesso!!!");
             nameChanged = false;
-        }else if(nameChanged) {
+        }else {
             for (Player p : model.getMatchPlayersList()) {
                 if (p.getPlayerNickname().equals(startingPlayerNickname)) {
                     startingPlayer = p;
