@@ -22,8 +22,6 @@ public class Model extends Observable {
     //Map: 5x5 tiles
     private Board board;
 
-
-
     //Number of players in the match
     private int playersNumber;
 
@@ -82,8 +80,10 @@ public class Model extends Observable {
     //Choose a Challenger from playersList in a random way
     public void randomChooseChallenger() {
         Random r = new Random();
-        challengerID = (r.nextInt(playersNumber-1));
+        challengerID = (r.nextInt(playersNumber));
         matchPlayersList.get(challengerID).setChallenger(true);
+        currentPlayerID = challengerID;
+        notify("The chosen challenger is: " + matchPlayersList.get(challengerID).getPlayerNickname());
     }
 
     //get() starting playerID
@@ -169,9 +169,25 @@ public class Model extends Observable {
         */
         return true;
     }
-    public void gameOver() {
 
+    public int getCurrentPlayerID() {
+        return currentPlayerID;
+    }
+
+    public void setCurrentPlayerID(int currentPlayerID) {
+        this.currentPlayerID = currentPlayerID;
+    }
+
+    public void updateCurrentPlayer() {
+        if(currentPlayerID == playersNumber-1) {
+            currentPlayerID = 0;
+        } else {
+            currentPlayerID = currentPlayerID+1;
+        }
     }
 
 
+    public void gameOver() {
+
+    }
 }

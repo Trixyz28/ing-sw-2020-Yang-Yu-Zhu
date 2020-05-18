@@ -142,7 +142,7 @@ public class SocketConnection extends Observable<String> implements Runnable {
             while(isActive()) {
                 String read = in.nextLine();
                 System.out.println("From " + player.getPlayerNickname() + ": " + read);
-                //notify(read);
+                notify(read);
             }
 
 

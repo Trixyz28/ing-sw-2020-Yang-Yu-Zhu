@@ -81,11 +81,20 @@ public class RemoteView extends View {
                 clientConnection.asyncSend(message);
             }
         }
+
+        if(message instanceof String) {
+            clientConnection.asyncSend(message);
+        }
     }
 
     private void showComplete(String[] godList){
-        clientConnection.asyncSend("Le divinità che puoi scegliere sono:");
-        clientConnection.asyncSend(godList);  /* Array di Stringhe da stampare al lato Client */
+        if(clientConnection.getPlayer().isChallenger()) {
+            clientConnection.asyncSend("You can choose godcards from this list: ");
+            clientConnection.asyncSend(godList);  /* Array di Stringhe da stampare al lato Client */
+        } else {
+            clientConnection.asyncSend("Waiting for the challenger's choice");
+        }
+
 
     }
 

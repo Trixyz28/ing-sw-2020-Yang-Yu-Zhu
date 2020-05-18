@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Observable<T> {
 
-    private List<Observer<T>> observers = new ArrayList<>();
+    private List<Observer> observers = new ArrayList<>();
 
-    public void addObservers(Observer<T> observer){
+    public void addObservers(Observer observer){
         synchronized (observers) {
             observers.add(observer);
         }
@@ -15,7 +15,7 @@ public class Observable<T> {
 
     public void notify(T message){
         synchronized (observers) {
-            for(Observer<T> o: observers) {
+            for(Observer o: observers) {
                 o.update(message);
             }
         }

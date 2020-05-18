@@ -75,9 +75,16 @@ public class Client {
                         if(inputObject instanceof String) {
                             System.out.println((String)inputObject);
 
-                        } else if(inputObject instanceof Board) {
+                        } else if (inputObject instanceof Board) {
                             System.out.println("Print map");
-                        } else {
+
+                        } else if(inputObject instanceof String[]) {
+                            for(String s : (String[])inputObject) {
+                                System.out.println(s);
+                            }
+                        }
+
+                        else {
                             throw new IllegalArgumentException();
                         }
                     }

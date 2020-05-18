@@ -54,7 +54,7 @@ public class Lobby extends Observable {
         this.lobbyPlayersNumber = playersNumber;
     }
 
-    //Get() : Print on screen the list of players;if value is "0000" the players doesn't exist yet
+    /*Get() : Print on screen the list of players;if value is "0000" the players doesn't exist yet
     public void printPlayersNameList() {
 
         for (int i = 0; i < lobbyPlayersNumber; i++) {
@@ -64,9 +64,8 @@ public class Lobby extends Observable {
             } else {
                 System.out.println(helper);
             }
-
         }
-    }
+    }*/
 
     public ArrayList<String> getPlayersNameList() {
         return playersNameList;
@@ -113,10 +112,4 @@ public class Lobby extends Observable {
         return availablePlayers;
     }
 
-    //new match creator on call
-    public void createMatch() {
-
-        Model model = new Model();
-        System.out.println("Model created");
-    }
 }

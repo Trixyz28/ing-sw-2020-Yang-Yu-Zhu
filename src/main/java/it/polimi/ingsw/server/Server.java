@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.lobby.Lobby;
 import it.polimi.ingsw.lobby.LobbyController;
 import it.polimi.ingsw.lobby.LobbyHandler;
 import it.polimi.ingsw.model.Model;
@@ -13,7 +12,6 @@ import java.io.IOException;
 
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -82,6 +80,11 @@ public class Server {
 
     }
 
+    public synchronized void lostPlayerQuit(SocketConnection c) {
+        matchConnection.get(c.getLobbyID()).remove(c);
+        c.closeConnection();
+    }
+
 
     public synchronized void match(int lobbyID, SocketConnection c) {
 
@@ -145,12 +148,16 @@ public class Server {
 
                 model.addObservers(view2);
                 view2.addObservers(controller);
-
             }
 
             for(SocketConnection connection : matchConnection.get(lobbyID)) {
                 connection.asyncSend("Setup completed");
             }
+
+
+            //Initialize match conditions
+            view0.notify("setup");
+
 
         }
 

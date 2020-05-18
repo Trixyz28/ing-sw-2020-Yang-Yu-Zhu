@@ -30,21 +30,6 @@ public class LobbyController {
         return lobby.getLobbyID();
     }
 
-
-
-
-
-    public void intoLobby(String name) {
-
-    }
-
-
     //on server runs a method that checks if a lobby is full or not and then starts the game on the current lobby
-
-
-
-
-
-
 
 }

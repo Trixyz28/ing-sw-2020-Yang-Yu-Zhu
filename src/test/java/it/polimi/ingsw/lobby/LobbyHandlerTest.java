@@ -15,6 +15,9 @@ public class LobbyHandlerTest extends TestCase {
         assertTrue(lobbyHandler.getPlayerList().size()==1);
         assertTrue(lobbyHandler.getPlayerList().get(0).equals("A"));
 
+        assertFalse(lobbyController.canUseNickname("A"));
+        assertTrue(lobbyController.canUseNickname("B"));
+
     }
 
     @Test
@@ -36,13 +39,12 @@ public class LobbyHandlerTest extends TestCase {
 
     @Test
     public void testCreateLobby() {
-        lobbyHandler.newLobby("A",3);
-        assertTrue(lobbyHandler.getLobbyList().get(0).getLobbyID()==0);
-        assertTrue(lobbyHandler.getLobbyList().get(0).getLobbyPlayersNumber()==3);
-        assertEquals("A", lobbyHandler.getLobbyList().get(0).getPlayersNameList().get(0));
-        assertEquals("0000", lobbyHandler.getLobbyList().get(0).getPlayersNameList().get(1));
-        assertEquals("0000", lobbyHandler.getLobbyList().get(0).getPlayersNameList().get(2));
-
+        int lobbyID = lobbyController.createLobby("A",3);
+        assertTrue(lobbyID==0);
+        assertTrue(lobbyHandler.getLobbyList().get(lobbyID).getLobbyPlayersNumber()==3);
+        assertEquals("A", lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList().get(0));
+        assertEquals("0000", lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList().get(1));
+        assertEquals("0000", lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList().get(2));
     }
 
     @Test
@@ -50,12 +52,12 @@ public class LobbyHandlerTest extends TestCase {
 
         lobbyHandler.newLobby("A",3);
 
-        lobbyController.joinLobby("B");
-        assertEquals("B", lobbyHandler.getLobbyList().get(0).getPlayersNameList().get(1));
-        assertFalse(lobbyHandler.getLobbyList().get(0).isFull());
+        int lobbyID = lobbyController.joinLobby("B");
+        assertEquals("B", lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList().get(1));
+        assertFalse(lobbyHandler.getLobbyList().get(lobbyID).isFull());
 
         lobbyController.joinLobby("C");
-        assertEquals("C", lobbyHandler.getLobbyList().get(0).getPlayersNameList().get(2));
-        assertTrue(lobbyHandler.getLobbyList().get(0).isFull());
+        assertEquals("C", lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList().get(2));
+        assertTrue(lobbyHandler.getLobbyList().get(lobbyID).isFull());
     }
 }

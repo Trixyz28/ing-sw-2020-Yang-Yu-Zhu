@@ -22,6 +22,7 @@ public class Controller implements Observer {
     public Controller(Model model, Map views) {
         this.model = model;
         this.views = views;
+        minorControllers(model,views);
     }
 
     public void minorControllers(Model model, Map views) {
@@ -29,7 +30,6 @@ public class Controller implements Observer {
         turnController = new TurnController(model, views);
         moveController = new MoveController(model);
         buildController = new BuildController(model);
-
     }
 
 
@@ -51,7 +51,6 @@ public class Controller implements Observer {
             initController.initializeMatch();  /* inizializzazione con decisioni Challenger */
             turnController.nextTurn();  /* inizio partita con Turn 1 */
         }
-
 
         if (arg instanceof Operation) {
             Operation operation = (Operation) arg;
