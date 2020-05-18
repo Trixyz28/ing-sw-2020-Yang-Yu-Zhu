@@ -8,7 +8,7 @@ public class Operation {
     private int row;
     private int column;
 
-    public Operation(Player player, int type,int row,int column) {
+    public Operation(final Player player, int type,int row,int column) {
         this.player = player;
         this.type = type;
         this.row = row;

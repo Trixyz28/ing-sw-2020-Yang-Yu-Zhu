@@ -14,6 +14,7 @@ public class InitController {
     private String god;
     private Player startingPlayer;
     private Player challenger;
+    private Player answerFrom;
     private Tile currentPosition;
     private boolean changed;
     private boolean godChanged;
@@ -40,7 +41,8 @@ public class InitController {
         return nameChanged;
     }
 
-    protected void setChanged() {
+    protected void setChanged(Player player) {
+        answerFrom = player;
         changed = true;
     }
 
@@ -68,7 +70,11 @@ public class InitController {
                 changed = false;
                 view.showMessage("Scegli la tua divinità");
                 /* necessario aspettare risposta dal client */
-                waitChange();
+                while (true) {
+                    if (changed && answerFrom.getPlayerNickname().equals(p.getPlayerNickname())) {
+                        break;
+                    }
+                }
                 godList.selectGod(god);
                 if(godList.checkGod()){
                     //far printare alla view la conferma della scelta
@@ -110,7 +116,7 @@ public class InitController {
             views.get(p).showMessage("Il primo player che fa la mossa è " + startingPlayer.getPlayerNickname());
 
         }
-        /* fine parte scelta StartingPlayer inizio nameChanged = true */
+        /* fine parte scelta StartingPlayer inizio iniazializzazione turno : nameChanged = true */
 
     }
 
@@ -120,7 +126,11 @@ public class InitController {
         model.showCompleteGodList();  /* mandare al Challenger la lista completa dei God */
         while(!godList.checkLength()) {
             //view.defineGodList(challenger) -> far scegliere Gods attraverso la view dal challenger )
-            waitChange();
+            while (true) {
+                if (changed && answerFrom.getPlayerNickname().equals(challenger.getPlayerNickname())) {
+                    break;
+                }
+            }
             godList.selectGod(god);
             godList.addInGodList();
             changed = false;

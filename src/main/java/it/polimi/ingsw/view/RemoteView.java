@@ -17,7 +17,9 @@ public class RemoteView extends View {
                 String input = (String) message;
                 System.out.println("Received: " + input);
                 try {
-                    RemoteView.this.notify(input);
+                    GameMessage gm = new GameMessage(player, null);
+                    gm.setAnswer(input);
+                    RemoteView.this.notify(gm);
                 } catch (IllegalArgumentException e) {
                     clientConnection.asyncSend("Error");
                 }

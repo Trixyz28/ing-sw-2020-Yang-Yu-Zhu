@@ -9,4 +9,6 @@ public class Messages {
 
     public static String Worker = "Worker";
 
+    public static String wrongTurn = "Non è il tuo turnoooooo!";
+
 }
