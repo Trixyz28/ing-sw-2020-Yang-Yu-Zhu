@@ -34,6 +34,8 @@ public class Model extends Observable {
     //Current player ID
     private int currentPlayerID;
 
+    private boolean isWorkerChosen;
+
 
     //Constructor for Match class
     public void initialize(int playersNumber) {

@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
 
-import it.polimi.ingsw.model.God.NoGod;
-
-import java.util.ArrayList;
 
 // da sistemare (rimane una classe con lista che associa ogni tile della mappa con un worker di un player(attributes)
 public class Worker {
