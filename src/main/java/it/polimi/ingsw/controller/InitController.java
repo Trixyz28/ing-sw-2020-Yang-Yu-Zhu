@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.View;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class InitController {
@@ -11,7 +10,6 @@ public class InitController {
     private Model model;
     private Map<Player, View> views;
 
-    private String god;
     private Player startingPlayer;
     private Player challenger;
     private Player currentPlayer;
@@ -49,6 +47,7 @@ public class InitController {
 
     private void challengerStart(){
         challenger = model.getMatchPlayersList().get(model.getChallengerID()); /* ID = indice iniziale */
+        currentPlayer = challenger;
         views.get(challenger).showMessage("Sei il Challenger!");
         model.showCompleteGodList();  /* mandare al Challenger la lista completa dei God */
     }
@@ -66,13 +65,23 @@ public class InitController {
 
     }
 
-    protected void chooseGod(Player player, String god){
-        if (player.getPlayerNickname().equals(currentPlayer.getPlayerNickname())){
+    protected void chooseGod(String player, String god){
+        if (player.equals(currentPlayer.getPlayerNickname())){
             GodList godList = model.getGodsList();
+            god = god.toUpperCase();
             godList.selectGod(god);
             if(godList.checkGod()){
                 //far printare alla view la conferma della scelta
                 views.get(currentPlayer).showMessage("Hai scelto " + god + "!");
+
+                for(Player p : model.getMatchPlayersList()){  /* notificare la scelta agli altri giocatori */
+                    if(p != currentPlayer){
+                        String name = currentPlayer.getPlayerNickname();
+                        views.get(p).showMessage("Il player " + name + " ha scelto " +
+                                god + ".");
+                    }
+                }
+
                 currentPlayer.godChoice(god);  /* assegnare al Player il God scelto */
                 currentPlayer.createWorker(god);  /* creare worker determinato God */
                 godList.removeFromGodList(god);  /* eliminare dalla currentGodList il god scelto */
@@ -80,28 +89,38 @@ public class InitController {
                 if(index == model.getMatchPlayersList().size()){
                     index = 0;  /* quando l'indice arriva alla fine riiniziare*/
                 }
+                currentPlayer = model.getMatchPlayersList().get(index);
                 if(index == challenger.getPlayerID()){  /* fine giro scelta God */
-                    fineGod();  /* dare direttamente la god rimanente al Challenger */
-                }else{  /* continuare giro scleta */
-                    currentPlayer = model.getMatchPlayersList().get(index);
+                    endGod();  /* dare direttamente la god rimanente al Challenger */
+                }else {
+                    View view = views.get(currentPlayer);
+                    view.showMessage("Scegli la tua divinità");
+                    model.showGodList();
                 }
             }else{
                 //far printare alla view la richiesta di ripetere la scelta
-                views.get(player).showMessage("Riprova!");
                 View view = views.get(currentPlayer);
-                view.showMessage("Scegli la tua divinità");
+                view.showMessage("Riprova!\nScegli la tua divinità");
             }
         }else {
-            views.get(player).showMessage(Messages.wrongTurn);
+            for(Player p : model.getMatchPlayersList()){
+                if(p.getPlayerNickname().equals(player)) {
+                    views.get(p).showMessage(Messages.wrongTurn);
+                    break;
+                }
+            }
+
         }
     }
 
-    protected void fineGod(){
+    protected void endGod(){
         /* dare direttamente la god rimanente al Challenger */
         View view = views.get(challenger);
-        view.showMessage("Il god rimasto è " + god + "!");  //far printare alla view il messaggio del god assegnato
+
         GodList godList = model.getGodsList();
-        god = godList.getCurrentGodList().get(0);  /* il god rimanente nella currentGodList viene assegnata al challenger */
+        String god = godList.getCurrentGodList().get(0);  /* il god rimanente nella currentGodList viene assegnata al challenger */
+        view.showMessage("Il god rimasto è " + god + "!");  //far printare alla view il messaggio del god assegnato
+
         challenger.godChoice(god);
         challenger.createWorker(god);
         godChanged = true;
@@ -120,11 +139,11 @@ public class InitController {
             if(!godList.addInGodList()){  /* se il God scelto non viene aggiunto nella currentList */
                 views.get(challenger).showMessage("Scelta invalida");
             }
-
             if(godList.checkLength()){
                 for(Player p : model.getMatchPlayersList()){
-                    views.get(p).showMessage("Il Challenger ha finito di scegliere i God");
+                    views.get(p).showMessage("Il Challenger ha finito di scegliere i God! La Lista dei God scelti è :");
                 }
+                model.showGodList();
 
                 startChoosingGod();
             }
@@ -148,7 +167,7 @@ public class InitController {
         }else {
             /* mostrare mappa aggiornata */
             model.showBoard();
-            //currentPlayer.chooseWorker(indexWorker).place(currentPlayer);
+            currentPlayer.chooseWorker(indexWorker).setPosition(currentPosition);  /* posizionare il worker */
             indexWorker++;
             if(indexWorker > 1){  /* passare al nextPlayer */
                 indexWorker = 0;

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.God.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -33,11 +33,16 @@ public class Controller implements Observer {
     }
 
 
-    public boolean checkTurn(Player player){
-        if(model.getCurrentTurn().getCurrentPlayer().getPlayerNickname().equals(player.getPlayerNickname())){
+    public boolean checkTurn(String player){
+        if(model.getCurrentTurn().getCurrentPlayer().getPlayerNickname().equals(player)){
             return true;
         }else {
-            views.get(player).showMessage(Messages.wrongTurn);
+            for(Player p : model.getMatchPlayersList()){
+                if(p.getPlayerNickname().equals(player)) {
+                    views.get(p).showMessage(Messages.wrongTurn);
+                    return false;
+                }
+            }
             return false;
         }
 
@@ -111,7 +116,7 @@ public class Controller implements Observer {
         }else
 
         if(arg instanceof GameMessage) {
-            Player player = ((GameMessage) arg).getPlayer();
+            String player = ((GameMessage) arg).getPlayer();
             String message = ((GameMessage) arg).getMessage();
             String answer = ((GameMessage) arg).getAnswer();
 
@@ -119,14 +124,14 @@ public class Controller implements Observer {
                 if (!initController.isGodChanged() || !initController.isNameChanged()) {
                     Player challenger = model.getMatchPlayersList().get(model.getChallengerID());
                     if (!initController.isGodChanged()) {  /* se non è finita parte scelta god arg = God */
-                        if(player.getPlayerNickname().equals(challenger.getPlayerNickname())){
+                        if(player.equals(challenger.getPlayerNickname())){
                             /* se challenger -> definire currentList */
                             initController.defineGodList(answer, model.getGodsList());
                         }else {
                             /* scelta God */
                             initController.chooseGod(player, answer);
                         }
-                    } else if(player.getPlayerNickname().equals(challenger.getPlayerNickname())){
+                    } else if(player.equals(challenger.getPlayerNickname())){
                         /* finita parte God arg = StartingPlayerNickname */
                         initController.setStartingPlayer(answer);  /* set il StartingPlayer dal Nickname */
                     }

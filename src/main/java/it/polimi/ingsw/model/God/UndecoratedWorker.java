@@ -20,4 +20,8 @@ public interface UndecoratedWorker {
 
     void buildDome(Tile t);
 
+    Tile getPosition();
+
+    void setPosition(Tile t);
+
 }

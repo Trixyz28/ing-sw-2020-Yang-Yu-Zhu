@@ -1,12 +1,15 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.GameMessage;
+import it.polimi.ingsw.model.Messages;
+import it.polimi.ingsw.model.Operation;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -16,10 +19,16 @@ public class Client {
     private String ip;
     private int port;
     private boolean active = true;
+    private boolean opReceived;
+    private boolean gmReceived;
+    private Operation operation;
+    private GameMessage gMessage;
 
     public Client(String ip, int port) {
         this.ip = ip;
         this.port = port;
+        opReceived = false;
+        gmReceived = false;
     }
 
 
@@ -83,6 +92,20 @@ public class Client {
                             for(String s : (String[])inputObject) {
                                 System.out.println(s);
                             }
+                        } else if(inputObject instanceof ArrayList){  /* currentGodList */
+                            ArrayList godList = (ArrayList) inputObject;
+                            if(godList.size() != 0 && godList.get(0) instanceof String){
+                                for (Object o : godList){
+                                    String s = (String) o;
+                                    System.out.println(s);
+                                }
+                            }
+                        } else if(inputObject instanceof Operation){
+                            opReceived = true;
+                            operation = (Operation)inputObject;
+                        }else if(inputObject instanceof GameMessage){
+                            gmReceived = true;
+                            gMessage = (GameMessage)inputObject;
                         }
                         else {
                             throw new IllegalArgumentException();
@@ -108,8 +131,66 @@ public class Client {
                 try {
                     while(isActive()) {
                         String input = stdin.nextLine();
-                        socketOut.println(input);
-                        socketOut.flush();
+                        if (opReceived) {
+                            try {
+                                String[] inputs = input.split(",");
+                                int row = Integer.parseInt(inputs[0]);
+                                int column = Integer.parseInt(inputs[1]);
+                                if (row < 5 && column < 5 && row >= 0 && column >= 0) {
+                                    operation.setPosition(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]));
+                                    socketOut.println(operation);
+                                    socketOut.flush();
+                                    opReceived = false;
+                                    operation = null;
+                                }
+                            }catch (IllegalArgumentException e){
+                                System.out.println("Inserimento invalido");
+                            }
+                        } else if (gmReceived) {
+                            input = input.toUpperCase();
+                            if(gMessage.getMessage().equals(Messages.Worker)){
+                                try {
+                                    int index = Integer.parseInt(input);
+                                    if (index == 0 || index == 1) {
+                                        gMessage.setAnswer(input);
+                                        socketOut.println(gMessage);
+                                        socketOut.flush();
+                                        gmReceived = false;
+                                        gMessage = null;
+                                    }
+                                }catch(IllegalArgumentException e){
+                                    System.out.println("Inserimento invalido");
+                                }
+                            }else if(gMessage.getMessage().equals(Messages.Atlas)){
+                                if(input.equals("BLOCK") || input.equals("DOME")){
+                                    gMessage.setAnswer(input);
+                                    socketOut.println(gMessage);
+                                    socketOut.flush();
+                                    gmReceived = false;
+                                    gMessage = null;
+                                }
+                            }else if(gMessage.getMessage().equals(Messages.Prometheus)){
+                                if(input.equals("MOVE")  || input.equals("BUILD")){
+                                    gMessage.setAnswer(input);
+                                    socketOut.println(gMessage);
+                                    socketOut.flush();
+                                    gmReceived = false;
+                                    gMessage = null;
+                                }
+                            }else if(input.equals("YES") || input.equals("NO")){
+                                gMessage.setAnswer(input);
+                                socketOut.println(gMessage);
+                                socketOut.flush();
+                                gmReceived = false;
+                                gMessage = null;
+                            }else {
+                                System.out.println("Riprova!\n" + gMessage.getMessage());
+                            }
+
+                        } else {
+                            socketOut.println(input);
+                            socketOut.flush();
+                        }
                     }
                 } catch(Exception e) {
                     setActive(false);

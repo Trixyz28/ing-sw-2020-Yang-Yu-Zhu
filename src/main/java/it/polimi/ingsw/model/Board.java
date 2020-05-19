@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board implements Cloneable {
+public class Board implements Cloneable{
 
     //map creation 5x5 blocks
     private Tile[][] map;

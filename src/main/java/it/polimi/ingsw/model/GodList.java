@@ -64,7 +64,7 @@ public class GodList {
 
     //Select a god to add to currentGodList (manca ancora il check per la decisione)
     public void selectGod(String selectedGod) {
-        this.selectedGod = selectedGod;
+        this.selectedGod = selectedGod.toUpperCase();
     }
 
 
@@ -104,10 +104,11 @@ public class GodList {
 
     //Remove a God from currentGodList & listLength-1
     public void removeFromGodList(String selectedGod) {
-        for(String s : currentGodList){
-            if(s.equals(selectedGod)){
-                currentGodList.remove(s);
+        for(int i = 0; i < listLength; i++){
+            if(currentGodList.get(i).equals(selectedGod)){
+                currentGodList.remove(i);
                 listLength--;
+                break;
             }
         }
     }

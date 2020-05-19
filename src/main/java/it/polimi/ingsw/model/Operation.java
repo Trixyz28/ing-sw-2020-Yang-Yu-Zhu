@@ -1,21 +1,25 @@
 package it.polimi.ingsw.model;
 
-public class Operation {
+import java.io.Serializable;
+
+public class Operation implements Serializable {
 
     //type of the operation: 1-move, 2-build
-    private final Player player;
+    private final String player;
     private int type;
+
+
     private int row;
     private int column;
 
     public Operation(final Player player, int type,int row,int column) {
-        this.player = player;
+        this.player = player.getPlayerNickname();
         this.type = type;
         this.row = row;
         this.column = column;
     }
 
-    public Player getPlayer() {
+    public String getPlayer() {
         return player;
     }
 
@@ -30,5 +34,11 @@ public class Operation {
     public int getColumn() {
         return column;
     }
+
+    public void setPosition(int row, int column) {
+        this.row = row;
+        this.column = column;
+    }
+
 
 }

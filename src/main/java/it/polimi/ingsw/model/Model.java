@@ -114,6 +114,10 @@ public class Model extends Observable {
         player.setChallenger(false);
     }
 
+    public void showGodList(){
+        notify(godsList.getCurrentGodList());
+    }
+
     public void startCurrentTurn() {
         currentTurn = new Turn(matchPlayersList.get(startingPlayerID));
     }

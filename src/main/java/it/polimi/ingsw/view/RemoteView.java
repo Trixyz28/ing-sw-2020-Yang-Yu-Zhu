@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.server.SocketConnection;
 
+import java.util.ArrayList;
+
 
 public class RemoteView extends View {
 
@@ -16,32 +18,24 @@ public class RemoteView extends View {
             if(message instanceof String) {
                 String input = (String) message;
                 System.out.println("Received: " + input);
-                try {
-                    messageString(input);
-                } catch (IllegalArgumentException e) {
-                    clientConnection.asyncSend("Error");
-                }
+
+                messageString(input);
             }
             if(message instanceof Operation){
                 Operation operation = (Operation) message;
                 System.out.println("Received: Operation");
-                try{
-                    messageOperation(operation);
-                }catch (IllegalArgumentException e){
-                    clientConnection.asyncSend("Error");
-                }
+
+                messageOperation(operation);
+
             }
             if(message instanceof GameMessage){
                 GameMessage gm = (GameMessage) message;
                 System.out.println("Received: GameMessage");
-                try{
-                    if(gm.getMessage().equals(Messages.Worker)){  //Answer = 0 o 1
+
+                if(gm.getMessage().equals(Messages.Worker)){  //Answer = 0 o 1
                         workerIndex(gm.getAnswer());
-                    }else {
-                        gameMessage(gm);
-                    }
-                }catch (IllegalArgumentException e){
-                    clientConnection.asyncSend("Error");
+                }else {
+                    gameMessage(gm);
                 }
             }
         }
@@ -60,6 +54,10 @@ public class RemoteView extends View {
     @Override
     public void update(Object message) {
 
+        if (message instanceof ArrayList){
+            clientConnection.asyncSend(message);  /* currentList */
+        }
+
         if(message instanceof String[]){  /* godList Completo */
             showComplete((String[]) message);
         }
@@ -69,12 +67,12 @@ public class RemoteView extends View {
         }
 
         if(message instanceof Operation){  /* inviare l'Operation con tipo già definito solo al currentPlayer*/
-            if(((Operation) message).getPlayer().getPlayerNickname().equals(player.getPlayerNickname())) {
+            if(((Operation) message).getPlayer().equals(player.getPlayerNickname())) {
                 clientConnection.asyncSend(message);
             }
         }
         if(message instanceof GameMessage){  /* inviare richiesta solo al currentPlayer*/
-            if(((GameMessage) message).getPlayer().getPlayerNickname().equals(player.getPlayerNickname())) {
+            if(((GameMessage) message).getPlayer().equals(player.getPlayerNickname())) {
                 clientConnection.asyncSend(message);
             }
         }

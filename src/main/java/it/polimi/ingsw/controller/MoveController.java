@@ -22,11 +22,9 @@ public class MoveController {
         worker = model.getCurrentTurn().getChosenWorker();
         position = model.commandToTile(move.getRow(), move.getColumn());
         if(!canMoveUp){
-            /*
-            if(worker.getCurrentPosition().getBlockLevel() < position.getBlockLevel()){  /* il worker non può salire di livello!
+            if(worker.getPosition().getBlockLevel() < position.getBlockLevel()){  /* il worker non può salire di livello! */
                 return false;
             }
-            */
         }
         if(checkPosition(position)) {
             worker.move(position);
@@ -39,7 +37,7 @@ public class MoveController {
 
     private boolean checkPosition(Tile position){  /* controllo posizione */
         //return worker.getCurrentPosition(worker).availableToMove(position);  /* worker.canMove; da usare */
-        return worker.canMove(model.getCurrentTurn().getInitialTile()).contains(position);
+        return worker.canMove(worker.getPosition()).contains(position);
     }
 
 }

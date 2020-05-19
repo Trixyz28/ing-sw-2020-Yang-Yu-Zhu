@@ -91,7 +91,7 @@ public class TurnController {
     }
 
     public void endMove() {
-        //currentTurn.setFinalTile(chosenWorker.getCurrentPosition());
+        currentTurn.setFinalTile(chosenWorker.getPosition());
         if(model.checkWin()){
             //view.win(currentTurn.getCurrentPlayer());  /* il currentPlayer vince */
             currentView.showMessage("Hai vintoooooo!!!");
@@ -141,7 +141,7 @@ public class TurnController {
     protected void choosedWorker(){
 
         currentTurn.setChosenWorker(chosenWorker);
-        //currentTurn.setInitialTile(chosenWorker.getCurrentPosition());
+        currentTurn.setInitialTile(chosenWorker.getPosition());
         currentTurn.setFinalTile(null);  //inizializzare Final e Built
         currentTurn.setBuiltTile(null);
         //view.move();  /* ->  passare alla scelta della mossa */
@@ -168,7 +168,7 @@ public class TurnController {
 
     protected void moveArtemis(){  /* prima move fa uscire dal while la seconda come move normale */
         if (isArtemis) {
-            //currentTurn.setFinalTile(chosenWorker.getCurrentPosition());
+            currentTurn.setFinalTile(chosenWorker.getPosition());
             if(model.checkWin()){
                 //view.win(currentTurn.getCurrentPlayer());  /* il currentPlayer vince */
                 currentView.showMessage("Hai vintoooooo!!!");

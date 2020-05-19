@@ -1,16 +1,18 @@
 package it.polimi.ingsw.model;
 
-public class GameMessage {
-    private String message;
+import java.io.Serializable;
+
+public class GameMessage implements Serializable {
+    private final String message;
     private String answer;
-    private Player player;
+    private final String player;
 
     public GameMessage(final Player player, final String message){
-        this.player = player;
+        this.player = player.getPlayerNickname();
         this.message = message;
     }
 
-    public Player getPlayer(){
+    public String getPlayer(){
         return player;
     }
 

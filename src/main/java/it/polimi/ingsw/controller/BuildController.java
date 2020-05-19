@@ -42,8 +42,7 @@ public class BuildController {
         this.operation = operation;
         worker = model.getCurrentTurn().getChosenWorker();
         position = model.commandToTile(operation.getRow(), operation.getColumn());
-        if(checkPosition(position)){
-            //worker.build(position);
+        if(checkPosition(position)){  /* build nella check */
             model.showBoard();  /* mostrare mappa dopo build */
             return true;  /* build andato a buon fine */
         }else{

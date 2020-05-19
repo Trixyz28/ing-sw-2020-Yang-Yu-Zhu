@@ -53,6 +53,18 @@ public class NoGod implements UndecoratedWorker {
       t.setDomePresence(true);
    }
 
+   //Get the current position of the worker
+   @Override
+   public Tile getPosition() {
+      return position;
+   }
+
+   //Set the current position
+   @Override
+   public void setPosition(Tile t) {
+      position = t;
+   }
+
 
 
 

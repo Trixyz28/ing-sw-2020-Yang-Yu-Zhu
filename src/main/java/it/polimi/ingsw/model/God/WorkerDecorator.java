@@ -50,4 +50,13 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
         return this.worker.canBuildDome(t);
     }
 
+    @Override
+    public Tile getPosition() {
+        return this.worker.getPosition();
+    }
+
+    @Override
+    public void setPosition(Tile t) {
+        this.worker.setPosition(t);
+    }
 }
