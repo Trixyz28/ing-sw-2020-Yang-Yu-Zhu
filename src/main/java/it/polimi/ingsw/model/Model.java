@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.model.God.Pan;
+import it.polimi.ingsw.view.cli.BoardView;
+import it.polimi.ingsw.view.cli.WorkerView;
 
 
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class Model extends Observable {
     //Current player ID
     private int currentPlayerID;
 
-    private boolean isWorkerChosen;
+    private boolean workerChosen;
 
 
     //Constructor for Match class
@@ -43,6 +45,7 @@ public class Model extends Observable {
         this.playersNumber = playersNumber;
         matchPlayersList = new ArrayList<>();  //inizializzare playerList con i playerName in parametri
         godsList = new GodList(playersNumber);
+        workerChosen = false;
 
         board = new Board();
     }
@@ -52,7 +55,23 @@ public class Model extends Observable {
     }
 
     public void showBoard() {
-        notify(board);
+
+        WorkerView[] totalWorkerList = new WorkerView[playersNumber*2];
+        int chosenWorkerID = -1;
+
+        for(int i=0;i<playersNumber;i++) {
+            for(int j=0;j<2;j++) {
+                totalWorkerList[i*2+j] = new WorkerView(matchPlayersList.get(i).getWorkerList().get(j));
+
+                if(workerChosen) {
+                    if (matchPlayersList.get(i).getWorkerList().get(j).equals(currentTurn.getChosenWorker())) {
+                        chosenWorkerID = i*2+j;
+                    }
+                }
+            }
+        }
+
+        notify(new BoardView(board.getMap(),totalWorkerList,chosenWorkerID));
     }
 
     //get the index of the nextPlayer
@@ -158,10 +177,11 @@ public class Model extends Observable {
     //metodi da implementare con il controller
     public boolean checkWin() {
         if (currentTurn.getInitialTile().getBlockLevel()==2 && currentTurn.getFinalTile().getBlockLevel()==3) {
+            notify("The player " + currentTurn.getCurrentPlayer().getPlayerNickname() + " win!");
             return true;
         }
         if(currentTurn.getChosenWorker() instanceof Pan){
-            return ((Pan) currentTurn.getChosenWorker()).panCheck(currentTurn.getInitialTile());
+            //return ((Pan) currentTurn.getChosenWorker()).panCheck(currentTurn.getInitialTile());
         }
         return false;
     }
@@ -175,6 +195,8 @@ public class Model extends Observable {
         }
         return true;
     }
+
+
 
     public int getCurrentPlayerID() {
         return currentPlayerID;
@@ -192,6 +214,13 @@ public class Model extends Observable {
         }
     }
 
+    public boolean isWorkerChosen() {
+        return workerChosen;
+    }
+
+    public void setWorkerChosen(boolean workerChosen) {
+        this.workerChosen = workerChosen;
+    }
 
     public void gameOver() {
 

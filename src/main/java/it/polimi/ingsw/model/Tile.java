@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tile implements Serializable {
+public class Tile implements Cloneable, Serializable {
 
     //Row value and Column value
     private int row;
@@ -113,26 +113,6 @@ public class Tile implements Serializable {
         occupiedByWorker = true;
     }
 
-
-    public List<Tile> movableTileList(Tile t) {
-
-        ArrayList<Tile> tempList= new ArrayList<Tile>();
-
-        /*
-        for(int i=0;i<5;i++) {
-            for(int j=0;j<5;j++) {
-                Tile tempTile = getTile(i,j);
-                boolean adjTile = availableToMove(tempTile);
-                if (adjTile == true){
-                    tempList.add(tempTile);
-                }
-            }
-        }
-
-         */
-
-        return tempList;
-    }
 
     public boolean movedUp(Tile position, Tile t){
 

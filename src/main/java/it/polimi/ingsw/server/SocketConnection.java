@@ -5,13 +5,14 @@ import it.polimi.ingsw.observers.Observable;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 
-public class SocketConnection extends Observable<String> implements Runnable {
+public class SocketConnection extends Observable implements Runnable {
 
     private Socket socket;
     private Server server;
@@ -153,12 +154,6 @@ public class SocketConnection extends Observable<String> implements Runnable {
         }
     }
 
-
-    public void sendPlayersList() {
-
-
-
-    }
 
     public int getLobbyID() {
         return lobbyID;

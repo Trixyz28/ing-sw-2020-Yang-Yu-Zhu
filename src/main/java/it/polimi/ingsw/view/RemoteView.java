@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.server.SocketConnection;
+import it.polimi.ingsw.view.cli.BoardView;
 
 import java.util.ArrayList;
 
@@ -56,7 +57,7 @@ public class RemoteView extends View {
             showComplete((String[]) message);
         }
 
-        if(message instanceof Board){  /* Mappa */
+        if(message instanceof BoardView){  /* Mappa */
             clientConnection.asyncSend(message);
         }
 

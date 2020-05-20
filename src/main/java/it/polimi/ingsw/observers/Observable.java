@@ -3,7 +3,7 @@ package it.polimi.ingsw.observers;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Observable<T> {
+public class Observable {
 
     private List<Observer> observers = new ArrayList<>();
 
@@ -13,7 +13,7 @@ public class Observable<T> {
         }
     }
 
-    public void notify(T message){
+    public void notify(Object message){
         synchronized (observers) {
             for(Observer o: observers) {
                 o.update(message);

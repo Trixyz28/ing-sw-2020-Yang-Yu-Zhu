@@ -2,7 +2,9 @@ package it.polimi.ingsw.model;
 
 import java.io.Serializable;
 
+
 public class GameMessage implements Serializable {
+
     private final String message;
     private String answer;
     private final String player;

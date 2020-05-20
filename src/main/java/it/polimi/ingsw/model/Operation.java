@@ -7,8 +7,6 @@ public class Operation implements Serializable {
     //type of the operation: 1-move, 2-build
     private final String player;
     private int type;
-
-
     private int row;
     private int column;
 

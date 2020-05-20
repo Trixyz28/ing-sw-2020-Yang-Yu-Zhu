@@ -18,6 +18,7 @@ public class Player {
     private boolean challenger;  /* non è più necessario (può essere usato per i test) */
     private String godCard;
 
+
     //Workers owned by this player
     private List<UndecoratedWorker> workerList;
 
@@ -124,6 +125,10 @@ public class Player {
             workerList.add(new Prometheus(new NoGod()));
         }
 
+        return workerList;
+    }
+
+    public List<UndecoratedWorker> getWorkerList() {
         return workerList;
     }
 

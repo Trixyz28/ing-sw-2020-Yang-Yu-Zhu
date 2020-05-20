@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.God;
 
 //class that implements undecorated worker
 
-
 import it.polimi.ingsw.model.Tile;
 
 import java.util.List;
@@ -10,9 +9,9 @@ import java.util.List;
 
 public class NoGod implements UndecoratedWorker {
 
-   private Tile position;
-   private int belongToPlayer;
-   private int workerID;
+    private Tile position;
+    private int belongToPlayer;
+    private int workerID;
 
 
    //Returns a list of available tiles where the worker can be moved to
@@ -20,6 +19,7 @@ public class NoGod implements UndecoratedWorker {
    public List<Tile> canMove(Tile t) {
       return position.getAdjacentTiles();
    }
+
 
    //Move the worker from position to t
    @Override
@@ -65,7 +65,6 @@ public class NoGod implements UndecoratedWorker {
       position = t;
       t.setWorker();
    }
-
 
 
 

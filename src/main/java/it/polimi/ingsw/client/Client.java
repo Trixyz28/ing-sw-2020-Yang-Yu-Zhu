@@ -4,10 +4,11 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.GameMessage;
 import it.polimi.ingsw.model.Messages;
 import it.polimi.ingsw.model.Operation;
+import it.polimi.ingsw.view.Ui;
+import it.polimi.ingsw.view.cli.BoardView;
+import it.polimi.ingsw.view.cli.CLI;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -18,6 +19,7 @@ public class Client {
 
     private String ip;
     private int port;
+    private Ui ui;
     private boolean active = true;
     private boolean opReceived;
     private boolean gmReceived;
@@ -44,22 +46,38 @@ public class Client {
 
         //Create socket
         Socket socket = new Socket(ip,port);
-        System.out.println("Connection established");
 
-        //Set scanners and printers
+        //Set I/O streams
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
         Scanner stdin = new Scanner(System.in);
-        System.out.println("Scanners and printers ready");
+
+        //Choose between cli and gui
+        System.out.println("Which interface do you want to use, CLI or GUI?");;
+        String setUi;
+        do {
+            setUi = stdin.nextLine().toUpperCase();
+        } while(!(setUi.equals("CLI") || setUi.equals("GUI")));
+
+        if(setUi.equals("CLI")) {
+            ui = new CLI();
+        }
+        if(setUi.equals("GUI")) {
+            ui = new CLI();
+            ui.showMessage("GUI not implemented yet, have fun with CLI ;)");
+        }
+
+        ui.showMessage(Messages.connectionReady);
+
 
         try {
             Thread t0 = asyncReadFromSocket(socketIn);
-            Thread t1 = asyncWriteToSocket(stdin,socketOut);
+            Thread t1 = asyncWriteToSocket(socketOut);
             t0.join();
             t1.join();
 
         } catch (NoSuchElementException | InterruptedException e) {
-            System.out.println("Connection closed");
+            ui.showMessage(Messages.connectionClosed);
 
         } finally{
             stdin.close();
@@ -71,7 +89,7 @@ public class Client {
     }
 
 
-    public Thread asyncReadFromSocket(final ObjectInputStream socketIn) {
+    public Thread asyncReadFromSocket(ObjectInputStream socketIn) {
 
         Thread t = new Thread(new Runnable() {
 
@@ -82,21 +100,21 @@ public class Client {
                         Object inputObject = socketIn.readObject();
 
                         if(inputObject instanceof String) {
-                            System.out.println((String)inputObject);
+                            ui.showMessage((String)inputObject);
 
-                        } else if (inputObject instanceof Board) {
-                            System.out.println("Print map");
+                        } else if (inputObject instanceof BoardView) {
+                            ui.showBoard((BoardView)inputObject);
 
                         } else if(inputObject instanceof String[]) {
                             for(String s : (String[])inputObject) {
-                                System.out.println(s);
+                                ui.showMessage(s);
                             }
                         } else if(inputObject instanceof ArrayList){  /* currentGodList */
-                            ArrayList godList = (ArrayList) inputObject;
-                            if(godList.size() != 0 && godList.get(0) instanceof String){
-                                for (Object o : godList){
+                            ArrayList nameList = (ArrayList) inputObject;
+                            if(nameList.size() != 0 && nameList.get(0) instanceof String){
+                                for (Object o : nameList){
                                     String s = (String) o;
-                                    System.out.println(s);
+                                    ui.showMessage(s);
                                 }
                             }
                         } else if(inputObject instanceof Operation){
@@ -123,7 +141,7 @@ public class Client {
     }
 
 
-    public Thread asyncWriteToSocket(final Scanner stdin,final PrintWriter socketOut) {
+    public Thread asyncWriteToSocket(final PrintWriter socketOut) {
 
         Thread t = new Thread(new Runnable() {
 
@@ -131,7 +149,7 @@ public class Client {
             public void run() {
                 try {
                     while(isActive()) {
-                        String input = stdin.nextLine();
+                        String input = ui.getInput();
                         if(opReceived) {
                             try {  /* coordinate Tile */
                                 String[] inputs = input.split(",");
@@ -145,7 +163,7 @@ public class Client {
                                     System.out.println("Riprova!\nmossa (x,y)");
                                 }
                             } catch (IllegalArgumentException e) {
-                                System.out.println("Inserimento invalido");
+                                ui.showMessage(Messages.wrongArgument);
                             }
 
                         }else if (gmReceived) {  /* Risposta al messaggio */
@@ -164,7 +182,7 @@ public class Client {
                                         System.out.println("Riprova!\n" + gMessage.getMessage());
                                     }
                                 }catch(IllegalArgumentException e){
-                                    System.out.println("Inserimento invalido");
+                                    ui.showMessage(Messages.wrongArgument);
                                 }
                             }else if(gMessage.getMessage().equals(Messages.Atlas)){
                                 if(input.equals("BLOCK") || input.equals("DOME")){
@@ -190,7 +208,8 @@ public class Client {
                                 gmReceived = false;
                                 gMessage = null;
                             }else {
-                                System.out.println("Riprova!\n" + gMessage.getMessage());
+                                ui.showMessage(Messages.tryAgain);
+                                ui.showMessage(gMessage.getMessage());
                             }
                         } else {
                             socketOut.println(input);
@@ -202,7 +221,6 @@ public class Client {
                 }
             }
         });
-
 
         t.start();
         return t;

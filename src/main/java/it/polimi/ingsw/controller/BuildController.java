@@ -24,6 +24,7 @@ public class BuildController {
         this.model = model;
     }
 
+
     public boolean checkBlockDome(String command){
         if(command.equals("DOME")){
             worker.buildDome(position);
@@ -34,7 +35,6 @@ public class BuildController {
         }
         return false;
     }
-
 
 
     public boolean build(Operation operation){

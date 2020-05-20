@@ -167,6 +167,7 @@ public class InitController {
         Turn currentTurn = model.getCurrentTurn();
         currentPlayer = currentTurn.getCurrentPlayer();  /* primo currentPlayer == StartingPlayer */
         indexWorker = 0;
+        model.showBoard();
         views.get(currentPlayer).showMessage("Posiziona il worker" + indexWorker);
         model.place();  /* dalla view passa al Controller notificando la posizione (Operation) */
     }
@@ -178,9 +179,9 @@ public class InitController {
             views.get(currentPlayer).showMessage("Tile Occupied!");
         }else {
             /* mostrare mappa aggiornata */
-            model.showBoard();
             currentPlayer.chooseWorker(indexWorker).setPosition(currentPosition);  /* posizionare il worker */
             indexWorker++;
+            model.showBoard();
             if(indexWorker > 1){  /* passare al nextPlayer */
                 indexWorker = 0;
                 Turn currentTurn = model.getCurrentTurn();

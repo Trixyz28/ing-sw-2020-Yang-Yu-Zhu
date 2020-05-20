@@ -108,9 +108,7 @@ public class Server {
 
                 //Display match players info
                 connection.syncSend("Match Starting\nPlayers in game are: ");
-                for(String name : lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList()) {
-                    connection.syncSend(name);
-                }
+                connection.syncSend(lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList());
 
             }
 

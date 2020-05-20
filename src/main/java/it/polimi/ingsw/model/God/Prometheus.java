@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.Worker;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

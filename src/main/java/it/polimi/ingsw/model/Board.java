@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board implements Cloneable, Serializable {
+public class Board {
 
     //map creation 5x5 blocks
     private Tile[][] map;
@@ -17,7 +17,7 @@ public class Board implements Cloneable, Serializable {
 
     //get() of the map
     public Tile[][] getMap() {
-        return map;
+        return map.clone();
     }
 
 
