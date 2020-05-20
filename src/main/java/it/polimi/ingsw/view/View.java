@@ -15,7 +15,8 @@ public abstract class View extends Observable implements Observer{
     private PrintStream outputStream;
     private boolean endGame = false;
     private int currentID;
-
+    protected Operation operation;
+    protected GameMessage gameMessage;
 
 
     public View(Player player){
@@ -23,15 +24,51 @@ public abstract class View extends Observable implements Observer{
         endGame = false;
     }
 
+    public void setEndGame(){
+        endGame = true;
 
-    public void setGame() {
-        notify("setup");
     }
 
 
     @Override
     public void update(Object message) {
     }
+
+    protected void handleOp(String input){  /* modificare l'Op precedentemente salvata con l'input dal Client */
+        try {
+            String[] inputs = input.split(",");
+            int row = Integer.parseInt(inputs[0]);
+            int column = Integer.parseInt(inputs[1]);
+            operation.setPosition(row, column);
+            System.out.println("Received: Operation type " + operation.getType() + " ("
+                    + operation.getRow() + ", " + operation.getColumn() + ")");
+            notify(operation);
+            /* ripristinare */
+            //operation = null;
+        }catch (IllegalArgumentException e){
+            System.out.println("Inserimento invalido");
+        }
+    }
+
+
+    protected void handleGm(String input){  /* modificare Gm precedentemente salvata con l'input dal Client */
+        if(gameMessage.getMessage().equals(Messages.Worker)){
+            try {
+                int index = Integer.parseInt(input);
+                System.out.println("Received: WorkerIndex : " + index);
+                notify(index);  /* Integer */
+                //gameMessage = null;
+            }catch(IllegalArgumentException e){
+                System.out.println("Inserimento invalido");
+            }
+        }else{
+            gameMessage.setAnswer(input);
+            System.out.println("Received: Answer : " + gameMessage.getAnswer());
+            notify(gameMessage);  /* ripristinare */
+        }
+
+    }
+
 
 
     private void chooseWorker() {
@@ -53,13 +90,6 @@ public abstract class View extends Observable implements Observer{
 
 
 
-    private void operation() {
-
-
-
-
-
-    }
     /*
     public void move() {
 
@@ -121,24 +151,6 @@ public abstract class View extends Observable implements Observer{
         GameMessage gm = new GameMessage(player, null);
         gm.setAnswer(input);
         notify(gm);
-    }
-
-    void messageOperation(Operation operation){
-        System.out.println("Operation type " + operation.getType() + " ("
-                + operation.getRow() + ", " + operation.getColumn() + ")");
-        notify(operation);
-    }
-
-    void workerIndex(String answer){
-        int index = Integer.parseInt(answer);
-        System.out.println("WorkerIndex : " + index);
-        notify(index);
-    }
-
-    void gameMessage(GameMessage gm){
-        System.out.println("Answer : " + gm.getAnswer());
-        notify(gm);
-
     }
 
 

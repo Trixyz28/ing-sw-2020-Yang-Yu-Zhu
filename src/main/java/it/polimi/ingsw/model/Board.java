@@ -1,9 +1,10 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board implements Cloneable{
+public class Board implements Cloneable, Serializable {
 
     //map creation 5x5 blocks
     private Tile[][] map;

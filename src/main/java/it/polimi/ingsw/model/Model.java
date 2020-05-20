@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.model.God.Pan;
 
@@ -144,11 +145,11 @@ public class Model extends Observable {
         notify(new Operation(currentTurn.getCurrentPlayer(),0, -1, -1));
     }
 
-    public void move(){  /* type 0 = move */
+    public void move(){  /* type 1 = move */
         notify(new Operation(currentTurn.getCurrentPlayer(),1, -1, -1));
     }
 
-    public void build(){  /* type 0 = build */
+    public void build(){  /* type 2 = build */
         notify(new Operation(currentTurn.getCurrentPlayer(),2, -1,-1));
     }
 
@@ -160,19 +161,18 @@ public class Model extends Observable {
             return true;
         }
         if(currentTurn.getChosenWorker() instanceof Pan){
-            ((Pan) currentTurn.getChosenWorker()).panCheck(currentTurn.getFinalTile(), currentTurn.getInitialTile());
+            return ((Pan) currentTurn.getChosenWorker()).panCheck(currentTurn.getInitialTile());
         }
         return false;
     }
 
     public boolean checkLose() {  /* se tutti i worker non hanno più tile da poter andare -> perde*/
-        /*
-        for (int i = 0; i < 2; i++) {
-            if (currentTurn.getCurrentPlayer().chooseWorker(i).canMove().size() != 0) {
+        for (int i = 0; i < 2 ; i++) {
+            UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(i);
+            if (worker.canMove(worker.getPosition()).size() != 0) {
                 return false;
             }
         }
-        */
         return true;
     }
 

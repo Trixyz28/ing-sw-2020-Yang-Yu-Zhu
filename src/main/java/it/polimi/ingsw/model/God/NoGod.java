@@ -18,7 +18,7 @@ public class NoGod implements UndecoratedWorker {
    //Returns a list of available tiles where the worker can be moved to
    @Override
    public List<Tile> canMove(Tile t) {
-      return position.movableTileList(t);
+      return position.getAdjacentTiles();
    }
 
    //Move the worker from position to t
@@ -63,6 +63,7 @@ public class NoGod implements UndecoratedWorker {
    @Override
    public void setPosition(Tile t) {
       position = t;
+      t.setWorker();
    }
 
 

@@ -39,12 +39,18 @@ public class InitController {
         return endInitialize;
     }
 
+    protected String getCurrentPlayer() {
+        return currentPlayer.getPlayerNickname();
+    }
+
+    /* subito dopo la notifica setup */
     public void initializeMatch(){
         model.randomChooseChallenger(); /* scegliere challenger per Random  */
         challengerStart();  /* inizia il Challenger */
 
     }
 
+    /* preparazione scelta godList dal challenger */
     private void challengerStart(){
         challenger = model.getMatchPlayersList().get(model.getChallengerID()); /* ID = indice iniziale */
         currentPlayer = challenger;
@@ -52,6 +58,7 @@ public class InitController {
         model.showCompleteGodList();  /* mandare al Challenger la lista completa dei God */
     }
 
+    /* dopo fine defineGodList -> inizio scelta God dal Player next al Challenger */
     private void startChoosingGod(){
         int index = challenger.getPlayerID()+1;  /* Player next al Challenger */
         if(index == model.getMatchPlayersList().size()){
@@ -65,6 +72,7 @@ public class InitController {
 
     }
 
+    /* scelta God dal Player */
     protected void chooseGod(String player, String god){
         if (player.equals(currentPlayer.getPlayerNickname())){
             GodList godList = model.getGodsList();
@@ -113,6 +121,7 @@ public class InitController {
         }
     }
 
+    /* fine scelte God -> inizio scelta StartingPlayer */
     protected void endGod(){
         /* dare direttamente la god rimanente al Challenger */
         View view = views.get(challenger);
@@ -131,7 +140,7 @@ public class InitController {
 
     }
 
-
+    /* scelta god per definire la GodList */
     protected void defineGodList(String god, GodList godList){  //eseguire solo al challenger
         if(!godList.checkLength()) {
             //far scegliere Gods attraverso la view dal challenger )
@@ -147,6 +156,8 @@ public class InitController {
 
                 startChoosingGod();
             }
+        } else {
+            views.get(challenger).showMessage(Messages.wrongTurn);  /* accesso invalido challenger */
         }
     }
 
@@ -160,6 +171,7 @@ public class InitController {
         model.place();  /* dalla view passa al Controller notificando la posizione (Operation) */
     }
 
+    /* posizionare Worker -> fine inizializzazione */
     protected void placeWorker(Operation position){  //currentPosition = Tile dove posizionare il worker
         Tile currentPosition = model.commandToTile(position.getRow(), position.getColumn());
         if(currentPosition.isOccupiedByWorker()){
@@ -172,20 +184,23 @@ public class InitController {
             if(indexWorker > 1){  /* passare al nextPlayer */
                 indexWorker = 0;
                 Turn currentTurn = model.getCurrentTurn();
-                currentTurn.setCurrentPlayer(model.getMatchPlayersList().get(model.getNextPlayerIndex()));
-                currentPlayer = currentTurn.getCurrentPlayer();
-                if(currentPlayer.getPlayerID() == model.getStartingPlayerID()){  /* fine giro : inizio partita */
+                Player nextPlayer = model.getMatchPlayersList().get(model.getNextPlayerIndex());
+                if(nextPlayer.getPlayerID() == model.getStartingPlayerID()){  /* fine giro : inizio partita */
                     endInitialize = true;  //fine inizializzazione Turno
+                }else {
+                    currentTurn.setCurrentPlayer(model.getMatchPlayersList().get(model.getNextPlayerIndex()));
+                    currentPlayer = nextPlayer;
                 }
 
             }
-            if(!endInitialize) {
-                views.get(currentPlayer).showMessage("Posiziona il worker" + indexWorker);
-                model.place();  /* dalla view passa al Controller notificando la posizione (Operation) */
-            }
+        }
+        if(!endInitialize) {  /* continuare con posizionare i worker */
+            views.get(currentPlayer).showMessage("Posiziona il worker" + indexWorker);
+            model.place();  /* dalla view passa al Controller notificando la posizione (Operation) */
         }
     }
 
+    /* selezione StartingPlayer -> Inizializzazione Turno 0 */
     public void setStartingPlayer(String startingPlayerNickname){  /* per sceglire il startingPlayer attraverso Nickname */
 
         if(startingPlayerNickname.equals(challenger.getPlayerNickname())) {

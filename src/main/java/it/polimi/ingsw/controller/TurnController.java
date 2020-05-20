@@ -54,11 +54,12 @@ public class TurnController {
         return isHephaestus;
     }
 
-    protected void movePrometheus() {
-        isPrometheus = false;
-        startMove();
+    protected boolean CanMoveUp(){
+        return canMoveUp;
     }
 
+
+    /* scelta worker + controllo tipo worker */
     public void setChosenWorker(int index){
         UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(index);
 
@@ -82,14 +83,12 @@ public class TurnController {
         }else {
             //view.chooseWorker; -> richiedere scelta
             currentView.showMessage("Riprova con un altro");
+            model.sendMessage(Messages.Worker);
         }
 
     }
 
-    protected boolean CanMoveUp(){
-        return canMoveUp;
-    }
-
+    /* fine move -> aggiornare FinalTile + chackWin -> inizio Build */
     public void endMove() {
         currentTurn.setFinalTile(chosenWorker.getPosition());
         if(model.checkWin()){
@@ -107,6 +106,7 @@ public class TurnController {
 
     }
 
+    /* fine Turn -> aggiornare BuiltTile + nextTurn */
     public void endTurn(Operation build) {
         currentTurn.setBuiltTile(model.commandToTile(build.getRow(), build.getColumn()));  /* ottenere le coordinate del Tile dalla Operation */
         //illustrare qualche messaggio sulla view
@@ -114,6 +114,7 @@ public class TurnController {
         nextTurn();
     }
 
+    /* aggiornare Turn + ripristinare condizioni */
     public void nextTurn() {
         currentTurn = model.getCurrentTurn();
         ArrayList<Player> playerList = model.getMatchPlayersList();
@@ -131,6 +132,7 @@ public class TurnController {
         //view.chooseWorker;  -> far scegliere al player il worker dalla view
         if(model.checkLose()){
             currentView.showMessage("Spiacenti! Non sei più in grado di fare mosse, hai perso!!!!");
+            currentView.setEndGame();  /* player finisce la partita */
             //model.lose();
         }
         currentView.showMessage("Ecco il tuo turno!\nScegli il worker che vuoi fare la mossa");
@@ -138,6 +140,7 @@ public class TurnController {
         /* attesa scelta worker */
     }
 
+    /* scelto Worker -> inizio move */
     protected void choosedWorker(){
 
         currentTurn.setChosenWorker(chosenWorker);
@@ -153,7 +156,6 @@ public class TurnController {
     }
 
     protected void startMove(){
-
         currentView.showMessage("Move!!!");
         model.move();
 
@@ -166,7 +168,14 @@ public class TurnController {
     }
 
 
-    protected void moveArtemis(){  /* prima move fa uscire dal while la seconda come move normale */
+    protected void movePrometheus() {  /* se "MOVE": Worker normale -> continuare */
+        isPrometheus = false;
+        startMove();
+    }
+
+
+
+    protected void moveArtemis(){  /* prima move Artemis, la seconda come move normale */
         if (isArtemis) {
             currentTurn.setFinalTile(chosenWorker.getPosition());
             if(model.checkWin()){
@@ -185,7 +194,7 @@ public class TurnController {
         }
     }
 
-    protected void buildDemeter(){  /* primo build fa uscire dalla while secondo normale build */
+    protected void buildDemeter(){  /* primo build Demeter, secondo normale build */
         if(isDemeter){
             model.sendMessage(Messages.Demeter);  /* chiedere al Player se vuole fare build in più */
             isDemeter = false;

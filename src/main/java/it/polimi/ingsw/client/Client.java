@@ -21,7 +21,6 @@ public class Client {
     private boolean active = true;
     private boolean opReceived;
     private boolean gmReceived;
-    private Operation operation;
     private GameMessage gMessage;
 
     public Client(String ip, int port) {
@@ -101,11 +100,13 @@ public class Client {
                                 }
                             }
                         } else if(inputObject instanceof Operation){
-                            opReceived = true;
-                            operation = (Operation)inputObject;
+                            opReceived = true;  /* ricevuto un Operation */
+                            //operation = (Operation)inputObject;
+                            System.out.println("mossa (x,y)");
                         }else if(inputObject instanceof GameMessage){
-                            gmReceived = true;
+                            gmReceived = true;  /* ricevuto un GameMessage */
                             gMessage = (GameMessage)inputObject;
+                            System.out.println(gMessage.getMessage());
                         }
                         else {
                             throw new IllegalArgumentException();
@@ -131,62 +132,66 @@ public class Client {
                 try {
                     while(isActive()) {
                         String input = stdin.nextLine();
-                        if (opReceived) {
-                            try {
+                        if(opReceived) {
+                            try {  /* coordinate Tile */
                                 String[] inputs = input.split(",");
                                 int row = Integer.parseInt(inputs[0]);
                                 int column = Integer.parseInt(inputs[1]);
                                 if (row < 5 && column < 5 && row >= 0 && column >= 0) {
-                                    operation.setPosition(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]));
-                                    socketOut.println(operation);
+                                    socketOut.println(input);
                                     socketOut.flush();
                                     opReceived = false;
-                                    operation = null;
+                                }else {
+                                    System.out.println("Riprova!\nmossa (x,y)");
                                 }
-                            }catch (IllegalArgumentException e){
+                            } catch (IllegalArgumentException e) {
                                 System.out.println("Inserimento invalido");
                             }
-                        } else if (gmReceived) {
-                            input = input.toUpperCase();
+
+                        }else if (gmReceived) {  /* Risposta al messaggio */
+
+                             input = input.toUpperCase();
+
                             if(gMessage.getMessage().equals(Messages.Worker)){
-                                try {
+                                try {  /* indice worker o 0 o 1 */
                                     int index = Integer.parseInt(input);
                                     if (index == 0 || index == 1) {
-                                        gMessage.setAnswer(input);
-                                        socketOut.println(gMessage);
+                                        socketOut.println(input);
                                         socketOut.flush();
                                         gmReceived = false;
                                         gMessage = null;
+                                    }else {
+                                        System.out.println("Riprova!\n" + gMessage.getMessage());
                                     }
                                 }catch(IllegalArgumentException e){
                                     System.out.println("Inserimento invalido");
                                 }
                             }else if(gMessage.getMessage().equals(Messages.Atlas)){
                                 if(input.equals("BLOCK") || input.equals("DOME")){
-                                    gMessage.setAnswer(input);
-                                    socketOut.println(gMessage);
+                                    socketOut.println(input);
                                     socketOut.flush();
                                     gmReceived = false;
                                     gMessage = null;
+                                }else {
+                                    System.out.println("Riprova!\n" + gMessage.getMessage());
                                 }
                             }else if(gMessage.getMessage().equals(Messages.Prometheus)){
                                 if(input.equals("MOVE")  || input.equals("BUILD")){
-                                    gMessage.setAnswer(input);
-                                    socketOut.println(gMessage);
+                                    socketOut.println(input);
                                     socketOut.flush();
                                     gmReceived = false;
                                     gMessage = null;
+                                }else {
+                                    System.out.println("Riprova!\n" + gMessage.getMessage());
                                 }
                             }else if(input.equals("YES") || input.equals("NO")){
-                                gMessage.setAnswer(input);
-                                socketOut.println(gMessage);
+                                socketOut.println(input);
                                 socketOut.flush();
                                 gmReceived = false;
                                 gMessage = null;
                             }else {
                                 System.out.println("Riprova!\n" + gMessage.getMessage());
                             }
-
                         } else {
                             socketOut.println(input);
                             socketOut.flush();

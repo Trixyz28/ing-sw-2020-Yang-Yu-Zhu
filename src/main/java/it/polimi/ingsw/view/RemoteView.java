@@ -10,32 +10,24 @@ import java.util.ArrayList;
 public class RemoteView extends View {
 
     private SocketConnection clientConnection;
+    protected boolean opSend;
+    protected boolean gmSend;
 
     private class MessageReceiver implements Observer {
 
         @Override
         public void update(Object message) {  /* ricevere messaggi dal Client: Nickname o God */
             if(message instanceof String) {
-                String input = (String) message;
-                System.out.println("Received: " + input);
-
-                messageString(input);
-            }
-            if(message instanceof Operation){
-                Operation operation = (Operation) message;
-                System.out.println("Received: Operation");
-
-                messageOperation(operation);
-
-            }
-            if(message instanceof GameMessage){
-                GameMessage gm = (GameMessage) message;
-                System.out.println("Received: GameMessage");
-
-                if(gm.getMessage().equals(Messages.Worker)){  //Answer = 0 o 1
-                        workerIndex(gm.getAnswer());
-                }else {
-                    gameMessage(gm);
+                if(opSend){  /* se precedentemente è stata inviata una Operation */
+                    opSend = false;
+                    handleOp((String)message);
+                }else if(gmSend){  /* se precedentemente è stata inviata una Operation */
+                    gmSend = false;
+                    handleGm((String)message);
+                }else{
+                    String input = (String) message;
+                    System.out.println("Received: " + input);
+                    messageString(input);
                 }
             }
         }
@@ -45,6 +37,8 @@ public class RemoteView extends View {
         super(player);
         this.clientConnection = c;
         c.addObservers(new MessageReceiver());
+        opSend = false;
+        gmSend = false;
     }
 
     public void showMessage(String message){  /* utilizzato dal Controller per messaggi al Client */
@@ -68,11 +62,15 @@ public class RemoteView extends View {
 
         if(message instanceof Operation){  /* inviare l'Operation con tipo già definito solo al currentPlayer*/
             if(((Operation) message).getPlayer().equals(player.getPlayerNickname())) {
+                operation = (Operation)message;  /* salvare l'op nella view e notify */
+                opSend = true;
                 clientConnection.asyncSend(message);
             }
         }
         if(message instanceof GameMessage){  /* inviare richiesta solo al currentPlayer*/
             if(((GameMessage) message).getPlayer().equals(player.getPlayerNickname())) {
+                gameMessage = (GameMessage)message;  /* salvare prima di notify */
+                gmSend = true;
                 clientConnection.asyncSend(message);
             }
         }

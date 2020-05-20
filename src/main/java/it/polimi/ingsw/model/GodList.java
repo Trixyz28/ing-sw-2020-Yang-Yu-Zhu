@@ -104,9 +104,9 @@ public class GodList {
 
     //Remove a God from currentGodList & listLength-1
     public void removeFromGodList(String selectedGod) {
-        for(int i = 0; i < listLength; i++){
-            if(currentGodList.get(i).equals(selectedGod)){
-                currentGodList.remove(i);
+        for(String s : currentGodList){
+            if(s.equals(selectedGod)) {
+                currentGodList.remove(s);
                 listLength--;
                 break;
             }

@@ -33,18 +33,24 @@ public class Controller implements Observer {
     }
 
 
-    public boolean checkTurn(String player){
-        if(model.getCurrentTurn().getCurrentPlayer().getPlayerNickname().equals(player)){
-            return true;
-        }else {
-            for(Player p : model.getMatchPlayersList()){
-                if(p.getPlayerNickname().equals(player)) {
-                    views.get(p).showMessage(Messages.wrongTurn);
-                    return false;
-                }
+    public boolean checkTurn(String player) {
+        if (initController.isEndInitialize() || initController.getCurrentPlayer().equals(player)) {
+            if (!initController.isEndInitialize()) {
+                return true;
             }
-            return false;
+            if (model.getCurrentTurn().getCurrentPlayer().getPlayerNickname().equals(player)) {
+                return true;
+            }
         }
+
+        for (Player p : model.getMatchPlayersList()) {
+            if (p.getPlayerNickname().equals(player)) {
+                views.get(p).showMessage(Messages.wrongTurn);
+                return false;
+            }
+        }
+            return false;
+
 
     }
 
@@ -69,7 +75,13 @@ public class Controller implements Observer {
                 } else
 
                 if (operation.getType() == 1) {  //type 1 -> move
-                    boolean flag = moveController.moveWorker((Operation) arg, turnController.CanMoveUp());  /* +condizione di canMoveUp */
+                    System.out.println("Entrando in moveController");
+                    boolean flag;
+                    if(turnController.isPrometheus()){  /* Prometheus ha fatto la Build prima della move*/
+                        flag = moveController.moveWorker((Operation) arg, false);
+                    }else {
+                        flag = moveController.moveWorker((Operation) arg, turnController.CanMoveUp());  /* +condizione di canMoveUp */
+                    }
                     if (flag && turnController.isArtemis()) {
                         turnController.moveArtemis();
                     } else {
@@ -134,12 +146,15 @@ public class Controller implements Observer {
                     } else if(player.equals(challenger.getPlayerNickname())){
                         /* finita parte God arg = StartingPlayerNickname */
                         initController.setStartingPlayer(answer);  /* set il StartingPlayer dal Nickname */
+                    } else {
+                        checkTurn(player);
                     }
+                }else {
+                    checkTurn(player);
                 }
 
-            }else
 
-            if(checkTurn(player)) {
+            }else if(checkTurn(player)) {
 
 
                 if (message.equals(Messages.Artemis)) {  /* YES or NO */
