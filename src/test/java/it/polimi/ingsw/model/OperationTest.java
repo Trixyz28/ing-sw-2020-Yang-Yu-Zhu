@@ -5,7 +5,8 @@ import org.junit.Test;
 
 public class OperationTest extends TestCase {
 
-    Player player = new Player();
+    Player player = new Player("A");
+
     Operation operation = new Operation(player,2,1,0);
 
     @Test
@@ -22,4 +23,10 @@ public class OperationTest extends TestCase {
     public void testColumn() {
         assertEquals(0,operation.getColumn());
     }
+
+    @Test
+    public void testPlayer() {
+        assertEquals("A",player.getPlayerNickname());
+    }
+
 }

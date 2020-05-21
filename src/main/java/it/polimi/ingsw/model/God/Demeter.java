@@ -18,17 +18,6 @@ public class Demeter extends WorkerDecorator {
 
 
     @Override
-    public List<Tile> canMove(Tile t) {
-        return super.canMove(t);
-    }
-
-
-    @Override
-    public void move(Tile t) {
-        super.move(t);
-    }
-
-    @Override
     public boolean canBuildBlock(Tile t) {
         if (getCounter() == 0) {
             return super.canBuildBlock(t);

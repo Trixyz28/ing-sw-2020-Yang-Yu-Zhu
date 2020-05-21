@@ -5,12 +5,11 @@ import org.junit.Test;
 
 public class PlayerTest extends TestCase {
 
-    Player player = new Player();
+    Player player = new Player("Abc");
 
 
     @Test
     public void testPlayerNickname() {
-        player.setPlayerNickname("Abc");
         assertEquals("Abc",player.getPlayerNickname());
     }
 

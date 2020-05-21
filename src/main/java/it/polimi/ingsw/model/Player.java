@@ -15,12 +15,20 @@ public class Player {
     //ID assigned to each player in order by their join succession
     private int playerID;
     private String playerNickname;
-    private boolean challenger;  /* non è più necessario (può essere usato per i test) */
+    private boolean challenger;
     private String godCard;
-
 
     //Workers owned by this player
     private List<UndecoratedWorker> workerList;
+
+    public Player(String playerName) {
+        this.playerNickname = playerName;
+    }
+
+
+    public String getPlayerNickname() {
+        return playerNickname;
+    }
 
 
     public int getPlayerID() {
@@ -31,49 +39,26 @@ public class Player {
     }
 
 
-    public String getPlayerNickname() {
-        return playerNickname;
-    }
-    public void setPlayerNickname(String playerNickname) {
-        this.playerNickname = playerNickname;
-    }
-
-
-    public void setChallenger(boolean challenger){
-        this.challenger = challenger;
-    }
     public boolean isChallenger() {
         return challenger;
     }
-
-    public String getGodCard() {
-        return godCard;
+    public void setChallenger(boolean challenger){
+        this.challenger = challenger;
     }
 
 
-    /* Select the full God list if isChallenger == true da mettere nella view e controller
-    public void defineGodList() {
-        if(isChallenger == true){
-            while(!godList.checkLength()) {
 
-            }
-        }
-    }
-    */
 
     //Choose a God from the list
     public void godChoice(String god) {
         godCard = god;
     }
+    public String getGodCard() {
+        return godCard;
+    }
 
 
 
-
-
-    //Choose a start player if isChallenger == true -> non è necessario metterlo nel Player
-    /*
-    public void chooseStartPlayer(int id) {    }
-    */
 
     //Create 2 specific worker classes as indicated in godCard ( da sistemare)
     public List<UndecoratedWorker> createWorker(String godCard) {

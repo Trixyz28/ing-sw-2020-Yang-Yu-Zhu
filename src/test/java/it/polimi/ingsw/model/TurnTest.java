@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class TurnTest extends TestCase {
 
-    Player player = new Player();
+    Player player = new Player("A");
     Turn turn = new Turn(player);
 
     @Test

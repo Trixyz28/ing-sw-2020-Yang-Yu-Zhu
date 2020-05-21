@@ -51,28 +51,6 @@ public class Apollo extends WorkerDecorator {
         }
     }
 
-    @Override
-    public boolean canBuildBlock(Tile t) {
-        return super.canBuildBlock(t);
-    }
-
-    @Override
-    public void buildBlock(Tile t) {
-        super.buildBlock(t);
-    }
-
-    @Override
-    public boolean canBuildDome(Tile t) {
-        return super.canBuildDome(t);
-    }
-
-    @Override
-    public void buildDome(Tile t) {
-        super.buildDome(t);
-    }
-
-
-
     public boolean availableApolloToMove(Tile dest) {
         if(this.getPosition().isAdjacentTo(dest) && !dest.isDomePresence()
                 && dest.getBlockLevel()-this.getPosition().getBlockLevel()<=1 ) {

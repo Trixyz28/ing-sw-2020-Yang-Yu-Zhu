@@ -3,7 +3,6 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.observers.Observable;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -104,11 +103,9 @@ public class SocketConnection extends Observable implements Runnable {
                 }
             } while(!check);
 
-            player = new Player();
-            player.setPlayerNickname(readName);
+            player = new Player(readName);
             server.getLobbyHandler().addPlayer(player.getPlayerNickname());
             send("Hi, " + player.getPlayerNickname() + "!");
-
 
 
             //Create a lobby

@@ -10,7 +10,7 @@ public class Operation implements Serializable {
     private int row;
     private int column;
 
-    public Operation(final Player player, int type,int row,int column) {
+    public Operation(final Player player,int type,int row,int column) {
         this.player = player.getPlayerNickname();
         this.type = type;
         this.row = row;

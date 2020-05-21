@@ -180,7 +180,7 @@ public class Model extends Observable {
             return true;
         }
         if(currentTurn.getChosenWorker() instanceof Pan){
-            //return ((Pan) currentTurn.getChosenWorker()).panCheck(currentTurn.getInitialTile());
+            return ((Pan) currentTurn.getChosenWorker()).panCheck(currentTurn.getInitialTile());
         }
         return false;
     }

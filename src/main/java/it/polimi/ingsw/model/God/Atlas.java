@@ -8,30 +8,7 @@ import java.util.List;
 public class Atlas extends WorkerDecorator {
 
     public Atlas (UndecoratedWorker worker){
-
         super(worker);
-    }
-
-
-    @Override
-    public List<Tile> canMove(Tile t) {
-        return super.canMove(t);
-    }
-
-
-    @Override
-    public void move(Tile t) {
-        super.move(t);
-    }
-
-    @Override
-    public boolean canBuildBlock(Tile t) {
-        return super.canBuildBlock(t);
-    }
-
-    @Override
-    public void buildBlock(Tile t) {
-        super.buildBlock(t);
     }
 
     @Override
@@ -42,13 +19,5 @@ public class Atlas extends WorkerDecorator {
         }
         return false;
     }
-
-    @Override
-    public void buildDome(Tile t) {
-        super.buildDome(t);
-    }
-
-
-
 
 }

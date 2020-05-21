@@ -12,18 +12,6 @@ public class Hephaestus extends WorkerDecorator {
         super(worker);
     }
 
-
-    @Override
-    public List<Tile> canMove(Tile t) {
-        return super.canMove(t);
-    }
-
-
-    @Override
-    public void move(Tile t) {
-        super.move(t);
-    }
-
     @Override
     public boolean canBuildBlock(Tile t) {
         return super.canBuildBlock(t);
@@ -40,19 +28,6 @@ public class Hephaestus extends WorkerDecorator {
 
          */
     }
-
-    @Override
-    public boolean canBuildDome(Tile t) {
-        return super.canBuildDome(t);
-    }
-
-    @Override
-    public void buildDome(Tile t) {
-        super.buildDome(t);
-    }
-
-
-
 
 
 }

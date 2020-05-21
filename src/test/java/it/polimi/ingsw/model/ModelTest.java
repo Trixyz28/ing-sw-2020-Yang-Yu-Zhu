@@ -12,10 +12,8 @@ public class ModelTest extends TestCase {
 
     @Test
     public void testInitialize() {
-        Player player1 = new Player();
-        player1.setPlayerNickname("A");
-        Player player2 = new Player();
-        player2.setPlayerNickname("B");
+        Player player1 = new Player("A");
+        Player player2 = new Player("B");
 
         model.initialize(2);
         model.addPlayer(player1);

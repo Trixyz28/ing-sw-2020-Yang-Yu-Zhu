@@ -180,7 +180,7 @@ public class Controller implements Observer {
                         turnController.endTurn(buildController.getOperation());  /* ultima build effettuata */
                     }
                 }else
-                if (message.equals(Messages.Hephaestus)) {  /* Block ggiuntivo : YES or NO */
+                if (message.equals(Messages.Hephaestus)) {  /* Block aggiuntivo : YES or NO */
                     if (answer.equals("YES")) {
                         model.showBoard();
                         Operation op = buildController.getOperation();  /* ultima build effettuata */
