@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.Worker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +42,10 @@ public class Apollo extends WorkerDecorator {
     public void move(Tile t) {
         if(!t.isOccupiedByWorker()){
             super.move(t);
-        }
-        if(t.isOccupiedByWorker()){
+        } else if(t.isOccupiedByWorker()){
             NoGod transferWorker = new NoGod();
             // transferWorker = getTileWorker(t);
-            transferWorker.move(super.position);
+            transferWorker.move(super.getPosition());
             super.move(t);
 
         }
@@ -60,6 +58,7 @@ public class Apollo extends WorkerDecorator {
 
     @Override
     public void buildBlock(Tile t) {
+        super.buildBlock(t);
     }
 
     @Override
@@ -69,14 +68,14 @@ public class Apollo extends WorkerDecorator {
 
     @Override
     public void buildDome(Tile t) {
-
+        super.buildDome(t);
     }
 
 
 
     public boolean availableApolloToMove(Tile dest) {
-        if(this.position.isAdjacentTo(dest) && !dest.isDomePresence()
-                && dest.getBlockLevel()-this.position.getBlockLevel()<=1 ) {
+        if(this.getPosition().isAdjacentTo(dest) && !dest.isDomePresence()
+                && dest.getBlockLevel()-this.getPosition().getBlockLevel()<=1 ) {
             return true;
         }
 

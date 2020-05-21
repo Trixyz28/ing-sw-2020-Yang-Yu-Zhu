@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.Worker;
 
 import java.util.List;
 
@@ -61,6 +60,7 @@ public class Minotaur extends WorkerDecorator {
 
     @Override
     public void buildDome(Tile t) {
+        super.buildDome(t);
     }
 
     /*

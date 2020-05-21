@@ -10,10 +10,10 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
 
     //undecorated worker associated
     protected UndecoratedWorker worker;
-    protected Tile position;
 
     public WorkerDecorator(UndecoratedWorker worker){
         this.worker = worker;
+        //this.position = worker.getPosition();
     }
 
     //standard constructors

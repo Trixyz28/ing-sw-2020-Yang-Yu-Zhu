@@ -82,6 +82,7 @@ public class Controller implements Observer {
                     }else {
                         flag = moveController.moveWorker((Operation) arg, turnController.CanMoveUp());  /* +condizione di canMoveUp */
                     }
+                    //System.out.println("Uscito dal move" + turnController.CanMoveUp());
                     if (flag && turnController.isArtemis()) {
                         turnController.moveArtemis();
                     } else {

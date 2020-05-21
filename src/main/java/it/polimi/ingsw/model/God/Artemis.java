@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.Worker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ public class Artemis extends WorkerDecorator {
     public List<Tile> canMove(Tile t) {
 
         if(counter == 1) {
-            setOriginalTile(super.position);
+            setOriginalTile(super.getPosition());
             List<Tile> tempList;
             Tile tempTile = new Tile();
 
@@ -64,7 +63,7 @@ public class Artemis extends WorkerDecorator {
 
     @Override
     public void buildBlock(Tile t) {
-
+        super.buildBlock(t);
     }
 
     @Override
@@ -74,7 +73,7 @@ public class Artemis extends WorkerDecorator {
 
     @Override
     public void buildDome(Tile t) {
-
+        super.buildDome(t);
     }
 
     public Tile getOriginalTile() {

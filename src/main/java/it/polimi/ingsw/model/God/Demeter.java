@@ -25,6 +25,7 @@ public class Demeter extends WorkerDecorator {
 
     @Override
     public void move(Tile t) {
+        super.move(t);
     }
 
     @Override
@@ -40,9 +41,14 @@ public class Demeter extends WorkerDecorator {
 
     @Override
     public void buildBlock(Tile t) {
+        if(counter == 0) {
             setCounter(1);
             setOriginalBuild(t);
             super.buildBlock(t);
+        }else{
+            setCounter(0);
+            super.buildBlock(t);
+        }
     }
 
     @Override

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.Worker;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class Athena extends WorkerDecorator {
         //if athena worker moved up ( check move controller) then modify AthenaRule in object Conditions
         //normal move + if worker moves up: change AthenaRule to true.
         super.move(t);
-        boolean athenaBoolean = this.position.movedUp(position,t);
+        boolean athenaBoolean = this.getPosition().movedUp(getPosition(),t);
         // setAthenaRule(athenaBoolean);
     }
 
@@ -35,7 +34,7 @@ public class Athena extends WorkerDecorator {
 
     @Override
     public void buildBlock(Tile t) {
-
+        super.buildBlock(t);
     }
 
     @Override
@@ -46,7 +45,7 @@ public class Athena extends WorkerDecorator {
 
     @Override
     public void buildDome(Tile t) {
-
+        super.buildDome(t);
     }
 
     //also in turnController if player has athena as god set athenaRule false every time the turn is passed to the player

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.Worker;
 
 import java.util.List;
 
@@ -22,6 +21,7 @@ public class Atlas extends WorkerDecorator {
 
     @Override
     public void move(Tile t) {
+        super.move(t);
     }
 
     @Override
@@ -31,18 +31,21 @@ public class Atlas extends WorkerDecorator {
 
     @Override
     public void buildBlock(Tile t) {
+        super.buildBlock(t);
     }
 
     @Override
     public boolean canBuildDome(Tile t) {
-
         System.out.println("He's Atlas he can build a dome everywhere!");
-        return true;
+        if(!t.isDomePresence() && !t.isOccupiedByWorker()) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void buildDome(Tile t) {
-
+        super.buildDome(t);
     }
 
 

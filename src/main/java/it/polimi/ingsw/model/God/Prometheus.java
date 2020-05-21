@@ -66,6 +66,7 @@ public class Prometheus extends WorkerDecorator {
         }
 
          */
+        super.buildBlock(t);
     }
 
     @Override
@@ -82,6 +83,7 @@ public class Prometheus extends WorkerDecorator {
         }
 
          */
+        super.buildDome(t);
     }
 
     public boolean prometheusLimitation (Tile dest){
