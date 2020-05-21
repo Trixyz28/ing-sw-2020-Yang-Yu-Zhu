@@ -204,21 +204,16 @@ public class InitController {
     /* selezione StartingPlayer -> Inizializzazione Turno 0 */
     public void setStartingPlayer(String startingPlayerNickname){  /* per sceglire il startingPlayer attraverso Nickname */
 
-        if(startingPlayerNickname.equals(challenger.getPlayerNickname())) {
-            views.get(challenger).showMessage("Non puoi scegliere te stesso!!!");
-            nameChanged = false;
-        }else {
-            for (Player p : model.getMatchPlayersList()) {
-                if (p.getPlayerNickname().equals(startingPlayerNickname)) {
-                    startingPlayer = p;
-                    nameChanged = true;
-                    break;
-                }
+        for (Player p : model.getMatchPlayersList()) {
+            if (p.getPlayerNickname().equals(startingPlayerNickname)) {
+                startingPlayer = p;
+                nameChanged = true;
+                break;
             }
         }
         /* se esce dal for -> Nickname non trovato riprovare a chiedere */
         if(!nameChanged) {
-            views.get(challenger).showMessage("Riprova!");
+            views.get(challenger).showMessage(Messages.tryAgain);
         }else{
             model.setStartingPlayerID(startingPlayer.getPlayerID());  //settare il startingPlayerID del model
             //messaggio di conferma

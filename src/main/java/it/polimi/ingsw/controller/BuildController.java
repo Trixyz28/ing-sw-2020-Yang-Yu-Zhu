@@ -43,6 +43,8 @@ public class BuildController {
         worker = model.getCurrentTurn().getChosenWorker();
         position = model.commandToTile(operation.getRow(), operation.getColumn());
         if(checkPosition(position)){  /* build nella check */
+
+            model.setWorkerChosen(false);  /* per stampa Board in Client */
             model.showBoard();  /* mostrare mappa dopo build */
             return true;  /* build andato a buon fine */
         }else{

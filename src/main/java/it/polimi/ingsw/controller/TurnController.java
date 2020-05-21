@@ -128,7 +128,6 @@ public class TurnController {
         currentTurn.setBuiltTile(model.commandToTile(build.getRow(), build.getColumn()));  /* ottenere le coordinate del Tile dalla Operation */
         //illustrare qualche messaggio sulla view
         currentView.showMessage("Il tuo turno è terminato!");  /* mandare solo alla view*/
-        model.setWorkerChosen(false);
         nextTurn();
     }
 
