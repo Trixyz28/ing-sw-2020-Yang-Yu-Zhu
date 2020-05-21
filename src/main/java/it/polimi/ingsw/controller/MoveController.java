@@ -26,17 +26,21 @@ public class MoveController {
                 return false;
             }
         }
+        //System.out.println("fine checkCanMoveUp");
         if(checkPosition(position)) {
+            //System.out.println("check = true");
             worker.move(position);
             model.showBoard(); /* mostrare mappa dopo move */
             return true;  /* move andato a buon fine */
         }else{
+            //System.out.println("check = false");
             return false;  /* da ripetere move */
         }
     }
 
     private boolean checkPosition(Tile position){  /* controllo posizione */
         //return worker.getCurrentPosition(worker).availableToMove(position);  /* worker.canMove; da usare */
+        //System.out.println("Worker tipo " + worker.toString());
         return worker.canMove(worker.getPosition()).contains(position);
     }
 

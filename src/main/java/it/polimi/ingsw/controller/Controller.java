@@ -75,7 +75,7 @@ public class Controller implements Observer {
                 } else
 
                 if (operation.getType() == 1) {  //type 1 -> move
-                    System.out.println("Entrando in moveController");
+                    //System.out.println("Entrando in moveController");
                     boolean flag;
                     if(turnController.isPrometheus()){  /* Prometheus ha fatto la Build prima della move*/
                         flag = moveController.moveWorker((Operation) arg, false);
@@ -105,9 +105,9 @@ public class Controller implements Observer {
                         model.sendMessage(Messages.Atlas);
                     } else if (flag && turnController.isPrometheus()) {  /* dopo build continuare normalmente */
                         turnController.startMove();  /* isPrometheus rimane true */
-                    }else if (flag && turnController.isHephaestus()){  /* Hephaestus build un blocco in più */
-                        if(buildController.buildHephaestus()) {
-                            buildController.buildHephaestus();
+                    }else if (flag && turnController.isHephaestus()){  /* check Hephaestus build un blocco in più */
+                        if(!buildController.buildHephaestus()) {  /* Hephaestus non può build */
+                            turnController.endTurn((Operation) arg);
                         }
                     } else if (flag) {  /* flag : true = build riuscita; false = richiedere build */
                         turnController.endTurn((Operation) arg);  /* aggiornare Turn fine Build */
@@ -166,6 +166,7 @@ public class Controller implements Observer {
                 }else
                 if (message.equals(Messages.Atlas)) {  /* se Atlas controllare build BLOCK or DOME */
                     if (buildController.checkBlockDome(answer)) {  /* se il build va a buon fine */
+                        model.showBoard();
                         turnController.endTurn(buildController.getOperation());
                     } else {  /* messaggio errato */
                         model.sendMessage(Messages.Atlas);

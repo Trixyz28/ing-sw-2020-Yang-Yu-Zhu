@@ -173,7 +173,6 @@ public class Model extends Observable {
     }
 
 
-
     //metodi da implementare con il controller
     public boolean checkWin() {
         if (currentTurn.getInitialTile().getBlockLevel()==2 && currentTurn.getFinalTile().getBlockLevel()==3) {
@@ -186,10 +185,19 @@ public class Model extends Observable {
         return false;
     }
 
-    public boolean checkLose() {  /* se tutti i worker non hanno più tile da poter andare -> perde*/
+    public boolean checkLoseMove() {  /* se tutti i worker non hanno più tile da poter andare -> perde*/
         for (int i = 0; i < 2 ; i++) {
             UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(i);
             if (worker.canMove(worker.getPosition()).size() != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkLoseBuild(){  /* se il worker non può né build Block né build Dome */
+        for(Tile t : currentTurn.getChosenWorker().getPosition().getAdjacentTiles()){
+            if(currentTurn.getChosenWorker().canBuildBlock(t) || currentTurn.getChosenWorker().canBuildDome(t)){
                 return false;
             }
         }
@@ -222,7 +230,7 @@ public class Model extends Observable {
         this.workerChosen = workerChosen;
     }
 
-    public void gameOver() {
-
+    public boolean gameOver() {
+        return false;
     }
 }

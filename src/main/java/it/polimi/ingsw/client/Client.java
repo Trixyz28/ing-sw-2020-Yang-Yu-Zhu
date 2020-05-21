@@ -160,7 +160,9 @@ public class Client {
                                     socketOut.flush();
                                     opReceived = false;
                                 }else {
-                                    System.out.println("Riprova!\nmossa (x,y)");
+
+                                    ui.showMessage(Messages.tryAgain + "\n" + Messages.Operation);
+                                    //ui.showMessage(Messages.Operation);
                                 }
                             } catch (IllegalArgumentException e) {
                                 ui.showMessage(Messages.wrongArgument);
@@ -168,9 +170,9 @@ public class Client {
 
                         }else if (gmReceived) {  /* Risposta al messaggio */
 
-                             input = input.toUpperCase();
+                            input = input.toUpperCase();
 
-                            if(gMessage.getMessage().equals(Messages.Worker)){
+                            if (gMessage.getMessage().equals(Messages.Worker)) {
                                 try {  /* indice worker o 0 o 1 */
                                     int index = Integer.parseInt(input);
                                     if (index == 0 || index == 1) {
@@ -178,13 +180,23 @@ public class Client {
                                         socketOut.flush();
                                         gmReceived = false;
                                         gMessage = null;
-                                    }else {
-                                        System.out.println("Riprova!\n" + gMessage.getMessage());
+                                    } else {
+                                        ui.showMessage(Messages.tryAgain + "\n" + gMessage.getMessage());
+                                        //ui.showMessage(gMessage.getMessage());
                                     }
-                                }catch(IllegalArgumentException e){
+                                } catch (IllegalArgumentException e) {
                                     ui.showMessage(Messages.wrongArgument);
                                 }
-                            }else if(gMessage.getMessage().equals(Messages.Atlas)){
+                            }else if((gMessage.getMessage().equals(Messages.Atlas)) && (input.equals("BLOCK") || input.equals("DOME"))
+                            || (gMessage.getMessage().equals(Messages.Prometheus)) && (input.equals("MOVE")  || input.equals("BUILD"))
+                            || (input.equals("YES") || input.equals("NO"))){  /* problema yes or no */
+                                    socketOut.println(input);
+                                    socketOut.flush();
+                                    gmReceived = false;
+                                    gMessage = null;
+                                }
+                                /*
+                            }else if(gMessage.getMessage().equals(Messages.Atlas)) {
                                 if(input.equals("BLOCK") || input.equals("DOME")){
                                     socketOut.println(input);
                                     socketOut.flush();
@@ -194,7 +206,7 @@ public class Client {
                                     System.out.println("Riprova!\n" + gMessage.getMessage());
                                 }
                             }else if(gMessage.getMessage().equals(Messages.Prometheus)){
-                                if(input.equals("MOVE")  || input.equals("BUILD")){
+                                if(input.equals("BLOCK") || input.equals("DOME")){
                                     socketOut.println(input);
                                     socketOut.flush();
                                     gmReceived = false;
@@ -207,9 +219,11 @@ public class Client {
                                 socketOut.flush();
                                 gmReceived = false;
                                 gMessage = null;
-                            }else {
-                                ui.showMessage(Messages.tryAgain);
-                                ui.showMessage(gMessage.getMessage());
+                            }
+                            */
+                            else {
+                                ui.showMessage(Messages.tryAgain + "\n" + gMessage.getMessage());
+                                //ui.showMessage(gMessage.getMessage());
                             }
                         } else {
                             socketOut.println(input);

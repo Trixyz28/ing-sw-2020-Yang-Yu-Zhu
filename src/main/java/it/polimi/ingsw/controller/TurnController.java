@@ -80,7 +80,7 @@ public class TurnController {
             }
             workerChanged = true;
             choosedWorker();
-            model.setWorkerChosen(true);
+
         }else {
             //view.chooseWorker; -> richiedere scelta
             currentView.showMessage("Riprova con un altro");
@@ -102,7 +102,23 @@ public class TurnController {
                 canMoveUp = false;  /* gli altri player non possono più salire di livello */
             }
         }
+        if(isPrometheus){
+            isPrometheus = false; /* se Prometheus fa prima Build ripristianare */
+        }
         //view.build();  /* chiedere al player di Buildare */
+        if(model.checkLoseBuild()){  /* check se il worker possa o no fare Build */
+            currentView.showMessage("Spiacenti! Non sei più in grado di buildare, hai perso!!!!");
+            currentView.setEndGame();  /* player finisce la partita */
+            //model.lose();
+            /*
+            if(!model.gameOver()){  // eliminare currentPlayer e continuare
+                nextTurn();
+            }else {
+                model.sendMessage("Fine Partita");
+            }
+
+             */
+        }
         startBuild();
 
     }
@@ -132,7 +148,7 @@ public class TurnController {
         isHephaestus = false;
         currentView = views.get(currentTurn.getCurrentPlayer());
         //view.chooseWorker;  -> far scegliere al player il worker dalla view
-        if(model.checkLose()){
+        if(model.checkLoseMove()){
             currentView.showMessage("Spiacenti! Non sei più in grado di fare mosse, hai perso!!!!");
             currentView.setEndGame();  /* player finisce la partita */
             //model.lose();
@@ -149,6 +165,8 @@ public class TurnController {
         currentTurn.setInitialTile(chosenWorker.getPosition());
         currentTurn.setFinalTile(null);  //inizializzare Final e Built
         currentTurn.setBuiltTile(null);
+        model.setWorkerChosen(true);
+        model.showBoard();
         //view.move();  /* ->  passare alla scelta della mossa */
         if(isPrometheus) {
             model.sendMessage(Messages.Prometheus);  /* chiedere se fare move o build */
@@ -160,7 +178,7 @@ public class TurnController {
     protected void startMove(){
         currentView.showMessage("Move!!!");
         model.move();
-
+        //System.out.println("Ho finito di notificare move");
     }
 
     private void startBuild(){

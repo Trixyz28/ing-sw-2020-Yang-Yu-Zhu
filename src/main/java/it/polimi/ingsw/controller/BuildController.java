@@ -25,7 +25,7 @@ public class BuildController {
     }
 
 
-    public boolean checkBlockDome(String command){
+    public boolean checkBlockDome(String command){  /* Atlas build */
         if(command.equals("DOME")){
             worker.buildDome(position);
             return true;
@@ -50,7 +50,7 @@ public class BuildController {
         }
     }
 
-    private boolean checkPosition(Tile position){
+    private boolean checkPosition(Tile position){  /* check buildBlock/Dome if true -> Build */
         //return worker.getCurrentPosition(worker).availableToBuild(position);  /* worker.canBuild;  da usare */
         if(worker.canBuildDome(position) && worker.canBuildBlock(position)){  /* Atlas */
             isAtlas = true;
