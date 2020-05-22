@@ -17,11 +17,13 @@ public class NoGod implements UndecoratedWorker {
 
    //Returns a list of available tiles where the worker can be moved to
    @Override
-   public List<Tile> canMove(Tile t) {
+   public List<Tile> canMove(boolean canMoveUp) {  /* canMoveUp condition */
       List<Tile> tempList = new ArrayList<>();
       for (Tile tile : position.getAdjacentTiles()){
          if(position.availableToMove(tile)){
-            tempList.add(tile);
+            if(canMoveUp || position.getBlockLevel() >= tile.getBlockLevel()) {  
+               tempList.add(tile);
+            }
          }
       }
       return tempList;

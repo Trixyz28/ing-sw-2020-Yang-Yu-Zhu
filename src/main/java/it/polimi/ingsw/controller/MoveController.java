@@ -27,7 +27,7 @@ public class MoveController {
             }
         }
         //System.out.println("fine checkCanMoveUp");
-        if(checkPosition(position)) {
+        if(checkPosition(position, canMoveUp)) {
             //System.out.println("check = true");
             worker.move(position);
             model.showBoard(); /* mostrare mappa dopo move */
@@ -38,10 +38,10 @@ public class MoveController {
         }
     }
 
-    private boolean checkPosition(Tile position){  /* controllo posizione */
+    private boolean checkPosition(Tile position, boolean canMoveUp){  /* controllo posizione */
         //return worker.getCurrentPosition(worker).availableToMove(position);  /* worker.canMove; da usare */
         //System.out.println("Worker tipo " + worker.toString());
-        return worker.canMove(worker.getPosition()).contains(position);
+        return worker.canMove(canMoveUp).contains(position);
     }
 
 }

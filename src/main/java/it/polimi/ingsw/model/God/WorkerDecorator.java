@@ -24,8 +24,8 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
     }
 
     @Override
-    public List<Tile> canMove(Tile t){
-        return this.worker.canMove(t);
+    public List<Tile> canMove(boolean canMoveUp){
+        return this.worker.canMove(canMoveUp);
     }
 
     @Override

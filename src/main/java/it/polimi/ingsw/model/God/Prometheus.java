@@ -15,7 +15,7 @@ public class Prometheus extends WorkerDecorator {
     private int counter = 0;
 
     @Override
-    public List<Tile> canMove(Tile t) {
+    public List<Tile> canMove(boolean canMoveUp) {
         //counter 0= player can choose to build first
 
         if (getCounter() == 0) {
@@ -25,7 +25,7 @@ public class Prometheus extends WorkerDecorator {
 
         //counter set on 1(on choice) if he builds first
         if (getCounter() == 1) {
-            List<Tile> tempList = super.canMove(t);
+            List<Tile> tempList = super.canMove(canMoveUp);
 
 /*
             for (int i = 0; i < 5; i++) {
@@ -40,7 +40,7 @@ public class Prometheus extends WorkerDecorator {
 */
             return tempList;
         } else {
-            return super.canMove(t);
+            return super.canMove(canMoveUp);
         }
     }
 

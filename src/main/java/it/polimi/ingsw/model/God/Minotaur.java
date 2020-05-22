@@ -14,10 +14,10 @@ public class Minotaur extends WorkerDecorator {
 
 
     @Override
-    public List<Tile> canMove(Tile t) {
+    public List<Tile> canMove(boolean canMoveUp) {
 
         List<Tile> tempList;
-        tempList = super.canMove(t);
+        tempList = super.canMove(canMoveUp);
 
 /*
         for(int i=0;i<5;i++) {

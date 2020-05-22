@@ -186,10 +186,10 @@ public class Model extends Observable {
         return false;
     }
 
-    public boolean checkLoseMove() {  /* se tutti i worker non hanno più tile da poter andare -> perde*/
+    public boolean checkLoseMove(boolean canMoveUp) {  /* se tutti i worker non hanno più tile da poter andare -> perde*/
         for (int i = 0; i < 2 ; i++) {
             UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(i);
-            if (worker.canMove(worker.getPosition()).size() != 0) {
+            if (worker.canMove(canMoveUp).size() != 0) {
                 return false;
             }
         }
@@ -214,6 +214,7 @@ public class Model extends Observable {
             }
             currentTurn.setCurrentPlayer(matchPlayersList.get(index));
             matchPlayersList.remove(player);
+            playersNumber--;
         } else {
             gameOver();
         }

@@ -21,9 +21,9 @@ public class Athena extends WorkerDecorator {
     }
 
     @Override
-    public List<Tile> canMove(Tile t) {
+    public List<Tile> canMove(boolean canMoveUp) {
 
-        return super.canMove(t);
+        return super.canMove(canMoveUp);
     }
 
 

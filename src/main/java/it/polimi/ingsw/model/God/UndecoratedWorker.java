@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UndecoratedWorker {
 
-    List<Tile> canMove(Tile t);
+    List<Tile> canMove(boolean canMoveUp);
 
     void move(Tile t);
 
