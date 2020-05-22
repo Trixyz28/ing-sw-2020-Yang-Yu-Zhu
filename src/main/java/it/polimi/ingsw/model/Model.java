@@ -39,6 +39,7 @@ public class Model extends Observable {
 
     private boolean workerChosen;
 
+    private boolean isGameOver;
 
     //Constructor for Match class
     public void initialize(int playersNumber) {
@@ -204,6 +205,20 @@ public class Model extends Observable {
         return true;
     }
 
+    public void lose(Player player){
+        if(matchPlayersList.size() > 2) {
+            player.deleteWorker();
+            int index = matchPlayersList.indexOf(player) - 1;  /* precedente al currentPlayer (per nextTurn del turnController)*/
+            if (index < 0) {
+                index = matchPlayersList.size() - 1;
+            }
+            currentTurn.setCurrentPlayer(matchPlayersList.get(index));
+            matchPlayersList.remove(player);
+        } else {
+            gameOver();
+        }
+    }
+
 
 
     public int getCurrentPlayerID() {
@@ -230,7 +245,12 @@ public class Model extends Observable {
         this.workerChosen = workerChosen;
     }
 
-    public boolean gameOver() {
-        return false;
+    public void gameOver() {
+        isGameOver = true;
+        notify(Messages.gameOver);
+    }
+
+    public boolean isGameOver() {
+        return isGameOver;
     }
 }

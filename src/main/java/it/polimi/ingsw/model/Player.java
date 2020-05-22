@@ -125,7 +125,9 @@ public class Player {
 
     //Lost in 3-players game, delete workers
     public void deleteWorker() {
-
+        for (UndecoratedWorker w : workerList){
+            w.getPosition().setOccupiedByWorker(false);
+        }
     }
 
     /*

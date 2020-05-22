@@ -27,7 +27,7 @@ public class Messages {
 
 
     //Generics
-
+    public static String gameOver = "Game Over";
 
 
 

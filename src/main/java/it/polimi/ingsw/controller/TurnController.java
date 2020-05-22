@@ -109,15 +109,10 @@ public class TurnController {
         if(model.checkLoseBuild()){  /* check se il worker possa o no fare Build */
             currentView.showMessage("Spiacenti! Non sei più in grado di buildare, hai perso!!!!");
             currentView.setEndGame();  /* player finisce la partita */
-            //model.lose();
-            /*
-            if(!model.gameOver()){  // eliminare currentPlayer e continuare
+            model.lose(currentTurn.getCurrentPlayer());  /* lose */
+            if(!model.isGameOver()){  // eliminare currentPlayer e continuare
                 nextTurn();
-            }else {
-                model.sendMessage("Fine Partita");
             }
-
-             */
         }
         startBuild();
 
@@ -150,7 +145,10 @@ public class TurnController {
         if(model.checkLoseMove()){
             currentView.showMessage("Spiacenti! Non sei più in grado di fare mosse, hai perso!!!!");
             currentView.setEndGame();  /* player finisce la partita */
-            //model.lose();
+            model.lose(currentTurn.getCurrentPlayer());  /* lose */
+            if(!model.isGameOver()){  // eliminare currentPlayer e continuare
+                nextTurn();
+            }
         }
         currentView.showMessage("Ecco il tuo turno!\nScegli il worker che vuoi fare la mossa");
         model.sendMessage(Messages.Worker);  /* inviare richiesta worker */
