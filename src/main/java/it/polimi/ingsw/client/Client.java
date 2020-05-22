@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.GameMessage;
 import it.polimi.ingsw.model.Messages;
 import it.polimi.ingsw.model.Operation;
@@ -73,8 +72,8 @@ public class Client {
         try {
             Thread t0 = asyncReadFromSocket(socketIn);
             Thread t1 = asyncWriteToSocket(socketOut);
-            t0.join();
             t1.join();
+            t0.join();
 
         } catch (NoSuchElementException | InterruptedException e) {
             ui.showMessage(Messages.connectionClosed);

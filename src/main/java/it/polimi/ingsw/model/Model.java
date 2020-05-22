@@ -178,7 +178,6 @@ public class Model extends Observable {
     //metodi da implementare con il controller
     public boolean checkWin() {
         if (currentTurn.getInitialTile().getBlockLevel()==2 && currentTurn.getFinalTile().getBlockLevel()==3) {
-            notify("The winner is " + currentTurn.getCurrentPlayer().getPlayerNickname() + "!");
             return true;
         }
         if(currentTurn.getChosenWorker() instanceof Pan){
@@ -250,6 +249,7 @@ public class Model extends Observable {
 
     public void gameOver() {
         isGameOver = true;
+        notify("The winner is " + currentTurn.getCurrentPlayer().getPlayerNickname() + "!");
         notify(Messages.gameOver);
     }
 
@@ -270,4 +270,18 @@ public class Model extends Observable {
             return Colors.CYAN_BOLD;
         }
     }
+
+    public ArrayList<UndecoratedWorker> totalWorkers() {
+        ArrayList<UndecoratedWorker> totalWorkerList = new ArrayList<>();
+
+        for(int i=0;i<matchPlayersList.size();i++) {
+            for(int j=0;j<2;j++) {
+                totalWorkerList.add(matchPlayersList.get(i).getWorkerList().get(j));
+            }
+        }
+
+        return totalWorkerList;
+    }
+
+
 }

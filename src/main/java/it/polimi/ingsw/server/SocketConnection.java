@@ -47,15 +47,14 @@ public class SocketConnection extends Observable implements Runnable {
 
 
     public void closeConnection() {
-        send("Connection closed!");
-
+        active = false;
         try {
+            send("Connection closed!");
             socket.close();
         } catch(IOException e) {
             System.err.println("Error when closing socket!");
         }
 
-        active = false;
     }
 
     public void deregisterPlayer() {
@@ -63,7 +62,7 @@ public class SocketConnection extends Observable implements Runnable {
     }
 
 
-    private void closeMatch() {
+    public void closeMatch() {
         closeConnection();
         System.out.println("Deregistering player " + player.getPlayerNickname() + " of lobby n." + lobbyID);
         server.deregisterMatch(this);
@@ -156,6 +155,7 @@ public class SocketConnection extends Observable implements Runnable {
 
         } catch(IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
+            active = false;
         } finally {
             if(!lost) {
                 closeMatch();

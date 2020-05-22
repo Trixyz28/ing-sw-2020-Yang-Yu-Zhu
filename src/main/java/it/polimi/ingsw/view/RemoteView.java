@@ -78,6 +78,9 @@ public class RemoteView extends View {
 
         if(message instanceof String) {
             clientConnection.asyncSend(message);
+            if(message.equals(Messages.gameOver)) {
+                clientConnection.closeMatch();
+            }
         }
 
         if(message instanceof Player) {

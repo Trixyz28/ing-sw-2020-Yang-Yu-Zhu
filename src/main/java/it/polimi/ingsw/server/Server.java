@@ -72,14 +72,15 @@ public class Server {
 
         int lobbyID = c.getLobbyID();
 
-        for(SocketConnection connection : matchConnection.get(lobbyID)) {
-            lobbyHandler.removePlayer(connection.getPlayer().getPlayerNickname());
-            if(connection.getPlayer().getPlayerID()!=c.getPlayer().getPlayerID()) {
-                connection.closeConnection();
+        if(matchConnection.containsKey(lobbyID)) {
+            for(SocketConnection connection : matchConnection.get(lobbyID)) {
+                lobbyHandler.removePlayer(connection.getPlayer().getPlayerNickname());
+                if(connection.getPlayer().getPlayerID()!=c.getPlayer().getPlayerID()) {
+                    connection.closeConnection();
+                }
             }
+            matchConnection.remove(lobbyID);
         }
-        matchConnection.remove(lobbyID);
-
     }
 
     public synchronized void lostPlayerQuit(SocketConnection c) {

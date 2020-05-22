@@ -15,8 +15,7 @@ public class CLI implements Ui {
     //Color indicators
     private final String RESET = Colors.RESET;
 
-    private final String horizontalBar = Colors.BLACK_BRIGHT + "---------------------------------------------" + Colors.RESET;
-    private final String verticalBar = Colors.BLACK_BRIGHT + "|" + RESET;
+    private String edgeColor = Colors.BLACK_BRIGHT;
     private String gridNumberColor = Colors.YELLOW;
 
     private String domeColor = Colors.BLUE_BOLD;
@@ -24,6 +23,13 @@ public class CLI implements Ui {
 
     private String chosenColor = Colors.RED_UNDERLINED;
     private String canOpColor = Colors.BLACK_BACKGROUND_BRIGHT;
+
+    private String horizontalBar = edgeColor + "────║───────┼───────┼───────┼───────┼───────║" + RESET;
+    private String verticalBar = edgeColor + "│" + RESET;
+    private final String supBoard = edgeColor + "────╔═══════╤═══════╤═══════╤═══════╤═══════╗" + RESET;
+    private final String infBoard = edgeColor + "────╚═══════╧═══════╧═══════╧═══════╧═══════╝" + RESET;
+    private String verticalBoard = edgeColor + "║" + RESET;
+
 
 
     @Override
@@ -47,7 +53,7 @@ public class CLI implements Ui {
             System.out.print(gridNumberColor + "   " + i + "   " + verticalBar);
         }
         System.out.println("");
-        System.out.println(horizontalBar);
+        System.out.println(supBoard);
 
 
         for(int i=0;i<5;i++) {
@@ -55,7 +61,12 @@ public class CLI implements Ui {
 
             for(int j=0;j<5;j++) {
                 Tile t = boardView.getTile(i,j);
-                System.out.print(verticalBar + " ");
+                if(j==0) {
+                    System.out.print(verticalBoard + " ");
+                } else {
+                    System.out.print(verticalBar + " ");
+                }
+
 
                 /*
                 if(t.isAdjacentTo(chosenWorker.getPosition()) && chosenWorker.getPosition().availableToMove(t)) {
@@ -72,8 +83,13 @@ public class CLI implements Ui {
                 System.out.print(RESET + " ");
             }
 
-            System.out.println(verticalBar);
-            System.out.println(horizontalBar);
+            System.out.println(verticalBoard);
+            if(i==4) {
+                System.out.println(infBoard);
+            } else {
+                System.out.println(horizontalBar);
+            }
+
 
         }
 
@@ -109,7 +125,7 @@ public class CLI implements Ui {
 
 
     public void printDome(Tile t) {
-        System.out.print(domeColor + "  D  ");
+        System.out.print(domeColor + "  Δ  ");
     }
 
     public void printBlock(Tile t) {
