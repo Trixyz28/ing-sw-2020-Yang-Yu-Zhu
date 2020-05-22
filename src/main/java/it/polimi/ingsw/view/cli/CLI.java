@@ -19,27 +19,11 @@ public class CLI implements Ui {
     private final String verticalBar = Colors.BLACK_BRIGHT + "|" + RESET;
     private String gridNumberColor = Colors.YELLOW;
 
-    private String[] workerColors = new String[3];
-    private String worker0 = Colors.GREEN_BOLD;
-    private String worker1 = Colors.PURPLE_BOLD;
-    private String worker2 = Colors.CYAN_BOLD;
-
     private String domeColor = Colors.BLUE_BOLD;
     private String heightColor = Colors.BLACK;
 
     private String chosenColor = Colors.RED_UNDERLINED;
     private String canOpColor = Colors.BLACK_BACKGROUND_BRIGHT;
-
-    public CLI() {
-        setWorkerColors();
-    }
-
-
-    private void setWorkerColors() {
-        workerColors[0] = worker0;
-        workerColors[1] = worker1;
-        workerColors[2] = worker2;
-    }
 
 
     @Override
@@ -51,8 +35,6 @@ public class CLI implements Ui {
     public String getInput() {
         return in.nextLine();
     }
-
-
 
 
     @Override
@@ -108,7 +90,7 @@ public class CLI implements Ui {
                     if (i == chosenWorkerID) {
                         System.out.print(chosenColor);
                     } else {
-                        System.out.print(workerColors[i/2]);
+                        System.out.print(workerList[i].getColor());
                     }
 
                     System.out.print("W" + i%2 + RESET + "(" + t.getBlockLevel() + ")");

@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.model.Messages;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.observers.Observable;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
@@ -23,6 +23,7 @@ public class SocketConnection extends Observable implements Runnable {
     private Player player;
 
     private boolean active = true;
+    private boolean lost = false;
 
     public SocketConnection(Socket socket, Server server) {
         this.socket = socket;
@@ -57,11 +58,15 @@ public class SocketConnection extends Observable implements Runnable {
         active = false;
     }
 
+    public void deregisterPlayer() {
+        server.lostPlayerQuit(this);
+    }
 
-    private void close() {
+
+    private void closeMatch() {
         closeConnection();
         System.out.println("Deregistering player " + player.getPlayerNickname() + " of lobby n." + lobbyID);
-        server.deregisterConnection(this);
+        server.deregisterMatch(this);
         System.out.println("Client disconnected");
     }
 
@@ -140,14 +145,23 @@ public class SocketConnection extends Observable implements Runnable {
             while(isActive()) {
                 String read = in.nextLine();
                 System.out.println("From " + player.getPlayerNickname() + ": " + read);
-                notify(read);
+
+                if(!lost) {
+                    notify(read);
+                } else {
+                    asyncSend(Messages.spectator);
+                }
             }
 
 
         } catch(IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
         } finally {
-            close();
+            if(!lost) {
+                closeMatch();
+            } else {
+                deregisterPlayer();
+            }
         }
     }
 
@@ -162,4 +176,11 @@ public class SocketConnection extends Observable implements Runnable {
     }
 
 
+    public boolean isLost() {
+        return lost;
+    }
+
+    public void setLost(boolean lost) {
+        this.lost = lost;
+    }
 }

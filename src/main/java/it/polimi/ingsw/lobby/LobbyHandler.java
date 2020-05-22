@@ -23,6 +23,10 @@ public class LobbyHandler {
         playerList.add(name);
     }
 
+    public void removePlayer(String name) {
+        playerList.remove(name);
+    }
+
     //Get() of lobbyList
     public ArrayList<Lobby> getLobbyList() {
         return lobbyList;

@@ -10,6 +10,10 @@ import java.util.List;
 public class WorkerView implements Serializable {
 
     private boolean positionSet = false;
+
+
+
+    private String color;
     private Tile position;
     private List<Tile> canMove;
     private List<Tile> canBuild;
@@ -38,4 +42,12 @@ public class WorkerView implements Serializable {
         return canBuild;
     }
 
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 }

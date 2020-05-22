@@ -79,6 +79,12 @@ public class RemoteView extends View {
         if(message instanceof String) {
             clientConnection.asyncSend(message);
         }
+
+        if(message instanceof Player) {
+            if(((Player)message).equals(clientConnection.getPlayer())) {
+                clientConnection.setLost(true);
+            }
+        }
     }
 
     private void showComplete(String[] godList){

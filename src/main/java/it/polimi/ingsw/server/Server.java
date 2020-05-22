@@ -68,19 +68,22 @@ public class Server {
     }
 
 
-    public synchronized void deregisterConnection(SocketConnection c) {
+    public synchronized void deregisterMatch(SocketConnection c) {
 
         int lobbyID = c.getLobbyID();
 
         for(SocketConnection connection : matchConnection.get(lobbyID)) {
+            lobbyHandler.removePlayer(connection.getPlayer().getPlayerNickname());
             if(connection.getPlayer().getPlayerID()!=c.getPlayer().getPlayerID()) {
                 connection.closeConnection();
             }
         }
+        matchConnection.remove(lobbyID);
 
     }
 
     public synchronized void lostPlayerQuit(SocketConnection c) {
+        lobbyHandler.removePlayer(c.getPlayer().getPlayerNickname());
         matchConnection.get(c.getLobbyID()).remove(c);
         c.closeConnection();
     }

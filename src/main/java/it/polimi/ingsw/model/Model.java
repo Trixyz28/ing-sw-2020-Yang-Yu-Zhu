@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.model.God.Pan;
 import it.polimi.ingsw.view.cli.BoardView;
+import it.polimi.ingsw.view.cli.Colors;
 import it.polimi.ingsw.view.cli.WorkerView;
 
 
@@ -39,7 +40,7 @@ public class Model extends Observable {
 
     private boolean workerChosen;
 
-    private boolean isGameOver;
+    private boolean isGameOver = false;
 
     //Constructor for Match class
     public void initialize(int playersNumber) {
@@ -57,13 +58,13 @@ public class Model extends Observable {
 
     public void showBoard() {
 
-        WorkerView[] totalWorkerList = new WorkerView[playersNumber*2];
+        WorkerView[] totalWorkerList = new WorkerView[matchPlayersList.size()*2];
         int chosenWorkerID = -1;
 
-        for(int i=0;i<playersNumber;i++) {
+        for(int i=0;i<matchPlayersList.size();i++) {
             for(int j=0;j<2;j++) {
                 totalWorkerList[i*2+j] = new WorkerView(matchPlayersList.get(i).getWorkerList().get(j));
-
+                totalWorkerList[i*2+j].setColor(workerColor(matchPlayersList.get(i).getPlayerID()));
                 if(workerChosen) {
                     if (matchPlayersList.get(i).getWorkerList().get(j).equals(currentTurn.getChosenWorker())) {
                         chosenWorkerID = i*2+j;
@@ -177,7 +178,7 @@ public class Model extends Observable {
     //metodi da implementare con il controller
     public boolean checkWin() {
         if (currentTurn.getInitialTile().getBlockLevel()==2 && currentTurn.getFinalTile().getBlockLevel()==3) {
-            notify("The player " + currentTurn.getCurrentPlayer().getPlayerNickname() + " win!");
+            notify("The winner is " + currentTurn.getCurrentPlayer().getPlayerNickname() + "!");
             return true;
         }
         if(currentTurn.getChosenWorker() instanceof Pan){
@@ -214,7 +215,8 @@ public class Model extends Observable {
             }
             currentTurn.setCurrentPlayer(matchPlayersList.get(index));
             matchPlayersList.remove(player);
-            playersNumber--;
+            notify("The player " + player.getPlayerNickname() + " loses");
+            losingPlayer(player);
         } else {
             gameOver();
         }
@@ -253,5 +255,19 @@ public class Model extends Observable {
 
     public boolean isGameOver() {
         return isGameOver;
+    }
+
+    public void losingPlayer(Player player) {
+        notify(player);
+    }
+
+    public String workerColor(int playerID) {
+        if(playerID==0) {
+            return Colors.GREEN_BOLD;
+        } else if(playerID==1) {
+            return Colors.PURPLE_BOLD;
+        } else {
+            return Colors.CYAN_BOLD;
+        }
     }
 }

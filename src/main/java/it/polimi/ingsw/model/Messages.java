@@ -5,6 +5,8 @@ public class Messages {
     //Communications
     public static String connectionReady = "Connection established";
     public static String connectionClosed = "Connection closed";
+    public static String gameOver = "Game over!";
+    public static String spectator = "Be a patient spectator, you can't send messages :D";
 
 
     //Requests
@@ -27,7 +29,6 @@ public class Messages {
 
 
     //Generics
-    public static String gameOver = "Game Over";
 
 
 

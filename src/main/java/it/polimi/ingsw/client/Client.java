@@ -101,6 +101,9 @@ public class Client {
 
                         if(inputObject instanceof String) {
                             ui.showMessage((String)inputObject);
+                            if(inputObject.equals(Messages.gameOver)) {
+                                setActive(false);
+                            }
 
                         } else if (inputObject instanceof BoardView) {
                             ui.showBoard((BoardView)inputObject);
