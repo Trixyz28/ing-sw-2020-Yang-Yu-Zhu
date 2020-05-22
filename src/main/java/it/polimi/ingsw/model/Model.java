@@ -197,9 +197,9 @@ public class Model extends Observable {
         return true;
     }
 
-    public boolean checkLoseBuild(){  /* se il worker non può né build Block né build Dome */
-        for(Tile t : currentTurn.getChosenWorker().getPosition().getAdjacentTiles()){
-            if(currentTurn.getChosenWorker().canBuildBlock(t) || currentTurn.getChosenWorker().canBuildDome(t)){
+    public boolean checkLoseBuild(UndecoratedWorker worker){  /* se il worker non può né build Block né build Dome */
+        for(Tile t : worker.getPosition().getAdjacentTiles()){
+            if(worker.canBuildBlock(t) || worker.canBuildDome(t)){
                 return false;
             }
         }

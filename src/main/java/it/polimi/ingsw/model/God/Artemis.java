@@ -18,22 +18,22 @@ public class Artemis extends WorkerDecorator {
     @Override
     public List<Tile> canMove(boolean canMoveUp) {
 
-        if(counter == 1) {
-            setOriginalTile(super.getPosition());
+        if(counter == 1) {  /* second Move */
             List<Tile> tempList;
-            Tile tempTile = new Tile();
 
             tempList = super.canMove(canMoveUp);
 
             for (int i = 0; i < tempList.size(); i++) {
-                tempTile = tempList.get(i);
+                Tile tempTile = tempList.get(i);
                 if (tempTile == originalTile) {
                     tempList.remove(i);
+                    break;
                 }
             }
             return tempList;
         }
-        else{
+        else{  /* first Move */
+            setOriginalTile(super.getPosition());
             return super.canMove(canMoveUp);
         }
     }
@@ -54,6 +54,11 @@ public class Artemis extends WorkerDecorator {
 
     }
 
+    @Override
+    public boolean canBuildBlock(Tile t) {
+        setCounter(0);  /* ripristinare counter dopo le eventuali move*/
+        return super.canBuildBlock(t);
+    }
 
     public Tile getOriginalTile() {
         return originalTile;

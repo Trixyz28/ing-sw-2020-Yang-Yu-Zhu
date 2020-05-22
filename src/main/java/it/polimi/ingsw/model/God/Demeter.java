@@ -16,6 +16,11 @@ public class Demeter extends WorkerDecorator {
     private Tile originalBuild = new Tile();
     private int counter = 0;
 
+    @Override
+    public void move(Tile t) {
+        setCounter(0);  /* ripristinare counter */
+        super.move(t);
+    }
 
     @Override
     public boolean canBuildBlock(Tile t) {
@@ -35,7 +40,6 @@ public class Demeter extends WorkerDecorator {
             setOriginalBuild(t);
             super.buildBlock(t);
         }else{
-            setCounter(0);
             super.buildBlock(t);
         }
     }
