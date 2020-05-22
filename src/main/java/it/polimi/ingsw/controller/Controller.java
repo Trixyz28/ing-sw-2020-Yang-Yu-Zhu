@@ -105,7 +105,15 @@ public class Controller implements Observer {
                         //views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage("Block o Dome?");
                         model.sendMessage(Messages.Atlas);
                     } else if (flag && turnController.isPrometheus()) {  /* dopo build continuare normalmente */
-                        turnController.startMove();  /* isPrometheus rimane true */
+                        /* checkLosePrometheus */
+                        if(model.getCurrentTurn().getChosenWorker().canMove(false).size() != 0) {
+                            turnController.startMove();  /* isPrometheus rimane true */
+                        } else {
+                            model.lose(model.getCurrentTurn().getCurrentPlayer());
+                            if(!model.isGameOver()){
+                                turnController.nextTurn();
+                            }
+                        }
                     }else if (flag && turnController.isHephaestus()){  /* check Hephaestus build un blocco in più */
                         if(!buildController.buildHephaestus()) {  /* Hephaestus non può build */
                             turnController.endTurn((Operation) arg);
@@ -167,6 +175,7 @@ public class Controller implements Observer {
                 }else
                 if (message.equals(Messages.Atlas)) {  /* se Atlas controllare build BLOCK or DOME */
                     if (buildController.checkBlockDome(answer)) {  /* se il build va a buon fine */
+                        model.setWorkerChosen(false);  /* per stampa Board in Client */
                         model.showBoard();
                         turnController.endTurn(buildController.getOperation());
                     } else {  /* messaggio errato */

@@ -192,7 +192,9 @@ public class Client {
                                 }
                             }else if((gMessage.getMessage().equals(Messages.Atlas)) && (input.equals("BLOCK") || input.equals("DOME"))
                             || (gMessage.getMessage().equals(Messages.Prometheus)) && (input.equals("MOVE")  || input.equals("BUILD"))
-                            || (input.equals("YES") || input.equals("NO"))){  /* problema yes or no */
+                            || !(gMessage.getMessage().equals(Messages.Atlas)) && !(gMessage.getMessage().equals(Messages.Prometheus))
+                                    && (input.equals("YES") || input.equals("NO"))){  /* problema yes or no */
+
                                     socketOut.println(input);
                                     socketOut.flush();
                                     gmReceived = false;
