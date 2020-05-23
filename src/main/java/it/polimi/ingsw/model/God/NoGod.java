@@ -34,8 +34,7 @@ public class NoGod implements UndecoratedWorker {
    @Override
    public void move(Tile t) {
       position.setOccupiedByWorker(false);
-      t.setOccupiedByWorker(true);
-      position = t;
+      setPosition(t);
    }
 
    //Check if the worker can build a block(not dome!) on tile t

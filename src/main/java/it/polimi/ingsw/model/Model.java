@@ -42,6 +42,9 @@ public class Model extends Observable {
 
     private boolean isGameOver = false;
 
+
+    private ArrayList<UndecoratedWorker> totalWorkerList;
+
     //Constructor for Match class
     public void initialize(int playersNumber) {
         this.playersNumber = playersNumber;
@@ -213,6 +216,8 @@ public class Model extends Observable {
                 index = matchPlayersList.size() - 1;
             }
             currentTurn.setCurrentPlayer(matchPlayersList.get(index));
+            totalWorkerList.remove(player.chooseWorker(0));  /* aggioranare totalWorkerList */
+            totalWorkerList.remove(player.chooseWorker(1));
             matchPlayersList.remove(player);
             notify("The player " + player.getPlayerNickname() + " loses");
             losingPlayer(player);
@@ -271,8 +276,8 @@ public class Model extends Observable {
         }
     }
 
-    public ArrayList<UndecoratedWorker> totalWorkers() {
-        ArrayList<UndecoratedWorker> totalWorkerList = new ArrayList<>();
+    public ArrayList<UndecoratedWorker> createTotalWorkerList() {
+        totalWorkerList = new ArrayList<>();
 
         for(int i=0;i<matchPlayersList.size();i++) {
             for(int j=0;j<2;j++) {
@@ -280,6 +285,10 @@ public class Model extends Observable {
             }
         }
 
+        return totalWorkerList;
+    }
+
+    public ArrayList<UndecoratedWorker> getTotalWorkers() {
         return totalWorkerList;
     }
 

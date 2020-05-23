@@ -32,6 +32,8 @@ public class TurnController {
     private boolean isPrometheus;
     private boolean isAthena;
     private boolean isHephaestus;
+    private boolean isApollo;
+    private boolean isMinotaur;
     private boolean canMoveUp;
 
     protected boolean isWorkerChanged(){
@@ -52,6 +54,14 @@ public class TurnController {
 
     protected boolean isHephaestus() {
         return isHephaestus;
+    }
+
+    protected boolean isApollo() {
+        return isApollo;
+    }
+
+    protected boolean isMinotaur(){
+        return isMinotaur;
     }
 
     protected boolean CanMoveUp(){
@@ -78,6 +88,10 @@ public class TurnController {
                 canMoveUp = true;  /* ripristinare canMoveUp al turno di Athena */
             }else if(chosenWorker instanceof Hephaestus){
                 isHephaestus = true;
+            }else if(chosenWorker instanceof Apollo){
+                isApollo = true;
+            }else if(chosenWorker instanceof Minotaur){
+                isMinotaur = true;
             }
             workerChanged = true;
             choseWorker();
@@ -142,6 +156,8 @@ public class TurnController {
         isPrometheus = false;
         isAthena = false;
         isHephaestus = false;
+        isApollo = false;
+        isMinotaur = false;
         currentView = views.get(currentTurn.getCurrentPlayer());
         //view.chooseWorker;  -> far scegliere al player il worker dalla view
         if (model.checkLoseMove(canMoveUp)) {

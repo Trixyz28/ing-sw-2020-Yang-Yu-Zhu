@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -16,8 +17,34 @@ public class Minotaur extends WorkerDecorator {
     @Override
     public List<Tile> canMove(boolean canMoveUp) {
 
-        List<Tile> tempList;
-        tempList = super.canMove(canMoveUp);
+        List<Tile> tempList = new ArrayList<>();
+        for (Tile tile : getPosition().getAdjacentTiles()){
+            if(!tile.isDomePresence() && tile.getBlockLevel()-getPosition().getBlockLevel()<=1 ){
+                if(canMoveUp || getPosition().getBlockLevel() >= tile.getBlockLevel()) {
+                    if(tile.isOccupiedByWorker()){  /* condizioni spinta */
+                        int forcedRow = tile.getRow()+(tile.getRow()-getPosition().getRow());
+                        int forcedColumn = tile.getColumn()+(tile.getColumn()-getPosition().getColumn());
+                        if(forcedRow>=0 && forcedColumn >=0 && forcedRow <5 && forcedColumn <5) {
+                            for(Tile t : tile.getAdjacentTiles()){  /* trovare la tile della spinta */
+                                if(t.getRow() == forcedRow && t.getColumn() == forcedColumn){
+                                    if(!t.isOccupiedByWorker() && !t.isDomePresence()){
+                                        tempList.add(tile);  /* aggiungere il tile che ha come adiacente t */
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }else{  /* aggiungere tile liberi */
+                        tempList.add(tile);
+                    }
+                }
+            }
+        }
+        return tempList;
+    }
+
+
+
 
 /*
         for(int i=0;i<5;i++) {
@@ -30,12 +57,10 @@ public class Minotaur extends WorkerDecorator {
             }
         }
 
- */
-
         return tempList;
 
     }
-
+*/
 
     @Override
     public void move(Tile t) {

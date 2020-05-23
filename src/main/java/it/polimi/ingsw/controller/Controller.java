@@ -68,7 +68,7 @@ public class Controller implements Observer {
             if(checkTurn(operation.getPlayer())) {
 
                 if (operation.getType() == 0) {  //type 0 -> posizione default
-                    initController.placeWorker((Operation) arg);
+                    initController.placeWorker(operation);
                     if(initController.isEndInitialize()){  /* inizio partita con Turn 1 */
                         turnController.nextTurn();
                     }
@@ -77,10 +77,15 @@ public class Controller implements Observer {
                 if (operation.getType() == 1) {  //type 1 -> move
                     //System.out.println("Entrando in moveController");
                     boolean flag;
-                    if(turnController.isPrometheus()){  /* Prometheus ha fatto la Build prima della move*/
-                        flag = moveController.moveWorker((Operation) arg, false);
-                    }else {
-                        flag = moveController.moveWorker((Operation) arg, turnController.CanMoveUp());  /* +condizione di canMoveUp */
+                    if (turnController.isPrometheus()) {  /* Prometheus ha fatto la Build prima della move*/
+                        flag = moveController.moveWorker(operation, false);
+                    } else if (turnController.isApollo()) {
+                        //System.out.println("move di Apollo");
+                        flag = moveController.moveApollo(operation, turnController.CanMoveUp());
+                    }else if(turnController.isMinotaur()){
+                        flag = moveController.moveMinotaur(operation, turnController.CanMoveUp());
+                    }else  {
+                        flag = moveController.moveWorker(operation, turnController.CanMoveUp());  /* +condizione di canMoveUp */
                     }
                     //System.out.println("Uscito dal move" + turnController.CanMoveUp());
                     if (flag && turnController.isArtemis()) {

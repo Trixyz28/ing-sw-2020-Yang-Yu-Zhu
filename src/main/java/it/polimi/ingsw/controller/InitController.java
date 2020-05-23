@@ -132,6 +132,7 @@ public class InitController {
 
         challenger.godChoice(god);
         challenger.createWorker(god);
+        model.createTotalWorkerList();  /* creare lista di tutti i workers */
         godChanged = true;
         /* fine parte scelta God */
 

@@ -17,8 +17,14 @@ public class Apollo extends WorkerDecorator {
     @Override
     public List<Tile> canMove(boolean canMoveUp) {
 
-        List<Tile> tempList;
-        tempList = super.canMove(canMoveUp);
+        List<Tile> tempList = new ArrayList<>();
+        for (Tile tile : getPosition().getAdjacentTiles()){  /* without !occupiedByWorker condition */
+            if(!tile.isDomePresence() && tile.getBlockLevel()-getPosition().getBlockLevel()<=1 ){
+                if(canMoveUp || getPosition().getBlockLevel() >= tile.getBlockLevel()) {
+                    tempList.add(tile);
+                }
+            }
+        }
 
         /*
 
@@ -40,15 +46,22 @@ public class Apollo extends WorkerDecorator {
 
     @Override
     public void move(Tile t) {
+
         if(!t.isOccupiedByWorker()){
             super.move(t);
-        } else if(t.isOccupiedByWorker()){
+        }
+        else {  /* non reimpostare isOccupiedByWorker false alla posizione precedente */
+            //t.setOccupiedByWorker(true);
+            setPosition(t);
+            /*
             NoGod transferWorker = new NoGod();
             // transferWorker = getTileWorker(t);
             transferWorker.move(super.getPosition());
             super.move(t);
 
+             */
         }
+
     }
 
     public boolean availableApolloToMove(Tile dest) {
