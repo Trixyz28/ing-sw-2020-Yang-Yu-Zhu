@@ -61,13 +61,13 @@ public class Player {
 
 
     //Create 2 specific worker classes as indicated in godCard ( da sistemare)
-    public List<UndecoratedWorker> createWorker(String godCard) {
+    public List<UndecoratedWorker> createWorker(String godCard, List<UndecoratedWorker> totalWorkerList) {
 
         workerList = new ArrayList<>();
 
         if(godCard.equals("APOLLO")) {
-            workerList.add(new Apollo(new NoGod()));
-            workerList.add(new Apollo(new NoGod()));
+            workerList.add(new Apollo(new NoGod(), totalWorkerList));
+            workerList.add(new Apollo(new NoGod(), totalWorkerList));
         }
 
         if(godCard.equals("ARTEMIS")) {
@@ -96,8 +96,8 @@ public class Player {
         }
 
         if(godCard.equals("MINOTAUR")) {
-            workerList.add(new Minotaur(new NoGod()));
-            workerList.add(new Minotaur(new NoGod()));
+            workerList.add(new Minotaur(new NoGod(), totalWorkerList));
+            workerList.add(new Minotaur(new NoGod(), totalWorkerList));
         }
 
         if(godCard.equals("PAN")) {

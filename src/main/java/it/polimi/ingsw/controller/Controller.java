@@ -79,12 +79,7 @@ public class Controller implements Observer {
                     boolean flag;
                     if (turnController.isPrometheus()) {  /* Prometheus ha fatto la Build prima della move*/
                         flag = moveController.moveWorker(operation, false);
-                    } else if (turnController.isApollo()) {
-                        //System.out.println("move di Apollo");
-                        flag = moveController.moveApollo(operation, turnController.CanMoveUp());
-                    }else if(turnController.isMinotaur()){
-                        flag = moveController.moveMinotaur(operation, turnController.CanMoveUp());
-                    }else  {
+                    } else {
                         flag = moveController.moveWorker(operation, turnController.CanMoveUp());  /* +condizione di canMoveUp */
                     }
                     //System.out.println("Uscito dal move" + turnController.CanMoveUp());
@@ -206,7 +201,7 @@ public class Controller implements Observer {
                     if (answer.equals("MOVE")) {
                         turnController.movePrometheus();  /* Il worker procede come un worker normale */
                     } else if (answer.equals("BUILD")) {  /* isPrometheus rimane true */
-                        views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage("Builda!");
+                        //views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage("Builda!");
                         model.build();
                     }
                 }

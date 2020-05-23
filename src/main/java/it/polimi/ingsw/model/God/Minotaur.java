@@ -8,9 +8,11 @@ import java.util.List;
 
 public class Minotaur extends WorkerDecorator {
 
-    public Minotaur (UndecoratedWorker worker){
+    private List<UndecoratedWorker> totalWorkers;
 
+    public Minotaur (UndecoratedWorker worker, List<UndecoratedWorker> totalWorkerList){
         super(worker);
+        totalWorkers = totalWorkerList;
     }
 
 
@@ -18,26 +20,9 @@ public class Minotaur extends WorkerDecorator {
     public List<Tile> canMove(boolean canMoveUp) {
 
         List<Tile> tempList = new ArrayList<>();
-        for (Tile tile : getPosition().getAdjacentTiles()){
-            if(!tile.isDomePresence() && tile.getBlockLevel()-getPosition().getBlockLevel()<=1 ){
-                if(canMoveUp || getPosition().getBlockLevel() >= tile.getBlockLevel()) {
-                    if(tile.isOccupiedByWorker()){  /* condizioni spinta */
-                        int forcedRow = tile.getRow()+(tile.getRow()-getPosition().getRow());
-                        int forcedColumn = tile.getColumn()+(tile.getColumn()-getPosition().getColumn());
-                        if(forcedRow>=0 && forcedColumn >=0 && forcedRow <5 && forcedColumn <5) {
-                            for(Tile t : tile.getAdjacentTiles()){  /* trovare la tile della spinta */
-                                if(t.getRow() == forcedRow && t.getColumn() == forcedColumn){
-                                    if(!t.isOccupiedByWorker() && !t.isDomePresence()){
-                                        tempList.add(tile);  /* aggiungere il tile che ha come adiacente t */
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }else{  /* aggiungere tile liberi */
-                        tempList.add(tile);
-                    }
-                }
+        for (Tile t : getPosition().getAdjacentTiles()){
+            if(availableMinotaurToMove(t, canMoveUp)){
+                tempList.add(t);
             }
         }
         return tempList;
@@ -64,21 +49,61 @@ public class Minotaur extends WorkerDecorator {
 
     @Override
     public void move(Tile t) {
-        super.move(t);
-        //minotaurMove(t,this.position);
+        if(t.isOccupiedByWorker()){
+            getOpponent(t).setPosition(getForcedTile(t));  /* cambiare posizione avversario */
+            super.move(t);
+
+        }else {
+            super.move(t);
+            //minotaurMove(t,this.position);
+        }
+    }
+
+    private UndecoratedWorker getOpponent(Tile tile){
+        for(UndecoratedWorker w : totalWorkers){
+            if(w.getPosition() == tile){  /* trovato worker sulla tile */
+                return w;
+            }
+        }
+        return null;
+    }
+
+    private Tile getForcedTile(Tile destination){
+        int forcedRow = destination.getRow()+(destination.getRow()-getPosition().getRow());
+        int forcedColumn = destination.getColumn()+(destination.getColumn()-getPosition().getColumn());
+        if(forcedRow>=0 && forcedColumn >=0 && forcedRow <5 && forcedColumn <5) {
+            for(Tile t : destination.getAdjacentTiles()){  /* trovare la tile della spinta */
+                if(t.getRow() == forcedRow && t.getColumn() == forcedColumn){
+                    return t;  /* forced tile */
+                }
+            }
+        }
+        return null;
     }
 
 
-    /*
+    public boolean availableMinotaurToMove(Tile dest, boolean canMoveUp) {
+        if(getPosition().isAdjacentTo(dest) && !dest.isDomePresence() && dest.getBlockLevel()-getPosition().getBlockLevel()<=1) {
+            if(canMoveUp || getPosition().getBlockLevel() >= dest.getBlockLevel()) {
+                if(dest.isOccupiedByWorker()){
+                    UndecoratedWorker opponent = getOpponent(dest);  /* trovato worker sulla tile */
+                    if(!(opponent instanceof Minotaur)){
+                        Tile forcedTile = getForcedTile(dest);
+                        /* condizioni spinta */
+                        if(forcedTile != null && !forcedTile.isDomePresence() && !forcedTile.isOccupiedByWorker()){
+                            return true;  /* add solo se forcedTile libero */
+                        }
+                    }
 
-    public boolean availableMinotaurToMove(Tile dest,Tile minotaur) {
-        if(this.position.adjacentTile(dest) && !dest.isDomePresence() && headbuttMinotaur(dest,minotaur)
-                && dest.getBlockLevel()-this.position.getBlockLevel()<=1 ) {
-            return true;
+                }else{  /* aggiungere tile liberi */
+                    return true;
+                }
+            }
         }
 
         return false;
     }
+    /*
     //dest= destionation tile, minotaur = tile where the minotaur worker is
     public boolean headbuttMinotaur(Tile dest, Tile minotaur){
         return minotaurTile(dest,minotaur).isOccupiedByWorker() && minotaurTile(dest,minotaur).isDomePresence();

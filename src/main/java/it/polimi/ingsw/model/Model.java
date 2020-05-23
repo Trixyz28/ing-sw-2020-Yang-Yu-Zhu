@@ -51,7 +51,7 @@ public class Model extends Observable {
         matchPlayersList = new ArrayList<>();  //inizializzare playerList con i playerName in parametri
         godsList = new GodList(playersNumber);
         workerChosen = false;
-
+        totalWorkerList = new ArrayList<>();
         board = new Board();
     }
 
@@ -277,7 +277,6 @@ public class Model extends Observable {
     }
 
     public ArrayList<UndecoratedWorker> createTotalWorkerList() {
-        totalWorkerList = new ArrayList<>();
 
         for(int i=0;i<matchPlayersList.size();i++) {
             for(int j=0;j<2;j++) {

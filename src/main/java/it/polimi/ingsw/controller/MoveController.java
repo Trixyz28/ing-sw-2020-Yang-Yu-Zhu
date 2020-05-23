@@ -48,42 +48,45 @@ public class MoveController {
         return worker.canMove(canMoveUp).contains(position);
     }
 
-    protected boolean moveApollo(Operation operation, boolean canMoveUp){  /* cambiare solo posizione della tile occupata e continuare move */
+    /*
+    protected boolean moveApollo(Operation operation, boolean canMoveUp){  /* cambiare solo posizione della tile occupata e continuare move
         position = model.commandToTile(operation.getRow(), operation.getColumn());
         worker = model.getCurrentTurn().getChosenWorker();
         if(position.isOccupiedByWorker() && checkPosition(position,canMoveUp)){
-            /* se occupato cambiare prima la posizione del worker */
+            /* se occupato cambiare prima la posizione del worker
             for (UndecoratedWorker w : model.getTotalWorkers()){
-                if(w.getPosition() == position){  /* trovare il worker nella tile destination */
-                    if(!(w instanceof Apollo)){  /* cambiare posizione se non è proprio worker */
+                if(w.getPosition() == position){  /* trovare il worker nella tile destination
+                    if(!(w instanceof Apollo)){  /* cambiare posizione se non è proprio worker
                         w.setPosition(worker.getPosition());
-                        worker.move(position);  /* move normale */
+                        worker.move(position);  /* move normale
                         model.showBoard();
                         return true;
                     }
                     break;
                 }
             }
-            return false;  /* moveApollo fallita */
-        } else {  /* move normale */
+            return false;  /* moveApollo fallita
+        } else {  /* move normale
             System.out.println("Apollo move normale");
             return moveWorker(operation, canMoveUp);
         }
     }
 
+    /*
     protected boolean moveMinotaur(Operation operation, boolean canMoveUp){
         position = model.commandToTile(operation.getRow(), operation.getColumn());
         worker = model.getCurrentTurn().getChosenWorker();
 
-        if(position.isOccupiedByWorker() && checkPosition(position,canMoveUp)){  /* fare spinta solo se possibile */
+        if(position.isOccupiedByWorker() && checkPosition(position,canMoveUp)){ // fare spinta solo se possibile
             /* se occupato cambiare prima la posizione del worker */
+    /*
             for (UndecoratedWorker w : model.getTotalWorkers()){
-                if(w.getPosition() == position){  /* trovare il worker nella tile destination */
-                    if(!(w instanceof Minotaur)){  /* cambiare posizione se non è proprio worker */
+                if(w.getPosition() == position){  // trovare il worker nella tile destination
+                    if(!(w instanceof Minotaur)){  // cambiare posizione se non è proprio worker
                         int forcedRow = position.getRow()+(position.getRow()-worker.getPosition().getRow());
                         int forcedColumn = position.getColumn()+(position.getColumn()-worker.getPosition().getColumn());
                         w.setPosition(model.commandToTile(forcedRow, forcedColumn));
-                        worker.move(position);  /* move normale */
+                        worker.move(position);  // move normale
                         model.showBoard();
                         return true;
                     }
@@ -91,8 +94,10 @@ public class MoveController {
                 }
             }
             return false;  /* moveMinotuaur fallita */
-        } else {  /* move normale */
+    /*
+        } else {
             return moveWorker(operation, canMoveUp);
         }
     }
+    */
 }

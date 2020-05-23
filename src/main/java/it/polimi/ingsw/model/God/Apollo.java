@@ -8,9 +8,11 @@ import java.util.List;
 
 public class Apollo extends WorkerDecorator {
 
-    public Apollo (UndecoratedWorker worker){
+    private List<UndecoratedWorker> totalWorkers;
 
+    public Apollo (UndecoratedWorker worker, List<UndecoratedWorker> totalWorkerList){
         super(worker);
+        totalWorkers = totalWorkerList;
     }
 
 
@@ -19,10 +21,8 @@ public class Apollo extends WorkerDecorator {
 
         List<Tile> tempList = new ArrayList<>();
         for (Tile tile : getPosition().getAdjacentTiles()){  /* without !occupiedByWorker condition */
-            if(!tile.isDomePresence() && tile.getBlockLevel()-getPosition().getBlockLevel()<=1 ){
-                if(canMoveUp || getPosition().getBlockLevel() >= tile.getBlockLevel()) {
-                    tempList.add(tile);
-                }
+            if(availableApolloToMove(tile, canMoveUp)){
+                tempList.add(tile);
             }
         }
 
@@ -52,6 +52,7 @@ public class Apollo extends WorkerDecorator {
         }
         else {  /* non reimpostare isOccupiedByWorker false alla posizione precedente */
             //t.setOccupiedByWorker(true);
+            getOpponent(t).setPosition(getPosition());  /* scambiare posizione */
             setPosition(t);
             /*
             NoGod transferWorker = new NoGod();
@@ -64,10 +65,28 @@ public class Apollo extends WorkerDecorator {
 
     }
 
-    public boolean availableApolloToMove(Tile dest) {
-        if(this.getPosition().isAdjacentTo(dest) && !dest.isDomePresence()
-                && dest.getBlockLevel()-this.getPosition().getBlockLevel()<=1 ) {
-            return true;
+    private UndecoratedWorker getOpponent(Tile tile){
+        for(UndecoratedWorker w : totalWorkers){
+            if(w.getPosition() == tile){  /* trovato worker sulla tile */
+                return w;
+            }
+        }
+        return null;
+    }
+
+    public boolean availableApolloToMove(Tile dest, boolean canMoveUp) {
+        if(getPosition().isAdjacentTo(dest) && !dest.isDomePresence()
+                && dest.getBlockLevel() - getPosition().getBlockLevel()<=1 ) {
+            if(canMoveUp || getPosition().getBlockLevel() >= dest.getBlockLevel()) {
+                if(dest.isOccupiedByWorker()){
+                    UndecoratedWorker opponent = getOpponent(dest);  /* trovato worker che occupa la tile */
+                    if(!(opponent instanceof Apollo)){
+                        return true;
+                    }
+                }else {
+                    return true;
+                }
+            }
         }
 
         return false;

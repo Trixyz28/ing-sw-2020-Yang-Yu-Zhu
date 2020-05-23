@@ -121,8 +121,15 @@ public class Client {
                             }
                         } else if(inputObject instanceof Operation){
                             opReceived = true;  /* ricevuto un Operation */
-                            //operation = (Operation)inputObject;
-                            System.out.println("mossa (x,y)");
+                            Operation operation = (Operation)inputObject;
+                            if(operation.getType() == 0){
+                                System.out.print(Messages.Place);
+                            }else  if(operation.getType() == 1){
+                                System.out.print(Messages.Move);
+                            }else{
+                                System.out.print(Messages.Build);
+                            }
+                            System.out.println(Messages.Operation);
                         }else if(inputObject instanceof GameMessage){
                             gmReceived = true;  /* ricevuto un GameMessage */
                             gMessage = (GameMessage)inputObject;
@@ -166,7 +173,7 @@ public class Client {
                                     ui.showMessage(Messages.tryAgain + "\n" + Messages.Operation);
                                     //ui.showMessage(Messages.Operation);
                                 }
-                            } catch (IllegalArgumentException e) {
+                            } catch (Exception e) {
                                 ui.showMessage(Messages.wrongArgument);
                             }
 
