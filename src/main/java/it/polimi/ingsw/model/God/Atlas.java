@@ -13,8 +13,8 @@ public class Atlas extends WorkerDecorator {
 
     @Override
     public boolean canBuildDome(Tile t) {
-        System.out.println("He's Atlas he can build a dome everywhere!");
-        if(!t.isDomePresence() && !t.isOccupiedByWorker()) {
+        //System.out.println("He's Atlas he can build a dome everywhere!");
+        if(getPosition().isAdjacentTo(t) && !t.isDomePresence() && !t.isOccupiedByWorker()) {
             return true;
         }
         return false;

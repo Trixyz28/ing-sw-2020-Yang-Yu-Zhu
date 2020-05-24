@@ -4,14 +4,13 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.observers.Observer;
 
-import java.util.HashMap;
 import java.util.Map;
 
 
 public class Controller implements Observer {
 
     private Model model;
-    private Map<Player, View> views = new HashMap<>();
+    private Map<Player, View> views;
 
     private InitController initController;
     private TurnController turnController;
@@ -91,7 +90,7 @@ public class Controller implements Observer {
                         } else {
                             //mostrare view messaggio di posizione errata e ripetere mossa
                             //view.move();
-                            views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage("Impossibile fare questa mossa!");
+                            views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage(Messages.wrongOperation);
                             model.move();
                         }
                     }
@@ -122,7 +121,7 @@ public class Controller implements Observer {
                         turnController.endTurn((Operation) arg);  /* aggiornare Turn fine Build */
                     } else {
                         //messaggio view errato comando e ripetere scelta
-                        views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage("Impossibile fare questa mossa!");
+                        views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage(Messages.wrongOperation);
                         model.build();
                     }
                 }

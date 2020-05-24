@@ -51,12 +51,8 @@ public class Minotaur extends WorkerDecorator {
     public void move(Tile t) {
         if(t.isOccupiedByWorker()){
             getOpponent(t).setPosition(getForcedTile(t));  /* cambiare posizione avversario */
-            super.move(t);
-
-        }else {
-            super.move(t);
-            //minotaurMove(t,this.position);
         }
+        super.move(t);
     }
 
     private UndecoratedWorker getOpponent(Tile tile){

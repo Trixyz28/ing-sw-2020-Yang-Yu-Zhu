@@ -21,6 +21,7 @@ public class Messages {
     public static String tryAgain = "Riprova!";
     public static String wrongTurn = "Non è il tuo turnoooooo!";
     public static String wrongArgument = "Invalid argument!";
+    public static String wrongOperation = "Impossibile fare questa mossa!";
 
 
     //GodPower messages
