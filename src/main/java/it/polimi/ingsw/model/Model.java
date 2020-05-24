@@ -161,7 +161,21 @@ public class Model extends Observable {
         return board.getTile(row,column);
     }
 
-    public void sendMessage(String message){
+    public void sendMessage(String arg){
+        String message = null;
+        if(arg.equals("ARTEMIS")){
+            message = Messages.Artemis;
+        }else if(arg.equals("ATLAS")){
+            message = Messages.Atlas;
+        }else if(arg.equals("DEMETER")){
+            message = Messages.Demeter;
+        }else if(arg.equals("HEPHAESTUS")){
+            message = Messages.Hephaestus;
+        }else if(arg.equals("PROMETHEUS")){
+            message = Messages.Prometheus;
+        }else{
+            message = arg;
+        }
         notify(new GameMessage(currentTurn.getCurrentPlayer(), message));
     }
 

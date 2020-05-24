@@ -24,4 +24,8 @@ public interface UndecoratedWorker {
 
     void setPosition(Tile t);
 
+    boolean getGodPower();
+
+    void setGodPower(boolean b);
+
 }

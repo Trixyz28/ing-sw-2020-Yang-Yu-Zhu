@@ -14,17 +14,17 @@ public class Demeter extends WorkerDecorator {
 
 
     private Tile originalBuild = new Tile();
-    private int counter = 0;
+    private int buildCounter = 0;
 
     @Override
     public void move(Tile t) {
-        setCounter(0);  /* ripristinare counter */
+        buildCounter = 0;
         super.move(t);
     }
 
     @Override
     public boolean canBuildBlock(Tile t) {
-        if (getCounter() == 0) {
+        if (buildCounter == 0) {
             return super.canBuildBlock(t);
              //view.DemeterBuild;
         }
@@ -35,18 +35,19 @@ public class Demeter extends WorkerDecorator {
 
     @Override
     public void buildBlock(Tile t) {
-        if(counter == 0) {
-            setCounter(1);
+        if(buildCounter == 0) {
+            buildCounter = 1;
             setOriginalBuild(t);
-            super.buildBlock(t);
-        }else{
-            super.buildBlock(t);
+            if(canBuild()) {
+                setGodPower(true);
+            }
         }
+        super.buildBlock(t);
     }
 
     @Override
     public boolean canBuildDome(Tile t) {
-        if( getCounter() == 0){
+        if( buildCounter == 0){
             return super.canBuildDome(t);
             //view.DemeterBuild;
         }
@@ -57,12 +58,14 @@ public class Demeter extends WorkerDecorator {
 
     @Override
     public void buildDome(Tile t) {
-        setCounter(1);
-        setOriginalBuild(t);
+        if (buildCounter == 0) {
+            buildCounter = 1;
+            if(canBuild()) {
+                setGodPower(true);
+            }
+        }
         super.buildDome(t);
-
     }
-
 
     public Tile getOriginalBuild() {
         return originalBuild;
@@ -71,7 +74,7 @@ public class Demeter extends WorkerDecorator {
     public void setOriginalBuild(Tile t) {
         this.originalBuild = t;
     }
-
+/*
 
     public int getCounter() {
         return counter;
@@ -81,6 +84,8 @@ public class Demeter extends WorkerDecorator {
         this.counter = i;
     }
 
+
+ */
     public boolean canBuildBlockDemeter(Tile t){
         if(this.originalBuild == t){
             return false;
@@ -99,6 +104,16 @@ public class Demeter extends WorkerDecorator {
             return super.canBuildDome(t);
 
         }
+    }
+
+
+    private boolean canBuild(){
+        for(Tile t : getPosition().getAdjacentTiles()){
+            if(canBuildBlock(t) || canBuildDome(t)){
+                return true;
+            }
+        }
+        return false;
     }
 
 

@@ -75,37 +75,24 @@ public class Controller implements Observer {
 
                 if (operation.getType() == 1) {  //type 1 -> move
                     //System.out.println("Entrando in moveController");
-                    boolean flag;
-                    if (turnController.isPrometheus()) {  /* Prometheus ha fatto la Build prima della move*/
-                        flag = moveController.moveWorker(operation, false);
-                    } else {
-                        flag = moveController.moveWorker(operation, turnController.CanMoveUp());  /* +condizione di canMoveUp */
-                    }
+                    boolean flag = moveController.moveWorker(operation, turnController.CanMoveUp());  /* +condizione di canMoveUp */
                     //System.out.println("Uscito dal move" + turnController.CanMoveUp());
-                    if (flag && turnController.isArtemis()) {
-                        turnController.moveArtemis();
+                    if (flag) {  /* flag : true = move riuscita; false = richiedere move */
+                        turnController.endMove();  /* aggiornare Turn fine Move */
                     } else {
-                        if (flag) {  /* flag : true = move riuscita; false = richiedere move */
-                            turnController.endMove();  /* aggiornare Turn fine Move */
-                        } else {
-                            //mostrare view messaggio di posizione errata e ripetere mossa
-                            //view.move();
-                            views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage(Messages.wrongOperation);
-                            model.move();
-                        }
+                        //mostrare view messaggio di posizione errata e ripetere mossa
+                        //view.move();
+                        views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage(Messages.wrongOperation);
+                        model.move();
                     }
                 }else
 
                 if (operation.getType() == 2) {  //type 2 -> build
                     boolean flag = buildController.build((Operation) arg);
-                    if (flag && turnController.isDemeter()) {  /* Se Demeter fare il secondo build */
-                        turnController.buildDemeter();
-                    } else if (buildController.isAtlas()) {
-                        //views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage("Block o Dome?");
-                        model.sendMessage(Messages.Atlas);
-                    } else if (flag && turnController.isPrometheus()) {  /* dopo build continuare normalmente */
+                     if (flag && !turnController.checkMoveCounter()) {  /* dopo build continuare normalmente */
                         /* checkLosePrometheus */
-                        if(model.getCurrentTurn().getChosenWorker().canMove(false).size() != 0) {
+                        if(model.getCurrentTurn().getChosenWorker().canMove(turnController.CanMoveUp()).size() != 0) {
+                            model.showBoard();  /* mostrare mappa dopo build */
                             turnController.startMove();  /* isPrometheus rimane true */
                         } else {
                             model.lose(model.getCurrentTurn().getCurrentPlayer());
@@ -113,12 +100,8 @@ public class Controller implements Observer {
                                 turnController.nextTurn();
                             }
                         }
-                    }else if (flag && turnController.isHephaestus()){  /* check Hephaestus build un blocco in più */
-                        if(!buildController.buildHephaestus()) {  /* Hephaestus non può build */
-                            turnController.endTurn((Operation) arg);
-                        }
-                    } else if (flag) {  /* flag : true = build riuscita; false = richiedere build */
-                        turnController.endTurn((Operation) arg);  /* aggiornare Turn fine Build */
+                    }else if (flag) {  /* flag : true = build riuscita; false = richiedere build */
+                        turnController.endBuild(operation);  /* aggiornare Turn fine Build */
                     } else {
                         //messaggio view errato comando e ripetere scelta
                         views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage(Messages.wrongOperation);
@@ -161,44 +144,40 @@ public class Controller implements Observer {
                     checkTurn(player);
                 }
 
-
             }else if(checkTurn(player)) {
 
 
                 if (message.equals(Messages.Artemis)) {  /* YES or NO */
                     if (answer.equals("YES")) {  /* Yes -> move in più (con Artemis = false) */
-                        turnController.moveArtemis();
+                        model.move();
                     } else {
                         turnController.endMove();  /* aggiornare Turn fine Move */
                     }
                 }else
                 if (message.equals(Messages.Atlas)) {  /* se Atlas controllare build BLOCK or DOME */
                     if (buildController.checkBlockDome(answer)) {  /* se il build va a buon fine */
-                        model.setWorkerChosen(false);  /* per stampa Board in Client */
-                        model.showBoard();
+                        /* per stampa Board in Client */
                         turnController.endTurn(buildController.getOperation());
-                    } else {  /* messaggio errato */
-                        model.sendMessage(Messages.Atlas);
                     }
                 }else
                 if (message.equals(Messages.Demeter)) {  /* YES or NO */
                     if (answer.equals("YES")) {  /* Yes -> move in più (con Artemis = false) */
-                        turnController.buildDemeter();
+                        model.build();
                     } else {  /* fine turno */
                         turnController.endTurn(buildController.getOperation());  /* ultima build effettuata */
                     }
                 }else
                 if (message.equals(Messages.Hephaestus)) {  /* Block aggiuntivo : YES or NO */
+                    Operation op = buildController.getOperation();  /* ultima build effettuata */
                     if (answer.equals("YES")) {
-                        model.showBoard();
-                        Operation op = buildController.getOperation();  /* ultima build effettuata */
-                        model.getCurrentTurn().getChosenWorker().buildBlock(model.commandToTile(op.getRow(), op.getColumn()));
+                        model.getCurrentTurn().getChosenWorker().buildBlock(null);
                     }
+                    turnController.endTurn(op);
 
                 }else
                 if (message.equals(Messages.Prometheus)) {  /* Move or Build? */
-                    if (answer.equals("MOVE")) {
-                        turnController.movePrometheus();  /* Il worker procede come un worker normale */
+                    if (answer.equals("MOVE")) {  /* Il worker procede come un worker normale */
+                        turnController.startMove();
                     } else if (answer.equals("BUILD")) {  /* isPrometheus rimane true */
                         //views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage("Builda!");
                         model.build();

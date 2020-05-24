@@ -9,12 +9,7 @@ public class BuildController {
     private Model model;
     private Tile position;
     private UndecoratedWorker worker;
-    private boolean isAtlas;
     private Operation operation;
-
-    protected boolean isAtlas(){
-        return isAtlas;
-    }
 
     protected Operation getOperation(){
         return operation;
@@ -38,14 +33,10 @@ public class BuildController {
 
 
     public boolean build(Operation operation){
-        isAtlas = false;
         this.operation = operation;
         worker = model.getCurrentTurn().getChosenWorker();
         position = model.commandToTile(operation.getRow(), operation.getColumn());
         if(checkPosition(position)){  /* build nella check */
-
-            model.setWorkerChosen(false);  /* per stampa Board in Client */
-            model.showBoard();  /* mostrare mappa dopo build */
             return true;  /* build andato a buon fine */
         }else{
             return false;  /* da ripetere build */
@@ -55,8 +46,7 @@ public class BuildController {
     private boolean checkPosition(Tile position){  /* check buildBlock/Dome if true -> Build */
         //return worker.getCurrentPosition(worker).availableToBuild(position);  /* worker.canBuild;  da usare */
         if(worker.canBuildDome(position) && worker.canBuildBlock(position)){  /* Atlas */
-            isAtlas = true;
-            return false;
+            return true;
         }
         if(worker.canBuildBlock(position)){
             worker.buildBlock(position);
@@ -70,12 +60,5 @@ public class BuildController {
     }
 
 
-    protected boolean buildHephaestus(){  /* Hephaestus build un blocco in più */
-        if (worker.canBuildBlock(position)){
-            model.sendMessage(Messages.Hephaestus);
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 }

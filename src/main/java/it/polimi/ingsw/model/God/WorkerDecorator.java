@@ -13,7 +13,7 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
 
     public WorkerDecorator(UndecoratedWorker worker){
         this.worker = worker;
-        //this.position = worker.getPosition();
+        setGodPower(false);  /* godPower ancora attivato */
     }
 
     //standard constructors
@@ -59,4 +59,15 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
     public void setPosition(Tile t) {
         this.worker.setPosition(t);
     }
+
+    @Override
+    public boolean getGodPower() {
+        return this.worker.getGodPower();
+    }
+
+    @Override
+    public void setGodPower(boolean b) {
+        this.worker.setGodPower(b);
+    }
+
 }

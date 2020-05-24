@@ -13,6 +13,7 @@ public class NoGod implements UndecoratedWorker {
     private Tile position;
     private int belongToPlayer;
     private int workerID;
+    private boolean godPower;
 
 
    //Returns a list of available tiles where the worker can be moved to
@@ -74,9 +75,17 @@ public class NoGod implements UndecoratedWorker {
       t.setOccupiedByWorker(true);
    }
 
+   @Override
+   public boolean getGodPower() {
+      return godPower;
+   }
 
+   @Override
+   public void setGodPower(boolean b) {
+      godPower = b;
+   }
 
- /*all basic methods
+   /*all basic methods
     void move(){
         //metodo move() che lavora sulla lista dei worker
     };

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.God.UndecoratedWorker;
-import it.polimi.ingsw.model.God.WorkerDecorator;
 
 public class Turn {
 
@@ -22,6 +21,8 @@ public class Turn {
 
     //Tile where there it was built
     private Tile builtTile;
+
+    private boolean godPower;
 
 
     //Turn constructor: il turno viene creato a inizio match con turn number 0 ed è gestito dal turnController
@@ -60,6 +61,22 @@ public class Turn {
         return chosenWorker;
     }
 
+    public String getWorkerType(){
+        return currentPlayer.getGodCard();
+    }
+
+    public boolean canUsePower(){
+        return godPower;
+    }
+
+    public void useGodPower(){
+        godPower = false;
+    }
+
+    public void resetGodPower() {
+        godPower = true;
+    }
+
     //get() of the initial tile
     public Tile getInitialTile() {
         return initialTile;
@@ -94,9 +111,9 @@ public class Turn {
 
     // methods that interacts with the turn controller for the turn succession,eventually for the chronobreak of the turns
     // i check di validità delle mosse sono chiamati dal moveController e dal buildController con la logica nella classe Tile
-
-
     //!! metodo per azzerare tutti i counter di tutti i worker all'inizio di ogni turno
+
+
 
 }
 
