@@ -9,11 +9,14 @@ public class ServerApp {
 
     public static void main(String[] args) {
 
-        Server server;
+        Server server = new Server();
 
         try {
-            server = new Server(45000);
-            server.startServer();
+            if(args.length==0) {
+                server.startServer("45000");
+            } else {
+                server.startServer(args[0]);
+            }
 
         } catch(IOException e) {
             System.err.println(e.getMessage());

@@ -2,6 +2,8 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.view.cli.BoardView;
 
+import java.util.Scanner;
+
 
 public interface Ui {
 

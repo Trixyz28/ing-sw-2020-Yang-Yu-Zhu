@@ -176,10 +176,6 @@ public class SocketConnection extends Observable implements Runnable {
     }
 
 
-    public boolean isLost() {
-        return lost;
-    }
-
     public void setLost(boolean lost) {
         this.lost = lost;
     }

@@ -27,24 +27,16 @@ public class Server {
     private LobbyHandler lobbyHandler;
     private LobbyController lobbyController;
 
-
-    public Server(int port) throws IOException {
-        this.port = port;
-        this.serverSocket = new ServerSocket(port);
-    }
-
-
-    public void setWaitingRoom() {
+    public Server() {
         lobbyHandler = new LobbyHandler();
         lobbyController = new LobbyController(lobbyHandler);
     }
 
 
+    public void startServer(String inputPort) throws IOException {
 
-    public void startServer() {
-
-        setWaitingRoom();
-        System.out.println("Waiting room ready");
+        this.port = Integer.parseInt(inputPort);
+        serverSocket = new ServerSocket(port);
 
         System.out.println("Server socket ready on port: " + port);
 
@@ -176,7 +168,9 @@ public class Server {
         return lobbyController;
     }
 
+    public synchronized void creatingLobby() {
 
+    }
 
 
 }

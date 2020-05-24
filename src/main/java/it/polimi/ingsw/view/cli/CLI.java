@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.Ui;
 
@@ -9,6 +8,8 @@ import java.util.Scanner;
 
 
 public class CLI implements Ui {
+
+
 
     Scanner in = new Scanner(System.in);
 
@@ -46,14 +47,12 @@ public class CLI implements Ui {
     @Override
     public void showBoard(BoardView boardView) {
 
-        System.out.println();
-        System.out.print("    " + verticalBar);
+        System.out.print("\n" + "    " + verticalBar);
 
         for(int i=0;i<5;i++){
             System.out.print(gridNumberColor + "   " + i + "   " + verticalBar);
         }
-        System.out.println("");
-        System.out.println(supBoard);
+        System.out.println("\n" + supBoard);
 
 
         for(int i=0;i<5;i++) {
@@ -66,7 +65,6 @@ public class CLI implements Ui {
                 } else {
                     System.out.print(verticalBar + " ");
                 }
-
 
                 /*
                 if(t.isAdjacentTo(chosenWorker.getPosition()) && chosenWorker.getPosition().availableToMove(t)) {
@@ -125,13 +123,12 @@ public class CLI implements Ui {
 
 
     public void printDome(Tile t) {
-        System.out.print(domeColor + "  Δ  ");
+        System.out.print(domeColor + "  \u0394  ");
     }
 
     public void printBlock(Tile t) {
         System.out.print("  " + t.getBlockLevel() + "  ");
     }
-
 
 }
 

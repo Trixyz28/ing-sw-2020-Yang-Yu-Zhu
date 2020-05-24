@@ -25,9 +25,17 @@ public class LobbyController {
     }
 
     public int joinLobby(String name) {
-        Lobby lobby = lobbyHandler.getLobbyList().get(lobbyHandler.getLobbyList().size()-1);
-        lobby.addPlayer(name);
-        return lobby.getLobbyID();
+        Lobby canJoin = null;
+
+        for(Lobby lobby : lobbyHandler.getLobbyList()) {
+            if (!lobby.isFull()) {
+                canJoin = lobby;
+                canJoin.addPlayer(name);
+                break;
+            }
+        }
+        assert canJoin != null;
+        return canJoin.getLobbyID();
     }
 
     //on server runs a method that checks if a lobby is full or not and then starts the game on the current lobby

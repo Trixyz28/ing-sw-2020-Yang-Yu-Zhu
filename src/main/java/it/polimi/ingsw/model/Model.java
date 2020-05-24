@@ -61,13 +61,13 @@ public class Model extends Observable {
 
     public void showBoard() {
 
-        WorkerView[] totalWorkerList = new WorkerView[matchPlayersList.size()*2];
+        WorkerView[] totalWorkerView = new WorkerView[matchPlayersList.size()*2];
         int chosenWorkerID = -1;
 
         for(int i=0;i<matchPlayersList.size();i++) {
             for(int j=0;j<2;j++) {
-                totalWorkerList[i*2+j] = new WorkerView(matchPlayersList.get(i).getWorkerList().get(j));
-                totalWorkerList[i*2+j].setColor(workerColor(matchPlayersList.get(i).getPlayerID()));
+                totalWorkerView[i*2+j] = new WorkerView(matchPlayersList.get(i).getWorkerList().get(j));
+                totalWorkerView[i*2+j].setColor(workerColor(matchPlayersList.get(i).getPlayerID()));
                 if(workerChosen) {
                     if (matchPlayersList.get(i).getWorkerList().get(j).equals(currentTurn.getChosenWorker())) {
                         chosenWorkerID = i*2+j;
@@ -76,7 +76,7 @@ public class Model extends Observable {
             }
         }
 
-        notify(new BoardView(board.getMap(),totalWorkerList,chosenWorkerID));
+        notify(new BoardView(board.getMap(),totalWorkerView,chosenWorkerID));
     }
 
     //get the index of the nextPlayer
