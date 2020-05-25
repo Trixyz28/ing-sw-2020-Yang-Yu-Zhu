@@ -17,14 +17,12 @@ public class TurnController {
         this.views = views;
         canMoveUp = true;
         workerChanged = false;
-        isAthena = false;
     }
 
     private Turn currentTurn;
     private UndecoratedWorker chosenWorker;
     private View currentView;
     private boolean workerChanged;
-    private boolean isAthena;
     private boolean canMoveUp;
     private int moveCounter;
 
@@ -46,13 +44,9 @@ public class TurnController {
         UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(index);
 
         //controllare se il Worker scelta possa fare la mossa o no
-        if(worker.canMove(canMoveUp).size() != 0 || (chosenWorker instanceof Prometheus && !model.checkLoseBuild(worker))) {
+        if(worker.canMove(canMoveUp).size() != 0 || chosenWorker.getGodPower()) {  //(chosenWorker instanceof Prometheus && !model.checkLoseBuild(worker))
             /* tile che può andarci != 0 oppure Prometheus canBuild*/
             chosenWorker = worker;
-            if (chosenWorker instanceof Athena){
-                isAthena = true;
-                canMoveUp = true;  /* ripristinare canMoveUp al turno di Athena */
-            }
             workerChanged = true;
             choseWorker();
 
@@ -75,15 +69,17 @@ public class TurnController {
         } else {
             if(chosenWorker.getGodPower()){
                 currentTurn.setInitialTile(currentTurn.getFinalTile());/* se il worker può fare un'altra mossa */
-                model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());  /* chiedere al Player se vuole fare build in più */
+                model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());  /* chiedere al Player se vuole fare move in più */
                 chosenWorker.setGodPower(false);
             }else {
-                if (isAthena) {  /* aggiornare canMoveUp */
+                /*
+                if (isAthena) {  /* aggiornare canMoveUp
                     if (checkMoveUpAthena()) {
-                        canMoveUp = false;  /* gli altri player non possono più salire di livello */
+                        canMoveUp = false;  /* gli altri player non possono più salire di livello
                     }
                 }
                 //view.build();  /* chiedere al player di Buildare */
+                currentTurn.checkMoveUpAthena();
                 if (model.checkLoseBuild(currentTurn.getChosenWorker())) {  /* check se il worker possa o no fare Build */
                     currentView.showMessage("Spiacenti! Non sei più in grado di buildare, hai perso!!!!");
                     currentView.setEndGame();  /* player finisce la partita */
@@ -117,7 +113,6 @@ public class TurnController {
         int index = model.getNextPlayerIndex();  //trovare indice del player successivo
         currentTurn.setCurrentPlayer(playerList.get(index));
         workerChanged = false;  /* da ripristinare ad ogni inizio turno (per scelta worker) */
-        isAthena = false;
         moveCounter = 0;
         currentView = views.get(currentTurn.getCurrentPlayer());
         //view.chooseWorker;  -> far scegliere al player il worker dalla view
@@ -138,15 +133,23 @@ public class TurnController {
     /* scelto Worker -> inizio move */
     protected void choseWorker(){
 
+        /*
         currentTurn.setChosenWorker(chosenWorker);
         currentTurn.setInitialTile(chosenWorker.getPosition());
         currentTurn.setFinalTile(null);  //inizializzare Final e Built
         currentTurn.setBuiltTile(null);
+         */
+        currentTurn.choseWorker(chosenWorker);
+        canMoveUp = currentTurn.canMoveUp();  /* aggiornare canMoveUp */
         model.setWorkerChosen(true);
         model.showBoard();
         //view.move();  /* ->  passare alla scelta della mossa */
         if(chosenWorker.getGodPower()) { /* se Prometheus può Build mandare messaggio */
-            model.sendMessage(Messages.Prometheus);  /* chiedere se fare move o build */
+            if(chosenWorker.canMove(canMoveUp).size()!=0) {
+                model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());  /* chiedere se fare move o build */
+            }else{
+                model.build();
+            }
             chosenWorker.setGodPower(false);
         }else {
             startMove();
