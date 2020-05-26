@@ -18,27 +18,12 @@ public class ControllerTest extends TestCase {
     Map<Player, View> views = new HashMap<>();
     Controller controller;
 
-    @Before
-    public void initializing() {
-        model.initialize(2);
-        Player player1 = new Player("A");
-        Player player2 = new Player("B");
-        model.addPlayer(player1);
-        model.addPlayer(player2);
-        controller = new Controller(model,views);
-    }
 
 
     @Test
-    public void testSetup() {
-        controller.update("setup");
-
-    }
-
-
-
-
     public void testMinorControllers() {
+        controller = new Controller(model,views);
+        controller.minorControllers(model,views);
     }
 
     public void testCheckTurn() {

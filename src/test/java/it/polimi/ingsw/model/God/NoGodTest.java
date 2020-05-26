@@ -72,13 +72,15 @@ public class NoGodTest extends TestCase {
     }
 
 
-
-
-
     @Test
     public void testGodPower() {
         noGod.setGodPower(true);
         assertTrue(noGod.getGodPower());
+    }
+
+    @Test
+    public void testConditions() {
+        assertEquals(condition,noGod.getConditions());
     }
 
 

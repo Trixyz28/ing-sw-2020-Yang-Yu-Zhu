@@ -39,7 +39,7 @@ public class Hephaestus extends WorkerDecorator {
             if(canBuildBlock(t)) {
                 setGodPower(true);
             }
-        }else{  /* second Build */
+        } else {  /* second Build */
             buildCounter = 0;
             super.buildBlock(builtTile);
         }

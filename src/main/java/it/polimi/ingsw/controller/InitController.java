@@ -68,8 +68,6 @@ public class InitController {
         View view = views.get(currentPlayer);
         view.showMessage("Scegli la tua divinità");
 
-
-
     }
 
     /* scelta God dal Player */

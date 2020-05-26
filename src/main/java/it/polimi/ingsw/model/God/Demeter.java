@@ -8,7 +8,6 @@ import java.util.List;
 public class Demeter extends WorkerDecorator {
 
     public Demeter (UndecoratedWorker worker){
-
         super(worker);
     }
 

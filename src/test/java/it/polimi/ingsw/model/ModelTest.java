@@ -1,9 +1,14 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.God.*;
+import it.polimi.ingsw.observers.Observer;
+import it.polimi.ingsw.view.RemoteView;
 import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ModelTest extends TestCase {
 
@@ -71,22 +76,32 @@ public class ModelTest extends TestCase {
         destination.setBlockLevel(2);
         model.getCurrentTurn().setFinalTile(destination);
         assertFalse(model.checkWin());
+
+        Conditions conditions = new Conditions();
+        UndecoratedWorker pan = new Pan(new NoGod(conditions));
+        pan.setPosition(position);
+        model.getCurrentTurn().choseWorker(pan);
+        model.getCurrentTurn().setFinalTile(destination);
+        destination.setBlockLevel(0);
+        pan.setPosition(destination);
+        assertTrue(model.checkWin());
+
     }
 
     @Test
-    public void testGodList() {
+    public void testNextPlayerIndex() {
+        testInitialize();
+        model.getMatchPlayersList().get(0).setPlayerID(0);
+        model.getMatchPlayersList().get(1).setPlayerID(1);
+        model.setStartingPlayerID(0);
+        model.startCurrentTurn();
+        model.getCurrentTurn().setCurrentPlayer(model.getMatchPlayersList().get(0));
+        assertEquals(1,model.getNextPlayerIndex());
+        model.getCurrentTurn().setCurrentPlayer(model.getMatchPlayersList().get(1));
+        assertEquals(0,model.getNextPlayerIndex());
     }
 
 
-    @Test
-    public void testCurrentPlayer() {
-        model.initialize(3);
-        model.setCurrentPlayerID(1);
-        model.updateCurrentPlayer();
-        assertEquals(2,model.getCurrentPlayerID());
-        model.updateCurrentPlayer();
-        assertEquals(0,model.getCurrentPlayerID());
-    }
 
     @Test
     public void testWorkerChosen() {
@@ -96,10 +111,6 @@ public class ModelTest extends TestCase {
 
 
 
-    public void testCheckLose() {
-    }
-
-
     @Test
     public void testGameOver() {
         testCurrentTurn();
@@ -107,5 +118,44 @@ public class ModelTest extends TestCase {
         assertTrue(model.isGameOver());
     }
 
+
+    @Test
+    public void testTotalWorkerList() {
+        testInitialize();
+        Conditions conditions = new Conditions();
+        model.getMatchPlayersList().get(0).createWorker("DEMETER",conditions,model.getTotalWorkers());
+        model.getMatchPlayersList().get(1).createWorker("PROMETHEUS",conditions,model.getTotalWorkers());
+        model.createTotalWorkerList();
+
+        assertEquals(4,model.getTotalWorkers().size());
+        assertTrue(model.getTotalWorkers().get(1) instanceof Demeter);
+        assertTrue(model.getTotalWorkers().get(2) instanceof Prometheus);
+
+
+    }
+
+
+    @Test
+    public void testOperations() {
+
+        testCurrentTurn();
+
+        Observer obs = new Observer() {
+            @Override
+            public void update(Object message) {
+                assertTrue(message instanceof Operation);
+                Operation operation = (Operation)message;
+                assertTrue(operation.getRow() == -1);
+                assertTrue(operation.getColumn() == -1);
+                assertEquals(model.getMatchPlayersList().get(1).getPlayerNickname(),(operation.getPlayer()));
+                assertTrue(operation.getType()==0 || ((operation.getType()==1) || operation.getType()==2));
+            }
+        };
+
+        model.addObservers(obs);
+        model.place();
+        model.move();
+        model.build();
+    }
 
 }

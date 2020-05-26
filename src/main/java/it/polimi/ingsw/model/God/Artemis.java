@@ -70,6 +70,7 @@ public class Artemis extends WorkerDecorator {
     private void setOriginalTile(Tile t) {
         this.originalTile = t;
     }
+
     /*
     public int getCounter() {
         return counter;

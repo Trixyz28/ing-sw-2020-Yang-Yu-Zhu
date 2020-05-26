@@ -36,8 +36,6 @@ public class Model extends Observable {
     //Current turn
     private Turn currentTurn;
 
-    //Current player ID
-    private int currentPlayerID;
 
     private Conditions condition;
 
@@ -69,7 +67,7 @@ public class Model extends Observable {
         int chosenWorkerID = -1;
 
         for(int i=0;i<matchPlayersList.size();i++) {
-            for(int j=0;j<2;j++) {
+            for(int j=0;j<matchPlayersList.get(i).getWorkerList().size();j++) {
                 totalWorkerView[i*2+j] = new WorkerView(matchPlayersList.get(i).getWorkerList().get(j));
                 totalWorkerView[i*2+j].setColor(workerColor(matchPlayersList.get(i).getPlayerID()));
                 if(workerChosen) {
@@ -117,7 +115,6 @@ public class Model extends Observable {
         Random r = new Random();
         challengerID = (r.nextInt(playersNumber));
         matchPlayersList.get(challengerID).setChallenger(true);
-        currentPlayerID = challengerID;
         notify("The chosen challenger is: " + matchPlayersList.get(challengerID).getPlayerNickname());
     }
 
@@ -167,6 +164,7 @@ public class Model extends Observable {
     public Tile commandToTile(int row,int column) {
         return board.getTile(row,column);
     }
+
 
     public void sendMessage(String arg){
         String message = null;
@@ -249,22 +247,6 @@ public class Model extends Observable {
 
 
 
-    public int getCurrentPlayerID() {
-        return currentPlayerID;
-    }
-
-    public void setCurrentPlayerID(int currentPlayerID) {
-        this.currentPlayerID = currentPlayerID;
-    }
-
-    public void updateCurrentPlayer() {
-        if(currentPlayerID == playersNumber-1) {
-            currentPlayerID = 0;
-        } else {
-            currentPlayerID = currentPlayerID+1;
-        }
-    }
-
     public boolean isWorkerChosen() {
         return workerChosen;
     }
@@ -300,9 +282,7 @@ public class Model extends Observable {
     public ArrayList<UndecoratedWorker> createTotalWorkerList() {
 
         for(int i=0;i<matchPlayersList.size();i++) {
-            for(int j=0;j<2;j++) {
-                totalWorkerList.add(matchPlayersList.get(i).getWorkerList().get(j));
-            }
+            totalWorkerList.addAll(matchPlayersList.get(i).getWorkerList());
         }
 
         return totalWorkerList;

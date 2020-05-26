@@ -15,6 +15,7 @@ public class Prometheus extends WorkerDecorator {
     private int buildCounter = 0;
     private int moveCounter = 0;
 
+
     @Override
     public List<Tile> canMove() {
         if (buildCounter == 0) {
@@ -45,12 +46,6 @@ public class Prometheus extends WorkerDecorator {
 
 
     @Override
-    public boolean canBuildBlock(Tile t) {
-        return super.canBuildBlock(t);
-    }
-
-
-    @Override
     public void buildBlock(Tile t) {
         buildCounter++;
         super.buildBlock(t);
@@ -58,10 +53,6 @@ public class Prometheus extends WorkerDecorator {
 
     }
 
-    @Override
-    public boolean canBuildDome(Tile t) {
-        return super.canBuildDome(t);
-    }
 
     @Override
     public void buildDome(Tile t) {
