@@ -61,7 +61,7 @@ public class Player {
 
 
     //Create 2 specific worker classes as indicated in godCard ( da sistemare)
-    public List<UndecoratedWorker> createWorker(String godCard, Conditions condition, List<UndecoratedWorker> totalWorkerList) {
+    public void createWorker(String godCard, Conditions condition, List<UndecoratedWorker> totalWorkerList) {
 
         workerList = new ArrayList<>();
         UndecoratedWorker w1 = new NoGod(condition);
@@ -114,7 +114,6 @@ public class Player {
                 break;
         }
 
-        return workerList;
     }
 
     public List<UndecoratedWorker> getWorkerList() {

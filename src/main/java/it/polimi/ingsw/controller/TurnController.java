@@ -174,10 +174,4 @@ public class TurnController {
     }
 
 
-    private boolean checkMoveUpAthena(){  /* se Athena sale di livello */
-        return (currentTurn.getFinalTile().getBlockLevel() > currentTurn.getInitialTile().getBlockLevel());
-    }
-
-
-
 }

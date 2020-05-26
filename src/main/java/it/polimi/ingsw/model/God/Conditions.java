@@ -10,12 +10,12 @@ public class Conditions {
     private boolean athenaRule = false;  /* true -> canMoveUp = false */
 
 
-    public boolean canMoveUp() {
+    protected boolean canMoveUp() {
         return !athenaRule;
     }
 
 
-    public void setAthenaRule(boolean i) {
+    protected void setAthenaRule(boolean i) {
         this.athenaRule = i;
     }
 

@@ -71,7 +71,7 @@ public class Demeter extends WorkerDecorator {
         return originalBuild;
     }
 
-    public void setOriginalBuild(Tile t) {
+    private void setOriginalBuild(Tile t) {
         this.originalBuild = t;
     }
 /*

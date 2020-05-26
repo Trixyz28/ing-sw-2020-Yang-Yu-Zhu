@@ -67,7 +67,7 @@ public class Artemis extends WorkerDecorator {
         return originalTile;
     }
 
-    public void setOriginalTile(Tile t) {
+    private void setOriginalTile(Tile t) {
         this.originalTile = t;
     }
     /*

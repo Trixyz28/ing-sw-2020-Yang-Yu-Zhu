@@ -203,7 +203,7 @@ public class InitController {
     }
 
     /* selezione StartingPlayer -> Inizializzazione Turno 0 */
-    public void setStartingPlayer(String startingPlayerNickname){  /* per sceglire il startingPlayer attraverso Nickname */
+    protected void setStartingPlayer(String startingPlayerNickname){  /* per sceglire il startingPlayer attraverso Nickname */
 
         for (Player p : model.getMatchPlayersList()) {
             if (p.getPlayerNickname().equals(startingPlayerNickname)) {

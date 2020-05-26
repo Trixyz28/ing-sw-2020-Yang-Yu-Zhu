@@ -45,13 +45,4 @@ public class Hephaestus extends WorkerDecorator {
         }
     }
 
-    @Override
-    public void setGodPower(boolean b) {
-        if(b == true) {
-            super.setGodPower(true);
-        }else {
-            super.setGodPower(false);
-            buildCounter = 0;
-        }
-    }
 }

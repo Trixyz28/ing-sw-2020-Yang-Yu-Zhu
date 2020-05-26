@@ -103,8 +103,8 @@ public class Turn {
     }
 
     //set() of the built tile
-    public void setBuiltTile(Tile buildTile) {
-        this.builtTile = buildTile;
+    public void setBuiltTile(Tile builtTile) {
+        this.builtTile = builtTile;
     }
 
     //After chose worker
