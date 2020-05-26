@@ -38,5 +38,4 @@ public class Operation implements Serializable {
         this.column = column;
     }
 
-
 }

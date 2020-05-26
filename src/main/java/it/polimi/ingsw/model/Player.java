@@ -31,6 +31,7 @@ public class Player {
     }
 
 
+    //PlayerID getter&setter
     public int getPlayerID() {
         return playerID;
     }
@@ -39,14 +40,13 @@ public class Player {
     }
 
 
+    //Challenger getter&setter
     public boolean isChallenger() {
         return challenger;
     }
     public void setChallenger(boolean challenger){
         this.challenger = challenger;
     }
-
-
 
 
     //Choose a God from the list
@@ -65,49 +65,51 @@ public class Player {
 
         workerList = new ArrayList<>();
 
-        if(godCard.equals("APOLLO")) {
-            workerList.add(new Apollo(new NoGod(), totalWorkerList));
-            workerList.add(new Apollo(new NoGod(), totalWorkerList));
-        }
+        switch (godCard) {
+            case "APOLLO":
+                workerList.add(new Apollo(new NoGod(), totalWorkerList));
+                workerList.add(new Apollo(new NoGod(), totalWorkerList));
+                break;
 
-        if(godCard.equals("ARTEMIS")) {
-            workerList.add(new Artemis(new NoGod()));
-            workerList.add(new Artemis(new NoGod()));
-        }
+            case "ARTEMIS":
+                workerList.add(new Artemis(new NoGod()));
+                workerList.add(new Artemis(new NoGod()));
+                break;
 
-        if(godCard.equals("ATHENA")) {
-            workerList.add(new Athena(new NoGod()));
-            workerList.add(new Athena(new NoGod()));
-        }
+            case "ATHENA":
+                workerList.add(new Athena(new NoGod()));
+                workerList.add(new Athena(new NoGod()));
+                break;
 
-        if(godCard.equals("ATLAS")) {
-            workerList.add(new Atlas(new NoGod()));
-            workerList.add(new Atlas(new NoGod()));
-        }
+            case "ATLAS":
+                workerList.add(new Atlas(new NoGod()));
+                workerList.add(new Atlas(new NoGod()));
+                break;
 
-        if(godCard.equals("DEMETER")) {
-            workerList.add(new Demeter(new NoGod()));
-            workerList.add(new Demeter(new NoGod()));
-        }
+            case "DEMETER":
+                workerList.add(new Demeter(new NoGod()));
+                workerList.add(new Demeter(new NoGod()));
+                break;
 
-        if(godCard.equals("HEPHAESTUS")) {
-            workerList.add(new Hephaestus(new NoGod()));
-            workerList.add(new Hephaestus(new NoGod()));
-        }
+            case "HEPHAESTUS":
+                workerList.add(new Hephaestus(new NoGod()));
+                workerList.add(new Hephaestus(new NoGod()));
+                break;
 
-        if(godCard.equals("MINOTAUR")) {
-            workerList.add(new Minotaur(new NoGod(), totalWorkerList));
-            workerList.add(new Minotaur(new NoGod(), totalWorkerList));
-        }
+            case "MINOTAUR":
+                workerList.add(new Minotaur(new NoGod(), totalWorkerList));
+                workerList.add(new Minotaur(new NoGod(), totalWorkerList));
+                break;
 
-        if(godCard.equals("PAN")) {
-            workerList.add(new Pan(new NoGod()));
-            workerList.add(new Pan(new NoGod()));
-        }
+            case "PAN":
+                workerList.add(new Pan(new NoGod()));
+                workerList.add(new Pan(new NoGod()));
+                break;
 
-        if(godCard.equals("PROMETHEUS")) {
-            workerList.add(new Prometheus(new NoGod()));
-            workerList.add(new Prometheus(new NoGod()));
+            case "PROMETHEUS":
+                workerList.add(new Prometheus(new NoGod()));
+                workerList.add(new Prometheus(new NoGod()));
+                break;
         }
 
         return workerList;
@@ -117,11 +119,12 @@ public class Player {
         return workerList;
     }
 
+
     //Select the worker to move/build
     public UndecoratedWorker chooseWorker(int index) {
-
         return workerList.get(index);
     }
+
 
     //Lost in 3-players game, delete workers
     public void deleteWorker() {

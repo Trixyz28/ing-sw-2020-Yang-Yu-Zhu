@@ -23,8 +23,10 @@ public class Turn {
     //Tile where there it was built
     private Tile builtTile;
 
+    //True if god power is active
     private boolean godPower;
 
+    //True if the chosen worker can move up in the current turn
     private boolean canMoveUp;
 
 
@@ -54,27 +56,30 @@ public class Turn {
         this.turnNumber = turnNumber;
     }
 
+    /*
     //set() of the chosenWorker
     public void setChosenWorker(UndecoratedWorker chosenWorker) {
         this.chosenWorker = chosenWorker;
-    }
+    }*/
 
     //get() of the chosenWorker
     public UndecoratedWorker getChosenWorker() {
         return chosenWorker;
     }
 
+    //get() of canMoveUp
     public boolean canMoveUp(){
         return canMoveUp;
     }
 
+    /*
     public boolean canUsePower(){
         return godPower;
     }
 
     public void useGodPower(){
         godPower = false;
-    }
+    }*/
 
     //get() of the initial tile
     public Tile getInitialTile() {

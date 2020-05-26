@@ -154,7 +154,6 @@ public class Server {
 
         }
 
-
     }
 
 
@@ -166,10 +165,6 @@ public class Server {
 
     public LobbyController getLobbyController() {
         return lobbyController;
-    }
-
-    public synchronized void creatingLobby() {
-
     }
 
 

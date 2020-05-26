@@ -16,7 +16,6 @@ public class Athena extends WorkerDecorator {
         //if athena worker moved up ( check move controller) then modify AthenaRule in object Conditions
         //normal move + if worker moves up: change AthenaRule to true.
         super.move(t);
-        boolean athenaBoolean = this.getPosition().movedUp(getPosition(),t);
         // setAthenaRule(athenaBoolean);
     }
 

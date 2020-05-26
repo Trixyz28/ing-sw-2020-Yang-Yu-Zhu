@@ -15,11 +15,6 @@ public class Board {
         initializeTiles();
     }
 
-    //get() of the map
-    public Tile[][] getMap() {
-        return map.clone();
-    }
-
 
     //Initialize the empty board
     public void initializeTiles(){
@@ -40,9 +35,17 @@ public class Board {
     }
 
 
+    //get() of the map
+    public Tile[][] getMap() {
+        return map.clone();
+    }
+
+
+    //get() of a specific tile in the map
     public Tile getTile(int i, int j) {
         return map[i][j];
     }
+
 
     //Fill the adjacent tiles list for a tile
     public void setAdjacentList(Tile t) {
@@ -58,12 +61,7 @@ public class Board {
                 }
             }
         }
-
     }
 
-
-
-    //da implementare insieme all'init controller metodi che permettono ai giocatori
- // di mettere i workers e aggiornare la board es: public void mapUpdate()
 
 }

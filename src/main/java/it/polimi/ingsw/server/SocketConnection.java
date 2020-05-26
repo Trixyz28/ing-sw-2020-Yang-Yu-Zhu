@@ -92,25 +92,7 @@ public class SocketConnection extends Observable implements Runnable {
             in = new Scanner(socket.getInputStream());
             out = new ObjectOutputStream(socket.getOutputStream());
 
-
-            //Set nickname
-            send("Welcome! What is your nickname?");
-            String readName;
-            boolean check;
-            do {
-                readName = in.nextLine();
-                check = server.getLobbyController().canUseNickname(readName);
-                if(!check) {
-                    send("Nickname in use, choose another one");
-                } else {
-                    send("You can use this nickname!");
-                }
-            } while(!check);
-
-            player = new Player(readName);
-            server.getLobbyHandler().addPlayer(player.getPlayerNickname());
-            send("Hi, " + player.getPlayerNickname() + "!");
-
+            setNickname();
 
             //Create a lobby
             if(!server.getLobbyHandler().checkAvailableLobby()) {
@@ -179,4 +161,27 @@ public class SocketConnection extends Observable implements Runnable {
     public void setLost(boolean lost) {
         this.lost = lost;
     }
+
+
+    public void setNickname() {
+        //Set nickname
+        send(Messages.nicknameRequest);
+        String readName;
+        boolean check;
+        do {
+            readName = in.nextLine();
+            check = server.getLobbyController().canUseNickname(readName);
+            if(!check) {
+                send(Messages.nicknameInUse);
+            } else {
+                send(Messages.nicknameAvailable);
+            }
+        } while(!check);
+
+        player = new Player(readName);
+        server.getLobbyHandler().addPlayer(player.getPlayerNickname());
+        send("Hi, " + player.getPlayerNickname() + "!");
+    }
+
+
 }

@@ -21,6 +21,15 @@ public class LobbyHandlerTest extends TestCase {
     }
 
     @Test
+    public void testRemovePlayer() {
+        lobbyHandler.addPlayer("A");
+        lobbyHandler.addPlayer("B");
+        lobbyHandler.removePlayer("A");
+        assertEquals("B",lobbyHandler.getPlayerList().get(0));
+    }
+
+
+    @Test
     public void testCheckAvailableLobbyFalse() {
         lobbyHandler.newLobby("A",2);
         lobbyController.joinLobby("B");
@@ -50,7 +59,7 @@ public class LobbyHandlerTest extends TestCase {
     @Test
     public void testJoinLobby() {
 
-        lobbyHandler.newLobby("A",3);
+        int lobby1 = lobbyHandler.newLobby("A",3);
 
         int lobbyID = lobbyController.joinLobby("B");
         assertEquals("B", lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList().get(1));
@@ -59,5 +68,7 @@ public class LobbyHandlerTest extends TestCase {
         lobbyController.joinLobby("C");
         assertEquals("C", lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList().get(2));
         assertTrue(lobbyHandler.getLobbyList().get(lobbyID).isFull());
+
+        assertEquals(lobby1,lobbyID);
     }
 }

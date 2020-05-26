@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import junit.framework.TestCase;
-import org.junit.After;
 import org.junit.Test;
 
 public class GodListTest extends TestCase{
@@ -10,30 +9,33 @@ public class GodListTest extends TestCase{
 
     @Test
     public void testSetComplete() {
-        godList.setComplete();
-        assertEquals("APOLLO",godList.showComplete()[0]);
-        assertEquals("ARTEMIS",godList.showComplete()[1]);
-        assertEquals("ATHENA",godList.showComplete()[2]);
-        assertEquals("ATLAS",godList.showComplete()[3]);
-        assertEquals("DEMETER",godList.showComplete()[4]);
-        assertEquals("HEPHAESTUS",godList.showComplete()[5]);
-        assertEquals("MINOTAUR",godList.showComplete()[6]);
-        assertEquals("PAN",godList.showComplete()[7]);
-        assertEquals("PROMETHEUS",godList.showComplete()[8]);
+        String[] completeGodList = godList.getCompleteGodList();
+
+        assertEquals("APOLLO",completeGodList[0]);
+        assertEquals("ARTEMIS",completeGodList[1]);
+        assertEquals("ATHENA",completeGodList[2]);
+        assertEquals("ATLAS",completeGodList[3]);
+        assertEquals("DEMETER",completeGodList[4]);
+        assertEquals("HEPHAESTUS",completeGodList[5]);
+        assertEquals("MINOTAUR",completeGodList[6]);
+        assertEquals("PAN",completeGodList[7]);
+        assertEquals("PROMETHEUS",completeGodList[8]);
     }
 
 
     @Test
     public void testAddInGodList() {
         godList.selectGod("APOLLO");
-        godList.addInGodList();
+        assertTrue(godList.addInGodList());
         assertEquals("APOLLO",godList.getCurrentGodList().get(0));
-        assertEquals(1,godList.getLength());
 
         godList.selectGod("APOLLO");
         assertTrue(godList.checkGod());
+        assertFalse(godList.addInGodList());
         godList.selectGod("ATHENA");
         assertFalse(godList.checkGod());
+
+
     }
 
     @Test
@@ -42,15 +44,7 @@ public class GodListTest extends TestCase{
         godList.selectGod("MINOTAUR");
         godList.addInGodList();
         godList.removeFromGodList("APOLLO");
-        assertEquals(1,godList.getLength());
         assertEquals("MINOTAUR",godList.getCurrentGodList().get(0));
-    }
-
-
-    @Test
-    public void testSelectGod() {
-        godList.selectGod("APOLLO");
-        assertEquals("APOLLO",godList.getSelectedGod());
     }
 
     @Test

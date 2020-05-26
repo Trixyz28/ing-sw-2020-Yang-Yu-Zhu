@@ -120,7 +120,7 @@ public class TileTest extends TestCase {
 
     @Test
     public void testSetWorker() {
-        t.setWorker();
+        t.putWorker();
         assertTrue(t.isOccupiedByWorker());
     }
 

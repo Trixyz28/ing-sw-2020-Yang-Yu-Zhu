@@ -54,18 +54,6 @@ public class Lobby extends Observable {
         this.lobbyPlayersNumber = playersNumber;
     }
 
-    /*Get() : Print on screen the list of players;if value is "0000" the players doesn't exist yet
-    public void printPlayersNameList() {
-
-        for (int i = 0; i < lobbyPlayersNumber; i++) {
-            String helper = playersNameList.get(i);
-            if (helper.equals("0000")) {
-                System.out.println("Player not available yet.");
-            } else {
-                System.out.println(helper);
-            }
-        }
-    }*/
 
     public ArrayList<String> getPlayersNameList() {
         return playersNameList;

@@ -10,15 +10,16 @@ public class Tile implements Cloneable, Serializable {
     private int row;
     private int column;
 
-    //Block level on the tile, default 0
+    //Block level on the tile, default 0 (max.3)
     private int blockLevel;
 
-    //Worker presence
+    //Worker presence on the tile
     private boolean occupiedByWorker;
 
-    //Dome presence
+    //Dome presence on the tile
     private boolean domePresence;
 
+    //List of all tiles adjacent to the present one on the map
     private List<Tile> adjacentTiles;
 
     public Tile() {
@@ -29,6 +30,7 @@ public class Tile implements Cloneable, Serializable {
     }
 
 
+    //Row getter&setter
     public int getRow() {
         return row;
     }
@@ -37,6 +39,7 @@ public class Tile implements Cloneable, Serializable {
     }
 
 
+    //Column getter&setter
     public int getColumn() {
         return column;
     }
@@ -45,6 +48,7 @@ public class Tile implements Cloneable, Serializable {
     }
 
 
+    //Blocklevel getter&setter
     public int getBlockLevel() {
         return blockLevel;
     }
@@ -53,6 +57,7 @@ public class Tile implements Cloneable, Serializable {
     }
 
 
+    //OccupiedByWorker getter&setter
     public boolean isOccupiedByWorker() {
         return occupiedByWorker;
     }
@@ -61,6 +66,7 @@ public class Tile implements Cloneable, Serializable {
     }
 
 
+    //DomePresence getter&setter
     public boolean isDomePresence() {
         return domePresence;
     }
@@ -69,6 +75,13 @@ public class Tile implements Cloneable, Serializable {
     }
 
 
+    //AdjacentTiles getter
+    public List<Tile> getAdjacentTiles() {
+        return adjacentTiles;
+    }
+
+
+    //Return true if the tile destination is adjacent to the present tile
     public boolean isAdjacentTo(Tile dest) {
         if(this.row - dest.row <=1 && this.row - dest.row >=-1
            && this.column - dest.column <=1 && this.column - dest.column >=-1
@@ -79,6 +92,8 @@ public class Tile implements Cloneable, Serializable {
         return false;
     }
 
+
+    //Return true if it is possible to move from the present tile to the tile destination
     public boolean availableToMove(Tile dest) {
         if(isAdjacentTo(dest) && !dest.domePresence && !dest.occupiedByWorker
                 && dest.getBlockLevel()-this.getBlockLevel()<=1 ) {
@@ -88,6 +103,8 @@ public class Tile implements Cloneable, Serializable {
         return false;
     }
 
+
+    //Return true if it is possible to build on the tile destination
     public boolean availableToBuild(Tile dest) {
         if(isAdjacentTo(dest) && !dest.domePresence && !dest.occupiedByWorker) {
             return true;
@@ -97,36 +114,26 @@ public class Tile implements Cloneable, Serializable {
     }
 
 
+    //Increment the block level (build a floor)
     public void addBlockLevel() {
-        blockLevel++;
+        this.blockLevel++;
     }
 
+
+    //Build a dome on the tile
     public void blockToDome() {
-        domePresence = true;
+        this.setDomePresence(true);
     }
 
+
+    //The tile is now occupied by a worker
+    public void putWorker() {
+        this.setOccupiedByWorker(true);
+    }
+
+    //The tile is now free
     public void freeWorker() {
-        occupiedByWorker = false;
-    }
-
-    public void setWorker() {
-        occupiedByWorker = true;
-    }
-
-
-    public boolean movedUp(Tile position, Tile t){
-
-        int plusone = position.getBlockLevel() + 1;
-        if( plusone == t.getBlockLevel()){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    public List<Tile> getAdjacentTiles() {
-        return adjacentTiles;
+        this.setOccupiedByWorker(false);
     }
 
 }

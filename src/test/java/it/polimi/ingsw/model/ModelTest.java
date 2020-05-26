@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class ModelTest extends TestCase {
 
     Model model = new Model();
+    Messages messages = new Messages();
 
 
     @Test
@@ -19,6 +20,7 @@ public class ModelTest extends TestCase {
         model.addPlayer(player1);
         model.addPlayer(player2);
 
+        assertEquals(2,model.getPlayersNumber());
         assertEquals("A",model.getMatchPlayersList().get(0).getPlayerNickname());
         assertEquals("B",model.getMatchPlayersList().get(1).getPlayerNickname());
     }
@@ -71,9 +73,39 @@ public class ModelTest extends TestCase {
         assertFalse(model.checkWin());
     }
 
+    @Test
+    public void testGodList() {
+    }
+
+
+    @Test
+    public void testCurrentPlayer() {
+        model.initialize(3);
+        model.setCurrentPlayerID(1);
+        model.updateCurrentPlayer();
+        assertEquals(2,model.getCurrentPlayerID());
+        model.updateCurrentPlayer();
+        assertEquals(0,model.getCurrentPlayerID());
+    }
+
+    @Test
+    public void testWorkerChosen() {
+        model.setWorkerChosen(true);
+        assertTrue(model.isWorkerChosen());
+    }
+
+
+
     public void testCheckLose() {
     }
 
+
+    @Test
     public void testGameOver() {
+        testCurrentTurn();
+        model.gameOver();
+        assertTrue(model.isGameOver());
     }
+
+
 }

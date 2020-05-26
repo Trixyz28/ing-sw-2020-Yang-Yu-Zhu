@@ -47,7 +47,7 @@ public class NoGod implements UndecoratedWorker {
    //Build a block on tile t
    @Override
    public void buildBlock(Tile t) {
-      t.setBlockLevel(t.getBlockLevel()+1);
+      t.addBlockLevel();
    }
 
    //Check if the worker can build a dome on t
@@ -59,7 +59,7 @@ public class NoGod implements UndecoratedWorker {
    //Build a dome on t
    @Override
    public void buildDome(Tile t) {
-      t.setDomePresence(true);
+      t.blockToDome();
    }
 
    //Get the current position of the worker

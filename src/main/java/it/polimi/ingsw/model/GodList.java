@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class GodList {
 
-    //List with all Gods
+    //List of all Gods
     private String[] completeGodList;
 
-    //List with Gods selected by the Challenger
+    //List of Gods selected by the Challenger
     private ArrayList<String> currentGodList;
 
     //Current choice of God
@@ -28,9 +28,9 @@ public class GodList {
         this.playerNumber = playerNumber;
     }
 
-    //Initializing completeGodList
-    public void setComplete(){
 
+    //Initializing completeGodList
+    private void setComplete(){
         completeGodList[0] = "APOLLO";
         completeGodList[1] = "ARTEMIS";
         completeGodList[2] = "ATHENA";
@@ -43,24 +43,17 @@ public class GodList {
     }
 
 
+    //CurrentGodList getter
     public ArrayList<String> getCurrentGodList() {
         return currentGodList;
     }
 
 
-    //Print completeGodList
-    public String[] showComplete() {  /* notificare la view dal model */
-        /*
-        for(String s : completeGodList){
-            System.out.println(s);
-        }
-        */
+    //CompleteGodList getter
+    public String[] getCompleteGodList() {
         return completeGodList;
     }
 
-    public String getSelectedGod() {
-        return selectedGod;
-    }
 
     //Select a god to add to currentGodList (manca ancora il check per la decisione)
     public void selectGod(String selectedGod) {
@@ -86,6 +79,8 @@ public class GodList {
         }
         return false;
     }
+
+
     //controllare se il god scelto sia già presente in currentGodList -> true se esiste già
     public boolean checkGod(){
         for(String s : currentGodList){
@@ -96,11 +91,6 @@ public class GodList {
         return false;
     }
 
-
-    //Get the dimension of currentGodList -> listLength
-    public int getLength() {
-        return listLength;
-    }
 
     //Remove a God from currentGodList & listLength-1
     public void removeFromGodList(String selectedGod) {
@@ -118,8 +108,6 @@ public class GodList {
     public boolean checkLength(){
         return listLength==playerNumber;
     }
-
-
 
 
 }

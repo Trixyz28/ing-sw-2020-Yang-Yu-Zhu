@@ -125,13 +125,12 @@ public class Model extends Observable {
 
     //get() of the GodList
     public GodList getGodsList() {
-
         return godsList;
     }
 
     //print completeList
     public void showCompleteGodList(){
-        notify(godsList.showComplete());
+        notify(godsList.getCompleteGodList());
     }
 
 

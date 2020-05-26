@@ -14,21 +14,25 @@ public class GameMessage implements Serializable {
         this.message = message;
     }
 
+
+    //Player name getter
     public String getPlayer(){
         return player;
     }
 
+
+    //Message getter
     public String getMessage(){
         return message;
     }
 
+
+    //Answer getter&setter
     public String getAnswer(){
         return answer;
     }
-
     public void setAnswer(String answer){
         this.answer = answer;
     }
-
 
 }
