@@ -11,7 +11,8 @@ import java.util.List;
 
 public class NoGodTest extends TestCase {
 
-    UndecoratedWorker noGod = new NoGod();
+    Conditions condition = new Conditions();
+    UndecoratedWorker noGod = new NoGod(condition);
     Board board = new Board();
     Tile t = new Tile();
     Tile destination = new Tile();
@@ -34,7 +35,7 @@ public class NoGodTest extends TestCase {
         destination.setBlockLevel(2);
 
         List<Tile> movableTiles = new ArrayList<>();
-        movableTiles = noGod.canMove(true);
+        movableTiles = noGod.canMove();
 
         boolean flag = false;
         for(Tile tile : movableTiles) {

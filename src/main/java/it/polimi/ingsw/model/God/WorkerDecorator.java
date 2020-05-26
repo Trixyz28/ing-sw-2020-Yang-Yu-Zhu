@@ -24,8 +24,8 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
     }
 
     @Override
-    public List<Tile> canMove(boolean canMoveUp){
-        return this.worker.canMove(canMoveUp);
+    public List<Tile> canMove(){
+        return this.worker.canMove();
     }
 
     @Override
@@ -70,4 +70,8 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
         this.worker.setGodPower(b);
     }
 
+    @Override
+    public Conditions getConditions() {
+       return this.worker.getConditions();
+    }
 }

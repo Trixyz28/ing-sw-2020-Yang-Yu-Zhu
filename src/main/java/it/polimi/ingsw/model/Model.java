@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.God.Conditions;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.model.God.Pan;
@@ -38,6 +39,8 @@ public class Model extends Observable {
     //Current player ID
     private int currentPlayerID;
 
+    private Conditions condition;
+
     private boolean workerChosen;
 
     private boolean isGameOver = false;
@@ -53,6 +56,7 @@ public class Model extends Observable {
         workerChosen = false;
         totalWorkerList = new ArrayList<>();
         board = new Board();
+        condition = new Conditions();
     }
 
     public Board getBoard() {
@@ -91,6 +95,10 @@ public class Model extends Observable {
 
     public int getPlayersNumber() {
         return playersNumber;
+    }
+
+    public Conditions getCondition(){
+        return condition;
     }
 
     //get() of the arraylist made by Players
@@ -202,10 +210,10 @@ public class Model extends Observable {
         return false;
     }
 
-    public boolean checkLoseMove(boolean canMoveUp) {  /* se tutti i worker non hanno più tile da poter andare -> perde*/
+    public boolean checkLoseMove() {  /* se tutti i worker non hanno più tile da poter andare -> perde*/
         for (int i = 0; i < 2 ; i++) {
             UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(i);
-            if (worker.canMove(canMoveUp).size() != 0) {
+            if (worker.canMove().size() != 0) {
                 return false;
             }
         }

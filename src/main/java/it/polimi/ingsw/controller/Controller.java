@@ -96,7 +96,7 @@ public class Controller implements Observer {
 
         if (operation.getType() == 1) {  //type 1 -> move
             //System.out.println("Entrando in moveController");
-            boolean flag = moveController.moveWorker(operation, turnController.CanMoveUp());  /* +condizione di canMoveUp */
+            boolean flag = moveController.moveWorker(operation);  /* +condizione di canMoveUp */
             //System.out.println("Uscito dal move" + turnController.CanMoveUp());
             if (flag) {  /* flag : true = move riuscita; false = richiedere move */
                 turnController.endMove();  /* aggiornare Turn fine Move */
@@ -112,7 +112,7 @@ public class Controller implements Observer {
             boolean flag = buildController.build(operation);
             if (flag && !turnController.checkMoveCounter()) {  /* dopo build continuare normalmente */
                 /* checkLosePrometheus */
-                if(model.getCurrentTurn().getChosenWorker().canMove(turnController.CanMoveUp()).size() != 0) {
+                if(model.getCurrentTurn().getChosenWorker().canMove().size() != 0) {
                     model.showBoard();  /* mostrare mappa dopo build */
                     turnController.startMove();  /* isPrometheus rimane true */
                 } else {

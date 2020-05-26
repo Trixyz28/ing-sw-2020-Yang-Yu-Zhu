@@ -61,54 +61,56 @@ public class Player {
 
 
     //Create 2 specific worker classes as indicated in godCard ( da sistemare)
-    public List<UndecoratedWorker> createWorker(String godCard, List<UndecoratedWorker> totalWorkerList) {
+    public List<UndecoratedWorker> createWorker(String godCard, Conditions condition, List<UndecoratedWorker> totalWorkerList) {
 
         workerList = new ArrayList<>();
+        UndecoratedWorker w1 = new NoGod(condition);
+        UndecoratedWorker w2 = new NoGod(condition);
 
         switch (godCard) {
             case "APOLLO":
-                workerList.add(new Apollo(new NoGod(), totalWorkerList));
-                workerList.add(new Apollo(new NoGod(), totalWorkerList));
+                workerList.add(new Apollo(w1, totalWorkerList));
+                workerList.add(new Apollo(w2, totalWorkerList));
                 break;
 
             case "ARTEMIS":
-                workerList.add(new Artemis(new NoGod()));
-                workerList.add(new Artemis(new NoGod()));
+                workerList.add(new Artemis(w1));
+                workerList.add(new Artemis(w2));
                 break;
 
             case "ATHENA":
-                workerList.add(new Athena(new NoGod()));
-                workerList.add(new Athena(new NoGod()));
+                workerList.add(new Athena(w1));
+                workerList.add(new Athena(w2));
                 break;
 
             case "ATLAS":
-                workerList.add(new Atlas(new NoGod()));
-                workerList.add(new Atlas(new NoGod()));
+                workerList.add(new Atlas(w1));
+                workerList.add(new Atlas(w2));
                 break;
 
             case "DEMETER":
-                workerList.add(new Demeter(new NoGod()));
-                workerList.add(new Demeter(new NoGod()));
+                workerList.add(new Demeter(w1));
+                workerList.add(new Demeter(w2));
                 break;
 
             case "HEPHAESTUS":
-                workerList.add(new Hephaestus(new NoGod()));
-                workerList.add(new Hephaestus(new NoGod()));
+                workerList.add(new Hephaestus(w1));
+                workerList.add(new Hephaestus(w2));
                 break;
 
             case "MINOTAUR":
-                workerList.add(new Minotaur(new NoGod(), totalWorkerList));
-                workerList.add(new Minotaur(new NoGod(), totalWorkerList));
+                workerList.add(new Minotaur(w1, totalWorkerList));
+                workerList.add(new Minotaur(w2, totalWorkerList));
                 break;
 
             case "PAN":
-                workerList.add(new Pan(new NoGod()));
-                workerList.add(new Pan(new NoGod()));
+                workerList.add(new Pan(w1));
+                workerList.add(new Pan(w2));
                 break;
 
             case "PROMETHEUS":
-                workerList.add(new Prometheus(new NoGod()));
-                workerList.add(new Prometheus(new NoGod()));
+                workerList.add(new Prometheus(w1));
+                workerList.add(new Prometheus(w2));
                 break;
         }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UndecoratedWorker {
 
-    List<Tile> canMove(boolean canMoveUp);
+    List<Tile> canMove();
 
     void move(Tile t);
 
@@ -27,5 +27,7 @@ public interface UndecoratedWorker {
     boolean getGodPower();
 
     void setGodPower(boolean b);
+
+    Conditions getConditions();
 
 }

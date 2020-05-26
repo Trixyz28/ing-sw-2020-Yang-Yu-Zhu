@@ -39,7 +39,7 @@ public class PlayerTest extends TestCase {
     @Test
     public void testCreateApollo() {
         ArrayList<UndecoratedWorker> totalWorkerList = new ArrayList<>();
-        player.createWorker("APOLLO",totalWorkerList);
+        player.createWorker("APOLLO", null, totalWorkerList);
         assertTrue(player.getWorkerList().get(0) instanceof Apollo);
         assertTrue(player.chooseWorker(0) instanceof Apollo);
     }
@@ -47,7 +47,7 @@ public class PlayerTest extends TestCase {
     @Test
     public void testCreateArtemis() {
         ArrayList<UndecoratedWorker> totalWorkerList = new ArrayList<>();
-        player.createWorker("ARTEMIS",totalWorkerList);
+        player.createWorker("ARTEMIS", null, totalWorkerList);
         assertTrue(player.getWorkerList().get(0) instanceof Artemis);
     }
 

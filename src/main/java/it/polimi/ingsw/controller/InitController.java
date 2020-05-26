@@ -91,7 +91,7 @@ public class InitController {
                 }
 
                 currentPlayer.godChoice(god);  /* assegnare al Player il God scelto */
-                currentPlayer.createWorker(god, model.getTotalWorkers());  /* creare worker determinato God */
+                currentPlayer.createWorker(god, model.getCondition(),model.getTotalWorkers());  /* creare worker determinato God */
                 godList.removeFromGodList(god);  /* eliminare dalla currentGodList il god scelto */
                 int index = currentPlayer.getPlayerID()+1;  /* next player*/
                 if(index == model.getMatchPlayersList().size()){
@@ -131,7 +131,7 @@ public class InitController {
         view.showMessage("Il god rimasto è " + god + "!");  //far printare alla view il messaggio del god assegnato
 
         challenger.godChoice(god);
-        challenger.createWorker(god, model.getTotalWorkers());
+        challenger.createWorker(god, model.getCondition(),model.getTotalWorkers());
         model.createTotalWorkerList();  /* creare lista di tutti i workers */
         godChanged = true;
         /* fine parte scelta God */

@@ -48,45 +48,9 @@ public class TurnTest extends TestCase {
 
     @Test
     public void testChoseWorker() {
-        UndecoratedWorker worker = new Artemis(new NoGod());
+        UndecoratedWorker worker = new Artemis(new NoGod(null));
         turn.choseWorker(worker);
         assertEquals(worker,turn.getChosenWorker());
     }
-
-
-    @Test
-    public void testChoseAthena() {
-        UndecoratedWorker worker = new Athena(new NoGod());
-        Tile t = new Tile();
-        t.setBlockLevel(1);
-        worker.setPosition(t);
-
-        turn.choseWorker(worker);
-        assertTrue(turn.canMoveUp());
-    }
-
-
-
-    @Test
-    public void testMoveUpAthena() {
-        testChoseAthena();
-        Tile destination = new Tile();
-        turn.setFinalTile(destination);
-
-        destination.setBlockLevel(2);
-        turn.checkMoveUpAthena();
-        assertFalse(turn.canMoveUp());
-
-        testChoseAthena();
-        turn.setFinalTile(destination);
-        destination.setBlockLevel(1);
-        turn.checkMoveUpAthena();
-        assertTrue(turn.canMoveUp());
-
-    }
-
-
-
-
 
 }

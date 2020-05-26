@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.God.Athena;
+import it.polimi.ingsw.model.God.Conditions;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 
 public class Turn {
@@ -26,8 +27,6 @@ public class Turn {
     //True if god power is active
     private boolean godPower;
 
-    //True if the chosen worker can move up in the current turn
-    private boolean canMoveUp;
 
 
     //Turn constructor: il turno viene creato a inizio match con turn number 0 ed è gestito dal turnController
@@ -65,11 +64,6 @@ public class Turn {
     //get() of the chosenWorker
     public UndecoratedWorker getChosenWorker() {
         return chosenWorker;
-    }
-
-    //get() of canMoveUp
-    public boolean canMoveUp(){
-        return canMoveUp;
     }
 
     /*
@@ -113,28 +107,12 @@ public class Turn {
         this.builtTile = buildTile;
     }
 
-    public void checkMoveUpAthena(){  /* se Athena sale di livello */
-        if(chosenWorker instanceof Athena) {
-            if (getFinalTile().getBlockLevel() > getInitialTile().getBlockLevel()){
-                canMoveUp = false;  /* !canMoveUp non possono più salire */
-            }
-        }
-        /* athena non è salita di livello */
-    }
-
     //After chose worker
     public void choseWorker(UndecoratedWorker chosenWorker){  /* aggiornare i tile */
         this.chosenWorker = chosenWorker;
         initialTile = chosenWorker.getPosition();
         finalTile = null;
         builtTile = null;
-        resetCanMoveUp();
-    }
-
-    private void resetCanMoveUp() {  /* ripristinare canMoveUp se è Athena */
-        if(chosenWorker instanceof Athena){
-            canMoveUp = true;
-        }
     }
 
     // methods that interacts with the turn controller for the turn succession,eventually for the chronobreak of the turns

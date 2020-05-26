@@ -17,11 +17,11 @@ public class Minotaur extends WorkerDecorator {
 
 
     @Override
-    public List<Tile> canMove(boolean canMoveUp) {
+    public List<Tile> canMove() {
 
         List<Tile> tempList = new ArrayList<>();
         for (Tile t : getPosition().getAdjacentTiles()){
-            if(availableMinotaurToMove(t, canMoveUp)){
+            if(availableMinotaurToMove(t)){
                 tempList.add(t);
             }
         }
@@ -78,9 +78,9 @@ public class Minotaur extends WorkerDecorator {
     }
 
 
-    public boolean availableMinotaurToMove(Tile dest, boolean canMoveUp) {
+    public boolean availableMinotaurToMove(Tile dest) {
         if(getPosition().isAdjacentTo(dest) && !dest.isDomePresence() && dest.getBlockLevel()-getPosition().getBlockLevel()<=1) {
-            if(canMoveUp || getPosition().getBlockLevel() >= dest.getBlockLevel()) {
+            if(getConditions().canMoveUp() || getPosition().getBlockLevel() >= dest.getBlockLevel()) {
                 if(dest.isOccupiedByWorker()){
                     UndecoratedWorker opponent = getOpponent(dest);  /* trovato worker sulla tile */
                     if(!(opponent instanceof Minotaur)){

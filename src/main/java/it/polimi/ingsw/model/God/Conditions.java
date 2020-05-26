@@ -7,14 +7,12 @@ package it.polimi.ingsw.model.God;
 public class Conditions {
 
  //if true in currentTurn worker cant move up
-    private boolean athenaRule = false;
+    private boolean athenaRule = false;  /* true -> canMoveUp = false */
 
-/*
-    public boolean getAthenaRule() {
-        return counter;
+
+    public boolean canMoveUp() {
+        return !athenaRule;
     }
-
- */
 
 
     public void setAthenaRule(boolean i) {

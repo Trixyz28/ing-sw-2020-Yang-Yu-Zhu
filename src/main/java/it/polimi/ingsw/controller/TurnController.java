@@ -15,7 +15,6 @@ public class TurnController {
     public TurnController(Model model, Map views) {
         this.model = model;
         this.views = views;
-        canMoveUp = true;
         workerChanged = false;
     }
 
@@ -23,15 +22,10 @@ public class TurnController {
     private UndecoratedWorker chosenWorker;
     private View currentView;
     private boolean workerChanged;
-    private boolean canMoveUp;
     private int moveCounter;
 
     protected boolean isWorkerChanged(){
         return workerChanged;
-    }
-
-   protected boolean CanMoveUp(){
-        return canMoveUp;
     }
 
     protected boolean checkMoveCounter(){
@@ -44,7 +38,7 @@ public class TurnController {
         UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(index);
 
         //controllare se il Worker scelta possa fare la mossa o no
-        if(worker.canMove(canMoveUp).size() != 0 || chosenWorker.getGodPower()) {  //(chosenWorker instanceof Prometheus && !model.checkLoseBuild(worker))
+        if(worker.canMove().size() != 0 || chosenWorker.getGodPower()) {  //(chosenWorker instanceof Prometheus && !model.checkLoseBuild(worker))
             /* tile che può andarci != 0 oppure Prometheus canBuild*/
             chosenWorker = worker;
             workerChanged = true;
@@ -79,7 +73,6 @@ public class TurnController {
                     }
                 }
                 //view.build();  /* chiedere al player di Buildare */
-                currentTurn.checkMoveUpAthena();
                 if (model.checkLoseBuild(currentTurn.getChosenWorker())) {  /* check se il worker possa o no fare Build */
                     currentView.showMessage("Spiacenti! Non sei più in grado di buildare, hai perso!!!!");
                     currentView.setEndGame();  /* player finisce la partita */
@@ -116,7 +109,7 @@ public class TurnController {
         moveCounter = 0;
         currentView = views.get(currentTurn.getCurrentPlayer());
         //view.chooseWorker;  -> far scegliere al player il worker dalla view
-        if (model.checkLoseMove(canMoveUp)) {
+        if (model.checkLoseMove()) {
             currentView.showMessage("Spiacenti! Non sei più in grado di fare mosse, hai perso!!!!");
             currentView.setEndGame();  /* player finisce la partita */
             model.lose(currentTurn.getCurrentPlayer());  /* lose */
@@ -140,12 +133,11 @@ public class TurnController {
         currentTurn.setBuiltTile(null);
          */
         currentTurn.choseWorker(chosenWorker);
-        canMoveUp = currentTurn.canMoveUp();  /* aggiornare canMoveUp */
         model.setWorkerChosen(true);
         model.showBoard();
         //view.move();  /* ->  passare alla scelta della mossa */
         if(chosenWorker.getGodPower()) { /* se Prometheus può Build mandare messaggio */
-            if(chosenWorker.canMove(canMoveUp).size()!=0) {
+            if(chosenWorker.canMove().size()!=0) {
                 model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());  /* chiedere se fare move o build */
             }else{
                 model.build();

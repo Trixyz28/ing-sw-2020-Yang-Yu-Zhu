@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,14 +16,20 @@ public class Prometheus extends WorkerDecorator {
     private int moveCounter = 0;
 
     @Override
-    public List<Tile> canMove(boolean canMoveUp) {
+    public List<Tile> canMove() {
         if (buildCounter == 0) {
             if(canBuild()){
                 setGodPower(true);
             }
-            return super.canMove(canMoveUp);
+            return super.canMove();
         }else {  /* build first -> cannot move up */
-            return super.canMove(false);
+            List<Tile> tempList = new ArrayList<>();
+            for(Tile t : super.canMove()){
+                if(getPosition().getBlockLevel() >= t.getBlockLevel()){
+                    tempList.add(t);
+                }
+            }
+            return tempList;
         }
     }
 

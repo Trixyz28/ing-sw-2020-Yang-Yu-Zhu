@@ -14,15 +14,19 @@ public class NoGod implements UndecoratedWorker {
     private int belongToPlayer;
     private int workerID;
     private boolean godPower;
+    private Conditions condition;
 
+    public NoGod (Conditions condition){
+       this.condition = condition;
+    }
 
    //Returns a list of available tiles where the worker can be moved to
    @Override
-   public List<Tile> canMove(boolean canMoveUp) {  /* canMoveUp condition */
+   public List<Tile> canMove() {  /* canMoveUp condition */
       List<Tile> tempList = new ArrayList<>();
       for (Tile tile : position.getAdjacentTiles()){
          if(position.availableToMove(tile)){
-            if(canMoveUp || position.getBlockLevel() >= tile.getBlockLevel()) {  
+            if(condition.canMoveUp() || position.getBlockLevel() >= tile.getBlockLevel()) {
                tempList.add(tile);
             }
          }
@@ -83,6 +87,11 @@ public class NoGod implements UndecoratedWorker {
    @Override
    public void setGodPower(boolean b) {
       godPower = b;
+   }
+
+   @Override
+   public Conditions getConditions() {
+      return condition;
    }
 
    /*all basic methods

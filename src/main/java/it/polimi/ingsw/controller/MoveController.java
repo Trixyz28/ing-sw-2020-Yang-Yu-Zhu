@@ -19,7 +19,7 @@ public class MoveController {
         this.model = model;
     }
 
-    public boolean moveWorker(Operation move, boolean canMoveUp){  /* canMoveUp : false non si può salire di livello */
+    public boolean moveWorker(Operation move){  /* canMoveUp : false non si può salire di livello */
 
         worker = model.getCurrentTurn().getChosenWorker();
         position = model.commandToTile(move.getRow(), move.getColumn());
@@ -31,7 +31,7 @@ public class MoveController {
         }
         */
         //System.out.println("fine checkCanMoveUp");
-        if(checkPosition(position, canMoveUp)) {
+        if(checkPosition(position)) {
             //System.out.println("check = true");
             worker.move(position);
             model.showBoard(); /* mostrare mappa dopo move */
@@ -42,10 +42,10 @@ public class MoveController {
         }
     }
 
-    private boolean checkPosition(Tile position, boolean canMoveUp){  /* controllo posizione */
+    private boolean checkPosition(Tile position){  /* controllo posizione */
         //return worker.getCurrentPosition(worker).availableToMove(position);  /* worker.canMove; da usare */
         //System.out.println("Worker tipo " + worker.toString());
-        return worker.canMove(canMoveUp).contains(position);
+        return worker.canMove().contains(position);
     }
 
     /*
