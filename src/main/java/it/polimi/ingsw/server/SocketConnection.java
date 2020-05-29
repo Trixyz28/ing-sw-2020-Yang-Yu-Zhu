@@ -7,6 +7,7 @@ import it.polimi.ingsw.observers.Observable;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -98,11 +99,16 @@ public class SocketConnection extends Observable implements Runnable {
             if(!server.getLobbyHandler().checkAvailableLobby()) {
                 int number;
 
-                send("You can create a lobby\nHow many players can join this match?");
+                send("You can create a lobby\nHow many players can join this match? (2-3)");
 
                 do {
-                    send("Insert 2 or 3");
-                    number = in.nextInt();
+                    try {
+                        String str = in.nextLine();
+                        number = Integer.parseInt(str);
+                    } catch (NumberFormatException e) {
+                        send("Insert 2 or 3");
+                        number = 0;
+                    }
                 } while(number!=2 && number!=3);
 
                 lobbyID = server.getLobbyController().createLobby(player.getPlayerNickname(),number);
