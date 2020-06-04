@@ -73,7 +73,7 @@ public class ModelTest extends TestCase {
         assertFalse(model.checkWin());
 
         Conditions conditions = new Conditions();
-        UndecoratedWorker pan = new Pan(new NoGod(conditions));
+        UndecoratedWorker pan = new Pan(new NoGod(0, conditions));
         pan.setPosition(position);
         model.getCurrentTurn().choseWorker(pan);
         model.getCurrentTurn().setFinalTile(destination);

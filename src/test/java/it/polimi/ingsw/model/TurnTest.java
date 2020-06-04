@@ -48,7 +48,7 @@ public class TurnTest extends TestCase {
 
     @Test
     public void testChoseWorker() {
-        UndecoratedWorker worker = new Artemis(new NoGod(null));
+        UndecoratedWorker worker = new Artemis(new NoGod(0, null));
         turn.choseWorker(worker);
         assertEquals(worker,turn.getChosenWorker());
     }

@@ -9,7 +9,7 @@ public class HephaestusTest extends TestCase {
 
     Conditions conditions = new Conditions();
     Board board = new Board();
-    Hephaestus worker = new Hephaestus(new NoGod(conditions));
+    Hephaestus worker = new Hephaestus(new NoGod(0, conditions));
 
     @Test
     public void testMove() {

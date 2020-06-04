@@ -67,7 +67,9 @@ public class Controller implements Observer {
                     /* GodPower answers */
                     int operation = model.checkAnswer((GameMessage)arg);
                         //gmUpdate(message, answer);
-                    gmOp(operation);
+                    if(operation != 0) {
+                        gmOp(operation);
+                    }
                 }
             }
         }

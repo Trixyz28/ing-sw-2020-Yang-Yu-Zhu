@@ -8,7 +8,7 @@ import org.junit.Test;
 public class PrometheusTest extends TestCase {
 
     Conditions conditions = new Conditions();
-    Prometheus worker = new Prometheus(new NoGod(conditions));
+    Prometheus worker = new Prometheus(new NoGod(4, conditions));
 
     Board board = new Board();
 

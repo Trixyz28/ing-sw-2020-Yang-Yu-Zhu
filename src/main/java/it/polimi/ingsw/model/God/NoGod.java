@@ -16,7 +16,8 @@ public class NoGod implements UndecoratedWorker {
     private boolean godPower;
     private Conditions condition;
 
-    public NoGod (Conditions condition){
+    public NoGod (int playerID, Conditions condition){
+       belongToPlayer = playerID;
        this.condition = condition;
     }
 
@@ -97,6 +98,11 @@ public class NoGod implements UndecoratedWorker {
    @Override
    public int useGodPower(boolean use) {
       return 0;
+   }
+
+   @Override
+   public int getBelongToPlayer() {
+      return belongToPlayer;
    }
 
    /*all basic methods

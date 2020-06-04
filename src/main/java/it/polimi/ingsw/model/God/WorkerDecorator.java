@@ -79,4 +79,19 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
     public int useGodPower(boolean use) {
         return this.worker.useGodPower(use);
     }
+
+    @Override
+    public int getBelongToPlayer() {
+        return this.worker.getBelongToPlayer();
+    }
+
+    protected UndecoratedWorker getWorker(Tile tile, List<UndecoratedWorker> totalWorkers){
+        for(UndecoratedWorker w : totalWorkers){
+            if(w.getPosition() == tile){  /* trovato worker sulla tile */
+                return w;
+            }
+        }
+        return null;
+    }
+
 }

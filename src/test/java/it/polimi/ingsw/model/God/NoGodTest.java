@@ -12,7 +12,7 @@ import java.util.List;
 public class NoGodTest extends TestCase {
 
     Conditions condition = new Conditions();
-    UndecoratedWorker noGod = new NoGod(condition);
+    UndecoratedWorker noGod = new NoGod(0, condition);
     Board board = new Board();
     Tile t = new Tile();
     Tile destination = new Tile();

@@ -64,8 +64,8 @@ public class Player {
     public void createWorker(String godCard, Conditions condition, List<UndecoratedWorker> totalWorkerList) {
 
         workerList = new ArrayList<>();
-        UndecoratedWorker w1 = new NoGod(condition);
-        UndecoratedWorker w2 = new NoGod(condition);
+        UndecoratedWorker w1 = new NoGod(playerID, condition);
+        UndecoratedWorker w2 = new NoGod(playerID, condition);
 
         switch (godCard) {
             case "APOLLO":
@@ -111,6 +111,20 @@ public class Player {
             case "PROMETHEUS":
                 workerList.add(new Prometheus(w1));
                 workerList.add(new Prometheus(w2));
+                break;
+            case "ZEUS":
+                workerList.add(new Zeus(w1));
+                workerList.add(new Zeus(w2));
+                break;
+
+            case "HESTIA":
+                workerList.add(new Hestia(w1));
+                workerList.add(new Hestia(w2));
+                break;
+
+            case "POSEIDON":
+                workerList.add(new Poseidon(w1, totalWorkerList));
+                workerList.add(new Poseidon(w2, totalWorkerList));
                 break;
         }
 

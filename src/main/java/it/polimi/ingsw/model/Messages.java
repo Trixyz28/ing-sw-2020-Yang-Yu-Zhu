@@ -30,6 +30,8 @@ public class Messages {
     public static String Demeter = "Demeter: Build again?";
     public static String Hephaestus = "Hephaestus: Another Block?";
     public static String Prometheus = "Prometheus: Move or Build";
+    public static String Hestia = "Hestia: Build again?";
+    public static String Poseidon = "Poseidon: Unmove worker Build?";
 
     //Generics
 

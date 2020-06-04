@@ -9,7 +9,7 @@ public class ArtemisTest extends TestCase {
 
     Conditions conditions = new Conditions();
     Board board = new Board();
-    Artemis worker = new Artemis(new NoGod(conditions));
+    Artemis worker = new Artemis(new NoGod(1, conditions));
 
 
     @Test

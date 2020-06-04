@@ -32,4 +32,6 @@ public interface UndecoratedWorker {
 
     int useGodPower(boolean use);
 
+    int getBelongToPlayer();
+
 }

@@ -8,7 +8,7 @@ import org.junit.Test;
 public class PanTest extends TestCase {
 
     Conditions conditions = new Conditions();
-    Pan worker = new Pan(new NoGod(conditions));
+    Pan worker = new Pan(new NoGod(1, conditions));
 
     @Test
     public void testPanCheck() {

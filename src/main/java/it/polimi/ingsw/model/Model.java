@@ -287,19 +287,23 @@ public class Model extends Observable {
     }
 
 
-    public void sendMessage(String arg){
+    public void sendMessage(String arg) {
         String message = null;
         boolean readOnly = false;
-        if(arg.equals("ARTEMIS")){
+        if (arg.equals("ARTEMIS")) {
             message = Messages.Artemis;
-        }else if(arg.equals("ATLAS")){
+        } else if (arg.equals("ATLAS")) {
             message = Messages.Atlas;
-        }else if(arg.equals("DEMETER")){
+        } else if (arg.equals("DEMETER")) {
             message = Messages.Demeter;
-        }else if(arg.equals("HEPHAESTUS")){
+        } else if (arg.equals("HEPHAESTUS")) {
             message = Messages.Hephaestus;
-        }else if(arg.equals("PROMETHEUS")){
+        } else if (arg.equals("PROMETHEUS")) {
             message = Messages.Prometheus;
+        } else if (arg.equals("HESTIA")) {
+            message = Messages.Hestia;
+        }else if(arg.equals("POSEIDON")){
+            message = Messages.Poseidon;
         }else{
             if(!arg.equals(Messages.Worker)){
                 readOnly = true;

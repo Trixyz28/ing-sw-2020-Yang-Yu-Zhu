@@ -9,7 +9,7 @@ public class DemeterTest extends TestCase {
 
     Conditions conditions = new Conditions();
     Board board = new Board();
-    Demeter worker = new Demeter(new NoGod(conditions));
+    Demeter worker = new Demeter(new NoGod(0, conditions));
 
 
     @Test

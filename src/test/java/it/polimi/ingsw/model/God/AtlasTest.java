@@ -8,7 +8,7 @@ public class AtlasTest extends TestCase {
 
     Conditions conditions = new Conditions();
     Board board = new Board();
-    Atlas worker = new Atlas(new NoGod(conditions));
+    Atlas worker = new Atlas(new NoGod(2, conditions));
 
     @Test
     public void testBuild() {

@@ -14,15 +14,15 @@ public class MinotaurTest extends TestCase {
     Conditions conditions = new Conditions();
     Board board = new Board();
     ArrayList<UndecoratedWorker> totalWorkerList = new ArrayList<>();
-    Minotaur worker = new Minotaur(new NoGod(conditions),totalWorkerList);
+    Minotaur worker = new Minotaur(new NoGod(1, conditions),totalWorkerList);
     UndecoratedWorker minotaur;
     UndecoratedWorker athena;
 
 
     @Before
     public void initialize() {
-        athena = new Athena(new NoGod(conditions));
-        minotaur = new Minotaur(new NoGod(conditions),totalWorkerList);
+        athena = new Athena(new NoGod(0, conditions));
+        minotaur = new Minotaur(new NoGod(1, conditions),totalWorkerList);
         totalWorkerList.add(worker);
         totalWorkerList.add(minotaur);
         totalWorkerList.add(athena);

@@ -50,20 +50,20 @@ public class Minotaur extends WorkerDecorator {
     @Override
     public void move(Tile t) {
         if(t.isOccupiedByWorker()){
-            getOpponent(t).setPosition(getForcedTile(t));  /* cambiare posizione avversario */
+            getWorker(t,totalWorkers).setPosition(getForcedTile(t));  /* cambiare posizione avversario */
         }
         super.move(t);
     }
-
+/*
     private UndecoratedWorker getOpponent(Tile tile){
         for(UndecoratedWorker w : totalWorkers){
-            if(w.getPosition() == tile){  /* trovato worker sulla tile */
+            if(w.getPosition() == tile){  /* trovato worker sulla tile
                 return w;
             }
         }
         return null;
     }
-
+*/
     private Tile getForcedTile(Tile destination){
         int forcedRow = destination.getRow()+(destination.getRow()-getPosition().getRow());
         int forcedColumn = destination.getColumn()+(destination.getColumn()-getPosition().getColumn());
@@ -82,8 +82,8 @@ public class Minotaur extends WorkerDecorator {
         if(getPosition().isAdjacentTo(dest) && !dest.isDomePresence() && dest.getBlockLevel()-getPosition().getBlockLevel()<=1) {
             if(getConditions().canMoveUp() || getPosition().getBlockLevel() >= dest.getBlockLevel()) {
                 if(dest.isOccupiedByWorker()){
-                    UndecoratedWorker opponent = getOpponent(dest);  /* trovato worker sulla tile */
-                    if(!(opponent instanceof Minotaur)){
+                    UndecoratedWorker opponent = getWorker(dest,totalWorkers);  /* trovato worker sulla tile */
+                    if(opponent.getBelongToPlayer() != getBelongToPlayer()){
                         Tile forcedTile = getForcedTile(dest);
                         /* condizioni spinta */
                         if(forcedTile != null && !forcedTile.isDomePresence() && !forcedTile.isOccupiedByWorker()){

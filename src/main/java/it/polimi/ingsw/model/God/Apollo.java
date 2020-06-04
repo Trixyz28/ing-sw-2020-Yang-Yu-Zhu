@@ -52,7 +52,7 @@ public class Apollo extends WorkerDecorator {
         }
         else {  /* non reimpostare isOccupiedByWorker false alla posizione precedente */
             //t.setOccupiedByWorker(true);
-            getOpponent(t).setPosition(getPosition());  /* scambiare posizione */
+            getWorker(t, totalWorkers).setPosition(getPosition());  /* scambiare posizione */
             setPosition(t);
             /*
             NoGod transferWorker = new NoGod();
@@ -64,23 +64,23 @@ public class Apollo extends WorkerDecorator {
         }
 
     }
-
-    private UndecoratedWorker getOpponent(Tile tile){
+/*
+    private UndecoratedWorker getWorker(Tile tile){
         for(UndecoratedWorker w : totalWorkers){
-            if(w.getPosition() == tile){  /* trovato worker sulla tile */
+            if(w.getPosition() == tile){  /* trovato worker sulla tile
                 return w;
             }
         }
         return null;
     }
-
+*/
     public boolean availableApolloToMove(Tile dest) {
         if(getPosition().isAdjacentTo(dest) && !dest.isDomePresence()
                 && dest.getBlockLevel() - getPosition().getBlockLevel()<=1 ) {
             if(getConditions().canMoveUp() || getPosition().getBlockLevel() >= dest.getBlockLevel()) {
                 if(dest.isOccupiedByWorker()){
-                    UndecoratedWorker opponent = getOpponent(dest);  /* trovato worker che occupa la tile */
-                    if(!(opponent instanceof Apollo)){
+                    UndecoratedWorker opponent = getWorker(dest, totalWorkers);  /* trovato worker che occupa la tile */
+                    if(opponent.getBelongToPlayer() != getBelongToPlayer()){
                         return true;
                     }
                 }else {

@@ -15,14 +15,14 @@ public class ApolloTest extends TestCase {
     Conditions conditions = new Conditions();
     Board board = new Board();
     ArrayList<UndecoratedWorker> totalWorkerList = new ArrayList<>();
-    Apollo worker = new Apollo(new NoGod(conditions),totalWorkerList);
+    Apollo worker = new Apollo(new NoGod(0, conditions),totalWorkerList);
     UndecoratedWorker apollo;
     UndecoratedWorker artemis;
 
     @Before
     public void initialize() {
-        artemis = new Artemis(new NoGod(conditions));
-        apollo = new Apollo(new NoGod(conditions),totalWorkerList);
+        artemis = new Artemis(new NoGod(0, conditions));
+        apollo = new Apollo(new NoGod(1, conditions),totalWorkerList);
         totalWorkerList.add(worker);
         totalWorkerList.add(apollo);
         totalWorkerList.add(artemis);

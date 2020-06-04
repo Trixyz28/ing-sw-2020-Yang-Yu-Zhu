@@ -9,7 +9,7 @@ public class AthenaTest extends TestCase {
 
     Conditions conditions = new Conditions();
     Board board = new Board();
-    Athena worker = new Athena(new NoGod(conditions));
+    Athena worker = new Athena(new NoGod(0, conditions));
     private boolean Tile;
 
 
