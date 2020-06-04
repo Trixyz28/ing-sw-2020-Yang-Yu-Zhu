@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.God.Atlas;
 import it.polimi.ingsw.model.God.Hephaestus;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 
@@ -19,8 +20,8 @@ public class BuildController {
         this.model = model;
     }
 
-
-    public boolean checkBlockDome(String command){  /* Atlas build */
+/*
+    public boolean checkBlockDome(String command){  /* Atlas build
         if(command.equals("DOME")){
             worker.buildDome(position);
             return true;
@@ -30,7 +31,7 @@ public class BuildController {
         }
         return false;
     }
-
+*/
 
     public boolean build(Operation operation){
         this.operation = operation;
@@ -50,10 +51,16 @@ public class BuildController {
         }
         if(worker.canBuildBlock(position)){
             worker.buildBlock(position);
+            if(worker.getGodPower()){
+                model.showBoard();  /* mostrare mappa dopo build */
+             }
             return true;
         }
         if(worker.canBuildDome(position)){
             worker.buildDome(position);
+            if(worker.getGodPower()){
+                model.showBoard();  /* mostrare mappa dopo build */
+            }
             return true;
         }
         return false;

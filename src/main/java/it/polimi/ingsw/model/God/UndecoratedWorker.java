@@ -30,4 +30,6 @@ public interface UndecoratedWorker {
 
     Conditions getConditions();
 
+    int useGodPower(boolean use);
+
 }

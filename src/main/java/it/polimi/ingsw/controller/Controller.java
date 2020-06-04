@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.observers.Observer;
 
@@ -10,7 +11,6 @@ import java.util.Map;
 public class Controller implements Observer {
 
     private Model model;
-    private Map<Player, View> views;
 
     private InitController initController;
     private TurnController turnController;
@@ -20,37 +20,26 @@ public class Controller implements Observer {
 
     public Controller(Model model, Map<Player, View> views) {
         this.model = model;
-        this.views = views;
         minorControllers(model,views);
     }
 
     public void minorControllers(Model model, Map<Player, View> views) {
-        initController = new InitController(model, views);
-        turnController = new TurnController(model, views);
+        initController = new InitController(model);
+        turnController = new TurnController(model);
         moveController = new MoveController(model);
         buildController = new BuildController(model);
     }
 
 
-    public boolean checkTurn(String player) {
-        if (initController.isEndInitialize() || initController.getCurrentPlayer().equals(player)) {
-            if (!initController.isEndInitialize()) {
-                return true;
-            }
-            if (model.getCurrentTurn().getCurrentPlayer().getPlayerNickname().equals(player)) {
-                return true;
-            }
+    public boolean checkTurn(Object arg) {
+        if(arg instanceof Operation){
+           return model.checkTurn(((Operation) arg).getPlayer());
+        }else if (arg instanceof GameMessage){
+           return model.checkTurn(((GameMessage)arg).getPlayer());
+        }else if (arg instanceof Integer){
+            return true;
         }
-
-        for (Player p : model.getMatchPlayersList()) {
-            if (p.getPlayerNickname().equals(player)) {
-                views.get(p).showMessage(Messages.wrongTurn);
-                return false;
-            }
-        }
-            return false;
-
-
+        return false;
     }
 
 
@@ -60,27 +49,25 @@ public class Controller implements Observer {
         if (arg.equals("setup")) {
             initController.initializeMatch();  /* inizializzazione con decisioni Challenger */
 
-        }else
+        } else if (checkTurn(arg)) {
 
-        if (arg instanceof Operation) {
-            Operation operation = (Operation) arg;
-            if(checkTurn(operation.getPlayer())) {
+            if (arg instanceof Operation) {
+                Operation operation = (Operation) arg;
                 opUpdate(operation);
-            }
-        }else if (arg instanceof Integer) {  /* indice del Worker scelto 0 o 1 */
-            if (!turnController.isWorkerChanged()) {  /* accettare l'int solo se il worker non è ancora deciso */
-                turnController.setChosenWorker((Integer) arg);
-            }
-        }else if(arg instanceof GameMessage) {
-            String player = ((GameMessage) arg).getPlayer();
-            String message = ((GameMessage) arg).getMessage();
-            String answer = ((GameMessage) arg).getAnswer();
+            } else if (arg instanceof Integer) {  /* indice del Worker scelto 0 o 1 */
+                //if (!turnController.isWorkerChanged()) {  /* accettare l'int solo se il worker non è ancora deciso */
+                    turnController.setChosenWorker((Integer) arg);
+                //}
+            } else if (arg instanceof GameMessage) {
+                GameMessage gm = (GameMessage) arg;
 
-            if (message == null) {  /* Scelta god e StartingPlayerNickname */
-                stringUpdate(player, answer);
-            }else {
-                if(checkTurn(player)) {  /* GodPower answers */
-                    gmUpdate(player, message, answer);
+                if (gm.getMessage() == null) {  /* Scelta god e StartingPlayerNickname */
+                    stringUpdate(gm.getPlayer(), gm.getAnswer());
+                } else {
+                    /* GodPower answers */
+                    int operation = model.checkAnswer((GameMessage)arg);
+                        //gmUpdate(message, answer);
+                    gmOp(operation);
                 }
             }
         }
@@ -102,42 +89,41 @@ public class Controller implements Observer {
                 turnController.endMove();  /* aggiornare Turn fine Move */
             } else {
                 //mostrare view messaggio di posizione errata e ripetere mossa
-                //view.move();
-                views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage(Messages.wrongOperation);
+                model.sendMessage(Messages.wrongOperation);
                 model.move();
             }
         }else
 
         if (operation.getType() == 2) {  //type 2 -> build
             boolean flag = buildController.build(operation);
-            if (flag && !turnController.checkMoveCounter()) {  /* dopo build continuare normalmente */
+            UndecoratedWorker worker = model.getCurrentTurn().getChosenWorker();
+            if (flag && !worker.getGodPower() && worker.useGodPower(true) == 1) {  /* dopo build continuare normalmente */
                 /* checkLosePrometheus */
+                model.showBoard();  /* mostrare mappa dopo build */
                 if(model.getCurrentTurn().getChosenWorker().canMove().size() != 0) {
-                    model.showBoard();  /* mostrare mappa dopo build */
-                    turnController.startMove();  /* isPrometheus rimane true */
+                    model.move();  /* isPrometheus rimane true */
                 } else {
                     model.lose(model.getCurrentTurn().getCurrentPlayer());
-                    if(!model.isGameOver()){
-                        turnController.nextTurn();
-                    }
+                    turnController.checkGameOver();
                 }
             }else if (flag) {  /* flag : true = build riuscita; false = richiedere build */
                 turnController.endBuild(operation);  /* aggiornare Turn fine Build */
             } else {
                 //messaggio view errato comando e ripetere scelta
-                views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage(Messages.wrongOperation);
+                model.sendMessage(Messages.wrongOperation);
                 model.build();
             }
         }
     }
 
+
     private void stringUpdate(String player, String answer){
         /* dopo preparazione partita il controller non accetta più Stringhe */
-        if (!initController.isGodChanged() || !initController.isNameChanged()) {
+        if (!initController.isNameChanged()) {
             Player challenger = model.getMatchPlayersList().get(model.getChallengerID());
             if(player.equals(challenger.getPlayerNickname())){
                 /* se challenger -> definire currentList */
-                if (!initController.isGodChanged()) {   /* se non è finita parte scelta god arg = God */
+                if (!model.getGodsList().checkLength()) {   /* se non è finita parte scelta god arg = God */
                     initController.defineGodList(answer, model.getGodsList());
                 }else{
                     /* finita parte God arg = StartingPlayerNickname */
@@ -145,44 +131,77 @@ public class Controller implements Observer {
                 }
             }else {
                 /* scelta God */
-                initController.chooseGod(player, answer);
+                initController.chooseGod(answer);
             }
-        }else {
-            checkTurn(player);
         }
     }
 
-    private void gmUpdate(String player, String message, String answer){
-        if (message.equals(Messages.Artemis)) {  /* YES or NO */
+    private void gmOp(int operation){
+        UndecoratedWorker worker = model.getCurrentTurn().getChosenWorker();
+        if(worker.getGodPower()){
+            if(operation == 1){
+                model.move();
+            }else if(operation == 2){
+                model.build();
+            }
+            worker.setGodPower(false);
+        }else {
+            if (operation == 1){
+                turnController.endMove();
+            }else if(operation == 2){
+                turnController.endTurn(buildController.getOperation());
+            }
+        }
+
+    }
+/*
+    private void gmUpdate(String message, String answer){
+         if (message.equals(Messages.Artemis)) {  /* YES or NO */
+        /*
             if (answer.equals("YES")) {  /* Yes -> move in più (con Artemis = false) */
+    /*
                 model.move();
             } else {
                 turnController.endMove();  /* aggiornare Turn fine Move */
+    /*
             }
         }else if (message.equals(Messages.Atlas)) {  /* se Atlas controllare build BLOCK or DOME */
+    /*
             if (buildController.checkBlockDome(answer)) {  /* se il build va a buon fine */
                 /* per stampa Board in Client */
+    /*
                 turnController.endTurn(buildController.getOperation());
             }
         }else if (message.equals(Messages.Demeter)) {  /* YES or NO */
+    /*
             if (answer.equals("YES")) {  /* Yes -> move in più (con Artemis = false) */
+    /*
                 model.build();
             } else {  /* fine turno */
+    /*
                 turnController.endTurn(buildController.getOperation());  /* ultima build effettuata */
+    /*
             }
         }else if (message.equals(Messages.Hephaestus)) {  /* Block aggiuntivo : YES or NO */
+    /*
             Operation op = buildController.getOperation();  /* ultima build effettuata */
+    /*
             if (answer.equals("YES")) {
                 model.getCurrentTurn().getChosenWorker().buildBlock(null);
             }
             turnController.endTurn(op);
         }else if (message.equals(Messages.Prometheus)) {  /* Move or Build? */
+    /*
             if (answer.equals("MOVE")) {  /* Il worker procede come un worker normale */
-                turnController.startMove();
+    /*
+    turnController.startMove();
             } else if (answer.equals("BUILD")) {  /* isPrometheus rimane true */
                 //views.get(model.getCurrentTurn().getCurrentPlayer()).showMessage("Builda!");
+      /*
                 model.build();
             }
         }
     }
+
+       */
 }

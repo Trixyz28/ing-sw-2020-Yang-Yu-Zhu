@@ -68,6 +68,15 @@ public class Prometheus extends WorkerDecorator {
         resetAfterBuild();
     }
 
+    @Override
+    public int useGodPower(boolean use) {
+        if(use && buildCounter == 0){
+            return 2;
+        }else {
+            return 1;
+        }
+    }
+
     private void resetAfterBuild(){
         if(buildCounter == 2 || (moveCounter == 1 && buildCounter ==1)){
             buildCounter = 0;  /* ripristinare counter */

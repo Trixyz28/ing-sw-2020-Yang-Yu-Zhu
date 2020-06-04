@@ -23,13 +23,7 @@ public class MoveController {
 
         worker = model.getCurrentTurn().getChosenWorker();
         position = model.commandToTile(move.getRow(), move.getColumn());
-        /*
-        if(!canMoveUp){  //compreso nel metodo canMove del worker
-            if(worker.getPosition().getBlockLevel() < position.getBlockLevel()){  //il worker non può salire di livello!
-                return false;
-            }
-        }
-        */
+
         //System.out.println("fine checkCanMoveUp");
         if(checkPosition(position)) {
             //System.out.println("check = true");

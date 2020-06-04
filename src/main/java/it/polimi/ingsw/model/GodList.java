@@ -67,14 +67,10 @@ public class GodList {
             boolean flag = false;
             for(String god : completeGodList){  /* controllare se il selectedGod sia un God */
                 if(selectedGod.equals(god)){
-                    flag = true;
-                    break;
+                    currentGodList.add(selectedGod);
+                    listLength++;
+                    return true;
                 }
-            }
-            if(flag){
-                currentGodList.add(selectedGod);
-                listLength++;
-                return true;
             }
         }
         return false;
@@ -97,7 +93,6 @@ public class GodList {
         for(String s : currentGodList){
             if(s.equals(selectedGod)) {
                 currentGodList.remove(s);
-                listLength--;
                 break;
             }
         }

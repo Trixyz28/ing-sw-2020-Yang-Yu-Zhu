@@ -94,6 +94,11 @@ public class NoGod implements UndecoratedWorker {
       return condition;
    }
 
+   @Override
+   public int useGodPower(boolean use) {
+      return 0;
+   }
+
    /*all basic methods
     void move(){
         //metodo move() che lavora sulla lista dei worker

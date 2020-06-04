@@ -195,45 +195,11 @@ public class Client {
                             } catch (IllegalArgumentException e) {
                                 ui.showMessage(Messages.wrongArgument);
                             }
-                        }else if((gMessage.getMessage().equals(Messages.Atlas)) && (input.equals("BLOCK") || input.equals("DOME"))
-                        || (gMessage.getMessage().equals(Messages.Prometheus)) && (input.equals("MOVE")  || input.equals("BUILD"))
-                        || !(gMessage.getMessage().equals(Messages.Atlas)) && !(gMessage.getMessage().equals(Messages.Prometheus))
-                                && (input.equals("YES") || input.equals("NO"))){  /* problema yes or no */
-
+                        }else {  /* problema yes or no */
                                 socketOut.println(input);
                                 socketOut.flush();
                                 gmReceived = false;
                                 gMessage = null;
-                            }
-                            /*
-                        }else if(gMessage.getMessage().equals(Messages.Atlas)) {
-                            if(input.equals("BLOCK") || input.equals("DOME")){
-                                socketOut.println(input);
-                                socketOut.flush();
-                                gmReceived = false;
-                                gMessage = null;
-                            }else {
-                                System.out.println("Riprova!\n" + gMessage.getMessage());
-                            }
-                        }else if(gMessage.getMessage().equals(Messages.Prometheus)){
-                            if(input.equals("BLOCK") || input.equals("DOME")){
-                                socketOut.println(input);
-                                socketOut.flush();
-                                gmReceived = false;
-                                gMessage = null;
-                            }else {
-                                System.out.println("Riprova!\n" + gMessage.getMessage());
-                            }
-                        }else if(input.equals("YES") || input.equals("NO")){
-                            socketOut.println(input);
-                            socketOut.flush();
-                            gmReceived = false;
-                            gMessage = null;
-                        }
-                        */
-                        else {
-                            ui.showMessage(Messages.tryAgain + "\n" + gMessage.getMessage());
-                            //ui.showMessage(gMessage.getMessage());
                         }
                     } else {
                         socketOut.println(input);

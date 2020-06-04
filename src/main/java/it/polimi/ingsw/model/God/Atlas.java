@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Atlas extends WorkerDecorator {
 
+    private Tile buildTile;
+
     public Atlas (UndecoratedWorker worker){
         super(worker);
     }
@@ -22,8 +24,20 @@ public class Atlas extends WorkerDecorator {
     @Override
     public boolean canBuildBlock(Tile t) {
         if(super.canBuildBlock(t) && canBuildDome(t)){
+            buildTile = t;
             setGodPower(true);
         }
         return super.canBuildBlock(t);
+    }
+
+    @Override
+    public int useGodPower(boolean use) {
+        if(use){
+            buildDome(buildTile);
+        }else {
+            buildBlock(buildTile);
+        }
+        setGodPower(false);
+        return 2;
     }
 }

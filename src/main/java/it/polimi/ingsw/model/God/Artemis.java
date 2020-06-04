@@ -63,6 +63,14 @@ public class Artemis extends WorkerDecorator {
         return super.canBuildBlock(t);
     }
 
+    @Override
+    public int useGodPower(boolean use) {
+        if(!use) {
+            setGodPower(false);
+        }
+        return 1;  /* operation type 1 = MOVE */
+    }
+
     public Tile getOriginalTile() {
         return originalTile;
     }

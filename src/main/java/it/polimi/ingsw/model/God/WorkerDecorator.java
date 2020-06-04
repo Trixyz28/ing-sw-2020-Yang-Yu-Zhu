@@ -74,4 +74,9 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
     public Conditions getConditions() {
        return this.worker.getConditions();
     }
+
+    @Override
+    public int useGodPower(boolean use) {
+        return this.worker.useGodPower(use);
+    }
 }

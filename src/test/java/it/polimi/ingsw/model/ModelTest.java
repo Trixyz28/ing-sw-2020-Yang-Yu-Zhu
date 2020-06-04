@@ -2,13 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.God.*;
 import it.polimi.ingsw.observers.Observer;
-import it.polimi.ingsw.view.RemoteView;
 import junit.framework.TestCase;
-import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ModelTest extends TestCase {
 
@@ -52,7 +47,7 @@ public class ModelTest extends TestCase {
     public void testCurrentTurn() {
         testInitialize();
         model.setStartingPlayerID(1);
-        model.startCurrentTurn();
+        model.startTurn();
         assertSame(model.getMatchPlayersList().get(1),model.getCurrentTurn().getCurrentPlayer());
     }
 
@@ -94,7 +89,7 @@ public class ModelTest extends TestCase {
         model.getMatchPlayersList().get(0).setPlayerID(0);
         model.getMatchPlayersList().get(1).setPlayerID(1);
         model.setStartingPlayerID(0);
-        model.startCurrentTurn();
+        model.startTurn();
         model.getCurrentTurn().setCurrentPlayer(model.getMatchPlayersList().get(0));
         assertEquals(1,model.getNextPlayerIndex());
         model.getCurrentTurn().setCurrentPlayer(model.getMatchPlayersList().get(1));

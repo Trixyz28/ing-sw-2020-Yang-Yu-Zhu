@@ -39,7 +39,7 @@ public class TurnControllerTest extends TestCase {
         worker1.setPosition(model.getBoard().getTile(2,1));
 
         Map<Player, View> views = new HashMap<>();
-        turnController = new TurnController(model,views);
+        turnController = new TurnController(model);
 
         assertFalse(turnController.isWorkerChanged());
 

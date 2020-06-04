@@ -66,6 +66,14 @@ public class Demeter extends WorkerDecorator {
         super.buildDome(t);
     }
 
+    @Override
+    public int useGodPower(boolean use) {
+        if(!use){
+            setGodPower(false);
+        }
+        return 2;   /* operation type 2 = BUILD */
+    }
+
     public Tile getOriginalBuild() {
         return originalBuild;
     }

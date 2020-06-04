@@ -45,4 +45,12 @@ public class Hephaestus extends WorkerDecorator {
         }
     }
 
+    @Override
+    public int useGodPower(boolean use) {
+        if(use){
+            buildBlock(builtTile);
+        }
+        setGodPower(false);
+        return 2;
+    }
 }

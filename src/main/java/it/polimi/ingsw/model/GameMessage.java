@@ -8,16 +8,22 @@ public class GameMessage implements Serializable {
     private final String message;
     private String answer;
     private final String player;
+    private final boolean readOnly;
 
-    public GameMessage(final Player player, final String message){
+    public GameMessage(final Player player, final String message, final boolean readOnly){
         this.player = player.getPlayerNickname();
         this.message = message;
+        this.readOnly = readOnly;
     }
 
 
     //Player name getter
     public String getPlayer(){
         return player;
+    }
+
+    public boolean readOnly() {
+        return readOnly;
     }
 
 

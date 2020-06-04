@@ -70,9 +70,14 @@ public class RemoteView extends View {
         }
         if(message instanceof GameMessage){  /* inviare richiesta solo al currentPlayer*/
             if(((GameMessage) message).getPlayer().equals(player.getPlayerNickname())) {
-                gameMessage = (GameMessage)message;  /* salvare prima di notify */
-                gmSend = true;
-                clientConnection.asyncSend(message);
+                if(((GameMessage) message).readOnly()){
+                    showMessage(((GameMessage) message).getMessage());
+                }else {
+                     /* salvare prima di notify */
+                    gameMessage = (GameMessage)message;
+                    gmSend = true;
+                    clientConnection.asyncSend(message);
+                }
             }
         }
 

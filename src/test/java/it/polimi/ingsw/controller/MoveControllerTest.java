@@ -33,7 +33,7 @@ public class MoveControllerTest extends TestCase {
 
         worker1.setPosition(model.getBoard().getTile(2,1));
 
-        model.startCurrentTurn();
+        model.startTurn();
         model.getCurrentTurn().choseWorker(worker1);
 
         moveController = new MoveController(model);
