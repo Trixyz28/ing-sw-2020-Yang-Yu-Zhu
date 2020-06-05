@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="800.0" maxWidth="1280.0" minHeight="800.0" minWidth="1280.0" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-image: url(/Background/bg1.png); -fx-background-repeat: no-repeat" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.GuiController">
+<Pane maxHeight="800.0" maxWidth="1280.0" minHeight="800.0" minWidth="1280.0" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-image: url(/background/bg1.png); -fx-background-repeat: no-repeat" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.GuiController">
    <children>
       <Pane layoutX="358.0" layoutY="199.0" prefHeight="474.0" prefWidth="564.0">
          <children>
             <ImageView fitHeight="380.0" fitWidth="601.0" layoutX="4.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Others/banner.png" />
+                  <Image url="@../components/Scroll.png" />
                </image>
             </ImageView>
             <VBox layoutX="72.0" layoutY="124.0" prefHeight="288.0" prefWidth="414.0">

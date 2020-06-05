@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class CLI implements Ui {
 
 
-
     Scanner in = new Scanner(System.in);
 
     //Color indicators

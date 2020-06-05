@@ -5,11 +5,12 @@ import it.polimi.ingsw.view.cli.BoardView;
 
 public class GUI implements Ui {
 
-    private GuiController guiController;
+
 
 
     @Override
     public void showMessage(String str) {
+
 
     }
 
@@ -22,4 +23,7 @@ public class GUI implements Ui {
     public String getInput() {
         return null;
     }
+
+
+
 }

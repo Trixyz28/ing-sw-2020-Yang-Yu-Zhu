@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.cli.BoardView;
 import it.polimi.ingsw.view.cli.CLI;
+import it.polimi.ingsw.view.gui.GUI;
 
 import java.io.*;
 import java.net.Socket;
@@ -54,6 +55,8 @@ public class Client {
         if(uiStyle.equals("GUI")) {
             ui = new CLI();
             ui.showMessage("GUI not implemented yet, have fun with CLI ;)");
+
+            //ui = new GUI();
         }
 
         //Read socket's ip and port
