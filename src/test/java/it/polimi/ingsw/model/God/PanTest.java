@@ -18,10 +18,10 @@ public class PanTest extends TestCase {
 
         Tile from = new Tile();
         from.setBlockLevel(2);
-        assertTrue(worker.panCheck(from));
+        assertTrue(worker.checkWin(from));
 
         from.setBlockLevel(1);
-        assertFalse(worker.panCheck(from));
+        assertFalse(worker.checkWin(from));
 
     }
 

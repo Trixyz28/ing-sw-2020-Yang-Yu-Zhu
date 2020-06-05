@@ -46,7 +46,7 @@ public class NoGod implements UndecoratedWorker {
    //Check if the worker can build a block(not dome!) on tile t
    @Override
    public boolean canBuildBlock(Tile t) {
-      return position.availableToBuild(t) && t.getBlockLevel() < 3;
+      return position.availableToBuild(t) && t.getBlockLevel() < 3 && getConditions().checkBuildCondition(t) ;
    }
 
    //Build a block on tile t
@@ -103,6 +103,11 @@ public class NoGod implements UndecoratedWorker {
    @Override
    public int getBelongToPlayer() {
       return belongToPlayer;
+   }
+
+   @Override
+   public boolean checkWin(Tile initialTile) {
+      return (condition.checkWinCondition(position) && initialTile.getBlockLevel() == 2 && getPosition().getBlockLevel()==3);
    }
 
    /*all basic methods

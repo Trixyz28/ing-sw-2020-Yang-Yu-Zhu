@@ -44,11 +44,7 @@ public class TurnController {
     /* fine move -> aggiornare FinalTile + chackWin -> inizio Build */
     public void endMove() {
         currentTurn.setFinalTile(chosenWorker.getPosition());
-        if(model.checkWin()){
-            //view.win(currentTurn.getCurrentPlayer());  /* il currentPlayer vince */
-            model.sendMessage("Hai vintoooooo!!!");
-            model.gameOver();
-        } else {
+        if(!model.checkWin()){
             if(chosenWorker.getGodPower()){
                 currentTurn.setInitialTile(currentTurn.getFinalTile());/* se il worker può fare un'altra mossa */
                 model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());  /* chiedere al Player se vuole fare move in più */

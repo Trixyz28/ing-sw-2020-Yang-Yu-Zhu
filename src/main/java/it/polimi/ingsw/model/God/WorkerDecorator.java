@@ -85,6 +85,11 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
         return this.worker.getBelongToPlayer();
     }
 
+    @Override
+    public boolean checkWin(Tile initialTile) {
+        return this.worker.checkWin(initialTile);
+    }
+
     protected UndecoratedWorker getWorker(Tile tile, List<UndecoratedWorker> totalWorkers){
         for(UndecoratedWorker w : totalWorkers){
             if(w.getPosition() == tile){  /* trovato worker sulla tile */

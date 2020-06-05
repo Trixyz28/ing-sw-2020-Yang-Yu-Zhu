@@ -23,7 +23,7 @@ public class Messages {
     public static String wrongArgument = "Invalid argument!";
     public static String wrongOperation = "Impossibile fare questa mossa!";
 
-
+/*
     //GodPower messages
     public static String Artemis = "Arthemis: Move again?";
     public static String Atlas = "Atlas: Block or Dome?";
@@ -32,6 +32,8 @@ public class Messages {
     public static String Prometheus = "Prometheus: Move or Build";
     public static String Hestia = "Hestia: Build again?";
     public static String Poseidon = "Poseidon: Unmove worker Build?";
+    public static String Triton = "Triton: Move again?";
+*/
 
     //Generics
 
@@ -40,6 +42,7 @@ public class Messages {
     public static String nicknameRequest = "Welcome! What is your nickname?";
     public static String nicknameInUse = "Nickname in use, choose another one";
     public static String nicknameAvailable = "You can use this nickname!";
+
 
 
 

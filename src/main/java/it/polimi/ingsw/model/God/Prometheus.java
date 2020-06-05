@@ -70,8 +70,12 @@ public class Prometheus extends WorkerDecorator {
 
     @Override
     public int useGodPower(boolean use) {
-        if(use && buildCounter == 0){
-            return 2;
+        if(use){
+            if(buildCounter == 0) { /* build */
+                return 2;
+            }else{
+                return -1;  /* endBuild */
+            }
         }else {
             return 1;
         }

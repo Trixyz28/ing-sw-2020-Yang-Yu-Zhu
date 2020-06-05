@@ -99,7 +99,7 @@ public class Controller implements Observer {
         if (operation.getType() == 2) {  //type 2 -> build
             boolean flag = buildController.build(operation);
             UndecoratedWorker worker = model.getCurrentTurn().getChosenWorker();
-            if (flag && !worker.getGodPower() && worker.useGodPower(true) == 1) {  /* dopo build continuare normalmente */
+            if (flag && !worker.getGodPower() && worker.useGodPower(true) == -1) {  /* dopo build continuare normalmente */
                 /* checkLosePrometheus */
                 model.showBoard();  /* mostrare mappa dopo build */
                 if(model.getCurrentTurn().getChosenWorker().canMove().size() != 0) {

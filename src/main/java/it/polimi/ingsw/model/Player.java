@@ -126,6 +126,20 @@ public class Player {
                 workerList.add(new Poseidon(w1, totalWorkerList));
                 workerList.add(new Poseidon(w2, totalWorkerList));
                 break;
+
+            case "LIMUS":
+                workerList.add(new Limus(w1));
+                workerList.add(new Limus(w2));
+                break;
+
+            case "TRITON":
+                workerList.add(new Triton(w1));
+                workerList.add(new Triton(w2));
+                break;
+
+            case "HERA":
+                workerList.add(new Hera(w1));
+                workerList.add(new Hera(w2));
         }
 
     }

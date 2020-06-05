@@ -16,7 +16,11 @@ public class Atlas extends WorkerDecorator {
     @Override
     public boolean canBuildDome(Tile t) {
         if(getPosition().isAdjacentTo(t) && !t.isDomePresence() && !t.isOccupiedByWorker()) {
-            return true;
+            if(getConditions().checkBuildCondition(t)) {
+                return true;
+            }else {
+                return super.canBuildDome(t);
+            }
         }
         return false;
     }

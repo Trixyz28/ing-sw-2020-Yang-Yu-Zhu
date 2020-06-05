@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.God.Conditions;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observable;
-import it.polimi.ingsw.model.God.Pan;
 import it.polimi.ingsw.view.cli.BoardView;
 import it.polimi.ingsw.view.cli.Colors;
 import it.polimi.ingsw.view.cli.WorkerView;
@@ -129,7 +128,7 @@ public class Model extends Observable {
     public int checkAnswer(GameMessage gMessage){  /* check risposta per divinità */
         String message = gMessage.getMessage();
         String answer = gMessage.getAnswer();
-        if(message.equals(Messages.Atlas)){
+        if(message.equals(GodPowerMessage.valueOf("ATLAS").getMessage())){
             if(answer.equals("BLOCK") || answer.equals("DOME")) {
                 if (answer.equals("DOME")) {
                     return currentTurn.getChosenWorker().useGodPower(true);
@@ -137,7 +136,7 @@ public class Model extends Observable {
                     return currentTurn.getChosenWorker().useGodPower(false);
                 }
             }
-        }else if(message.equals(Messages.Prometheus)){
+        }else if(message.equals(GodPowerMessage.valueOf("PROMETHEUS").getMessage())){
             if (answer.equals("MOVE")  || answer.equals("BUILD")) {
                 if (answer.equals("BUILD")){
                     return currentTurn.getChosenWorker().useGodPower(true);
@@ -173,7 +172,6 @@ public class Model extends Observable {
         return false;
 
     }
-
 
     public Board getBoard() {
         return board;
@@ -290,6 +288,18 @@ public class Model extends Observable {
     public void sendMessage(String arg) {
         String message = null;
         boolean readOnly = false;
+        try{
+            GodPowerMessage god = Enum.valueOf(GodPowerMessage.class, arg);
+            message = god.getMessage();
+        }catch (IllegalArgumentException e){
+            if(!arg.equals(Messages.Worker)){
+                readOnly = true;
+            }
+            message = arg;
+        }finally {
+            notify(new GameMessage(currentTurn.getCurrentPlayer(), message, readOnly));
+        }
+        /*
         if (arg.equals("ARTEMIS")) {
             message = Messages.Artemis;
         } else if (arg.equals("ATLAS")) {
@@ -302,15 +312,17 @@ public class Model extends Observable {
             message = Messages.Prometheus;
         } else if (arg.equals("HESTIA")) {
             message = Messages.Hestia;
-        }else if(arg.equals("POSEIDON")){
+        }else if(arg.equals("POSEIDON")) {
             message = Messages.Poseidon;
+        }else if(arg.equals("TRITON")){
+            message = Messages.Triton;
         }else{
             if(!arg.equals(Messages.Worker)){
                 readOnly = true;
             }
             message = arg;
         }
-        notify(new GameMessage(currentTurn.getCurrentPlayer(), message, readOnly));
+         */
     }
 
     public void broadcast(String message){
@@ -345,11 +357,9 @@ public class Model extends Observable {
 
     //metodi da implementare con il controller
     public boolean checkWin() {
-        if (currentTurn.getInitialTile().getBlockLevel()==2 && currentTurn.getFinalTile().getBlockLevel()==3) {
-            return true;
-        }
-        if(currentTurn.getChosenWorker() instanceof Pan){
-            return ((Pan) currentTurn.getChosenWorker()).panCheck(currentTurn.getInitialTile());
+        if (currentTurn.getChosenWorker().checkWin(currentTurn.getInitialTile())){
+            sendMessage("Hai vintoooooo!!!");
+            gameOver();
         }
         return false;
     }
@@ -388,6 +398,7 @@ public class Model extends Observable {
             currentTurn.setCurrentPlayer(matchPlayersList.get(index));
             totalWorkerList.remove(player.chooseWorker(0));  /* aggioranare totalWorkerList */
             totalWorkerList.remove(player.chooseWorker(1));
+            condition.update(player.getPlayerID());
             matchPlayersList.remove(player);
             broadcast("The player " + player.getPlayerNickname() + " loses");
             losingPlayer(player);

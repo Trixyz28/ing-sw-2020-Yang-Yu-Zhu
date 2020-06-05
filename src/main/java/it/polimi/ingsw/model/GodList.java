@@ -21,7 +21,7 @@ public class GodList {
 
 
     public GodList (int playerNumber){
-        completeGodList = new String[14];
+        completeGodList = new String[15];
         setComplete();
         currentGodList = new ArrayList<>();
         listLength = 0;
@@ -37,12 +37,15 @@ public class GodList {
         completeGodList[3] = "ATLAS";
         completeGodList[4] = "DEMETER";
         completeGodList[5] = "HEPHAESTUS";
-        completeGodList[6] = "HESTIA";
-        completeGodList[7] = "MINOTAUR";
-        completeGodList[8] = "PAN";
-        completeGodList[9] = "POSEIDON";
-        completeGodList[10] = "PROMETHEUS";
-        completeGodList[11] = "ZEUS";
+        completeGodList[6] = "HERA";
+        completeGodList[7] = "HESTIA";
+        completeGodList[8] = "LIMUS";
+        completeGodList[9] = "MINOTAUR";
+        completeGodList[10] = "PAN";
+        completeGodList[11] = "POSEIDON";
+        completeGodList[12] = "PROMETHEUS";
+        completeGodList[13] = "TRITON";
+        completeGodList[14] = "ZEUS";
     }
 
 

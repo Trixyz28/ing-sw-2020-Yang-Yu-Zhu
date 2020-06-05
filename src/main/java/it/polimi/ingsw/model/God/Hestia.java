@@ -67,7 +67,7 @@ public class Hestia extends WorkerDecorator {
     }
 
     public boolean canBuildBlockHestia(Tile t){
-        if(perimerterTile(t)){
+        if(t.perimerterTile()){
             return false;
         }
         else{
@@ -77,7 +77,7 @@ public class Hestia extends WorkerDecorator {
     }
 
     public boolean canBuildDomeHestia(Tile t){
-        if(perimerterTile(t)){
+        if(t.perimerterTile()){
             return false;
         }
         else{
@@ -95,8 +95,6 @@ public class Hestia extends WorkerDecorator {
         return false;
     }
 
-    private boolean perimerterTile(Tile t){
-        return (t.getRow() == 0 || t.getRow() == 4 || t.getColumn() == 0 || t.getRow() == 4);
-    }
+
 
 }

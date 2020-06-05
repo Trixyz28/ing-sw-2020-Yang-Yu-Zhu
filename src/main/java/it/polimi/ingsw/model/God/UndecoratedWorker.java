@@ -34,4 +34,6 @@ public interface UndecoratedWorker {
 
     int getBelongToPlayer();
 
+    boolean checkWin(Tile initialTile);
+
 }

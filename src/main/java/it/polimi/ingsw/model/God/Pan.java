@@ -12,10 +12,14 @@ public class Pan extends WorkerDecorator {
         super(worker);
     }
 
+    @Override
+    public boolean checkWin(Tile initialTile) {
+        return (super.checkWin(initialTile) || panCheck(initialTile));
+    }
 
-    //T was the destination, jumpedFrom was the original tile; if blocklevel jumpedFrom - t = 2 pan win
-    public boolean panCheck(Tile jumpedFrom){
-        if(jumpedFrom.getBlockLevel() - getPosition().getBlockLevel() == 2) {
+    //T was the destination, jumpedFrom was the original tile; if blocklevel jumpedFrom - t >= 2 pan win
+    private boolean panCheck(Tile jumpedFrom){
+        if(jumpedFrom.getBlockLevel() - getPosition().getBlockLevel() >= 2) {
             return true;
         }
         else{
