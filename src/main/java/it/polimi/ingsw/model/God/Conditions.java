@@ -53,7 +53,7 @@ public class Conditions {
     }
 
     protected boolean checkWinCondition(Tile t){
-        if(heraRule && t.perimerterTile()){
+        if(heraRule && t.perimeterTile()){
             return false;
         }
         return true;

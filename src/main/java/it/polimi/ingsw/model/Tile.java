@@ -137,8 +137,8 @@ public class Tile implements Cloneable, Serializable {
     }
 
     //Return true if it is perimeter Tile
-    public boolean perimerterTile(){
-        return (getRow() == 0 || getRow() == 4 || getColumn() == 0 || getRow() == 4);
+    public boolean perimeterTile(){
+        return (getRow() == 0 || getRow() == 4 || getColumn() == 0 || getColumn() == 4);
     }
 
 }
