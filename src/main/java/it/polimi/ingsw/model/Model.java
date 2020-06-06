@@ -125,35 +125,39 @@ public class Model extends Observable {
         }
     }
 
-    public int checkAnswer(GameMessage gMessage){  /* check risposta per divinità */
+    public boolean checkAnswer(GameMessage gMessage){  /* check risposta per divinità */
         String message = gMessage.getMessage();
         String answer = gMessage.getAnswer();
         if(message.equals(GodPowerMessage.valueOf("ATLAS").getMessage())){
             if(answer.equals("BLOCK") || answer.equals("DOME")) {
                 if (answer.equals("DOME")) {
-                    return currentTurn.getChosenWorker().useGodPower(true);
+                    currentTurn.getChosenWorker().useGodPower(true);
                 }else {
-                    return currentTurn.getChosenWorker().useGodPower(false);
+                    currentTurn.getChosenWorker().useGodPower(false);
                 }
+                return true;
             }
         }else if(message.equals(GodPowerMessage.valueOf("PROMETHEUS").getMessage())){
             if (answer.equals("MOVE")  || answer.equals("BUILD")) {
                 if (answer.equals("BUILD")){
-                    return currentTurn.getChosenWorker().useGodPower(true);
+                    currentTurn.getChosenWorker().useGodPower(true);
                 }else {
-                    return currentTurn.getChosenWorker().useGodPower(false);
+                    currentTurn.getChosenWorker().useGodPower(false);
                 }
+                return true;
             }
         } else if (answer.equals("YES") || answer.equals("NO")){
             if(answer.equals("YES")){
-                return currentTurn.getChosenWorker().useGodPower(true);
+                currentTurn.getChosenWorker().useGodPower(true);
             }else {
-                return currentTurn.getChosenWorker().useGodPower(false);
+                currentTurn.getChosenWorker().useGodPower(false);
             }
+            return true;
         }
         sendMessage(Messages.tryAgain);
         sendMessage(currentTurn.getCurrentPlayer().getGodCard());
-        return 0;
+        return false;
+
     }
 
     public boolean setStartingPlayer(String startingPlayerNickname){  /* per sceglire il startingPlayer attraverso Nickname */
@@ -329,12 +333,11 @@ public class Model extends Observable {
         notify(message);
     }
 
-    /*
-    public void operation(int type){
+
+    public void operation(){  /* type 0 = place  type 1 = move type 2 = build */
+        int type = currentTurn.getChosenWorker().getState();
         notify(new Operation(currentTurn.getCurrentPlayer(), type, -1, -1));
     }
-    */
-
 
     public void place(){  /* type 0 = place */
         notify(new Operation(currentTurn.getCurrentPlayer(),0, -1, -1));
@@ -347,7 +350,6 @@ public class Model extends Observable {
     public void build(){  /* type 2 = build */
         notify(new Operation(currentTurn.getCurrentPlayer(),2, -1,-1));
     }
-
 
     public void placeWoker(int indexWorker){
         showBoard();

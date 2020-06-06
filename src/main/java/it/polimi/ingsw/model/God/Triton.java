@@ -16,13 +16,6 @@ public class Triton extends WorkerDecorator {
         super.move(t);
     }
 
-    @Override
-    public int useGodPower(boolean use) {
-        if(!use){
-            setGodPower(false);
-        }
-        return 1;
-    }
 }
 
 

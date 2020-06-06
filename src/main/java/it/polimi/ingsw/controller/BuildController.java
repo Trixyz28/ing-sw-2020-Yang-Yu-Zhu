@@ -10,11 +10,6 @@ public class BuildController {
     private Model model;
     private Tile position;
     private UndecoratedWorker worker;
-    private Operation operation;
-
-    protected Operation getOperation(){
-        return operation;
-    }
 
     public BuildController(Model model) {
         this.model = model;
@@ -34,14 +29,16 @@ public class BuildController {
 */
 
     public boolean build(Operation operation){
-        this.operation = operation;
         worker = model.getCurrentTurn().getChosenWorker();
         position = model.commandToTile(operation.getRow(), operation.getColumn());
-        if(checkPosition(position)){  /* build nella check */
-            return true;  /* build andato a buon fine */
+        /*
+        if(checkPosition(position)){  /* build nella check
+            return true;  /* build andato a buon fine
         }else{
-            return false;  /* da ripetere build */
+            return false;  /* da ripetere build
         }
+        */
+        return checkPosition(position);
     }
 
     private boolean checkPosition(Tile position){  /* check buildBlock/Dome if true -> Build */

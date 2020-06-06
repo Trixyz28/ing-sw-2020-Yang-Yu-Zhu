@@ -15,11 +15,6 @@ public class Demeter extends WorkerDecorator {
     private Tile originalBuild = new Tile();
     private int buildCounter = 0;
 
-    @Override
-    public void move(Tile t) {
-        buildCounter = 0;
-        super.move(t);
-    }
 
     @Override
     public boolean canBuildBlock(Tile t) {
@@ -67,11 +62,9 @@ public class Demeter extends WorkerDecorator {
     }
 
     @Override
-    public int useGodPower(boolean use) {
-        if(!use){
-            setGodPower(false);
-        }
-        return 2;   /* operation type 2 = BUILD */
+    public void nextState() {
+        super.nextState();
+        buildCounter = 0;
     }
 
     public Tile getOriginalBuild() {

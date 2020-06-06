@@ -15,10 +15,12 @@ public class NoGod implements UndecoratedWorker {
     private int workerID;
     private boolean godPower;
     private Conditions condition;
+    private int state;  /* 0 = Waiting   1 = Moving  2 = Building */
 
     public NoGod (int playerID, Conditions condition){
        belongToPlayer = playerID;
        this.condition = condition;
+       state = 0;
     }
 
    //Returns a list of available tiles where the worker can be moved to
@@ -52,7 +54,7 @@ public class NoGod implements UndecoratedWorker {
    //Build a block on tile t
    @Override
    public void buildBlock(Tile t) {
-      t.addBlockLevel();
+       t.addBlockLevel();
    }
 
    //Check if the worker can build a dome on t
@@ -64,7 +66,7 @@ public class NoGod implements UndecoratedWorker {
    //Build a dome on t
    @Override
    public void buildDome(Tile t) {
-      t.blockToDome();
+       t.blockToDome();
    }
 
    //Get the current position of the worker
@@ -96,8 +98,10 @@ public class NoGod implements UndecoratedWorker {
    }
 
    @Override
-   public int useGodPower(boolean use) {
-      return 0;
+   public void useGodPower(boolean use) {
+      if(!use){
+         setGodPower(false);
+      }
    }
 
    @Override
@@ -108,6 +112,25 @@ public class NoGod implements UndecoratedWorker {
    @Override
    public boolean checkWin(Tile initialTile) {
       return (condition.checkWinCondition(position) && initialTile.getBlockLevel() == 2 && getPosition().getBlockLevel()==3);
+   }
+
+   @Override
+   public void nextState() {
+       if(state < 2) {
+          state++;
+       }else {
+          state = 0;
+       }
+   }
+
+   @Override
+   public void setState(int state) {
+      this.state = state;
+   }
+
+   @Override
+   public int getState() {
+      return state;
    }
 
    /*all basic methods

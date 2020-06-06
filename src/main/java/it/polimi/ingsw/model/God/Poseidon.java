@@ -13,16 +13,8 @@ public class Poseidon extends WorkerDecorator{
         totalWorkers = totalWorkerList;
     }
 
-
     int buildCounter = 0;
-    boolean isUnmoved = true;
 
-    @Override
-    public void move(Tile t) {
-        buildCounter = 0;
-        isUnmoved = false;
-        super.move(t);
-    }
 
     @Override
     public boolean canBuildBlock(Tile t) {
@@ -44,37 +36,35 @@ public class Poseidon extends WorkerDecorator{
 
     @Override
     public void buildBlock(Tile t) {
-        buildCounter++;
+
         if(poseidonCheck()){
             super.buildBlock(t);
         }else{
             getUnmovedWorker().buildBlock(t);
             powerCheck();  /* Check solo per il move worker (per God Power) */
         }
+        buildCounter++;
 
     }
 
     @Override
     public void buildDome(Tile t) {
 
-        buildCounter++;
         if(poseidonCheck()){
             super.buildDome(t);
         }else{
             getUnmovedWorker().buildDome(t);
             powerCheck();
         }
+        buildCounter++;
 
 
     }
 
     @Override
-    public int useGodPower(boolean use) {
-        if(!use){
-            setGodPower(false);
-            isUnmoved = true;
-        }
-        return 2;  /* BUILD */
+    public void nextState() {
+        super.nextState();
+        buildCounter = 0;
     }
 
     private UndecoratedWorker getUnmovedWorker(){
@@ -88,11 +78,11 @@ public class Poseidon extends WorkerDecorator{
 
     private boolean poseidonCheck(){
 
-        return (isUnmoved || buildCounter == 0);
+        return (getState() == 0 || buildCounter == 0);
     }
 
-    private void powerCheck(){
-        if(!isUnmoved && buildCounter <= 3) {  /* Worker mosso -> controllare unmoved worker */
+    private void powerCheck(){  /* getState() == 0  -> unmoved worker */
+        if(getState() != 0 && buildCounter < 3) {  /* Worker mosso -> controllare unmoved worker */
             UndecoratedWorker unmovedWorker = getUnmovedWorker();
             if (unmovedWorker != null && unmovedWorker.getPosition().getBlockLevel() == 0) {
                 for (Tile t : unmovedWorker.getPosition().getAdjacentTiles()) {
@@ -102,9 +92,6 @@ public class Poseidon extends WorkerDecorator{
                     }
                 }
             }
-        }else if(!isUnmoved && buildCounter == 4){
-            buildCounter = 0;
-            isUnmoved = true;
         }
     }
 

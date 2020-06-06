@@ -59,7 +59,6 @@ public class BuildControllerTest extends TestCase {
 
         Operation operation = new Operation(model.getCurrentTurn().getCurrentPlayer(),2,4,3);
         assertFalse(buildController.build(operation));
-        assertEquals(operation,buildController.getOperation());
 
         operation = new Operation(model.getCurrentTurn().getCurrentPlayer(),2,1,1);
         assertTrue(buildController.build(operation));

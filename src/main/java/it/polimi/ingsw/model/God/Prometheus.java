@@ -19,10 +19,12 @@ public class Prometheus extends WorkerDecorator {
     @Override
     public List<Tile> canMove() {
         if (buildCounter == 0) {
-            if(canBuild()){
+            List<Tile> tempList = super.canMove();
+            if(tempList.size() != 0 && canBuild()){
+                System.out.println("on");
                 setGodPower(true);
             }
-            return super.canMove();
+            return tempList;
         }else {  /* build first -> cannot move up */
             List<Tile> tempList = new ArrayList<>();
             for(Tile t : super.canMove()){
@@ -38,9 +40,9 @@ public class Prometheus extends WorkerDecorator {
     @Override
     public void move(Tile t) {
         if(buildCounter == 0) {
-            moveCounter++;
             setGodPower(false);
         }
+        moveCounter++;
         super.move(t);
     }
 
@@ -49,7 +51,6 @@ public class Prometheus extends WorkerDecorator {
     public void buildBlock(Tile t) {
         buildCounter++;
         super.buildBlock(t);
-        resetAfterBuild();
 
     }
 
@@ -65,28 +66,32 @@ public class Prometheus extends WorkerDecorator {
          */
         buildCounter++;
         super.buildDome(t);
-        resetAfterBuild();
     }
 
     @Override
-    public int useGodPower(boolean use) {
+    public void useGodPower(boolean use) {
         if(use){
             if(buildCounter == 0) { /* build */
-                return 2;
-            }else{
-                return -1;  /* endBuild */
+                setState(2);
             }
-        }else {
-            return 1;
         }
     }
 
-    private void resetAfterBuild(){
-        if(buildCounter == 2 || (moveCounter == 1 && buildCounter ==1)){
-            buildCounter = 0;  /* ripristinare counter */
-            moveCounter = 0;
+    @Override
+    public void nextState() {
+        if(buildCounter == 1 && moveCounter == 0){
+            setState(1);
+        }else if(getState() == 0 && canMove().size() == 0){   /* inizio turn Prometheus non può muovere*/
+            setState(2);
+        } else {
+            super.nextState();
+            if(getState() == 0){  /* ripristinare counter fine turno */
+                moveCounter = 0;
+                buildCounter = 0;
+            }
         }
     }
+
 
     private boolean canBuild(){
         for(Tile t : getPosition().getAdjacentTiles()){

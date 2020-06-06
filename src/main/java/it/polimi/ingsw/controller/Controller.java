@@ -52,8 +52,7 @@ public class Controller implements Observer {
         } else if (checkTurn(arg)) {
 
             if (arg instanceof Operation) {
-                Operation operation = (Operation) arg;
-                opUpdate(operation);
+                opUpdate((Operation) arg);
             } else if (arg instanceof Integer) {  /* indice del Worker scelto 0 o 1 */
                 //if (!turnController.isWorkerChanged()) {  /* accettare l'int solo se il worker non è ancora deciso */
                     turnController.setChosenWorker((Integer) arg);
@@ -65,10 +64,9 @@ public class Controller implements Observer {
                     stringUpdate(gm.getPlayer(), gm.getAnswer());
                 } else {
                     /* GodPower answers */
-                    int operation = model.checkAnswer((GameMessage)arg);
                         //gmUpdate(message, answer);
-                    if(operation != 0) {
-                        gmOp(operation);
+                    if(model.checkAnswer((GameMessage)arg)) {
+                        gmUpdate();
                     }
                 }
             }
@@ -81,41 +79,49 @@ public class Controller implements Observer {
             if(initController.isEndInitialize()){  /* inizio partita con Turn 1 */
                 turnController.nextTurn();
             }
-        } else
-
-        if (operation.getType() == 1) {  //type 1 -> move
-            //System.out.println("Entrando in moveController");
-            boolean flag = moveController.moveWorker(operation);  /* +condizione di canMoveUp */
-            //System.out.println("Uscito dal move" + turnController.CanMoveUp());
-            if (flag) {  /* flag : true = move riuscita; false = richiedere move */
-                turnController.endMove();  /* aggiornare Turn fine Move */
-            } else {
-                //mostrare view messaggio di posizione errata e ripetere mossa
-                model.sendMessage(Messages.wrongOperation);
-                model.move();
-            }
-        }else
-
-        if (operation.getType() == 2) {  //type 2 -> build
-            boolean flag = buildController.build(operation);
-            UndecoratedWorker worker = model.getCurrentTurn().getChosenWorker();
-            if (flag && !worker.getGodPower() && worker.useGodPower(true) == -1) {  /* dopo build continuare normalmente */
-                /* checkLosePrometheus */
-                model.showBoard();  /* mostrare mappa dopo build */
+        } else {
+            boolean flag = false;
+            if(operation.getType() == 1) {
+                //type 1 -> move
+                //System.out.println("Entrando in moveController");
+                flag = moveController.moveWorker(operation);  /* +condizione di canMoveUp */
+                //System.out.println("Uscito dal move" + turnController.CanMoveUp());
+            }else if (operation.getType() == 2){
+                flag = buildController.build(operation);
+                /*
+                UndecoratedWorker worker = model.getCurrentTurn().getChosenWorker();
+            if (flag && !worker.getGodPower() && worker.useGodPower(true) == -1) {  /* dopo build continuare normalmente
+                /* checkLosePrometheus
+                model.showBoard();  /* mostrare mappa dopo build
                 if(model.getCurrentTurn().getChosenWorker().canMove().size() != 0) {
-                    model.move();  /* isPrometheus rimane true */
+                    model.move();  /* isPrometheus rimane true
                 } else {
                     model.lose(model.getCurrentTurn().getCurrentPlayer());
                     turnController.checkGameOver();
                 }
-            }else if (flag) {  /* flag : true = build riuscita; false = richiedere build */
-                turnController.endBuild(operation);  /* aggiornare Turn fine Build */
+            }else
+                */
+            }
+            if (flag) {  /* flag : true = move/build riuscita; false = richiedere move */
+                turnController.endOperation();  /* aggiornare Turn fine Move */
+            } else {
+                //mostrare view messaggio di posizione errata e ripetere mossa
+                model.sendMessage(Messages.wrongOperation);
+                model.operation();
+            }
+        }
+        /*
+        else if  {  //type 2 -> build
+
+            if (flag) {  /* flag : true = build riuscita; false = richiedere build
+                turnController.endBuild();  /* aggiornare Turn fine Build
             } else {
                 //messaggio view errato comando e ripetere scelta
                 model.sendMessage(Messages.wrongOperation);
                 model.build();
             }
         }
+        */
     }
 
 
@@ -138,21 +144,20 @@ public class Controller implements Observer {
         }
     }
 
-    private void gmOp(int operation){
+    private void gmUpdate(){
         UndecoratedWorker worker = model.getCurrentTurn().getChosenWorker();
         if(worker.getGodPower()){
-            if(operation == 1){
-                model.move();
-            }else if(operation == 2){
-                model.build();
-            }
+            model.operation();
             worker.setGodPower(false);
         }else {
+            turnController.endOperation();
+            /*
             if (operation == 1){
                 turnController.endMove();
             }else if(operation == 2){
                 turnController.endTurn(buildController.getOperation());
             }
+             */
         }
 
     }

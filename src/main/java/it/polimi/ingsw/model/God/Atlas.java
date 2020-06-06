@@ -35,13 +35,12 @@ public class Atlas extends WorkerDecorator {
     }
 
     @Override
-    public int useGodPower(boolean use) {
+    public void useGodPower(boolean use) {
         if(use){
             buildDome(buildTile);
         }else {
             buildBlock(buildTile);
         }
         setGodPower(false);
-        return 2;
     }
 }

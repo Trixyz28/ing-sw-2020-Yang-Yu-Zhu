@@ -30,10 +30,16 @@ public interface UndecoratedWorker {
 
     Conditions getConditions();
 
-    int useGodPower(boolean use);
+    void useGodPower(boolean use);
 
     int getBelongToPlayer();
 
     boolean checkWin(Tile initialTile);
+
+    void nextState();
+
+    void setState(int state);
+
+    int getState();
 
 }

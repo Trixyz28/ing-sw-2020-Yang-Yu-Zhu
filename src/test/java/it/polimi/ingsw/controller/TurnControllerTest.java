@@ -41,8 +41,6 @@ public class TurnControllerTest extends TestCase {
         Map<Player, View> views = new HashMap<>();
         turnController = new TurnController(model);
 
-        assertFalse(turnController.isWorkerChanged());
-
 
 
     }

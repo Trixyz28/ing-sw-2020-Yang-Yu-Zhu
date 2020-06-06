@@ -58,17 +58,10 @@ public class Artemis extends WorkerDecorator {
     }
 
     @Override
-    public boolean canBuildBlock(Tile t) {
-        moveCounter = 0;  /* ripristinare counter dopo le eventuali move*/
-        return super.canBuildBlock(t);
-    }
-
-    @Override
-    public int useGodPower(boolean use) {
-        if(!use) {
-            setGodPower(false);
-        }
-        return 1;  /* operation type 1 = MOVE */
+    public void nextState() {
+        /* ripristinare counter dopo le eventuali move*/
+        super.nextState();
+        moveCounter = 0;
     }
 
     public Tile getOriginalTile() {

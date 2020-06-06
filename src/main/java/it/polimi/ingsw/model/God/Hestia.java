@@ -10,12 +10,6 @@ public class Hestia extends WorkerDecorator {
     private int buildCounter = 0;
 
     @Override
-    public void move(Tile t) {
-        buildCounter = 0;
-        super.move(t);
-    }
-
-    @Override
     public boolean canBuildBlock(Tile t) {
         if (buildCounter == 0) {
             return super.canBuildBlock(t);
@@ -59,11 +53,9 @@ public class Hestia extends WorkerDecorator {
     }
 
     @Override
-    public int useGodPower(boolean use) {
-        if(!use){
-            setGodPower(false);
-        }
-        return 2;   /* operation type 2 = BUILD */
+    public void nextState() {
+        super.nextState();
+        buildCounter = 0;
     }
 
     public boolean canBuildBlockHestia(Tile t){

@@ -76,8 +76,8 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
     }
 
     @Override
-    public int useGodPower(boolean use) {
-        return this.worker.useGodPower(use);
+    public void useGodPower(boolean use) {
+        this.worker.useGodPower(use);
     }
 
     @Override
@@ -88,6 +88,21 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
     @Override
     public boolean checkWin(Tile initialTile) {
         return this.worker.checkWin(initialTile);
+    }
+
+    @Override
+    public void nextState() {
+        this.worker.nextState();
+    }
+
+    @Override
+    public void setState(int state) {
+        this.worker.setState(state);
+    }
+
+    @Override
+    public int getState() {
+        return this.worker.getState();
     }
 
     protected UndecoratedWorker getWorker(Tile tile, List<UndecoratedWorker> totalWorkers){
