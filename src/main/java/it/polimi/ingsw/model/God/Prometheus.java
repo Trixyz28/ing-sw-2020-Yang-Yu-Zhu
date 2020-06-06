@@ -74,6 +74,8 @@ public class Prometheus extends WorkerDecorator {
             if(buildCounter == 0) { /* build */
                 setState(2);
             }
+        }else {
+            setState(1);  /* move */
         }
     }
 
