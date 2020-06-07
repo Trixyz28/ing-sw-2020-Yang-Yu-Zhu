@@ -43,13 +43,17 @@ public class TurnController {
                 currentTurn.setInitialTile(currentTurn.getFinalTile());/* se il worker può fare un'altra mossa */
                 model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());  /* chiedere al Player se vuole fare move in più */
             }else {
-                //view.build();  /* chiedere al player di Buildare */
-                if (model.checkLoseBuild(currentTurn.getChosenWorker())) {  /* check se il worker possa o no fare Build */
+                nextState();
+                /*
+                chosenWorker.nextState();
+                //view.build();  /* chiedere al player di Buildare
+
+                if (model.checkLose()) {  /* check se il worker possa o no fare Build
                     checkGameOver();
                 } else {
-                    chosenWorker.nextState();
                     model.operation();
                 }
+                */
             }
         }
 
@@ -74,7 +78,7 @@ public class TurnController {
         int index = model.getNextPlayerIndex();  //trovare indice del player successivo
         currentTurn.setCurrentPlayer(playerList.get(index));
         //view.chooseWorker;  -> far scegliere al player il worker dalla view
-        if (model.checkLoseMove()) {
+        if (model.checkLose()) {
             checkGameOver();
         } else {
             model.sendMessage("Ecco il tuo turno!\nScegli il worker con cui vuoi fare la mossa");
@@ -88,13 +92,17 @@ public class TurnController {
 
         currentTurn.choseWorker(chosenWorker);
         model.setWorkerChosen(true);
-        model.showBoard();
         //view.move();  /* ->  passare alla scelta della mossa */
         if(chosenWorker.getGodPower()) { /* se Prometheus può Build mandare messaggio */
+            model.showBoard();
             model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());  /* chiedere se fare move o build */
        }else {
+            nextState();
+            /*
             chosenWorker.nextState();
             model.operation();
+
+             */
         }
     }
 /*
@@ -124,17 +132,34 @@ public class TurnController {
         if(chosenWorker.getGodPower()){
             model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());  /* chiedere al Player se vuole fare build in più */
         }else{
+            nextState();
+            /*
             chosenWorker.nextState();
-            if(chosenWorker.getState() == 1){  /* se deve fare Move */
-                if(chosenWorker.canMove().size() !=0 ) {
-                    model.showBoard();
-                    model.operation();
-                }else {
-                    model.lose(model.getCurrentTurn().getCurrentPlayer());
+            if(chosenWorker.getState() == 1){  /* se deve fare Move
+                model.showBoard();
+                if(model.checkLose()) {
                     checkGameOver();
+                }else {
+                    model.operation();
                 }
             }else {
                 endTurn();
+            }
+
+             */
+        }
+    }
+
+    private void nextState(){
+        chosenWorker.nextState();
+        if (chosenWorker.getState() == 0){
+            endTurn();
+        }else {
+            model.showBoard();
+            if(model.checkLose()) {
+                checkGameOver();
+            }else {
+                model.operation();
             }
         }
     }

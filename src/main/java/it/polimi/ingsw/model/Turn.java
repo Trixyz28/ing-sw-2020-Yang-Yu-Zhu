@@ -115,6 +115,27 @@ public class Turn {
         builtTile = null;
     }
 
+    public boolean checkLose(){
+        if(currentPlayer.chooseWorker(0).getState() == 0 && currentPlayer.chooseWorker(1).getState() == 0){  /* before choosing worker */
+            for (int i = 0; i < 2 ; i++) {  /* se tutti i worker non hanno più tile da poter andare -> perde */
+                UndecoratedWorker worker = currentPlayer.chooseWorker(i);
+                if (worker.canMove().size() != 0) {
+                    return false;
+                }
+            }
+            return true;
+        }else if(chosenWorker.getState() == 1){  /* before move */
+            return (chosenWorker.canMove().size() == 0);
+        }else {
+            for(Tile t : chosenWorker.getPosition().getAdjacentTiles()){  /* se il worker non può né build Block né build Dome */
+                if(chosenWorker.canBuildBlock(t) || chosenWorker.canBuildDome(t)){
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
 
 
     // methods that interacts with the turn controller for the turn succession,eventually for the chronobreak of the turns

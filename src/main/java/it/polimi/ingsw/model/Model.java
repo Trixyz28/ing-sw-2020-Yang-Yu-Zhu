@@ -126,8 +126,22 @@ public class Model extends Observable {
     }
 
     public boolean checkAnswer(GameMessage gMessage){  /* check risposta per divinità */
-        String message = gMessage.getMessage();
         String answer = gMessage.getAnswer();
+        GodPowerMessage god = GodPowerMessage.valueOf(currentTurn.getCurrentPlayer().getGodCard());
+
+        if(god.checkAnswer(answer) == 0){
+            sendMessage(Messages.tryAgain);
+            sendMessage(currentTurn.getCurrentPlayer().getGodCard());
+            return false;
+        }else {
+            if (god.checkAnswer(answer) == 1){
+                currentTurn.getChosenWorker().useGodPower(true);
+            }else {
+                currentTurn.getChosenWorker().useGodPower(false);
+            }
+            return true;
+        }
+        /*
         if(message.equals(GodPowerMessage.valueOf("ATLAS").getMessage())){
             if(answer.equals("BLOCK") || answer.equals("DOME")) {
                 if (answer.equals("DOME")) {
@@ -154,9 +168,8 @@ public class Model extends Observable {
             }
             return true;
         }
-        sendMessage(Messages.tryAgain);
-        sendMessage(currentTurn.getCurrentPlayer().getGodCard());
-        return false;
+         */
+
 
     }
 
@@ -355,6 +368,7 @@ public class Model extends Observable {
         showBoard();
         sendMessage("Posiziona il worker" + indexWorker);
         place();
+        //notify(new Operation(currentTurn.getCurrentPlayer(),0, -1, -1));
     }
 
     //metodi da implementare con il controller
@@ -366,7 +380,17 @@ public class Model extends Observable {
         return false;
     }
 
-    public boolean checkLoseMove() {  /* se tutti i worker non hanno più tile da poter andare -> perde*/
+    public boolean checkLose(){
+        if (currentTurn.checkLose()){
+            sendMessage(Messages.lose);
+            lose(currentTurn.getCurrentPlayer());  /* lose */
+            return true;
+        }else {
+            return false;
+        }
+    }
+/*
+    public boolean checkLoseMove() {  /* se tutti i worker non hanno più tile da poter andare -> perde
         for (int i = 0; i < 2 ; i++) {
             UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(i);
             if (worker.canMove().size() != 0) {
@@ -375,21 +399,23 @@ public class Model extends Observable {
         }
 
         sendMessage("Spiacenti! Non sei più in grado di fare mosse, hai perso!!!!");
-        lose(currentTurn.getCurrentPlayer());  /* lose */
+        lose(currentTurn.getCurrentPlayer());  /* lose
         return true;
     }
 
-    public boolean checkLoseBuild(UndecoratedWorker worker){  /* se il worker non può né build Block né build Dome */
+    public boolean checkLoseBuild(UndecoratedWorker worker){  /* se il worker non può né build Block né build Dome
         for(Tile t : worker.getPosition().getAdjacentTiles()){
             if(worker.canBuildBlock(t) || worker.canBuildDome(t)){
                 return false;
             }
         }
         sendMessage("Spiacenti! Non sei più in grado di buildare, hai perso!!!!");
-        lose(currentTurn.getCurrentPlayer());  /* lose */
+        lose(currentTurn.getCurrentPlayer());  /* lose
         return true;
     }
 
+
+ */
     public void lose(Player player){
         if(matchPlayersList.size() > 2) {
             player.deleteWorker();
@@ -408,8 +434,6 @@ public class Model extends Observable {
             gameOver();
         }
     }
-
-
 
     public boolean isWorkerChosen() {
         return workerChosen;

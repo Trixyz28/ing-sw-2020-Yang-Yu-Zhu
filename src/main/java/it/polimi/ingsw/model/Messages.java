@@ -7,7 +7,7 @@ public class Messages {
     public static String connectionClosed = "Connection closed";
     public static String gameOver = "Game over!";
     public static String spectator = "Be a patient spectator, you can't send messages :D";
-
+    public static String lose = "Hai perso!";
 
     //Requests
     public static String Worker = "indice 0 o 1";

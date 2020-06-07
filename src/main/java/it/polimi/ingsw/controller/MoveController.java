@@ -28,7 +28,7 @@ public class MoveController {
         if(checkPosition(position)) {
             //System.out.println("check = true");
             worker.move(position);
-            model.showBoard(); /* mostrare mappa dopo move */
+            //model.showBoard(); /* mostrare mappa dopo move */
             return true;  /* move andato a buon fine */
         }else{
             //System.out.println("check = false");
