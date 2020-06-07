@@ -21,8 +21,8 @@ public class ApolloTest extends TestCase {
 
     @Before
     public void initialize() {
-        artemis = new Artemis(new NoGod(0, conditions));
-        apollo = new Apollo(new NoGod(1, conditions),totalWorkerList);
+        artemis = new Artemis(new NoGod(1, conditions));
+        apollo = new Apollo(new NoGod(0, conditions),totalWorkerList);
         totalWorkerList.add(worker);
         totalWorkerList.add(apollo);
         totalWorkerList.add(artemis);

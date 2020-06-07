@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.Ui;
 
@@ -11,6 +12,7 @@ public class CLI implements Ui {
 
 
     Scanner in = new Scanner(System.in);
+    BoardView boardView;
 
     //Color indicators
     private final String RESET = Colors.RESET;
@@ -19,7 +21,7 @@ public class CLI implements Ui {
     private String gridNumberColor = Colors.YELLOW;
 
     private String domeColor = Colors.BLUE_BOLD;
-    private String heightColor = Colors.BLACK;
+    private String heightColor = Colors.WHITE;
 
     private String chosenColor = Colors.RED_UNDERLINED;
     private String canOpColor = Colors.BLACK_BACKGROUND_BRIGHT;
@@ -46,6 +48,8 @@ public class CLI implements Ui {
     @Override
     public void showBoard(BoardView boardView) {
 
+        this.boardView = boardView;
+
         System.out.print("\n" + "    " + verticalBar);
 
         for(int i=0;i<5;i++){
@@ -65,17 +69,14 @@ public class CLI implements Ui {
                     System.out.print(verticalBar + " ");
                 }
 
-                /*
-                if(t.isAdjacentTo(chosenWorker.getPosition()) && chosenWorker.getPosition().availableToMove(t)) {
-                    printCanOp(t);
-                } else {*/
-                    if(t.isOccupiedByWorker()) {
-                        printWorker(t,boardView.getWorkerList(),boardView.getChosenWorkerID());
-                    } else if(t.isDomePresence()) {
-                        printDome(t);
-                    } else {
-                        printBlock(t);
-                    }
+
+                if(t.isOccupiedByWorker()) {
+                    printWorker(t);
+                } else if(t.isDomePresence()) {
+                    printDome(t);
+                } else {
+                    printBlock(t);
+                }
 
                 System.out.print(RESET + " ");
             }
@@ -87,26 +88,28 @@ public class CLI implements Ui {
                 System.out.println(horizontalBar);
             }
 
-
         }
 
     }
 
 
-    public void printWorker(Tile t,WorkerView[] workerList,int chosenWorkerID) {
+    public void printWorker(Tile t) {
 
-        for (int i = 0; i < workerList.length; i++) {
+        for (int i = 0; i < boardView.getWorkerList().length; i++) {
 
-            if (workerList[i].isPositionSet()) {
-                if (t.equals(workerList[i].getPosition())) {
+            if (boardView.getWorkerList()[i].isPositionSet()) {
+                if (t.equals(boardView.getWorkerList()[i].getPosition())) {
 
-                    if (i == chosenWorkerID) {
+                    if(checkCanOp(t)) {
+                        printCanOp();
+                    }
+                    if (i == boardView.getChosenWorkerID()) {
                         System.out.print(chosenColor);
                     } else {
-                        System.out.print(workerList[i].getColor());
+                        System.out.print(boardView.getWorkerList()[i].getColor());
                     }
 
-                    System.out.print("W" + i%2 + RESET + "(" + t.getBlockLevel() + ")");
+                    System.out.print("W" + i%2 + heightColor + "(" + t.getBlockLevel() + ")");
                 }
             }
 
@@ -114,10 +117,8 @@ public class CLI implements Ui {
     }
 
 
-    public void printCanOp(Tile t) {
+    public void printCanOp() {
         System.out.print(canOpColor);
-        printBlock(t);
-        System.out.print(RESET);
     }
 
 
@@ -126,7 +127,26 @@ public class CLI implements Ui {
     }
 
     public void printBlock(Tile t) {
+        if(checkCanOp(t)) {
+            printCanOp();
+        }
         System.out.print("  " + t.getBlockLevel() + "  ");
+    }
+
+
+    public boolean checkCanOp(Tile t) {
+        if(boardView.getChosenWorkerID()!=-1) {
+            WorkerView chosen = boardView.getWorkerList()[boardView.getChosenWorkerID()];
+
+            if(chosen.getState()==1) {
+                return chosen.getMovableList().contains(t);
+            }
+            if(chosen.getState()==2) {
+                return chosen.getBuildableList().contains(t);
+            }
+        }
+
+        return false;
     }
 
 }

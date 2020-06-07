@@ -18,7 +18,7 @@ public class ClientApp {
                 client.startClient(args[0],args[1],args[2]);
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }

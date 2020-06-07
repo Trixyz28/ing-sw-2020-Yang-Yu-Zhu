@@ -9,6 +9,7 @@ import it.polimi.ingsw.view.cli.WorkerView;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -34,7 +35,6 @@ public class Model extends Observable {
 
     //Current turn
     private Turn currentTurn;
-
 
     private Conditions condition;
 
@@ -194,24 +194,47 @@ public class Model extends Observable {
         return board;
     }
 
+
     public void showBoard() {
 
+        Tile[][] mapToSend = board.getMap();
         WorkerView[] totalWorkerView = new WorkerView[matchPlayersList.size()*2];
         int chosenWorkerID = -1;
 
         for(int i=0;i<matchPlayersList.size();i++) {
             for(int j=0;j<matchPlayersList.get(i).getWorkerList().size();j++) {
-                totalWorkerView[i*2+j] = new WorkerView(matchPlayersList.get(i).getWorkerList().get(j));
-                totalWorkerView[i*2+j].setColor(workerColor(matchPlayersList.get(i).getPlayerID()));
+
+                UndecoratedWorker worker = matchPlayersList.get(i).getWorkerList().get(j);
+
+                totalWorkerView[i*2+j] = new WorkerView(worker);
+                totalWorkerView[i*2+j].setColor(workerColor(worker.getBelongToPlayer()));
+
                 if(workerChosen) {
-                    if (matchPlayersList.get(i).getWorkerList().get(j).equals(currentTurn.getChosenWorker())) {
+                    if (worker.equals(currentTurn.getChosenWorker())) {
                         chosenWorkerID = i*2+j;
+
+                        if(worker.getState()==1) {
+                            totalWorkerView[i*2+j].setState(1);
+                            totalWorkerView[i*2+j].setMovableList(worker.canMove());
+                        }
+
+                        if(worker.getState()==2) {
+                            totalWorkerView[i*2+j].setState(2);
+                            List<Tile> tiles = new ArrayList<>(currentTurn.getChosenWorker().getPosition().getAdjacentTiles());
+                            System.out.println("Adjacent tiles number: " + tiles.size());
+
+                            tiles.removeIf(tile -> !(worker.canBuildBlock(tile) || worker.canBuildDome(tile)));
+                            System.out.println("Can build tiles number: " + tiles.size());
+
+                            totalWorkerView[i*2+j].setBuildableList(tiles);
+                        }
+
                     }
                 }
             }
         }
 
-        notify(new BoardView(board.getMap(),totalWorkerView,chosenWorkerID));
+        notify(new BoardView(mapToSend,totalWorkerView,chosenWorkerID));
     }
 
     //get the index of the nextPlayer

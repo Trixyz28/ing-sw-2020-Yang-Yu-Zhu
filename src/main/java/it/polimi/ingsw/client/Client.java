@@ -7,12 +7,14 @@ import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.cli.BoardView;
 import it.polimi.ingsw.view.cli.CLI;
 import it.polimi.ingsw.view.gui.GUI;
+import it.polimi.ingsw.view.gui.GuiHandler;
+import it.polimi.ingsw.view.gui.Launcher;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.function.LongUnaryOperator;
 
 
 public class Client {
@@ -27,6 +29,7 @@ public class Client {
 
     private Thread t0;
     private Thread t1;
+
 
     public Client() {
         this.opReceived = false;
@@ -44,7 +47,7 @@ public class Client {
     }
 
 
-    public void startClient(String uiStyle,String inputIp,String inputPort) throws IOException {
+    public void startClient(String uiStyle,String inputIp,String inputPort) throws Exception {
 
         //Create CLI
         if(uiStyle.toUpperCase().equals("CLI") || uiStyle.isBlank()) {
@@ -52,11 +55,15 @@ public class Client {
         }
 
         //Create GUI
-        if(uiStyle.equals("GUI")) {
-            ui = new CLI();
-            ui.showMessage("GUI not implemented yet, have fun with CLI ;)");
+        if(uiStyle.toUpperCase().equals("GUI")) {
+            //ui = new CLI();
+            //ui.showMessage("GUI not implemented yet, have fun with CLI ;)");
 
-            //ui = new GUI();
+            Launcher launcher = new Launcher();
+            ui = new GUI(launcher);
+            launcher.run();
+
+
         }
 
         //Read socket's ip and port

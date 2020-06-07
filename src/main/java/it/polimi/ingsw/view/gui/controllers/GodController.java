@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.controllers;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -61,11 +61,15 @@ public class GodController {
 
     public void gridClicked(MouseEvent event) {
 
-        for(Node node : cardGrid.getChildren()) {
-            if (node.getBoundsInParent().contains(event.getSceneX(), event.getSceneY())) {
-                System.out.println("Clicked at row " + GridPane.getRowIndex(node) + ", column " + GridPane.getColumnIndex(node));
+        if(event.getSource().equals(cardGrid)) {
+            for(Node node : cardGrid.getChildren()) {
+                if (node.getBoundsInParent().contains(event.getSceneX(), event.getSceneY())) {
+                    System.out.println("Clicked at row " + GridPane.getRowIndex(node) + ", column " + GridPane.getColumnIndex(node));
+                }
             }
         }
+
+
 
     }
 

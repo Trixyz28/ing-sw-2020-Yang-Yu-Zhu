@@ -17,9 +17,7 @@ public class GodListTest extends TestCase{
         assertEquals("ATLAS",completeGodList[3]);
         assertEquals("DEMETER",completeGodList[4]);
         assertEquals("HEPHAESTUS",completeGodList[5]);
-        assertEquals("MINOTAUR",completeGodList[6]);
-        assertEquals("PAN",completeGodList[7]);
-        assertEquals("PROMETHEUS",completeGodList[8]);
+        assertEquals("HERA",completeGodList[6]);
     }
 
 
