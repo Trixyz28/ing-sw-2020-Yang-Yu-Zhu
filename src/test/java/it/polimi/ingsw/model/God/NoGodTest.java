@@ -35,7 +35,7 @@ public class NoGodTest extends TestCase {
         destination.setBlockLevel(2);
 
         List<Tile> movableTiles = new ArrayList<>();
-        movableTiles = noGod.canMove();
+        //movableTiles = noGod.movableList();
 
         boolean flag = false;
         for(Tile tile : movableTiles) {

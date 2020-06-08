@@ -14,10 +14,25 @@ public class Artemis extends WorkerDecorator {
     private Tile originalTile = new Tile();
     private int moveCounter = 0;
 
+
+    @Override
+    public boolean canMove(Tile t) {
+        if(moveCounter == 1) {  /* second Move */
+            if(t == originalTile){
+                return false;
+            }
+        }else {  /* first Move */
+            setOriginalTile(super.getPosition());
+        }
+        return super.canMove(t);
+
+    }
+
+    /*
     @Override
     public List<Tile> canMove() {
 
-        if(moveCounter == 1) {  /* second Move */
+        if(moveCounter == 1) {  /* second Move
             List<Tile> tempList;
 
 
@@ -32,12 +47,14 @@ public class Artemis extends WorkerDecorator {
             }
             return tempList;
         }
-        else{  /* first Move */
+        else{  /* first Move
             setOriginalTile(super.getPosition());
             return super.canMove();
         }
     }
 
+
+     */
 
     @Override
     public void move(Tile t) {
@@ -47,8 +64,11 @@ public class Artemis extends WorkerDecorator {
         if(moveCounter == 0){
             super.move(t);
             moveCounter++;
-            if(canMove().size() != 0) {
-                setGodPower(true);  /* attivare godPower */
+            for(Tile tile : getPosition().getAdjacentTiles()){
+                if(canMove(tile)){
+                    setGodPower(true);  /* attivare godPower */
+                    break;
+                }
             }
             //view.MoveArtemis;
             //richiede un move ulteriore per il worker scelto con lo stesso worker

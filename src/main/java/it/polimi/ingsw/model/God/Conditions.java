@@ -23,8 +23,12 @@ public class Conditions {
     private List<UndecoratedWorker> limusWorkers = new ArrayList<>();
 
 
-    protected boolean canMoveUp() {
-        return !athenaRule;
+
+    protected boolean checkMoveCondition(Tile position, Tile dest){
+        if(athenaRule){
+            return position.getBlockLevel() >= dest.getBlockLevel();
+        }
+        return true;
     }
 
     protected void setAthenaRule(boolean i) {

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,8 +25,8 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
     }
 
     @Override
-    public List<Tile> canMove(){
-        return this.worker.canMove();
+    public boolean canMove(Tile t){
+        return this.worker.canMove(t);
     }
 
     @Override

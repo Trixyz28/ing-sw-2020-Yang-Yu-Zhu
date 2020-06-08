@@ -34,7 +34,7 @@ public class PrometheusTest extends TestCase {
         worker.buildDome(board.getTile(1,3));
         assertTrue(board.getTile(1,3).isDomePresence());
     }
-
+/*
     @Test
     public void testCanMove() {
         worker.setPosition(board.getTile(1,2));
@@ -42,7 +42,7 @@ public class PrometheusTest extends TestCase {
         destination.setBlockLevel(1);
 
         boolean flag = false;
-        for(Tile tile : worker.canMove()) {
+        for(Tile tile : worker.movableList()) {
             if(tile.equals(destination)) {
                 flag = true;
             }
@@ -52,7 +52,7 @@ public class PrometheusTest extends TestCase {
         worker.buildBlock(board.getTile(1,1));
 
         flag = false;
-        for(Tile tile : worker.canMove()) {
+        for(Tile tile : worker.movableList()) {
             if(tile.equals(destination)) {
                 flag = true;
             }
@@ -60,9 +60,12 @@ public class PrometheusTest extends TestCase {
         assertFalse(flag);
 
 
+
     }
 
 
 
+
+ */
 
 }

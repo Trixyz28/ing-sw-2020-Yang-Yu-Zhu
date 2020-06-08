@@ -17,6 +17,29 @@ public class Minotaur extends WorkerDecorator {
 
 
     @Override
+    public boolean canMove(Tile t) {
+        if(getPosition().isAdjacentTo(t) && !t.isDomePresence() && t.getBlockLevel()-getPosition().getBlockLevel()<=1) {
+            if(getConditions().checkMoveCondition(getPosition(), t)) {
+                if(t.isOccupiedByWorker()){
+                    UndecoratedWorker opponent = getWorker(t,totalWorkers);  /* trovato worker sulla tile */
+                    if(opponent.getBelongToPlayer() != getBelongToPlayer()){
+                        Tile forcedTile = getForcedTile(t);
+                        /* condizioni spinta */
+                        if(forcedTile != null && !forcedTile.isDomePresence() && !forcedTile.isOccupiedByWorker()){
+                            return true;  /* add solo se forcedTile libero */
+                        }
+                    }
+                }else{  /* aggiungere tile liberi */
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /*
+    @Override
     public List<Tile> canMove() {
 
         List<Tile> tempList = new ArrayList<>();
@@ -29,6 +52,8 @@ public class Minotaur extends WorkerDecorator {
     }
 
 
+
+     */
 
 
 /*
@@ -77,21 +102,21 @@ public class Minotaur extends WorkerDecorator {
         return null;
     }
 
-
+/*
     public boolean availableMinotaurToMove(Tile dest) {
         if(getPosition().isAdjacentTo(dest) && !dest.isDomePresence() && dest.getBlockLevel()-getPosition().getBlockLevel()<=1) {
             if(getConditions().canMoveUp() || getPosition().getBlockLevel() >= dest.getBlockLevel()) {
                 if(dest.isOccupiedByWorker()){
-                    UndecoratedWorker opponent = getWorker(dest,totalWorkers);  /* trovato worker sulla tile */
+                    UndecoratedWorker opponent = getWorker(dest,totalWorkers);  /* trovato worker sulla tile
                     if(opponent.getBelongToPlayer() != getBelongToPlayer()){
                         Tile forcedTile = getForcedTile(dest);
-                        /* condizioni spinta */
+                        /* condizioni spinta
                         if(forcedTile != null && !forcedTile.isDomePresence() && !forcedTile.isOccupiedByWorker()){
-                            return true;  /* add solo se forcedTile libero */
+                            return true;  /* add solo se forcedTile libero
                         }
                     }
 
-                }else{  /* aggiungere tile liberi */
+                }else{  /* aggiungere tile liberi
                     return true;
                 }
             }
@@ -99,6 +124,7 @@ public class Minotaur extends WorkerDecorator {
 
         return false;
     }
+    */
     /*
     //dest= destionation tile, minotaur = tile where the minotaur worker is
     public boolean headbuttMinotaur(Tile dest, Tile minotaur){

@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tile;
+import it.polimi.ingsw.model.Turn;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +19,7 @@ public class MinotaurTest extends TestCase {
     Minotaur worker = new Minotaur(new NoGod(1, conditions),totalWorkerList);
     UndecoratedWorker minotaur;
     UndecoratedWorker athena;
+    Turn turn = new Turn(new Player("a"));
 
 
     @Before
@@ -35,11 +38,11 @@ public class MinotaurTest extends TestCase {
     @Test
     public void testAvailableMinotaurToMove() {
         initialize();
-        assertTrue(worker.availableMinotaurToMove(athena.getPosition()));
-        assertFalse(worker.availableMinotaurToMove(minotaur.getPosition()));
+        assertTrue(worker.canMove(athena.getPosition()));
+        assertFalse(worker.canMove(minotaur.getPosition()));
 
         boolean flag = false;
-        for(Tile t : worker.canMove()) {
+        for(Tile t : turn.movableList(worker)) {
             if(board.getTile(2,3).equals(t)) {
                 flag = true;
             }

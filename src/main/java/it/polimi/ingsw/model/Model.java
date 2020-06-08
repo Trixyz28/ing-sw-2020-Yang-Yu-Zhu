@@ -216,7 +216,7 @@ public class Model extends Observable {
 
                         if(worker.getState()==1) {
                             totalWorkerView[i*2+j].setState(1);
-                            totalWorkerView[i*2+j].setMovableList(worker.canMove());
+                            totalWorkerView[i*2+j].setMovableList(currentTurn.movableList(currentTurn.getChosenWorker()));
                         }
 
                         if(worker.getState()==2) {
@@ -370,7 +370,7 @@ public class Model extends Observable {
 
 
     public void operation(){  /* type 0 = place  type 1 = move type 2 = build */
-        int type = currentTurn.getChosenWorker().getState();
+        int type = currentTurn.getState();
         notify(new Operation(currentTurn.getCurrentPlayer(), type, -1, -1));
     }
 

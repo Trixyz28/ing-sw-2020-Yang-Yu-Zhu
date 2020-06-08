@@ -12,14 +12,12 @@ public class Hephaestus extends WorkerDecorator {
         super(worker);
     }
 
-    @Override
-    public void move(Tile t) {
-        buildCounter = 0;
-        super.move(t);
-    }
 
     @Override
     public boolean canBuildBlock(Tile t) {
+        if(getGodPower()){
+            return t == builtTile;
+        }
         if (buildCounter == 0) {
             return super.canBuildBlock(t);
         }else {
@@ -46,10 +44,24 @@ public class Hephaestus extends WorkerDecorator {
     }
 
     @Override
+    public int getState() {  /* per print Board */
+        if (getGodPower()) {
+            setGodPower(false);
+            int state = super.getState();
+            setGodPower(true);
+            return state;
+        }else{
+            return super.getState();
+        }
+    }
+
+    @Override
     public void useGodPower(boolean use) {
         if(use){
             buildBlock(builtTile);
         }
         setGodPower(false);
+        buildCounter = 0;
+        builtTile = null;
     }
 }

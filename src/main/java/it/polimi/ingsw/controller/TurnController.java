@@ -22,7 +22,7 @@ public class TurnController {
         UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(index);
 
         //controllare se il Worker scelta possa fare la mossa o no
-        if(worker.canMove().size() != 0 || chosenWorker.getGodPower()) {  //(chosenWorker instanceof Prometheus && !model.checkLoseBuild(worker))
+        if(currentTurn.movableList(worker).size() != 0 || worker.getGodPower()) {  //(chosenWorker instanceof Prometheus && !model.checkLoseBuild(worker))
             /* tile che può andarci != 0 oppure Prometheus canBuild*/
             chosenWorker = worker;
             choseWorker();
@@ -41,6 +41,7 @@ public class TurnController {
         if(!model.checkWin()){
             if(chosenWorker.getGodPower()){
                 currentTurn.setInitialTile(currentTurn.getFinalTile());/* se il worker può fare un'altra mossa */
+                model.showBoard();
                 model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());  /* chiedere al Player se vuole fare move in più */
             }else {
                 nextState();
@@ -73,10 +74,9 @@ public class TurnController {
     protected void nextTurn() {
         currentTurn = model.getCurrentTurn();
         ArrayList<Player> playerList = model.getMatchPlayersList();
-        int turnNumber = currentTurn.getTurnNumber() + 1;  /* nextTurnNumber */
-        currentTurn.setTurnNumber(turnNumber);
+        /* nextTurnNumber */
         int index = model.getNextPlayerIndex();  //trovare indice del player successivo
-        currentTurn.setCurrentPlayer(playerList.get(index));
+        currentTurn.nextTurn(playerList.get(index));
         //view.chooseWorker;  -> far scegliere al player il worker dalla view
         if (model.checkLose()) {
             checkGameOver();
@@ -119,7 +119,7 @@ public class TurnController {
     }
 */
     protected void endOperation(){
-        int type = chosenWorker.getState();
+        int type = currentTurn.getState();
         if(type == 1){
             endMove();
         }else if(type == 2){
@@ -130,6 +130,7 @@ public class TurnController {
     private void endBuild(){
          /* primo build Demeter, secondo normale build */  /* Hephaestus build un blocco in più */
         if(chosenWorker.getGodPower()){
+            model.showBoard();
             model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());  /* chiedere al Player se vuole fare build in più */
         }else{
             nextState();
@@ -151,8 +152,8 @@ public class TurnController {
     }
 
     private void nextState(){
-        chosenWorker.nextState();
-        if (chosenWorker.getState() == 0){
+        currentTurn.nextState();
+        if (currentTurn.getState() == 0){
             endTurn();
         }else {
             model.showBoard();

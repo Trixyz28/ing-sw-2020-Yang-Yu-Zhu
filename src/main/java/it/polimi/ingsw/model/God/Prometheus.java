@@ -2,8 +2,6 @@ package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Prometheus extends WorkerDecorator {
@@ -14,8 +12,22 @@ public class Prometheus extends WorkerDecorator {
 
     private int buildCounter = 0;
     private int moveCounter = 0;
+    private boolean used = false;
 
 
+    @Override
+    public boolean canMove(Tile t) {
+        if(buildCounter == 0){
+            if(!used && !getGodPower() && moveCounter == 0 && canBuild(t)){
+                setGodPower(true);
+            }
+            return super.canMove(t);
+        }else {  /* build first -> cannot move up */
+            return (super.canMove(t) && getPosition().getBlockLevel() >= t.getBlockLevel());
+        }
+    }
+
+    /*
     @Override
     public List<Tile> canMove() {
         if (buildCounter == 0) {
@@ -25,7 +37,7 @@ public class Prometheus extends WorkerDecorator {
                 setGodPower(true);
             }
             return tempList;
-        }else {  /* build first -> cannot move up */
+        }else {  /* build first -> cannot move up
             List<Tile> tempList = new ArrayList<>();
             for(Tile t : super.canMove()){
                 if(getPosition().getBlockLevel() >= t.getBlockLevel()){
@@ -36,6 +48,8 @@ public class Prometheus extends WorkerDecorator {
         }
     }
 
+
+     */
 
     @Override
     public void move(Tile t) {
@@ -77,31 +91,26 @@ public class Prometheus extends WorkerDecorator {
         }else {
             setState(1);  /* move */
         }
+        used = true;
     }
 
     @Override
     public void nextState() {
         if(buildCounter == 1 && moveCounter == 0){
             setState(1);
-        }else if(getState() == 0 && canMove().size() == 0){   /* inizio turn Prometheus non può muovere*/
-            setState(2);
         } else {
             super.nextState();
             if(getState() == 0){  /* ripristinare counter fine turno */
                 moveCounter = 0;
                 buildCounter = 0;
+                used = false;
             }
         }
     }
 
 
-    private boolean canBuild(){
-        for(Tile t : getPosition().getAdjacentTiles()){
-            if(canBuildBlock(t) || canBuildDome(t)){
-                return true;
-            }
-        }
-        return false;
+    private boolean canBuild(Tile t){
+        return (canBuildBlock(t) || canBuildDome(t));
     }
 
     /*

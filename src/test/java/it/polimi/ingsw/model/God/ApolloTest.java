@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tile;
+import it.polimi.ingsw.model.Turn;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +20,7 @@ public class ApolloTest extends TestCase {
     Apollo worker = new Apollo(new NoGod(0, conditions),totalWorkerList);
     UndecoratedWorker apollo;
     UndecoratedWorker artemis;
+    Turn turn = new Turn(new Player("a"));
 
     @Before
     public void initialize() {
@@ -34,15 +37,15 @@ public class ApolloTest extends TestCase {
     @Test
     public void testAvailableApolloToMove() {
         initialize();
-        assertFalse(worker.availableApolloToMove(apollo.getPosition()));
-        assertTrue(worker.availableApolloToMove(artemis.getPosition()));
+        assertFalse(worker.canMove(apollo.getPosition()));
+        assertTrue(worker.canMove(artemis.getPosition()));
     }
 
 
     @Test
     public void testCanMove() {
         initialize();
-        List<Tile> movableTiles = worker.canMove();
+        List<Tile> movableTiles = turn.movableList(worker);
         assertEquals(4,movableTiles.size());
     }
 

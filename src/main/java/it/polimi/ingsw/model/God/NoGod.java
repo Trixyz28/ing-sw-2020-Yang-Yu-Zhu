@@ -23,18 +23,10 @@ public class NoGod implements UndecoratedWorker {
        state = 0;
     }
 
-   //Returns a list of available tiles where the worker can be moved to
+   //Check if the worker can move on Tile t
    @Override
-   public List<Tile> canMove() {  /* canMoveUp condition */
-      List<Tile> tempList = new ArrayList<>();
-      for (Tile tile : position.getAdjacentTiles()){
-         if(position.availableToMove(tile)){
-            if(condition.canMoveUp() || position.getBlockLevel() >= tile.getBlockLevel()) {
-               tempList.add(tile);
-            }
-         }
-      }
-      return tempList;
+   public boolean canMove(Tile t) {  /* canMoveUp condition */
+      return position.availableToMove(t) && condition.checkMoveCondition(position, t);
    }
 
 
@@ -44,6 +36,7 @@ public class NoGod implements UndecoratedWorker {
       position.setOccupiedByWorker(false);
       setPosition(t);
    }
+
 
    //Check if the worker can build a block(not dome!) on tile t
    @Override
@@ -130,6 +123,9 @@ public class NoGod implements UndecoratedWorker {
 
    @Override
    public int getState() {
+       if(godPower){
+          return 0;  /* waiting for answer */
+       }
       return state;
    }
 

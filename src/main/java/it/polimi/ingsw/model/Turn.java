@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.God.Athena;
-import it.polimi.ingsw.model.God.Conditions;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Turn {
 
@@ -24,8 +25,8 @@ public class Turn {
     //Tile where there it was built
     private Tile builtTile;
 
-    //True if god power is active
-    private boolean godPower;
+    //return state of Turn : 0 -> choosing worker, 1 -> moving, 2 -> building
+    private int state;
 
 
 
@@ -51,9 +52,28 @@ public class Turn {
     }
 
     //set() of the turn number
-    public void setTurnNumber(int turnNumber) {
-        this.turnNumber = turnNumber;
+    public void nextTurnNumber() {
+        this.turnNumber++;
     }
+
+    public int getState(){
+        if(!chosenWorker.getGodPower() && chosenWorker.getState() <= 2) {  /* cambio di stato per God speciali */
+            state = chosenWorker.getState();
+        }
+        return state;
+    }
+
+    public void nextState(){
+        chosenWorker.nextState();
+        state = chosenWorker.getState();
+    }
+
+    public void nextTurn(Player player){
+        turnNumber++;
+        state = 0;
+        currentPlayer = player;
+    }
+
 
     /*
     //set() of the chosenWorker
@@ -96,7 +116,6 @@ public class Turn {
         this.finalTile = finalTile;
     }
 
-
    //get() of the built tile
     public Tile getBuiltTile() {
         return builtTile;
@@ -105,6 +124,28 @@ public class Turn {
     //set() of the built tile
     public void setBuiltTile(Tile builtTile) {
         this.builtTile = builtTile;
+    }
+
+    //get() worker movableTile
+    public List<Tile> movableList(UndecoratedWorker worker){
+        List<Tile> movable = new ArrayList<>();
+        for (Tile tile : worker.getPosition().getAdjacentTiles()){
+            if(worker.canMove(tile)){
+                movable.add(tile);
+            }
+        }
+        return movable;
+    }
+
+    //get() worker buildableTile
+    public List<Tile> buildableList(UndecoratedWorker worker) {
+        List<Tile> buildable = new ArrayList<>();
+        for (Tile tile : worker.getPosition().getAdjacentTiles()){
+            if(worker.canBuildBlock(tile) || worker.canBuildDome(tile)){
+                buildable.add(tile);
+            }
+        }
+        return buildable;
     }
 
     //After chose worker
@@ -116,16 +157,15 @@ public class Turn {
     }
 
     public boolean checkLose(){
-        if(currentPlayer.chooseWorker(0).getState() == 0 && currentPlayer.chooseWorker(1).getState() == 0){  /* before choosing worker */
-            for (int i = 0; i < 2 ; i++) {  /* se tutti i worker non hanno più tile da poter andare -> perde */
-                UndecoratedWorker worker = currentPlayer.chooseWorker(i);
-                if (worker.canMove().size() != 0) {
+        if(state == 0){  /* before choosing worker */
+            for (UndecoratedWorker worker : currentPlayer.getWorkerList()) {  /* se tutti i worker non hanno più tile da poter andare -> perde */
+                if (movableList(worker).size() != 0 || worker.getGodPower()) {
                     return false;
                 }
             }
             return true;
-        }else if(chosenWorker.getState() == 1){  /* before move */
-            return (chosenWorker.canMove().size() == 0);
+        }else if(state == 1){  /* before move */
+            return (movableList(chosenWorker).size() == 0);
         }else {
             for(Tile t : chosenWorker.getPosition().getAdjacentTiles()){  /* se il worker non può né build Block né build Dome */
                 if(chosenWorker.canBuildBlock(t) || chosenWorker.canBuildDome(t)){

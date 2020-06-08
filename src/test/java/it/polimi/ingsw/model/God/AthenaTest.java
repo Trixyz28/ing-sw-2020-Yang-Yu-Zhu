@@ -18,18 +18,17 @@ public class AthenaTest extends TestCase {
         worker.setPosition(board.getTile(2,4));
         Tile destination = board.getTile(2,3);
 
-        for(Tile t : worker.canMove()) {
-            if(t.equals(destination)) {
-                worker.move(t);
-                break;
-            }
+
+
+        if(worker.canMove(destination)) {
+            worker.move(destination);
         }
-        assertTrue(conditions.canMoveUp());
+        assertTrue(conditions.checkMoveCondition(worker.getPosition(), destination));
 
         destination = board.getTile(2,2);
         destination.setBlockLevel(1);
         worker.move(destination);
-        assertFalse(conditions.canMoveUp());
+        assertFalse(conditions.checkMoveCondition(worker.getPosition(), destination));
 
     }
 

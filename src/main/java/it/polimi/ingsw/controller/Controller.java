@@ -147,8 +147,9 @@ public class Controller implements Observer {
     private void gmUpdate(){
         UndecoratedWorker worker = model.getCurrentTurn().getChosenWorker();
         if(worker.getGodPower()){
-            model.operation();
             worker.setGodPower(false);
+            model.showBoard();
+            model.operation();
         }else {
             turnController.endOperation();
             /*

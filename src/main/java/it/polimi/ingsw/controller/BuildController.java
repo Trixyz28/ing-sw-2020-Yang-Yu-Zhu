@@ -43,21 +43,12 @@ public class BuildController {
 
     private boolean checkPosition(Tile position){  /* check buildBlock/Dome if true -> Build */
         //return worker.getCurrentPosition(worker).availableToBuild(position);  /* worker.canBuild;  da usare */
-        if(worker.canBuildDome(position) && worker.canBuildBlock(position)){  /* Atlas */
-            return true;
-        }
         if(worker.canBuildBlock(position)){
             worker.buildBlock(position);
-            if(worker.getGodPower()){
-                model.showBoard();  /* mostrare mappa dopo build */
-             }
             return true;
         }
         if(worker.canBuildDome(position)){
             worker.buildDome(position);
-            if(worker.getGodPower()){
-                model.showBoard();  /* mostrare mappa dopo build */
-            }
             return true;
         }
         return false;

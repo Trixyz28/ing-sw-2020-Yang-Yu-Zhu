@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.God.*;
 import junit.framework.TestCase;
-import org.junit.Before;
 import org.junit.Test;
 
 public class TurnTest extends TestCase {
@@ -15,7 +14,7 @@ public class TurnTest extends TestCase {
     @Test
     public void testTurnNumber() {
         assertEquals(0,turn.getTurnNumber());
-        turn.setTurnNumber(10);
+        turn.nextTurnNumber();
         assertEquals(10,turn.getTurnNumber());
     }
 

@@ -17,10 +17,29 @@ public class Apollo extends WorkerDecorator {
 
 
     @Override
+    public boolean canMove(Tile t) {
+        if(getPosition().isAdjacentTo(t) && !t.isDomePresence()
+                && t.getBlockLevel() - getPosition().getBlockLevel()<=1 ) {
+            if(getConditions().checkMoveCondition(getPosition(), t)) {
+                if(t.isOccupiedByWorker()){
+                    UndecoratedWorker opponent = getWorker(t, totalWorkers);  /* trovato worker che occupa la tile */
+                    if(opponent.getBelongToPlayer() != getBelongToPlayer()){
+                        return true;
+                    }
+                }else {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+/*
+    @Override
     public List<Tile> canMove() {
 
         List<Tile> tempList = new ArrayList<>();
-        for (Tile tile : getPosition().getAdjacentTiles()){  /* without !occupiedByWorker condition */
+        for (Tile tile : getPosition().getAdjacentTiles()){  without !occupiedByWorker condition
             if(availableApolloToMove(tile)){
                 tempList.add(tile);
             }
@@ -38,11 +57,13 @@ public class Apollo extends WorkerDecorator {
             }
         }
 
-         */
+
 
         return tempList;
     }
 
+
+         */
 
     @Override
     public void move(Tile t) {
@@ -73,13 +94,13 @@ public class Apollo extends WorkerDecorator {
         }
         return null;
     }
-*/
+
     public boolean availableApolloToMove(Tile dest) {
         if(getPosition().isAdjacentTo(dest) && !dest.isDomePresence()
                 && dest.getBlockLevel() - getPosition().getBlockLevel()<=1 ) {
             if(getConditions().canMoveUp() || getPosition().getBlockLevel() >= dest.getBlockLevel()) {
                 if(dest.isOccupiedByWorker()){
-                    UndecoratedWorker opponent = getWorker(dest, totalWorkers);  /* trovato worker che occupa la tile */
+                    UndecoratedWorker opponent = getWorker(dest, totalWorkers);  /* trovato worker che occupa la tile
                     if(opponent.getBelongToPlayer() != getBelongToPlayer()){
                         return true;
                     }
@@ -91,5 +112,7 @@ public class Apollo extends WorkerDecorator {
 
         return false;
     }
+
+ */
 
 }

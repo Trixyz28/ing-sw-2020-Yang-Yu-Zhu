@@ -62,6 +62,7 @@ public class Poseidon extends WorkerDecorator{
 
     }
 
+
     @Override
     public void nextState() {
         super.nextState();
@@ -70,7 +71,7 @@ public class Poseidon extends WorkerDecorator{
 
     private UndecoratedWorker getUnmovedWorker(){
         for (UndecoratedWorker w : totalWorkers){
-            if(w.getBelongToPlayer() == getBelongToPlayer() && w.getPosition()!=getPosition()){
+            if(w.getBelongToPlayer() == getBelongToPlayer() && !w.equals(this)){
                 return w;
             }
         }
@@ -91,7 +92,8 @@ public class Poseidon extends WorkerDecorator{
                 for (Tile t : unmovedWorker.getPosition().getAdjacentTiles()) {
                     if (unmovedWorker.canBuildBlock(t) || unmovedWorker.canBuildDome(t)) {
                         setGodPower(true);  /* solo se il worker canBuild in level 0 */
-                        System.out.println("on");
+                        //System.out.println("on");
+                        setState(3);
                         break;
                     }
                 }
