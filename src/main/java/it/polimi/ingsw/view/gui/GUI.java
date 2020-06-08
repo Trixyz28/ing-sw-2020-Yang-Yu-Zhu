@@ -46,8 +46,10 @@ public class GUI implements Ui {
 
     @Override
     public String getInput() {
-        waitingMsg = false;
-        return input;
+        if(waitingMsg) {
+            return input;
+        }
+        return null;
     }
 
 

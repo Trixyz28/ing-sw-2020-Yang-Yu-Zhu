@@ -197,44 +197,55 @@ public class Model extends Observable {
 
 
     public void showBoard() {
+        notify(createBoardView());
+    }
 
+
+    public BoardView createBoardView() {
         Tile[][] mapToSend = board.getMap();
-        WorkerView[] totalWorkerView = new WorkerView[matchPlayersList.size()*2];
-        int chosenWorkerID = -1;
+        WorkerView[] totalWorkerView = new WorkerView[totalWorkerList.size()];
+        String currentName = currentTurn.getCurrentPlayer().getPlayerNickname();
+        int chosenID = -1;
 
-        for(int i=0;i<matchPlayersList.size();i++) {
-            for(int j=0;j<matchPlayersList.get(i).getWorkerList().size();j++) {
+        for(UndecoratedWorker worker : totalWorkerList) {
+            int index = totalWorkerList.indexOf(worker);
+            totalWorkerView[index] = new WorkerView(worker);
+            totalWorkerView[index].setColor(workerColor(worker.getBelongToPlayer()));
 
-                UndecoratedWorker worker = matchPlayersList.get(i).getWorkerList().get(j);
-
-                totalWorkerView[i*2+j] = new WorkerView(worker);
-                totalWorkerView[i*2+j].setColor(workerColor(worker.getBelongToPlayer()));
-
-                if(workerChosen) {
-                    if (worker.equals(currentTurn.getChosenWorker())) {
-                        chosenWorkerID = i*2+j;
-
-                        if(worker.getState()==1) {
-                            totalWorkerView[i*2+j].setState(1);
-                            totalWorkerView[i*2+j].setMovableList(currentTurn.movableList(currentTurn.getChosenWorker()));
-                        }
-
-                        if(worker.getState()==2) {
-                            totalWorkerView[i*2+j].setState(2);
-
-                            List<Tile> tiles = new ArrayList<>(currentTurn.getChosenWorker().getPosition().getAdjacentTiles());
-                            tiles.removeIf(tile -> !(worker.canBuildBlock(tile) || worker.canBuildDome(tile)));
-
-                            totalWorkerView[i*2+j].setBuildableList(tiles);
-                        }
-
-                    }
+            if(workerChosen) {
+                if(worker.equals(currentTurn.getChosenWorker())) {
+                    chosenID = index;
                 }
             }
         }
 
-        notify(new BoardView(mapToSend,totalWorkerView,chosenWorkerID));
+        if(chosenID != -1) {
+            int op = currentTurn.getChosenWorker().getState();
+
+            if(op==1) {
+                totalWorkerView[chosenID].setMovableList(currentTurn.movableList(currentTurn.getChosenWorker()));
+            }
+            if(op==2) {
+                totalWorkerView[chosenID].setBuildableList(currentTurn.buildableList(currentTurn.getChosenWorker()));
+                System.out.println("buildable list size: " + totalWorkerView[chosenID].getBuildableList().size());
+            }
+            if(op==3) {
+                if(chosenID%2==0) {
+                    chosenID++;
+                } else {
+                    chosenID--;
+                }
+                totalWorkerView[chosenID].setBuildableList(currentTurn.buildableList(currentTurn.getCurrentPlayer().chooseWorker(chosenID)));
+            }
+            totalWorkerView[chosenID].setState(op);
+        }
+
+        return new BoardView(mapToSend,totalWorkerView,currentName,chosenID);
+
     }
+
+
+
 
     //get the index of the nextPlayer
     public int getNextPlayerIndex(){

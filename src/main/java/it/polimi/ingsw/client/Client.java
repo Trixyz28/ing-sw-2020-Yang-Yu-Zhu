@@ -54,18 +54,6 @@ public class Client {
 
     public void startClient(String uiStyle,String inputIp,String inputPort) throws Exception {
 
-        //Read socket's ip and port
-        this.ip = inputIp;
-        this.port = Integer.parseInt(inputPort);
-
-        //Create socket
-        Socket socket = new Socket(ip,port);
-
-        //Set I/O streams
-        ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
-        PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
-
-
         //Create CLI
         if(uiStyle.toUpperCase().equals("CLI") || uiStyle.isBlank()) {
             ui = new CLI();
@@ -80,8 +68,19 @@ public class Client {
             ui = new GUI(launcher);
             guiHandler = new GuiHandler((GUI)ui);
             guiHandler.initControllers();
-            Application.launch(Launcher.class);
+            (new Thread(launcher)).start();
         }
+
+        //Read socket's ip and port
+        this.ip = inputIp;
+        this.port = Integer.parseInt(inputPort);
+
+        //Create socket
+        Socket socket = new Socket(ip,port);
+
+        //Set I/O streams
+        ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
+        PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
 
         ui.showMessage(Messages.connectionReady);
 
@@ -174,6 +173,8 @@ public class Client {
             try {
                 while(isActive()) {
                     String input = ui.getInput();
+
+
                     if(opReceived) {
                         try {  /* coordinate Tile */
                             String[] inputs = input.split(",");

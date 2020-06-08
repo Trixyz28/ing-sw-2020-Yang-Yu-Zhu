@@ -89,6 +89,7 @@ public class CLI implements Ui {
             }
 
         }
+        System.out.println(edgeColor + "    Current player: " + boardView.getCurrentName() + RESET);
 
     }
 
@@ -109,7 +110,14 @@ public class CLI implements Ui {
                         System.out.print(boardView.getWorkerList()[i].getColor());
                     }
 
-                    System.out.print("W" + i%2 + heightColor + "(" + t.getBlockLevel() + ")");
+                    System.out.print("W" + i%2);
+
+                    if(checkCanOp(t)) {
+                        printCanOp();
+                    } else {
+                        System.out.print(heightColor);
+                    }
+                    System.out.print("(" + t.getBlockLevel() + ")");
                 }
             }
 
@@ -123,7 +131,7 @@ public class CLI implements Ui {
 
 
     public void printDome(Tile t) {
-        System.out.print(domeColor + "  \u0394  ");
+        System.out.print(domeColor + "  ^  ");
     }
 
     public void printBlock(Tile t) {
@@ -141,9 +149,10 @@ public class CLI implements Ui {
             if(chosen.getState()==1) {
                 return chosen.getMovableList().contains(t);
             }
-            if(chosen.getState()==2) {
+            if(chosen.getState()==2 || chosen.getState()==3) {
                 return chosen.getBuildableList().contains(t);
             }
+
         }
 
         return false;
