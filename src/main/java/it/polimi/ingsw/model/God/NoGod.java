@@ -15,7 +15,7 @@ public class NoGod implements UndecoratedWorker {
     private int workerID;
     private boolean godPower;
     private Conditions condition;
-    private int state;  /* 0 = Waiting   1 = Moving  2 = Building */
+    private int state;  /* 0 = Waiting   1 = Moving  2 = Building 3 = using other workers */
 
     public NoGod (int playerID, Conditions condition){
        belongToPlayer = playerID;
