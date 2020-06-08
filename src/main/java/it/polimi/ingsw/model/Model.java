@@ -459,6 +459,7 @@ public class Model extends Observable {
             broadcast("The player " + player.getPlayerNickname() + " loses");
             losingPlayer(player);
         } else {
+            currentTurn.nextTurn(matchPlayersList.get(getNextPlayerIndex()));
             gameOver();
         }
     }

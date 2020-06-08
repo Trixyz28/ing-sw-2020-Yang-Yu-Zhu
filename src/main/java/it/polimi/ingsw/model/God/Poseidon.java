@@ -84,9 +84,7 @@ public class Poseidon extends WorkerDecorator{
     }
 
     private void powerCheck(){  /* getState() == 0  -> unmoved worker */
-        System.out.println("in check");
         if(getState() != 0 && buildCounter < 3) {  /* Worker mosso -> controllare unmoved worker */
-            System.out.println("in if");
             UndecoratedWorker unmovedWorker = getUnmovedWorker();
             if (unmovedWorker != null && unmovedWorker.getPosition().getBlockLevel() == 0) {
                 for (Tile t : unmovedWorker.getPosition().getAdjacentTiles()) {

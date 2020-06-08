@@ -78,6 +78,7 @@ public class TurnController {
         int index = model.getNextPlayerIndex();  //trovare indice del player successivo
         currentTurn.nextTurn(playerList.get(index));
         //view.chooseWorker;  -> far scegliere al player il worker dalla view
+        model.showBoard();
         if (model.checkLose()) {
             checkGameOver();
         } else {
