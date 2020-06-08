@@ -11,18 +11,19 @@ public class WorkerView implements Serializable {
 
     private boolean positionSet = false;
 
-    private String color;
     private Tile position;
     private int state;
+    private int belongToPlayer;
 
     private List<Tile> movableList;
     private List<Tile> buildableList;
 
     public WorkerView(UndecoratedWorker worker) {
         if(worker.getPosition()!=null) {
-            positionSet = true;
+            this.positionSet = true;
             this.position = worker.getPosition();
-            state = 0;
+            this.state = 0;
+            this.belongToPlayer = worker.getBelongToPlayer();
         }
     }
 
@@ -34,14 +35,6 @@ public class WorkerView implements Serializable {
         return position;
     }
 
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
 
     public int getState() {
         return state;
@@ -65,4 +58,7 @@ public class WorkerView implements Serializable {
         this.buildableList = buildableList;
     }
 
+    public int getBelongToPlayer() {
+        return belongToPlayer;
+    }
 }

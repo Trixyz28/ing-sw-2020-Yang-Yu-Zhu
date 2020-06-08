@@ -1,15 +1,12 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.Ui;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class CLI implements Ui {
-
 
     Scanner in = new Scanner(System.in);
     BoardView boardView;
@@ -17,20 +14,35 @@ public class CLI implements Ui {
     //Color indicators
     private final String RESET = Colors.RESET;
 
-    private String edgeColor = Colors.BLACK_BRIGHT;
+    private String gridColor = Colors.BLACK_BRIGHT;
     private String gridNumberColor = Colors.YELLOW;
 
     private String domeColor = Colors.BLUE_BOLD;
     private String heightColor = Colors.WHITE;
 
+    private String player0 = Colors.GREEN_BOLD;
+    private String player1 = Colors.PURPLE_BOLD;
+    private String player2 = Colors.CYAN_BOLD;
+
     private String chosenColor = Colors.RED_UNDERLINED;
     private String canOpColor = Colors.BLACK_BACKGROUND_BRIGHT;
 
-    private String horizontalBar = edgeColor + "────║───────┼───────┼───────┼───────┼───────║" + RESET;
-    private String verticalBar = edgeColor + "│" + RESET;
-    private final String supBoard = edgeColor + "────╔═══════╤═══════╤═══════╤═══════╤═══════╗" + RESET;
-    private final String infBoard = edgeColor + "────╚═══════╧═══════╧═══════╧═══════╧═══════╝" + RESET;
-    private String verticalBoard = edgeColor + "║" + RESET;
+    private String horizontalBar = gridColor + "────║───────┼───────┼───────┼───────┼───────║" + RESET;
+    private String verticalBar = gridColor + "│" + RESET;
+    private final String supBoard = gridColor + "────╔═══════╤═══════╤═══════╤═══════╤═══════╗" + RESET;
+    private final String infBoard = gridColor + "────╚═══════╧═══════╧═══════╧═══════╧═══════╝" + RESET;
+    private String verticalBoard = gridColor + "║" + RESET;
+
+
+    private String extColor = Colors.WHITE;
+    private String upExt = extColor + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + RESET;
+    private String downExt = extColor + "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" + RESET;
+    private String leftExt = extColor + "┃   " + RESET;
+    private String rightExt = extColor + "   ┃" + RESET;
+    private String emptyExt = extColor + "┃                                                   ┃" + RESET;
+    private String barExt = extColor + "┠─── ─── ─── ─── ─── ─── ─── ─── ─── ─── ─── ─── ───┨" + RESET;
+
+
 
 
 
@@ -50,16 +62,18 @@ public class CLI implements Ui {
 
         this.boardView = boardView;
 
-        System.out.print("\n" + "    " + verticalBar);
+        System.out.println(upExt);
+        System.out.println(emptyExt);
+        System.out.print(leftExt + "    " + verticalBar);
 
         for(int i=0;i<5;i++){
             System.out.print(gridNumberColor + "   " + i + "   " + verticalBar);
         }
-        System.out.println("\n" + supBoard);
+        System.out.println(rightExt + "\n" + leftExt + supBoard + rightExt);
 
 
         for(int i=0;i<5;i++) {
-            System.out.print(gridNumberColor + " " + i + "  " + RESET);
+            System.out.print(leftExt + gridNumberColor + " " + i + "  " + RESET);
 
             for(int j=0;j<5;j++) {
                 Tile t = boardView.getTile(i,j);
@@ -81,16 +95,23 @@ public class CLI implements Ui {
                 System.out.print(RESET + " ");
             }
 
-            System.out.println(verticalBoard);
+            System.out.println(verticalBoard + rightExt);
             if(i==4) {
-                System.out.println(infBoard);
+                System.out.println(leftExt + infBoard + rightExt);
             } else {
-                System.out.println(horizontalBar);
+                System.out.println(leftExt + horizontalBar + rightExt);
             }
 
         }
-        System.out.println(edgeColor + "    Current player: " + boardView.getCurrentName() + RESET);
 
+        System.out.println(emptyExt);
+        System.out.println(barExt);
+        System.out.print(leftExt + " Current player: ");
+        System.out.print(workerColor(boardView.getCurrentID()));
+        System.out.format("%1$-32s", boardView.getCurrentName() + RESET + " (" + boardView.getCurrentGod() + ")");
+        System.out.println(rightExt);
+        System.out.println(emptyExt);
+        System.out.println(downExt);
     }
 
 
@@ -107,7 +128,7 @@ public class CLI implements Ui {
                     if (i == boardView.getChosenWorkerID()) {
                         System.out.print(chosenColor);
                     } else {
-                        System.out.print(boardView.getWorkerList()[i].getColor());
+                        System.out.print(workerColor(boardView.getWorkerList()[i].getBelongToPlayer()));
                     }
 
                     System.out.print("W" + i%2);
@@ -156,6 +177,16 @@ public class CLI implements Ui {
         }
 
         return false;
+    }
+
+    public String workerColor(int playerID) {
+        if(playerID==0) {
+            return player0;
+        } else if(playerID==1) {
+            return player1;
+        } else {
+            return player2;
+        }
     }
 
 }

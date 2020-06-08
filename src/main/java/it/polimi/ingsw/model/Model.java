@@ -1,16 +1,13 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.God.Conditions;
-import it.polimi.ingsw.model.God.Poseidon;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.view.cli.BoardView;
-import it.polimi.ingsw.view.cli.Colors;
 import it.polimi.ingsw.view.cli.WorkerView;
 
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 
@@ -210,7 +207,6 @@ public class Model extends Observable {
         for(UndecoratedWorker worker : totalWorkerList) {
             int index = totalWorkerList.indexOf(worker);
             totalWorkerView[index] = new WorkerView(worker);
-            totalWorkerView[index].setColor(workerColor(worker.getBelongToPlayer()));
 
             if(workerChosen) {
                 if(worker.equals(currentTurn.getChosenWorker())) {
@@ -227,7 +223,6 @@ public class Model extends Observable {
             }
             if(op==2) {
                 totalWorkerView[chosenID].setBuildableList(currentTurn.buildableList(currentTurn.getChosenWorker()));
-                System.out.println("buildable list size: " + totalWorkerView[chosenID].getBuildableList().size());
             }
             if(op==3) {
                 if(chosenID%2==0) {
@@ -240,7 +235,7 @@ public class Model extends Observable {
             totalWorkerView[chosenID].setState(op);
         }
 
-        return new BoardView(mapToSend,totalWorkerView,currentName,chosenID);
+        return new BoardView(mapToSend,totalWorkerView,currentTurn.getCurrentPlayer(),chosenID);
 
     }
 
@@ -490,23 +485,14 @@ public class Model extends Observable {
         notify(player);
     }
 
-    public String workerColor(int playerID) {
-        if(playerID==0) {
-            return Colors.GREEN_BOLD;
-        } else if(playerID==1) {
-            return Colors.PURPLE_BOLD;
-        } else {
-            return Colors.CYAN_BOLD;
-        }
-    }
 
-    public ArrayList<UndecoratedWorker> createTotalWorkerList() {
+
+    public void createTotalWorkerList() {
 
         for(int i=0;i<matchPlayersList.size();i++) {
             totalWorkerList.addAll(matchPlayersList.get(i).getWorkerList());
         }
 
-        return totalWorkerList;
     }
 
     public ArrayList<UndecoratedWorker> getTotalWorkers() {

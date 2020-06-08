@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tile;
 
 import java.io.Serializable;
@@ -9,15 +10,19 @@ public class BoardView implements Serializable {
 
     private Tile[][] map;
     private WorkerView[] workerList;
-    private String currentName;
     private int chosenWorkerID;
 
+    private String currentName;
+    private int currentID;
+    private String currentGod;
 
-    public BoardView(Tile[][] map, WorkerView[] workerList, String currentName, int chosenWorkerID) {
+    public BoardView(Tile[][] map, WorkerView[] workerList, Player player, int chosenWorkerID) {
         this.map = map;
         this.workerList = workerList;
         this.chosenWorkerID = chosenWorkerID;
-        this.currentName = currentName;
+        this.currentName = player.getPlayerNickname();
+        this.currentID = player.getPlayerID();
+        this.currentGod = player.getGodCard();
     }
 
 
@@ -35,6 +40,14 @@ public class BoardView implements Serializable {
 
     public String getCurrentName() {
         return currentName;
+    }
+
+    public int getCurrentID() {
+        return currentID;
+    }
+
+    public String getCurrentGod() {
+        return currentGod;
     }
 
 }
