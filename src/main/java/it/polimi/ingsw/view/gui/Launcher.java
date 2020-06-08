@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,10 +11,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class Launcher extends Application implements Runnable {
+public class Launcher extends Application  {
+
 
     private ArrayList<FXMLLoader> allScenes;
+    private static Stage stage;
     private Scene scene;
+    private int sceneIndex;
+
 
 
     public Launcher() {
@@ -24,21 +29,18 @@ public class Launcher extends Application implements Runnable {
         allScenes.add(new FXMLLoader(getClass().getResource("/fxml/Board.fxml")));
     }
 
-    @Override
-    public void run() {
-        launch("");
-    }
-
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage primaryStage) throws Exception {
 
+        stage = primaryStage;
         stage.setResizable(false);
         stage.setTitle("Santorini");
 
         Parent root = allScenes.get(0).load();
         Scene scene = new Scene(root);
         this.scene = scene;
+        sceneIndex = 0;
 
         stage.setScene(scene);
         stage.show();
@@ -46,8 +48,32 @@ public class Launcher extends Application implements Runnable {
 
 
     public void changeScene(int index) throws IOException {
-        Parent root = allScenes.get(index).load();
-        scene.setRoot(root);
+        Parent parent = loadScene(index).load();
+        sceneIndex = index;
+        scene = new Scene(parent);
+        stage.setScene(scene);
     }
 
+    public void showMessage(String str) {
+    }
+
+
+    public ArrayList<FXMLLoader> getAllScenes() {
+        return allScenes;
+    }
+
+    public int getSceneIndex() {
+        return sceneIndex;
+    }
+
+    public FXMLLoader loadScene(int index) {
+        if(index==0) {
+            return new FXMLLoader(getClass().getResource("/fxml/Start.fxml"));
+        }
+        if(index==1) {
+            return new FXMLLoader(getClass().getResource("/fxml/Loading.fxml"));
+        }
+
+        return new FXMLLoader(getClass().getResource("/fxml/Board.fxml"));
+    }
 }

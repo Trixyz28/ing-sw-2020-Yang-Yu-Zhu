@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.view.gui.controllers.LoadingController;
+import it.polimi.ingsw.view.gui.controllers.StartController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,10 +17,22 @@ public class GuiHandler {
     private Scene scene;
     private boolean active = false;
 
+    private StartController startController;
+    private LoadingController loadingController;
 
 
-    public void initialization(GUI gui) {
+
+    public GuiHandler(GUI gui) {
         this.gui = gui;
+    }
+
+    public void initControllers() {
+        startController = gui.getLauncher().getAllScenes().get(0).getController();
+        StartController.setGui(gui);
+        loadingController = gui.getLauncher().getAllScenes().get(1).getController();
+        LoadingController.setGUI(gui);
+
+
     }
 
 

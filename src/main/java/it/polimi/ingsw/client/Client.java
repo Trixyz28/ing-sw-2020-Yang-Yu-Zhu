@@ -3,12 +3,14 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.model.GameMessage;
 import it.polimi.ingsw.model.Messages;
 import it.polimi.ingsw.model.Operation;
+import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.cli.BoardView;
 import it.polimi.ingsw.view.cli.CLI;
 import it.polimi.ingsw.view.gui.GUI;
 import it.polimi.ingsw.view.gui.GuiHandler;
 import it.polimi.ingsw.view.gui.Launcher;
+import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -30,6 +32,9 @@ public class Client {
     private Thread t0;
     private Thread t1;
 
+    private Launcher launcher;
+    private GuiHandler guiHandler;
+
 
     public Client() {
         this.opReceived = false;
@@ -49,23 +54,6 @@ public class Client {
 
     public void startClient(String uiStyle,String inputIp,String inputPort) throws Exception {
 
-        //Create CLI
-        if(uiStyle.toUpperCase().equals("CLI") || uiStyle.isBlank()) {
-            ui = new CLI();
-        }
-
-        //Create GUI
-        if(uiStyle.toUpperCase().equals("GUI")) {
-            //ui = new CLI();
-            //ui.showMessage("GUI not implemented yet, have fun with CLI ;)");
-
-            Launcher launcher = new Launcher();
-            ui = new GUI(launcher);
-            launcher.run();
-
-
-        }
-
         //Read socket's ip and port
         this.ip = inputIp;
         this.port = Integer.parseInt(inputPort);
@@ -76,6 +64,24 @@ public class Client {
         //Set I/O streams
         ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
+
+
+        //Create CLI
+        if(uiStyle.toUpperCase().equals("CLI") || uiStyle.isBlank()) {
+            ui = new CLI();
+        }
+
+        //Create GUI
+        if(uiStyle.toUpperCase().equals("GUI")) {
+            //ui = new CLI();
+            //ui.showMessage("GUI not implemented yet, have fun with CLI ;)");
+
+            launcher = new Launcher();
+            ui = new GUI(launcher);
+            guiHandler = new GuiHandler((GUI)ui);
+            guiHandler.initControllers();
+            Application.launch(Launcher.class);
+        }
 
         ui.showMessage(Messages.connectionReady);
 

@@ -34,76 +34,91 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <ImageView fx:id="apolloCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true">
+
+                        <ImageView fx:id="apolloCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="0" GridPane.columnIndex="0">
                            <image>
                               <Image url="@../godcards/unchosen/ApolloCard.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="artemisCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+
+                        <ImageView fx:id="artemisCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="0" GridPane.columnIndex="1">
                            <image>
                               <Image url="@../godcards/unchosen/ArtemisCard.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="athenaCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+
+                        <ImageView fx:id="athenaCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="0" GridPane.columnIndex="2">
                            <image>
                               <Image url="@../godcards/unchosen/AthenaCard.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="atlasCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+
+                        <ImageView fx:id="atlasCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="0" GridPane.columnIndex="3">
                            <image>
                               <Image url="@../godcards/unchosen/AtlasCard.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="demeterCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
+
+                        <ImageView fx:id="demeterCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="0" GridPane.columnIndex="4">
                            <image>
                               <Image url="@../godcards/unchosen/DemeterCard.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="hephaestusCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+
+                        <ImageView fx:id="hephaestusCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" GridPane.columnIndex="0">
                            <image>
                               <Image url="@../godcards/unchosen/HephaestusCard.png" />
                            </image>
                         </ImageView>
+
                         <ImageView fx:id="heraCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <image>
                               <Image url="@../godcards/unchosen/HeraCard.png" />
                            </image>
                         </ImageView>
+
                         <ImageView fx:id="hestiaCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <image>
                               <Image url="@../godcards/unchosen/HestiaCard.png" />
                            </image>
                         </ImageView>
+
                         <ImageView fx:id="limusCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                            <image>
                               <Image url="@../godcards/unchosen/LimusCard.png" />
                            </image>
                         </ImageView>
+
                         <ImageView fx:id="minotaurCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
                            <image>
                               <Image url="@../godcards/unchosen/MinotaurCard.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="panCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+
+                        <ImageView fx:id="panCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" GridPane.columnIndex="0">
                            <image>
                               <Image url="@../godcards/unchosen/PanCard0.png" />
                            </image>
                         </ImageView>
+
                         <ImageView fx:id="poseidonCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <image>
                               <Image url="@../godcards/unchosen/PoseidonCard.png" />
                            </image>
                         </ImageView>
+
                         <ImageView fx:id="prometheusCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
                            <image>
                               <Image url="@../godcards/unchosen/PrometheusCard.png" />
                            </image>
                         </ImageView>
+
                         <ImageView fx:id="tritonCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
                            <image>
                               <Image url="@../godcards/unchosen/TritonCard.png" />
                            </image>
                         </ImageView>
+
                         <ImageView fx:id="zeusCard" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
                            <image>
                               <Image url="@../godcards/unchosen/ZeusCard.png" />
@@ -118,9 +133,30 @@
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="250.0">
                      <children>
                         <Pane prefHeight="200.0" prefWidth="200.0" />
-                        <Pane prefHeight="200.0" prefWidth="200.0" />
-                        <Pane prefHeight="200.0" prefWidth="200.0" />
-                        <Pane prefHeight="200.0" prefWidth="200.0" />
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../components/PlayerCloud.png" />
+                                 </image>
+                              </ImageView>
+                           </children></Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../components/PlayerCloud.png" />
+                                 </image>
+                              </ImageView>
+                           </children></Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../components/PlayerCloud.png" />
+                                 </image>
+                              </ImageView>
+                           </children></Pane>
                      </children>
                   </VBox>
                </children></Pane>

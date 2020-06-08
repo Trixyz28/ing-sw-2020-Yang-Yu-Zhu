@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.God.Conditions;
+import it.polimi.ingsw.model.God.Poseidon;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.view.cli.BoardView;
@@ -220,11 +221,9 @@ public class Model extends Observable {
 
                         if(worker.getState()==2) {
                             totalWorkerView[i*2+j].setState(2);
-                            List<Tile> tiles = new ArrayList<>(currentTurn.getChosenWorker().getPosition().getAdjacentTiles());
-                            System.out.println("Adjacent tiles number: " + tiles.size());
 
+                            List<Tile> tiles = new ArrayList<>(currentTurn.getChosenWorker().getPosition().getAdjacentTiles());
                             tiles.removeIf(tile -> !(worker.canBuildBlock(tile) || worker.canBuildDome(tile)));
-                            System.out.println("Can build tiles number: " + tiles.size());
 
                             totalWorkerView[i*2+j].setBuildableList(tiles);
                         }

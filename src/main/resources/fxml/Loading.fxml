@@ -14,37 +14,46 @@
    <children>
       <Pane layoutX="350.0" layoutY="199.0" prefHeight="474.0" prefWidth="572.0">
          <children>
-            <ImageView fitHeight="380.0" fitWidth="601.0" layoutX="27.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="380.0" fitWidth="601.0" layoutX="20.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../components/Scroll.png" />
                </image>
             </ImageView>
             <VBox layoutX="72.0" layoutY="124.0" prefHeight="288.0" prefWidth="414.0">
                <children>
-                  <Pane prefHeight="136.0" prefWidth="414.0">
+                  <Pane prefHeight="91.0" prefWidth="414.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="124.0" prefWidth="414.0" text="Welcome to Santorini!" textFill="#855a5ad8">
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutY="14.0" prefHeight="70.0" prefWidth="414.0" text="Welcome to Santorini!" textFill="#855a5ad8">
                            <font>
                               <Font name="Bodoni MT" size="36.0" />
                            </font>
                         </Label>
                      </children>
                   </Pane>
-                  <Pane prefHeight="86.0" prefWidth="414.0">
+                  <Pane prefHeight="72.0" prefWidth="414.0">
                      <children>
-                        <TextField fx:id="nameField" alignment="CENTER" layoutX="4.0" layoutY="11.0" prefHeight="49.0" prefWidth="404.0" promptText="Insert your nickname here">
+                        <Label fx:id="commandRecv" alignment="CENTER" contentDisplay="CENTER" layoutY="34.0" prefHeight="29.0" prefWidth="414.0" text="Please choose a nickname:" textFill="#b75454">
+                           <font>
+                              <Font name="Bodoni MT" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="82.0" prefWidth="414.0">
+                     <children>
+                        <TextField fx:id="nameField" alignment="CENTER" layoutX="5.0" layoutY="12.0" prefHeight="49.0" prefWidth="404.0" promptText="Insert your nickname here">
                            <font>
                               <Font name="Bodoni MT" size="17.0" />
                            </font>
                         </TextField>
                      </children>
                   </Pane>
-                  <Pane prefHeight="122.0" prefWidth="414.0">
+                  <Pane prefHeight="81.0" prefWidth="414.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                      <children>
-                        <Button fx:id="nameButton" alignment="CENTER" contentDisplay="CENTER" layoutX="157.0" layoutY="35.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="101.0" text="Enter" textAlignment="CENTER" />
+                        <Button fx:id="nameButton" alignment="CENTER" contentDisplay="CENTER" layoutX="157.0" layoutY="19.0" mnemonicParsing="false" onAction="#sendName" prefHeight="35.0" prefWidth="101.0" text="Enter" textAlignment="CENTER" />
                      </children>
                   </Pane>
                </children>
