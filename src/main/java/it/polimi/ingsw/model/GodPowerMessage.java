@@ -1,14 +1,14 @@
 package it.polimi.ingsw.model;
 
 public enum GodPowerMessage {
-    ARTEMIS ("Arthemis: Move again?"),
+    ARTEMIS ("Artemis: Move again? (Yes/No)"),
     ATLAS ("Atlas: Block or Dome?", "DOME", "BLOCK"),
-    DEMETER ("Demeter: Build again?"),
-    HEPHAESTUS ("Hephaestus: Another Block?"),
-    PROMETHEUS ("Prometheus: Move or Build", "BUILD", "MOVE"),
-    HESTIA ( "Hestia: Build again?"),
-    POSEIDON ("Poseidon: Unmove worker Build?"),
-    TRITON ("Triton: Move again?");
+    DEMETER ("Demeter: Build again? (Yes/No)"),
+    HEPHAESTUS ("Hephaestus: Want to build another block? (Yes/No)"),
+    PROMETHEUS ("Prometheus: Move or Build?", "BUILD", "MOVE"),
+    HESTIA ("Hestia: Build again? (Yes/No)"),
+    POSEIDON ("Poseidon: Want to build with the unmoved worker? (Yes/No)"),
+    TRITON ("Triton: Move again? (Yes/No)");
 
     private String message;
 

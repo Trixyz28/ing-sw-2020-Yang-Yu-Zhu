@@ -2,8 +2,6 @@ package it.polimi.ingsw.view.gui.controllers;
 
 import it.polimi.ingsw.view.gui.GUI;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -22,7 +20,7 @@ public class StartController {
 
     @FXML
     public void loadingScene(MouseEvent event) throws IOException {
-        gui.getLauncher().changeScene(1);
+        gui.getGuiLauncher().changeScene(1);
     }
 
     public void getCommand(String str) {

@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class Launcher extends Application implements Runnable  {
+public class GuiLauncher extends Application {
 
 
     private ArrayList<FXMLLoader> allScenes;
@@ -21,15 +21,13 @@ public class Launcher extends Application implements Runnable  {
 
 
 
-    public Launcher() {
+    public GuiLauncher() {
         allScenes = new ArrayList<>();
         allScenes.add(new FXMLLoader(getClass().getResource("/fxml/Start.fxml")));
         allScenes.add(new FXMLLoader(getClass().getResource("/fxml/Loading.fxml")));
         allScenes.add(new FXMLLoader(getClass().getResource("/fxml/GodSelection.fxml")));
         allScenes.add(new FXMLLoader(getClass().getResource("/fxml/Board.fxml")));
     }
-
-
 
 
     @Override
@@ -79,8 +77,4 @@ public class Launcher extends Application implements Runnable  {
         return new FXMLLoader(getClass().getResource("/fxml/Board.fxml"));
     }
 
-    @Override
-    public void run() {
-        launch();
-    }
 }

@@ -27,6 +27,7 @@ public class NoGodTest extends TestCase {
         assertEquals(t,noGod.getPosition());
     }
 
+    /*
     @Test
     public void testMove() {
         board.initializeTiles();
@@ -51,6 +52,8 @@ public class NoGodTest extends TestCase {
         assertFalse(board.getTile(2,1).isOccupiedByWorker());
 
     }
+    */
+
 
     @Test
     public void testBuild() {

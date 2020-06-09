@@ -3,20 +3,16 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.model.GameMessage;
 import it.polimi.ingsw.model.Messages;
 import it.polimi.ingsw.model.Operation;
-import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.cli.BoardView;
 import it.polimi.ingsw.view.cli.CLI;
 import it.polimi.ingsw.view.gui.GUI;
 import it.polimi.ingsw.view.gui.GuiHandler;
-import it.polimi.ingsw.view.gui.Launcher;
-import javafx.application.Application;
-import javafx.stage.Stage;
+import it.polimi.ingsw.view.gui.GuiLauncher;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.function.LongUnaryOperator;
 
 
 public class Client {
@@ -32,7 +28,7 @@ public class Client {
     private Thread t0;
     private Thread t1;
 
-    private Launcher launcher;
+    private GuiLauncher guiLauncher;
     private GuiHandler guiHandler;
 
 
@@ -61,14 +57,8 @@ public class Client {
 
         //Create GUI
         if(uiStyle.toUpperCase().equals("GUI")) {
-            //ui = new CLI();
-            //ui.showMessage("GUI not implemented yet, have fun with CLI ;)");
-
-            launcher = new Launcher();
-            ui = new GUI(launcher);
-            guiHandler = new GuiHandler((GUI)ui);
-            guiHandler.initControllers();
-            (new Thread(launcher)).start();
+            ui = new CLI();
+            ui.showMessage("GUI not implemented yet, have fun with CLI ;)");
         }
 
         //Read socket's ip and port

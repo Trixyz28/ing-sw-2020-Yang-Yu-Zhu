@@ -43,9 +43,6 @@ public class CLI implements Ui {
     private String barExt = extColor + "┠─── ─── ─── ─── ─── ─── ─── ─── ─── ─── ─── ─── ───┨" + RESET;
 
 
-
-
-
     @Override
     public void showMessage(String message) {
         System.out.println(message);

@@ -201,7 +201,6 @@ public class Model extends Observable {
     public BoardView createBoardView() {
         Tile[][] mapToSend = board.getMap();
         WorkerView[] totalWorkerView = new WorkerView[totalWorkerList.size()];
-        String currentName = currentTurn.getCurrentPlayer().getPlayerNickname();
         int chosenID = -1;
 
         for(UndecoratedWorker worker : totalWorkerList) {
@@ -217,12 +216,13 @@ public class Model extends Observable {
 
         if(chosenID != -1) {
             int op = currentTurn.getChosenWorker().getState();
+            WorkerView chosen = totalWorkerView[chosenID];
 
             if(op==1) {
-                totalWorkerView[chosenID].setMovableList(currentTurn.movableList(currentTurn.getChosenWorker()));
+                chosen.setMovableList(currentTurn.movableList(currentTurn.getChosenWorker()));
             }
             if(op==2) {
-                totalWorkerView[chosenID].setBuildableList(currentTurn.buildableList(currentTurn.getChosenWorker()));
+                chosen.setBuildableList(currentTurn.buildableList(currentTurn.getChosenWorker()));
             }
             if(op==3) {
                 if(chosenID%2==0) {
@@ -230,9 +230,9 @@ public class Model extends Observable {
                 } else {
                     chosenID--;
                 }
-                totalWorkerView[chosenID].setBuildableList(currentTurn.buildableList(currentTurn.getCurrentPlayer().chooseWorker(chosenID)));
+                chosen.setBuildableList(currentTurn.buildableList(currentTurn.getCurrentPlayer().chooseWorker(chosenID)));
             }
-            totalWorkerView[chosenID].setState(op);
+            chosen.setState(op);
         }
 
         return new BoardView(mapToSend,totalWorkerView,currentTurn.getCurrentPlayer(),chosenID);

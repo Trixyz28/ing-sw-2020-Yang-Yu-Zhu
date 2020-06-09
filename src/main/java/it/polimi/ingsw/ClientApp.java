@@ -1,6 +1,9 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.view.cli.CliLauncher;
+import it.polimi.ingsw.view.gui.GuiLauncher;
+import javafx.application.Application;
 
 import java.io.IOException;
 
@@ -9,13 +12,16 @@ public class ClientApp {
 
     public static void main(String[] args) {
 
-        Client client = new Client();
+        CliLauncher cliLauncher;
+        GuiLauncher guiLauncher;
 
         try {
             if(args.length==0) {
-                client.startClient("CLI","127.0.0.1","45000");
+                cliLauncher = new CliLauncher();
+                cliLauncher.start();
             } else {
-                client.startClient(args[0],args[1],args[2]);
+                guiLauncher = new GuiLauncher();
+                Application.launch(GuiLauncher.class);
             }
 
         } catch (Exception e) {

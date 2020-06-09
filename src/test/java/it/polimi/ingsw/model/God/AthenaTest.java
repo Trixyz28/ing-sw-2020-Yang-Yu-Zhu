@@ -13,6 +13,7 @@ public class AthenaTest extends TestCase {
     private boolean Tile;
 
 
+    /*
     @Test
     public void testMove() {
         worker.setPosition(board.getTile(2,4));
@@ -30,7 +31,7 @@ public class AthenaTest extends TestCase {
         worker.move(destination);
         assertFalse(conditions.checkMoveCondition(worker.getPosition(), destination));
 
-    }
+    }*/
 
 
 }
