@@ -28,9 +28,6 @@ public class Client {
     private Thread t0;
     private Thread t1;
 
-    private GuiLauncher guiLauncher;
-    private GuiHandler guiHandler;
-
 
     public Client() {
         this.opReceived = false;
@@ -57,8 +54,6 @@ public class Client {
 
         //Create GUI
         if(uiStyle.toUpperCase().equals("GUI")) {
-            ui = new CLI();
-            ui.showMessage("GUI not implemented yet, have fun with CLI ;)");
         }
 
         //Read socket's ip and port
@@ -203,10 +198,10 @@ public class Client {
                                 ui.showMessage(Messages.wrongArgument);
                             }
                         }else {  /* problema yes or no */
-                                socketOut.println(input);
-                                socketOut.flush();
-                                gmReceived = false;
-                                gMessage = null;
+                            socketOut.println(input);
+                            socketOut.flush();
+                            gmReceived = false;
+                            gMessage = null;
                         }
                     } else {
                         socketOut.println(input);
@@ -220,6 +215,10 @@ public class Client {
 
         t.start();
         return t;
+    }
+
+    public void setUi(GUI gui) {
+        this.ui = gui;
     }
 
 }

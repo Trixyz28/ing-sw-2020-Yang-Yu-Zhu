@@ -2,8 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -32,7 +32,7 @@
                   </Pane>
                   <Pane prefHeight="72.0" prefWidth="414.0">
                      <children>
-                        <Label fx:id="commandRecv" alignment="CENTER" contentDisplay="CENTER" layoutY="34.0" prefHeight="29.0" prefWidth="414.0" text="Please choose a nickname:" textFill="#b75454">
+                        <Label fx:id="lobbyRecv" alignment="CENTER" contentDisplay="CENTER" layoutY="34.0" prefHeight="29.0" prefWidth="414.0" text="You can create a lobby:" textFill="#b75454">
                            <font>
                               <Font name="Bodoni MT" size="15.0" />
                            </font>
@@ -41,11 +41,7 @@
                   </Pane>
                   <Pane prefHeight="82.0" prefWidth="414.0">
                      <children>
-                        <TextField fx:id="nameField" alignment="CENTER" layoutX="5.0" layoutY="12.0" prefHeight="49.0" prefWidth="404.0" promptText="Insert your nickname here">
-                           <font>
-                              <Font name="Bodoni MT" size="17.0" />
-                           </font>
-                        </TextField>
+                        <ChoiceBox fx:id="playerNumberSelect" layoutX="132.0" layoutY="20.0" onMouseClicked="#setChoiceBox" prefHeight="35.0" prefWidth="150.0" />
                      </children>
                   </Pane>
                   <Pane prefHeight="81.0" prefWidth="414.0">
@@ -53,7 +49,7 @@
                         <Insets />
                      </VBox.margin>
                      <children>
-                        <Button fx:id="nameButton" alignment="CENTER" contentDisplay="CENTER" layoutX="157.0" layoutY="19.0" mnemonicParsing="false" onAction="#sendName" prefHeight="35.0" prefWidth="101.0" text="Enter" textAlignment="CENTER" />
+                        <Button fx:id="lobbyButton" alignment="CENTER" contentDisplay="CENTER" layoutX="157.0" layoutY="19.0" mnemonicParsing="false" onAction="#sendLobby" prefHeight="35.0" prefWidth="101.0" text="Enter" textAlignment="CENTER" />
                      </children>
                   </Pane>
                </children>

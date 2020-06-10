@@ -15,7 +15,7 @@ public class New extends Application {
     public void start(Stage stage) throws Exception {
 
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Board.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GodSelection.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
 

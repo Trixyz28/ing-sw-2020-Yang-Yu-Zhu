@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class CLI implements Ui {
 
     Scanner in = new Scanner(System.in);
-    BoardView boardView;
+    private BoardView boardView;
 
     //Color indicators
     private final String RESET = Colors.RESET;

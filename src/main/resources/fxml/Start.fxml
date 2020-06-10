@@ -11,6 +11,5 @@
             <Font name="Papyrus" size="26.0" />
          </font>
       </Label>
-      <Label fx:id="commandRecv" alignment="CENTER" contentDisplay="CENTER" layoutX="525.0" layoutY="739.0" prefHeight="17.0" prefWidth="230.0" text="Label" />
    </children>
 </Pane>

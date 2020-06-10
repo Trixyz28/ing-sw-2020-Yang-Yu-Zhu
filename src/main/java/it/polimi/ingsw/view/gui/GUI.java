@@ -5,32 +5,25 @@ import it.polimi.ingsw.view.cli.BoardView;
 import it.polimi.ingsw.view.gui.controllers.LoadingController;
 import it.polimi.ingsw.view.gui.controllers.StartController;
 
+import java.io.*;
+import java.util.Scanner;
+
 public class GUI implements Ui {
 
     private String playerName;
-    private String input;
+    private String input = new String();
     private boolean waitingMsg = false;
-    private GuiLauncher guiLauncher;
+    private Scanner scanner = new Scanner(System.in);
 
-    public GUI(GuiLauncher guiLauncher) {
-        this.guiLauncher = guiLauncher;
+
+    public GUI() {
+
     }
 
 
     @Override
     public void showMessage(String str) {
         System.out.println(str);
-
-        if(guiLauncher.getSceneIndex()==0) {
-            StartController startController = guiLauncher.getAllScenes().get(0).getController();
-            startController.getCommand(str);
-        }
-
-
-        if(guiLauncher.getSceneIndex()==1) {
-            LoadingController loadingController = guiLauncher.getAllScenes().get(1).getController();
-            loadingController.getCommand(str);
-        }
     }
 
 
@@ -41,10 +34,7 @@ public class GUI implements Ui {
 
     @Override
     public String getInput() {
-        if(waitingMsg) {
-            return input;
-        }
-        return null;
+        return scanner.nextLine();
     }
 
 
@@ -54,9 +44,6 @@ public class GUI implements Ui {
     }
 
 
-    public GuiLauncher getGuiLauncher() {
-        return guiLauncher;
-    }
 
     public void print() {
         System.out.println("print");

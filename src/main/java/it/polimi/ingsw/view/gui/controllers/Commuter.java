@@ -1,16 +1,23 @@
 package it.polimi.ingsw.view.gui.controllers;
 
 import it.polimi.ingsw.view.gui.GUI;
+import it.polimi.ingsw.view.gui.GuiLauncher;
 
 public class Commuter {
 
-    private static GUI gui;
+    private GuiLauncher guiLauncher;
 
 
 
 
-    public void setGui(GUI gui) {
-        this.gui = gui;
+
+
+    public GuiLauncher getGuiLauncher() {
+        return guiLauncher;
+    }
+
+    public void setGuiLauncher(GuiLauncher guiLauncher) {
+        this.guiLauncher = guiLauncher;
     }
 
 }
