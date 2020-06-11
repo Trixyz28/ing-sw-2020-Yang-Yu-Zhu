@@ -56,20 +56,22 @@ public class Model extends Observable {
 
     /* preparazione scelta godList dal challenger */
     public void challengerStart(){
-        //views.get(challenger).showMessage("Sei il Challenger!");
+        randomChooseChallenger();
         currentTurn = new Turn(matchPlayersList.get(challengerID));
         sendMessage("Sei il Challenger");
-        showCompleteGodList();  /* mandare al Challenger la lista completa dei God */
+        /* mandare al Challenger la lista completa dei God */
+        showCompleteGodList();
     }
 
-    public boolean defineGodList(String god, GodList godList){  //eseguire solo al challenger
-        //far scegliere Gods attraverso la view dal challenger )
-        godList.selectGod(god);
-        if(!godList.addInGodList()){  /* se il God scelto non viene aggiunto nella currentList */
+
+    //far scegliere Gods dal challenger
+    public boolean defineGodList(String god){
+        godsList.selectGod(god);
+        if(!godsList.addInGodList()){  /* se il God scelto non viene aggiunto nella currentList */
             //views.get(challenger).showMessage("Scelta invalida");
             sendMessage("Scelta invalida");
         }
-        if(godList.checkLength()){
+        if(godsList.checkLength()){
             //views.get(p).showMessage("Il Challenger ha finito di scegliere i God! La Lista dei God scelti è :");
             broadcast("Il Challenger ha finito di scegliere i God! \nLa Lista dei God scelti è :");
             return true;
@@ -77,25 +79,29 @@ public class Model extends Observable {
         return false;
     }
 
+    //far scegliere God dai player
     public void nextChoiceGod(){
 
         int index = getNextPlayerIndex();
         currentTurn.setCurrentPlayer(matchPlayersList.get(index));
-        if(index == challengerID){  /* fine giro scelta God */
+        if(index == challengerID){
             /* dare direttamente la god rimanente al Challenger */
-            String god = godsList.getCurrentGodList().get(0);  /* il god rimanente nella currentGodList viene assegnata al challenger */
-            sendMessage("Il god rimasto è " + god + "!");  //far printare alla view il messaggio del god assegnato
+            String god = godsList.getCurrentGodList().get(0);
+            sendMessage("Il god rimasto è " + god + "!");
             Player challenger = matchPlayersList.get(challengerID);
             challenger.godChoice(god);
             challenger.createWorker(god, getCondition(),getTotalWorkers());
-            createTotalWorkerList();  /* creare lista di tutti i workers */
+            /* creare lista di tutti i workers */
+            createTotalWorkerList();
             sendMessage("Scegli il Player che inizia la partita!");
         }else {
+            /* show currentList */
             showGodList();
             sendMessage("Scegli la tua divinità");
         }
     }
 
+    /* Scelta God + creazione worker */
     public void chooseGod(String god){
         godsList.selectGod(god);
         if(godsList.checkGod()){
@@ -104,9 +110,13 @@ public class Model extends Observable {
             String name = currentPlayer.getPlayerNickname();
             broadcast("Il player " + name + " ha scelto " +
                     god + ".");
-            currentPlayer.godChoice(god);  /* assegnare al Player il God scelto */
-            currentPlayer.createWorker(god, getCondition(), getTotalWorkers());  /* creare worker determinato God */
-            godsList.removeFromGodList(god);  /* eliminare dalla currentGodList il god scelto */
+            /* assegnare al Player il God scelto */
+            currentPlayer.godChoice(god);
+            /* creare worker determinato God */
+            currentPlayer.createWorker(god, getCondition(), getTotalWorkers());
+            /* eliminare dalla currentGodList il god scelto */
+            godsList.removeFromGodList(god);
+            /* prossimo player */
             nextChoiceGod();
         }else{
             //far printare alla view la richiesta di ripetere la scelta
@@ -114,6 +124,7 @@ public class Model extends Observable {
         }
     }
 
+    //check turn dei messaggi ricevuti
     public boolean checkTurn(String playerNickname){
         if(playerNickname.equals(currentTurn.getCurrentPlayer().getPlayerNickname())) {
             return true;
@@ -123,7 +134,8 @@ public class Model extends Observable {
         }
     }
 
-    public boolean checkAnswer(GameMessage gMessage){  /* check risposta per divinità */
+    /* check risposta per divinità */
+    public boolean checkAnswer(GameMessage gMessage){
         String answer = gMessage.getAnswer();
         GodPowerMessage god = GodPowerMessage.valueOf(currentTurn.getCurrentPlayer().getGodCard());
 
@@ -139,45 +151,17 @@ public class Model extends Observable {
             }
             return true;
         }
-        /*
-        if(message.equals(GodPowerMessage.valueOf("ATLAS").getMessage())){
-            if(answer.equals("BLOCK") || answer.equals("DOME")) {
-                if (answer.equals("DOME")) {
-                    currentTurn.getChosenWorker().useGodPower(true);
-                }else {
-                    currentTurn.getChosenWorker().useGodPower(false);
-                }
-                return true;
-            }
-        }else if(message.equals(GodPowerMessage.valueOf("PROMETHEUS").getMessage())){
-            if (answer.equals("MOVE")  || answer.equals("BUILD")) {
-                if (answer.equals("BUILD")){
-                    currentTurn.getChosenWorker().useGodPower(true);
-                }else {
-                    currentTurn.getChosenWorker().useGodPower(false);
-                }
-                return true;
-            }
-        } else if (answer.equals("YES") || answer.equals("NO")){
-            if(answer.equals("YES")){
-                currentTurn.getChosenWorker().useGodPower(true);
-            }else {
-                currentTurn.getChosenWorker().useGodPower(false);
-            }
-            return true;
-        }
-         */
-
-
     }
 
-    public boolean setStartingPlayer(String startingPlayerNickname){  /* per sceglire il startingPlayer attraverso Nickname */
+    /* per sceglire il startingPlayer attraverso Nickname */
+    public boolean setStartingPlayer(String startingPlayerNickname){
 
         Player startingPlayer;
         for (Player p : matchPlayersList) {
             if (p.getPlayerNickname().equals(startingPlayerNickname)) {
                 startingPlayer = p;
-                startingPlayerID = startingPlayer.getPlayerID();  //settare il startingPlayerID del model
+                //settare il startingPlayerID del model
+                startingPlayerID = startingPlayer.getPlayerID();
                 broadcast("Il primo player che fa la mossa è " + startingPlayer.getPlayerNickname());
                 return true;
             }
@@ -329,7 +313,7 @@ public class Model extends Observable {
         return board.getTile(row,column);
     }
 
-
+    //Messages
     public void sendMessage(String arg) {
         String message = null;
         boolean readOnly = false;
@@ -344,30 +328,7 @@ public class Model extends Observable {
         }finally {
             notify(new GameMessage(currentTurn.getCurrentPlayer(), message, readOnly));
         }
-        /*
-        if (arg.equals("ARTEMIS")) {
-            message = Messages.Artemis;
-        } else if (arg.equals("ATLAS")) {
-            message = Messages.Atlas;
-        } else if (arg.equals("DEMETER")) {
-            message = Messages.Demeter;
-        } else if (arg.equals("HEPHAESTUS")) {
-            message = Messages.Hephaestus;
-        } else if (arg.equals("PROMETHEUS")) {
-            message = Messages.Prometheus;
-        } else if (arg.equals("HESTIA")) {
-            message = Messages.Hestia;
-        }else if(arg.equals("POSEIDON")) {
-            message = Messages.Poseidon;
-        }else if(arg.equals("TRITON")){
-            message = Messages.Triton;
-        }else{
-            if(!arg.equals(Messages.Worker)){
-                readOnly = true;
-            }
-            message = arg;
-        }
-         */
+
     }
 
     public void broadcast(String message){
@@ -375,7 +336,7 @@ public class Model extends Observable {
     }
 
 
-    public void operation(){  /* type 0 = place  type 1 = move type 2 = build */
+    public void operation(){  /* type 1 = move type 2 = build */
         int type = currentTurn.getState();
         notify(new Operation(currentTurn.getCurrentPlayer(), type, -1, -1));
     }
@@ -411,48 +372,25 @@ public class Model extends Observable {
     public boolean checkLose(){
         if (currentTurn.checkLose()){
             sendMessage(Messages.lose);
-            lose(currentTurn.getCurrentPlayer());  /* lose */
+            /* lose */
+            lose(currentTurn.getCurrentPlayer());
             return true;
         }else {
             return false;
         }
     }
-/*
-    public boolean checkLoseMove() {  /* se tutti i worker non hanno più tile da poter andare -> perde
-        for (int i = 0; i < 2 ; i++) {
-            UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(i);
-            if (worker.canMove().size() != 0) {
-                return false;
-            }
-        }
 
-        sendMessage("Spiacenti! Non sei più in grado di fare mosse, hai perso!!!!");
-        lose(currentTurn.getCurrentPlayer());  /* lose
-        return true;
-    }
-
-    public boolean checkLoseBuild(UndecoratedWorker worker){  /* se il worker non può né build Block né build Dome
-        for(Tile t : worker.getPosition().getAdjacentTiles()){
-            if(worker.canBuildBlock(t) || worker.canBuildDome(t)){
-                return false;
-            }
-        }
-        sendMessage("Spiacenti! Non sei più in grado di buildare, hai perso!!!!");
-        lose(currentTurn.getCurrentPlayer());  /* lose
-        return true;
-    }
-
-
- */
     public void lose(Player player){
         if(matchPlayersList.size() > 2) {
             player.deleteWorker();
-            int index = matchPlayersList.indexOf(player) - 1;  /* precedente al currentPlayer (per nextTurn del turnController)*/
+            /* precedente al currentPlayer (per nextTurn del turnController)*/
+            int index = matchPlayersList.indexOf(player) - 1;
             if (index < 0) {
                 index = matchPlayersList.size() - 1;
             }
             currentTurn.setCurrentPlayer(matchPlayersList.get(index));
-            totalWorkerList.remove(player.chooseWorker(0));  /* aggioranare totalWorkerList */
+            /* aggioranare totalWorkerList + conditions*/
+            totalWorkerList.remove(player.chooseWorker(0));
             totalWorkerList.remove(player.chooseWorker(1));
             condition.update(player.getPlayerID());
             matchPlayersList.remove(player);

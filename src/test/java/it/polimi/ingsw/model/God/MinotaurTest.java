@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.Turn;
 import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +20,6 @@ public class MinotaurTest extends TestCase {
     Minotaur worker = new Minotaur(new NoGod(1, conditions),totalWorkerList);
     UndecoratedWorker minotaur;
     UndecoratedWorker athena;
-    Turn turn = new Turn(new Player("a"));
 
 
     @Before
@@ -36,18 +36,16 @@ public class MinotaurTest extends TestCase {
 
 
     @Test
-    public void testAvailableMinotaurToMove() {
+    public void testCanMove() {
         initialize();
-        assertTrue(worker.canMove(athena.getPosition()));
-        assertFalse(worker.canMove(minotaur.getPosition()));
+        Assert.assertTrue(worker.canMove(board.getTile(1,1)));
+        Assert.assertTrue(worker.canMove(athena.getPosition()));
+        Assert.assertFalse(worker.canMove(minotaur.getPosition()));
+        board.getTile(4,4).setDomePresence(true);
+        Assert.assertFalse(worker.canMove(athena.getPosition()));
+        athena.setPosition(board.getTile(0,2));
+        Assert.assertFalse(minotaur.canMove(athena.getPosition()));
 
-        boolean flag = false;
-        for(Tile t : turn.movableList(worker)) {
-            if(board.getTile(2,3).equals(t)) {
-                flag = true;
-            }
-        }
-        assertTrue(flag);
     }
 
 
@@ -55,8 +53,8 @@ public class MinotaurTest extends TestCase {
     public void testMove() {
         initialize();
         worker.move(athena.getPosition());
-        assertEquals(board.getTile(4,4),athena.getPosition());
-        assertEquals(board.getTile(3,3),worker.getPosition());
+        Assert.assertEquals(board.getTile(4,4),athena.getPosition());
+        Assert.assertEquals(board.getTile(3,3),worker.getPosition());
     }
 
 

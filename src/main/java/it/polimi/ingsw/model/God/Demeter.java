@@ -20,7 +20,6 @@ public class Demeter extends WorkerDecorator {
     public boolean canBuildBlock(Tile t) {
         if (buildCounter == 0) {
             return super.canBuildBlock(t);
-             //view.DemeterBuild;
         }
         else{
             return canBuildBlockDemeter(t);
@@ -31,7 +30,7 @@ public class Demeter extends WorkerDecorator {
     public void buildBlock(Tile t) {
         if(buildCounter == 0) {
             buildCounter = 1;
-            setOriginalBuild(t);
+            originalBuild = t;
             if(canBuild()) {
                 setGodPower(true);
             }
@@ -43,7 +42,6 @@ public class Demeter extends WorkerDecorator {
     public boolean canBuildDome(Tile t) {
         if( buildCounter == 0){
             return super.canBuildDome(t);
-            //view.DemeterBuild;
         }
         else{
             return canBuildDomeDemeter(t);
@@ -52,55 +50,36 @@ public class Demeter extends WorkerDecorator {
 
     @Override
     public void buildDome(Tile t) {
+        super.buildDome(t);
         if (buildCounter == 0) {
             buildCounter = 1;
             if(canBuild()) {
                 setGodPower(true);
             }
         }
-        super.buildDome(t);
     }
 
     @Override
     public void nextState() {
         super.nextState();
         buildCounter = 0;
-    }
-
-    public Tile getOriginalBuild() {
-        return originalBuild;
-    }
-
-    private void setOriginalBuild(Tile t) {
-        this.originalBuild = t;
-    }
-/*
-
-    public int getCounter() {
-        return counter;
-    }
-
-    public void setCounter(int i) {
-        this.counter = i;
+        originalBuild = null;
     }
 
 
- */
     public boolean canBuildBlockDemeter(Tile t){
-        if(this.originalBuild == t){
+        if(t == originalBuild){
             return false;
-        }
-        else{
+        } else{
             return super.canBuildBlock(t);
 
         }
     }
 
     public boolean canBuildDomeDemeter(Tile t){
-        if(this.originalBuild == t){
+        if(t == originalBuild){
             return false;
-        }
-        else{
+        } else{
             return super.canBuildDome(t);
 
         }

@@ -22,8 +22,8 @@ public class TurnController {
         UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(index);
 
         //controllare se il Worker scelta possa fare la mossa o no
-        if(currentTurn.movableList(worker).size() != 0 || worker.getGodPower()) {  //(chosenWorker instanceof Prometheus && !model.checkLoseBuild(worker))
-            /* tile che può andarci != 0 oppure Prometheus canBuild*/
+        if(currentTurn.movableList(worker).size() != 0 || worker.getGodPower()) {
+            /* tile che può andarci != 0 oppure Prometheus canBuild */
             chosenWorker = worker;
             choseWorker();
 
@@ -35,90 +35,21 @@ public class TurnController {
 
     }
 
-    /* fine move -> aggiornare FinalTile + chackWin -> inizio Build */
-    private void endMove() {
-        currentTurn.setFinalTile(chosenWorker.getPosition());
-        if(!model.checkWin()){
-            if(chosenWorker.getGodPower()){
-                currentTurn.setInitialTile(currentTurn.getFinalTile());/* se il worker può fare un'altra mossa */
-                model.showBoard();
-                model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());  /* chiedere al Player se vuole fare move in più */
-            }else {
-                nextState();
-                /*
-                chosenWorker.nextState();
-                //view.build();  /* chiedere al player di Buildare
-
-                if (model.checkLose()) {  /* check se il worker possa o no fare Build
-                    checkGameOver();
-                } else {
-                    model.operation();
-                }
-                */
-            }
-        }
-
-    }
-
-    /* fine Turn -> aggiornare BuiltTile + nextTurn */
-    private void endTurn() {
-        model.setWorkerChosen(false);  /* per stampa Board in Client */
-        model.showBoard();  /* mostrare mappa dopo build */
-        /* ottenere le coordinate del Tile dalla Operation */
-        //illustrare qualche messaggio sulla view
-        model.sendMessage("Il tuo turno è terminato!");  /* mandare solo alla view*/
-        nextTurn();
-    }
-
-    /* aggiornare Turn + ripristinare condizioni */
-    protected void nextTurn() {
-        currentTurn = model.getCurrentTurn();
-        ArrayList<Player> playerList = model.getMatchPlayersList();
-        /* nextTurnNumber */
-        int index = model.getNextPlayerIndex();  //trovare indice del player successivo
-        currentTurn.nextTurn(playerList.get(index));
-        //view.chooseWorker;  -> far scegliere al player il worker dalla view
-        model.showBoard();
-        if (model.checkLose()) {
-            checkGameOver();
-        } else {
-            model.sendMessage("Ecco il tuo turno!\nScegli il worker con cui vuoi fare la mossa");
-            model.sendMessage(Messages.Worker);  /* inviare richiesta worker */
-            /* attesa scelta worker */
-        }
-    }
-
     /* scelto Worker -> inizio move */
     protected void choseWorker(){
 
         currentTurn.choseWorker(chosenWorker);
         model.setWorkerChosen(true);
-        //view.move();  /* ->  passare alla scelta della mossa */
-        if(chosenWorker.getGodPower()) { /* se Prometheus può Build mandare messaggio */
+        /* godPower prima di move -> Prometheus */
+        if(chosenWorker.getGodPower()) {
             model.showBoard();
-            model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());  /* chiedere se fare move o build */
-       }else {
+            model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());
+        }else {
             nextState();
-            /*
-            chosenWorker.nextState();
-            model.operation();
-
-             */
         }
     }
-/*
-    protected void startMove(){
-        //currentView.showMessage("Move!!!");
-        model.move();
-        //System.out.println("Ho finito di notificare move");
-    }
-/*
-    private void startBuild(){
-        //currentView.showMessage("Builda!");
-        model.build();
 
-    }
-*/
+    /* end generico operazioni */
     protected void endOperation(){
         int type = currentTurn.getState();
         if(type == 1){
@@ -128,36 +59,76 @@ public class TurnController {
         }
     }
 
+    /* fine move -> aggiornare FinalTile + chackWin -> inizio Build */
+    private void endMove() {
+        currentTurn.setFinalTile(chosenWorker.getPosition());
+        /* check win dopo move */
+        if(!model.checkWin()){
+            /* godPower prima di Build */
+            if(chosenWorker.getGodPower()){
+                /* se il worker può fare un'altra mossa */
+                currentTurn.setInitialTile(currentTurn.getFinalTile());
+                model.showBoard();
+                /* chiedere al Player se vuole fare move in più */
+                model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());
+            }else {
+                nextState();
+            }
+        }
+
+    }
+
+    /* fine build */
     private void endBuild(){
-         /* primo build Demeter, secondo normale build */  /* Hephaestus build un blocco in più */
+        /* godPower prima di end turn */
         if(chosenWorker.getGodPower()){
             model.showBoard();
-            model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());  /* chiedere al Player se vuole fare build in più */
+            /* chiedere al Player se vuole fare build in più */
+            model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());
         }else{
             nextState();
-            /*
-            chosenWorker.nextState();
-            if(chosenWorker.getState() == 1){  /* se deve fare Move
-                model.showBoard();
-                if(model.checkLose()) {
-                    checkGameOver();
-                }else {
-                    model.operation();
-                }
-            }else {
-                endTurn();
-            }
-
-             */
         }
     }
 
+
+    /* fine Turn -> aggiornare board + nextTurn */
+    private void endTurn() {
+        /* per stampa Board in Client */
+        model.setWorkerChosen(false);
+        /* mostrare mappa dopo build */
+        model.showBoard();
+        /* mandare solo al currentPlayer */
+        model.sendMessage("Il tuo turno è terminato!");
+        nextTurn();
+    }
+
+    /* aggiornare Turn + ripristinare condizioni */
+    protected void nextTurn() {
+        currentTurn = model.getCurrentTurn();
+        ArrayList<Player> playerList = model.getMatchPlayersList();
+        //trovare indice del player successivo
+        int index = model.getNextPlayerIndex();
+        currentTurn.nextTurn(playerList.get(index));
+        model.showBoard();
+        if (model.checkLose()) {
+            checkGameOver();
+        } else {
+            model.sendMessage("Ecco il tuo turno!");
+            /* inviare richiesta worker */
+            model.sendMessage(Messages.Worker);
+            /* attesa scelta worker */
+        }
+    }
+
+
+    /* passare stato prossimo */
     private void nextState(){
         currentTurn.nextState();
         if (currentTurn.getState() == 0){
             endTurn();
         }else {
             model.showBoard();
+            /* checkLose prima dell'operazione */
             if(model.checkLose()) {
                 checkGameOver();
             }else {
@@ -166,7 +137,8 @@ public class TurnController {
         }
     }
 
-    protected void checkGameOver(){
+    /* check dopo lose */
+    private void checkGameOver(){
         if(!model.isGameOver()){
             nextTurn();
         }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
 import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -18,10 +19,10 @@ public class PanTest extends TestCase {
 
         Tile from = new Tile();
         from.setBlockLevel(2);
-        assertTrue(worker.checkWin(from));
+        Assert.assertTrue(worker.checkWin(from));
 
         from.setBlockLevel(1);
-        assertFalse(worker.checkWin(from));
+        Assert.assertFalse(worker.checkWin(from));
 
     }
 

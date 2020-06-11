@@ -57,7 +57,8 @@ public class Turn {
     }
 
     public int getState(){
-        if(!chosenWorker.getGodPower() && chosenWorker.getState() <= 2) {  /* cambio di stato per God speciali */
+        /* cambio di stato per God speciali */
+        if(!chosenWorker.getGodPower() && chosenWorker.getState() <= 2) {
             state = chosenWorker.getState();
         }
         return state;
@@ -75,25 +76,10 @@ public class Turn {
     }
 
 
-    /*
-    //set() of the chosenWorker
-    public void setChosenWorker(UndecoratedWorker chosenWorker) {
-        this.chosenWorker = chosenWorker;
-    }*/
-
     //get() of the chosenWorker
     public UndecoratedWorker getChosenWorker() {
         return chosenWorker;
     }
-
-    /*
-    public boolean canUsePower(){
-        return godPower;
-    }
-
-    public void useGodPower(){
-        godPower = false;
-    }*/
 
     //get() of the initial tile
     public Tile getInitialTile() {
@@ -153,25 +139,30 @@ public class Turn {
     }
 
     //After chose worker
-    public void choseWorker(UndecoratedWorker chosenWorker){  /* aggiornare i tile */
+    public void choseWorker(UndecoratedWorker chosenWorker){
         this.chosenWorker = chosenWorker;
+        /* aggiornare i tile */
         initialTile = chosenWorker.getPosition();
         finalTile = null;
         builtTile = null;
     }
 
+    //check lose conditions
     public boolean checkLose(){
-        if(state == 0){  /* before choosing worker */
-            for (UndecoratedWorker worker : currentPlayer.getWorkerList()) {  /* se tutti i worker non hanno più tile da poter andare -> perde */
+        if(state == 0){
+            /* before choosing worker: se tutti i worker non hanno più tile da poter andare -> perde */
+            for (UndecoratedWorker worker : currentPlayer.getWorkerList()) {
                 if (movableList(worker).size() != 0 || worker.getGodPower()) {
                     return false;
                 }
             }
             return true;
-        }else if(state == 1){  /* before move */
+        }else if(state == 1){
+            /* before move */
             return (movableList(chosenWorker).size() == 0);
         }else {
-            for(Tile t : chosenWorker.getPosition().getAdjacentTiles()){  /* se il worker non può né build Block né build Dome */
+            /* se il worker non può né build Block né build Dome */
+            for(Tile t : chosenWorker.getPosition().getAdjacentTiles()){
                 if(chosenWorker.canBuildBlock(t) || chosenWorker.canBuildDome(t)){
                     return false;
                 }

@@ -12,7 +12,7 @@ import java.util.List;
 public class Conditions {
 
  //if true in currentTurn worker cant move up
-    private boolean athenaRule = false;  /* true -> canMoveUp = false */
+    private boolean athenaRule = false;
 
     private boolean limusRule = false;
 
@@ -35,14 +35,16 @@ public class Conditions {
         this.athenaRule = i;
     }
 
-    protected void addLimusWorker(UndecoratedWorker worker){  /* salvare i worker per controllo */
+    /* salvare i worker per controllo Limus */
+    protected void addLimusWorker(UndecoratedWorker worker){
         limusWorkers.add(worker);
         limusRule = true;
     }
 
     protected boolean checkBuildCondition(Tile t){
         if(limusRule) {
-            for (UndecoratedWorker limus : limusWorkers) {  /* non si può buildare su tile adiacenti a limus */
+            /* non si può buildare su tile adiacenti a limus */
+            for (UndecoratedWorker limus : limusWorkers) {
                 if (limus.getPosition().isAdjacentTo(t)) {
                     return false;
                 }
@@ -64,10 +66,10 @@ public class Conditions {
     }
 
     public void update(int losePlayerID){
-        if(limusWorkers.get(0).getBelongToPlayer() == losePlayerID){
+        if(limusRule && limusWorkers.get(0).getBelongToPlayer() == losePlayerID){
             limusRule = false;
             limusWorkers.clear();
-        }else if(heraPlayerID == losePlayerID){
+        }else if(heraRule && heraPlayerID == losePlayerID){
             heraRule = false;
         }
     }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
 
-import java.util.List;
 
 
 public class Atlas extends WorkerDecorator {
@@ -43,31 +42,17 @@ public class Atlas extends WorkerDecorator {
 
     @Override
     public void buildBlock(Tile t) {
+        /* se può buildare Block di sicuro può buildare Dome */
         if(getGodPower()) {
             buildTile = t;
             used = true;
-        }else {
-            super.buildBlock(t);
-        }
-    }
-
-    @Override
-    public void buildDome(Tile t) {
-        if(getGodPower()) {
-            buildTile = t;
-            used = true;
-        }else {
-            super.buildDome(t);
         }
     }
 
     @Override
     public int getState() {
-        if (getGodPower()) {  /* per print Board*/
-            setGodPower(false);
-            int state = super.getState();
-            setGodPower(true);
-            return state;
+        if (getGodPower()) {  /* per print Board */
+            return 2;
         }else{
             return super.getState();
         }

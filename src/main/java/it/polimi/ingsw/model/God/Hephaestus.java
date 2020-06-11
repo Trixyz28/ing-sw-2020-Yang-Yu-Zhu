@@ -21,7 +21,8 @@ public class Hephaestus extends WorkerDecorator {
         if (buildCounter == 0) {
             return super.canBuildBlock(t);
         }else {
-            if(builtTile.getBlockLevel() < 3){  /* second Block */
+            /* second Block */
+            if(builtTile.getBlockLevel() < 3){
                 return true;
             }
         }
@@ -37,19 +38,17 @@ public class Hephaestus extends WorkerDecorator {
             if(canBuildBlock(t)) {
                 setGodPower(true);
             }
-        } else {  /* second Build */
-            buildCounter = 0;
+        } else {
+            /* second Build */
             super.buildBlock(builtTile);
         }
     }
 
     @Override
-    public int getState() {  /* per print Board */
+    public int getState() {
+        /* per print Board */
         if (getGodPower()) {
-            setGodPower(false);
-            int state = super.getState();
-            setGodPower(true);
-            return state;
+            return 2;
         }else{
             return super.getState();
         }
@@ -61,6 +60,11 @@ public class Hephaestus extends WorkerDecorator {
             buildBlock(builtTile);
         }
         setGodPower(false);
+    }
+
+    @Override
+    public void nextState() {
+        super.nextState();
         buildCounter = 0;
         builtTile = null;
     }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.God;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Tile;
 import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -27,33 +28,6 @@ public class NoGodTest extends TestCase {
         assertEquals(t,noGod.getPosition());
     }
 
-    /*
-    @Test
-    public void testMove() {
-        board.initializeTiles();
-        testPosition();
-        destination = board.getTile(1,2);
-        destination.setBlockLevel(2);
-
-        List<Tile> movableTiles = new ArrayList<>();
-        //movableTiles = noGod.movableList();
-
-        boolean flag = false;
-        for(Tile tile : movableTiles) {
-            if(tile.equals(destination)) {
-                flag = true;
-            }
-        }
-
-        assertTrue(flag);
-
-        assertTrue(noGod.getPosition().isOccupiedByWorker());
-        noGod.move(destination);
-        assertFalse(board.getTile(2,1).isOccupiedByWorker());
-
-    }
-    */
-
 
     @Test
     public void testBuild() {
@@ -62,28 +36,38 @@ public class NoGodTest extends TestCase {
         destination.setColumn(2);
         destination.setBlockLevel(2);
 
-        assertTrue(noGod.canBuildBlock(destination));
-        assertFalse(noGod.canBuildDome(destination));
+        Assert.assertTrue(noGod.canBuildBlock(destination));
+        Assert.assertFalse(noGod.canBuildDome(destination));
 
         noGod.buildBlock(destination);
-        assertFalse(noGod.canBuildBlock(destination));
-        assertTrue(noGod.canBuildDome(destination));
+        Assert.assertFalse(noGod.canBuildBlock(destination));
+        Assert.assertTrue(noGod.canBuildDome(destination));
 
-        assertFalse(t.isDomePresence());
+        Assert.assertFalse(t.isDomePresence());
         noGod.buildDome(destination);
-        assertTrue(destination.isDomePresence());
+        Assert.assertTrue(destination.isDomePresence());
     }
 
 
     @Test
     public void testGodPower() {
+        noGod.setState(1);
+        Assert.assertEquals(1, noGod.getState());
         noGod.setGodPower(true);
-        assertTrue(noGod.getGodPower());
+        Assert.assertTrue(noGod.getGodPower());
+        Assert.assertEquals(0, noGod.getState());
+        noGod.useGodPower(false);
+        noGod.nextState();
+        Assert.assertEquals(2, noGod.getState());
+        Assert.assertFalse(noGod.getGodPower());
+        noGod.nextState();
+        Assert.assertEquals(0, noGod.getState());
+
     }
 
     @Test
     public void testConditions() {
-        assertEquals(condition,noGod.getConditions());
+        Assert.assertEquals(condition,noGod.getConditions());
     }
 
 

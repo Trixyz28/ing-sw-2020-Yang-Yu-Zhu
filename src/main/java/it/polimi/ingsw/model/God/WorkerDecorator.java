@@ -14,7 +14,7 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
 
     public WorkerDecorator(UndecoratedWorker worker){
         this.worker = worker;
-        setGodPower(false);  /* godPower ancora attivato */
+        setGodPower(false);
     }
 
     //standard constructors
@@ -108,7 +108,8 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
 
     protected UndecoratedWorker getWorker(Tile tile, List<UndecoratedWorker> totalWorkers){
         for(UndecoratedWorker w : totalWorkers){
-            if(w.getPosition() == tile){  /* trovato worker sulla tile */
+            if(w.getPosition() == tile){
+                /* trovato worker sulla tile */
                 return w;
             }
         }

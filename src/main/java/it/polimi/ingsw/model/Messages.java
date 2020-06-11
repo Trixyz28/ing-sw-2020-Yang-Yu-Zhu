@@ -10,7 +10,7 @@ public class Messages {
     public static String lose = "Hai perso!";
 
     //Requests
-    public static String Worker = "indice 0 o 1";
+    public static String Worker = "Scegli il worker con cui vuoi fare la mossa: indice 0 o 1";
     public static String Operation = " (x,y)";
     public static String Place = "Place : ";
     public static String Move = "Move : ";

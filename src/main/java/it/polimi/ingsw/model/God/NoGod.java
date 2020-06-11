@@ -4,8 +4,6 @@ package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class NoGod implements UndecoratedWorker {
@@ -124,7 +122,8 @@ public class NoGod implements UndecoratedWorker {
    @Override
    public int getState() {
        if(godPower){
-          return 0;  /* waiting for answer */
+          /* waiting for answer */
+          return 0;
        }
       return state;
    }

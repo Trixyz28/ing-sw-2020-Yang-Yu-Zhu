@@ -31,7 +31,6 @@ public class InitControllerTest extends TestCase {
 
         //assertFalse(initController.isGodChanged());
         assertFalse(initController.isEndInitialize());
-        assertFalse(initController.isNameChanged());
 
 
 

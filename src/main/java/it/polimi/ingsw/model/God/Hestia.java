@@ -34,7 +34,6 @@ public class Hestia extends WorkerDecorator {
     public boolean canBuildDome(Tile t) {
         if( buildCounter == 0){
             return super.canBuildDome(t);
-            //view.DemeterBuild;
         }
         else{
             return canBuildDomeHestia(t);
@@ -58,7 +57,7 @@ public class Hestia extends WorkerDecorator {
         buildCounter = 0;
     }
 
-    public boolean canBuildBlockHestia(Tile t){
+    private boolean canBuildBlockHestia(Tile t){
         if(t.perimeterTile()){
             return false;
         }
@@ -68,7 +67,7 @@ public class Hestia extends WorkerDecorator {
         }
     }
 
-    public boolean canBuildDomeHestia(Tile t){
+    private boolean canBuildDomeHestia(Tile t){
         if(t.perimeterTile()){
             return false;
         }

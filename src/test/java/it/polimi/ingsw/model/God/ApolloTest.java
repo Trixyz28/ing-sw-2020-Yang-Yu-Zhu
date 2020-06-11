@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.Turn;
 import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,8 +38,8 @@ public class ApolloTest extends TestCase {
     @Test
     public void testAvailableApolloToMove() {
         initialize();
-        assertFalse(worker.canMove(apollo.getPosition()));
-        assertTrue(worker.canMove(artemis.getPosition()));
+        Assert.assertFalse(worker.canMove(apollo.getPosition()));
+        Assert.assertTrue(worker.canMove(artemis.getPosition()));
     }
 
 
@@ -46,7 +47,7 @@ public class ApolloTest extends TestCase {
     public void testCanMove() {
         initialize();
         List<Tile> movableTiles = turn.movableList(worker);
-        assertEquals(4,movableTiles.size());
+        Assert.assertEquals(4,movableTiles.size());
     }
 
 
@@ -54,8 +55,8 @@ public class ApolloTest extends TestCase {
     public void testMove() {
         initialize();
         worker.move(artemis.getPosition());
-        assertEquals(board.getTile(1,1),worker.getPosition());
-        assertEquals(board.getTile(0,1),artemis.getPosition());
+        Assert.assertEquals(board.getTile(1,1),worker.getPosition());
+        Assert.assertEquals(board.getTile(0,1),artemis.getPosition());
         worker.move(board.getTile(2,2));
     }
 

@@ -1,8 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.God.Atlas;
-import it.polimi.ingsw.model.God.Hephaestus;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 
 public class BuildController {
@@ -15,34 +13,17 @@ public class BuildController {
         this.model = model;
     }
 
-/*
-    public boolean checkBlockDome(String command){  /* Atlas build
-        if(command.equals("DOME")){
-            worker.buildDome(position);
-            return true;
-        }else if(command.equals("BLOCK")){
-            worker.buildBlock(position);
-            return true;
-        }
-        return false;
-    }
-*/
 
     public boolean build(Operation operation){
         worker = model.getCurrentTurn().getChosenWorker();
         position = model.commandToTile(operation.getRow(), operation.getColumn());
-        /*
-        if(checkPosition(position)){  /* build nella check
-            return true;  /* build andato a buon fine
-        }else{
-            return false;  /* da ripetere build
-        }
-        */
+
         return checkPosition(position);
     }
 
-    private boolean checkPosition(Tile position){  /* check buildBlock/Dome if true -> Build */
-        //return worker.getCurrentPosition(worker).availableToBuild(position);  /* worker.canBuild;  da usare */
+    /* check buildBlock/Dome if true -> Build */
+    private boolean checkPosition(Tile position){
+        /* canBuild */
         if(worker.canBuildBlock(position)){
             worker.buildBlock(position);
             return true;

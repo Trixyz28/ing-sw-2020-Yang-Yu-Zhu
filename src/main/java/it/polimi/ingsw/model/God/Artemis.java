@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
 
-import java.util.List;
 
 
 public class Artemis extends WorkerDecorator {
@@ -21,57 +20,29 @@ public class Artemis extends WorkerDecorator {
             if(t == originalTile){
                 return false;
             }
-        }else {  /* first Move */
-            setOriginalTile(super.getPosition());
         }
         return super.canMove(t);
 
     }
 
-    /*
-    @Override
-    public List<Tile> canMove() {
-
-        if(moveCounter == 1) {  /* second Move
-            List<Tile> tempList;
-
-
-            tempList = super.canMove();
-
-            for (int i = 0; i < tempList.size(); i++) {
-                Tile tempTile = tempList.get(i);
-                if (tempTile == originalTile) {
-                    tempList.remove(i);
-                    break;
-                }
-            }
-            return tempList;
-        }
-        else{  /* first Move
-            setOriginalTile(super.getPosition());
-            return super.canMove();
-        }
-    }
-
-
-     */
 
     @Override
     public void move(Tile t) {
         if(moveCounter == 1){
             super.move(t);
         }
-        if(moveCounter == 0){
+        if(moveCounter == 0){   /* first move */
+            /* salvare posizione iniziale prima della move */
+            originalTile = getPosition();
             super.move(t);
             moveCounter++;
             for(Tile tile : getPosition().getAdjacentTiles()){
                 if(canMove(tile)){
-                    setGodPower(true);  /* attivare godPower */
+                    /* attivare godPower */
+                    setGodPower(true);
                     break;
                 }
             }
-            //view.MoveArtemis;
-            //richiede un move ulteriore per il worker scelto con lo stesso worker
         }
 
 
@@ -84,21 +55,4 @@ public class Artemis extends WorkerDecorator {
         moveCounter = 0;
     }
 
-    public Tile getOriginalTile() {
-        return originalTile;
-    }
-
-    private void setOriginalTile(Tile t) {
-        this.originalTile = t;
-    }
-
-    /*
-    public int getCounter() {
-        return counter;
-    }
-
-    public void setCounter(int i) {
-        this.counter = i;
-    }
-     */
 }

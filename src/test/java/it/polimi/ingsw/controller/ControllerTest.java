@@ -23,7 +23,7 @@ public class ControllerTest extends TestCase {
     @Test
     public void testMinorControllers() {
         controller = new Controller(model,views);
-        controller.minorControllers(model,views);
+        controller.minorControllers(model);
     }
 
     public void testCheckTurn() {

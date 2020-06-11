@@ -19,7 +19,6 @@ public class Athena extends WorkerDecorator {
             getConditions().setAthenaRule(true);
         }
         super.move(t);
-        // setAthenaRule(athenaBoolean);
     }
 
     @Override
