@@ -15,7 +15,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 
-public class Client {
+public class Client implements Runnable {
 
     private String ip;
     private int port;
@@ -27,6 +27,10 @@ public class Client {
 
     private Thread t0;
     private Thread t1;
+
+    private Socket socket;
+    private ObjectInputStream socketIn;
+    private PrintWriter socketOut;
 
 
     public Client() {
@@ -61,34 +65,13 @@ public class Client {
         this.port = Integer.parseInt(inputPort);
 
         //Create socket
-        Socket socket = new Socket(ip,port);
+        this.socket = new Socket(ip,port);
 
         //Set I/O streams
-        ObjectInputStream socketIn = new ObjectInputStream(socket.getInputStream());
-        PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
+        this.socketIn = new ObjectInputStream(socket.getInputStream());
+        this.socketOut = new PrintWriter(socket.getOutputStream());
 
         ui.showMessage(Messages.connectionReady);
-
-
-        try {
-            t0 = asyncReadFromSocket(socketIn);
-            t1 = asyncWriteToSocket(socketOut);
-            t0.join();
-            if(isActive()) {
-                t1.join();
-            } else {
-                t1.interrupt();
-            }
-
-
-        } catch (Exception e) {
-            ui.showMessage(Messages.connectionClosed);
-
-        } finally{
-            socketOut.close();
-            socketIn.close();
-            socket.close();
-        }
 
     }
 
@@ -221,4 +204,31 @@ public class Client {
         this.ui = gui;
     }
 
+    @Override
+    public void run() {
+        try {
+            t0 = asyncReadFromSocket(socketIn);
+            t1 = asyncWriteToSocket(socketOut);
+            t0.join();
+            if(isActive()) {
+                t1.join();
+            } else {
+                t1.interrupt();
+            }
+
+
+        } catch (Exception e) {
+            ui.showMessage(Messages.connectionClosed);
+
+        } finally{
+            try {
+                socketOut.close();
+                socketIn.close();
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }

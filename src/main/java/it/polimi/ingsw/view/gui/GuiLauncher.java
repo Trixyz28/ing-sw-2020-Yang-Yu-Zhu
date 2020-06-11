@@ -62,7 +62,7 @@ public class GuiLauncher extends Application {
     }
 
 
-    public void changeScene(int index) throws IOException {
+    public void changeScene(int index) throws Exception {
         Parent parent = loadScene(index).load();
         this.commuter = loadScene(index).getController();
         this.commuter.setGuiLauncher(this);
@@ -70,6 +70,10 @@ public class GuiLauncher extends Application {
         scene.setRoot(parent);
         stage.setScene(scene);
 
+        if(index==2) {
+            createClient();
+            new Thread(client).start();
+        }
     }
 
 

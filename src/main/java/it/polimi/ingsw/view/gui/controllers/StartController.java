@@ -15,7 +15,7 @@ public class StartController extends Commuter {
     private Pane startPane;
 
     @FXML
-    public void loadingScene(MouseEvent event) throws IOException {
+    public void loadingScene(MouseEvent event) throws Exception {
         System.out.println("Go to loading scene");
         super.getGuiLauncher().changeScene(1);
     }

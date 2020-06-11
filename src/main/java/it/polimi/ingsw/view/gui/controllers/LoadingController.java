@@ -38,7 +38,6 @@ public class LoadingController extends Commuter {
     }
 
 
-
     @FXML
     private Label nameRecv;
 
