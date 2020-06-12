@@ -7,7 +7,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class BoardController {
+public class BoardController extends Commuter {
 
     @FXML
     private GridPane boardGrid;

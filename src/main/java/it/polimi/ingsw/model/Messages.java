@@ -44,7 +44,16 @@ public class Messages {
     public static String nicknameAvailable = "You can use this nickname!";
 
 
+    //Lobby
+    public static String canCreateLobby = "You can create a lobby\nHow many players can join this match? (2-3)";
 
+
+    //Lobby
+    public static String matchStarting = "Match Starting\nPlayers in game are: ";
+
+    //Godlist
+    public static String invalidChoice = "Scelta invalida";
+    public static String challengerChosen = "Il Challenger ha finito di scegliere i God! \nLa Lista dei God scelti è :";
 
 
 

@@ -12,6 +12,7 @@ public class Commuter {
 
 
 
+
     public GuiLauncher getGuiLauncher() {
         return guiLauncher;
     }
@@ -19,5 +20,6 @@ public class Commuter {
     public void setGuiLauncher(GuiLauncher guiLauncher) {
         this.guiLauncher = guiLauncher;
     }
+
 
 }

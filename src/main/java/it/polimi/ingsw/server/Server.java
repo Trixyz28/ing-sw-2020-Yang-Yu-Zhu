@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.lobby.LobbyController;
 import it.polimi.ingsw.lobby.LobbyHandler;
+import it.polimi.ingsw.model.Messages;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.RemoteView;
@@ -103,7 +104,7 @@ public class Server {
                 connection.getPlayer().setPlayerID(matchConnection.get(lobbyID).indexOf(connection));
 
                 //Display match players info
-                connection.syncSend("Match Starting\nPlayers in game are: ");
+                connection.syncSend(Messages.matchStarting);
                 connection.syncSend(lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList());
 
             }

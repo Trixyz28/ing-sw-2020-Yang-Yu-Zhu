@@ -1,9 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.view.cli.BoardView;
-
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 public interface Ui {
@@ -16,6 +13,8 @@ public interface Ui {
 
     //Receive a message in input
     String getInput();
+
+    void showList(ArrayList<String> list);
 
 
 

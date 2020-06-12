@@ -13,20 +13,15 @@ public class ClientApp {
     public static void main(String[] args) {
 
         CliLauncher cliLauncher;
-        GuiLauncher guiLauncher;
 
-        try {
-            if(args.length==0) {
-                cliLauncher = new CliLauncher();
-                cliLauncher.start();
-            } else {
-                guiLauncher = new GuiLauncher();
-                Application.launch(GuiLauncher.class);
-            }
 
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        if(args.length==0) {
+            cliLauncher = new CliLauncher();
+            cliLauncher.start();
+        } else {
+            Application.launch(GuiLauncher.class);
         }
+
     }
 
 }

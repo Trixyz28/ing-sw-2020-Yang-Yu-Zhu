@@ -99,7 +99,7 @@ public class SocketConnection extends Observable implements Runnable {
             if(!server.getLobbyHandler().checkAvailableLobby()) {
                 int number;
 
-                send("You can create a lobby\nHow many players can join this match? (2-3)");
+                send(Messages.canCreateLobby);
 
                 do {
                     try {

@@ -4,11 +4,9 @@ import it.polimi.ingsw.model.GameMessage;
 import it.polimi.ingsw.model.Messages;
 import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.view.Ui;
-import it.polimi.ingsw.view.cli.BoardView;
+import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.cli.CLI;
 import it.polimi.ingsw.view.gui.GUI;
-import it.polimi.ingsw.view.gui.GuiHandler;
-import it.polimi.ingsw.view.gui.GuiLauncher;
 
 import java.io.*;
 import java.net.Socket;
@@ -17,20 +15,20 @@ import java.util.ArrayList;
 
 public class Client implements Runnable {
 
-    private String ip;
-    private int port;
-    private Ui ui;
+    private Socket socket;
+    private ObjectInputStream socketIn;
+    private PrintWriter socketOut;
+
     private boolean active;
     private boolean opReceived;
     private boolean gmReceived;
     private GameMessage gMessage;
 
+    private Ui ui;
     private Thread t0;
     private Thread t1;
 
-    private Socket socket;
-    private ObjectInputStream socketIn;
-    private PrintWriter socketOut;
+
 
 
     public Client() {
@@ -49,7 +47,7 @@ public class Client implements Runnable {
     }
 
 
-    public void startClient(String uiStyle,String inputIp,String inputPort) throws Exception {
+    public void startClient(String uiStyle,Socket socket) {
 
         //Create CLI
         if(uiStyle.toUpperCase().equals("CLI") || uiStyle.isBlank()) {
@@ -60,19 +58,17 @@ public class Client implements Runnable {
         if(uiStyle.toUpperCase().equals("GUI")) {
         }
 
-        //Read socket's ip and port
-        this.ip = inputIp;
-        this.port = Integer.parseInt(inputPort);
+        this.socket = socket;
 
-        //Create socket
-        this.socket = new Socket(ip,port);
-
-        //Set I/O streams
-        this.socketIn = new ObjectInputStream(socket.getInputStream());
-        this.socketOut = new PrintWriter(socket.getOutputStream());
+        try {
+            //Set I/O streams
+            this.socketIn = new ObjectInputStream(socket.getInputStream());
+            this.socketOut = new PrintWriter(socket.getOutputStream());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
 
         ui.showMessage(Messages.connectionReady);
-
     }
 
 
@@ -98,13 +94,8 @@ public class Client implements Runnable {
                             ui.showMessage(s);
                         }
                     } else if(inputObject instanceof ArrayList){  /* currentGodList */
-                        ArrayList nameList = (ArrayList) inputObject;
-                        if(nameList.size() != 0 && nameList.get(0) instanceof String){
-                            for (Object o : nameList){
-                                String s = (String) o;
-                                ui.showMessage(s);
-                            }
-                        }
+                        ui.showList((ArrayList<String>) inputObject);
+
                     } else if(inputObject instanceof Operation){
                         opReceived = true;  /* ricevuto un Operation */
                         Operation operation = (Operation)inputObject;
@@ -134,63 +125,16 @@ public class Client implements Runnable {
     }
 
 
-    public Thread asyncWriteToSocket(final PrintWriter socketOut) {
+    public Thread cliWriteToSocket(final PrintWriter socketOut) {
 
         Thread t = new Thread(() -> {
 
             try {
                 while(isActive()) {
                     String input = ui.getInput();
-
-
-                    if(opReceived) {
-                        try {  /* coordinate Tile */
-                            String[] inputs = input.split(",");
-                            int row = Integer.parseInt(inputs[0]);
-                            int column = Integer.parseInt(inputs[1]);
-                            if (row < 5 && column < 5 && row >= 0 && column >= 0) {
-                                socketOut.println(input);
-                                socketOut.flush();
-                                opReceived = false;
-                            }else {
-
-                                ui.showMessage(Messages.tryAgain + "\n" + Messages.Operation);
-                                //ui.showMessage(Messages.Operation);
-                            }
-                        } catch (Exception e) {
-                            ui.showMessage(Messages.wrongArgument);
-                        }
-
-                    }else if (gmReceived) {  /* Risposta al messaggio */
-
-                        input = input.toUpperCase();
-
-                        if (gMessage.getMessage().equals(Messages.Worker)) {
-                            try {  /* indice worker o 0 o 1 */
-                                int index = Integer.parseInt(input);
-                                if (index == 0 || index == 1) {
-                                    socketOut.println(input);
-                                    socketOut.flush();
-                                    gmReceived = false;
-                                    gMessage = null;
-                                } else {
-                                    ui.showMessage(Messages.tryAgain + "\n" + gMessage.getMessage());
-                                    //ui.showMessage(gMessage.getMessage());
-                                }
-                            } catch (IllegalArgumentException e) {
-                                ui.showMessage(Messages.wrongArgument);
-                            }
-                        }else {  /* problema yes or no */
-                            socketOut.println(input);
-                            socketOut.flush();
-                            gmReceived = false;
-                            gMessage = null;
-                        }
-                    } else {
-                        socketOut.println(input);
-                        socketOut.flush();
-                    }
+                    sendInput(input);
                 }
+
             } catch(Exception e) {
                 setActive(false);
             }
@@ -206,16 +150,23 @@ public class Client implements Runnable {
 
     @Override
     public void run() {
+        boolean cli = false;
+
         try {
             t0 = asyncReadFromSocket(socketIn);
-            t1 = asyncWriteToSocket(socketOut);
-            t0.join();
-            if(isActive()) {
-                t1.join();
-            } else {
-                t1.interrupt();
+            if(ui instanceof CLI) {
+                cli = true;
+                t1 = cliWriteToSocket(socketOut);
             }
+            t0.join();
 
+            if(cli) {
+                if(isActive()) {
+                    t1.join();
+                } else {
+                    t1.interrupt();
+                }
+            }
 
         } catch (Exception e) {
             ui.showMessage(Messages.connectionClosed);
@@ -229,6 +180,58 @@ public class Client implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
 
+    public void sendInput(String input) {
+
+        if(opReceived) {
+
+            try {  /* coordinate Tile */
+                String[] inputs = input.split(",");
+                int row = Integer.parseInt(inputs[0]);
+                int column = Integer.parseInt(inputs[1]);
+                if (row < 5 && column < 5 && row >= 0 && column >= 0) {
+                    socketOut.println(input);
+                    socketOut.flush();
+                    opReceived = false;
+                }else {
+
+                    ui.showMessage(Messages.tryAgain + "\n" + Messages.Operation);
+                    //ui.showMessage(Messages.Operation);
+                }
+            } catch (Exception e) {
+                ui.showMessage(Messages.wrongArgument);
+            }
+
+        }else if (gmReceived) {  /* Risposta al messaggio */
+
+            input = input.toUpperCase();
+
+            if (gMessage.getMessage().equals(Messages.Worker)) {
+                try {  /* indice worker o 0 o 1 */
+                    int index = Integer.parseInt(input);
+                    if (index == 0 || index == 1) {
+                        socketOut.println(input);
+                        socketOut.flush();
+                        gmReceived = false;
+                        gMessage = null;
+                    } else {
+                        ui.showMessage(Messages.tryAgain + "\n" + gMessage.getMessage());
+                        //ui.showMessage(gMessage.getMessage());
+                    }
+                } catch (IllegalArgumentException e) {
+                        ui.showMessage(Messages.wrongArgument);
+                }
+            }else {  /* problema yes or no */
+                socketOut.println(input);
+                socketOut.flush();
+                gmReceived = false;
+                gMessage = null;
+            }
+        } else {
+            socketOut.println(input);
+            socketOut.flush();
+        }
     }
 }
+

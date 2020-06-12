@@ -1,14 +1,13 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.view.Ui;
-import it.polimi.ingsw.view.cli.BoardView;
-import it.polimi.ingsw.view.gui.controllers.LoadingController;
-import it.polimi.ingsw.view.gui.controllers.StartController;
+import it.polimi.ingsw.view.BoardView;
 
-import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GUI implements Ui {
+public class GUI extends Observable implements Ui {
 
     private String playerName;
     private String input = new String();
@@ -16,14 +15,11 @@ public class GUI implements Ui {
     private Scanner scanner = new Scanner(System.in);
 
 
-    public GUI() {
-
-    }
-
 
     @Override
     public void showMessage(String str) {
-        System.out.println(str);
+        System.out.println("Received in gui: " + str);
+        notify(str);
     }
 
 
@@ -35,6 +31,11 @@ public class GUI implements Ui {
     @Override
     public String getInput() {
         return scanner.nextLine();
+    }
+
+    @Override
+    public void showList(ArrayList<String> list) {
+        notify(list);
     }
 
 

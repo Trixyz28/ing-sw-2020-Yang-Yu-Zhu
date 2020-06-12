@@ -1,28 +1,43 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.server.SocketConnection;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.Scanner;
 
 public class CliLauncher {
 
     private Scanner scanner;
     private Client client;
+    private boolean set;
 
     private String ip;
     private String port;
 
 
-    public void start() throws Exception {
-        scanner = new Scanner(System.in);
+    public void start() {
+        this.scanner = new Scanner(System.in);
+        this.set = false;
 
-        System.out.println("Server IP: ");
-        ip = scanner.nextLine();
-        System.out.println("Server port: ");
-        port = scanner.nextLine();
+        while (!set) {
+            System.out.println("Server IP: ");
+            ip = scanner.nextLine();
+            System.out.println("Server port: ");
+            port = scanner.nextLine();
 
-        client = new Client();
-        client.startClient("cli",ip,port);
+            try {
+                Socket socket = new Socket(ip, Integer.parseInt(port));
+                this.set = true;
+
+                this.client = new Client();
+                client.startClient("cli", socket);
+                client.run();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
 }

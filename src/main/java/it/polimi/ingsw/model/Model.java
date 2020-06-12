@@ -3,8 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.God.Conditions;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observable;
-import it.polimi.ingsw.view.cli.BoardView;
-import it.polimi.ingsw.view.cli.WorkerView;
+import it.polimi.ingsw.view.BoardView;
+import it.polimi.ingsw.view.WorkerView;
 
 
 import java.util.ArrayList;
@@ -69,13 +69,15 @@ public class Model extends Observable {
         godsList.selectGod(god);
         if(!godsList.addInGodList()){  /* se il God scelto non viene aggiunto nella currentList */
             //views.get(challenger).showMessage("Scelta invalida");
-            sendMessage("Scelta invalida");
+            sendMessage(Messages.invalidChoice);
         }
         if(godsList.checkLength()){
             //views.get(p).showMessage("Il Challenger ha finito di scegliere i God! La Lista dei God scelti è :");
-            broadcast("Il Challenger ha finito di scegliere i God! \nLa Lista dei God scelti è :");
+            broadcast(Messages.challengerChosen);
             return true;
         }
+
+
         return false;
     }
 

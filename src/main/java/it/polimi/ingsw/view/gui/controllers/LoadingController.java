@@ -21,22 +21,6 @@ import java.util.ArrayList;
 
 public class LoadingController extends Commuter {
 
-    @FXML
-    private TextField ipField;
-
-    @FXML
-    private TextField portField;
-
-    @FXML
-    private Button serverButton;
-
-    public void serverInfo(ActionEvent event) throws Exception {
-        super.getGuiLauncher().setIp(ipField.getCharacters().toString());
-        super.getGuiLauncher().setPort(portField.getCharacters().toString());
-        System.out.println("Server set to " + ipField.getCharacters().toString() + ", port " + portField.getCharacters().toString());
-        super.getGuiLauncher().changeScene(2);
-    }
-
 
     @FXML
     private Label nameRecv;
@@ -49,12 +33,13 @@ public class LoadingController extends Commuter {
 
     public void sendName(ActionEvent event) {
         System.out.println(nameField.getCharacters().toString());
+        super.getGuiLauncher().getClient().sendInput(nameField.getCharacters().toString());
     }
 
-    public void getCommand(String str) {
-        System.out.println(str);
+    public void showNameMsg(String str) {
         nameRecv.setText(str);
     }
+
 
 
 
@@ -76,10 +61,15 @@ public class LoadingController extends Commuter {
 
     public void sendLobby(ActionEvent event) {
         if(playerNumberSelect.getValue()==null || playerNumberSelect.getValue().equals("2 players")) {
-            System.out.println(2);
+            super.getGuiLauncher().getClient().sendInput("2");
         } else {
-            System.out.println(3);
+            super.getGuiLauncher().getClient().sendInput("3");
         }
+        playerNumberSelect.setDisable(true);
+        playerNumberSelect.setVisible(false);
+        lobbyButton.setDisable(true);
+        lobbyButton.setVisible(false);
+        lobbyRecv.setText("Waiting for other players");
     }
 
 

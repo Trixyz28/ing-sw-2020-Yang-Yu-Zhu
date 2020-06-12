@@ -3,12 +3,16 @@ package it.polimi.ingsw.view.gui.controllers;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
-public class GodController {
+import java.util.ArrayList;
+
+public class GodController extends Commuter {
 
     private boolean chosen = false;
     private int counter = 0;
@@ -82,15 +86,13 @@ public class GodController {
         }
 
         System.out.println(imageView.getId());
+        super.getGuiLauncher().getClient().sendInput(imageView.getId().toUpperCase());
         changeImage(imageView);
         counter++;
-        checkCounter(imageView);
     }
 
-    public void checkCounter(ImageView imageView) {
-        if(counter==2) {
-            setChosen(true);
-        }
+    public void setChosen(boolean bool) {
+        chosen = bool;
     }
 
 
@@ -157,19 +159,56 @@ public class GodController {
                 Image image = new Image("/godcards/chosen/ZeusChosen.png");
                 imageView.setImage(image);
             }
-        } else {
+        }
+
+        /*else {
             imageView.setDisable(true);
             imageView.setVisible(false);
         }
 
+         */
+
 
     }
 
-    public void setChosen(Boolean bool) {
-        this.chosen = bool;
+    @FXML
+    private Pane cloud0;
+
+    @FXML
+    private Label playerName0;
+
+    @FXML
+    private Label god0;
+
+
+    @FXML
+    private Pane cloud1;
+
+    @FXML
+    private Label playerName1;
+
+    @FXML
+    private Label god1;
+
+
+    @FXML
+    private Pane cloud2;
+
+    @FXML
+    private Label playerName2;
+
+    @FXML
+    private Label god2;
+
+
+
+    public void setName(ArrayList<String> nameList) {
+        playerName0.setText(nameList.get(0));
+        playerName1.setText(nameList.get(1));
+        if(nameList.size()==3) {
+            playerName2.setText(nameList.get(2));
+        }
     }
-
-
 
 
 
