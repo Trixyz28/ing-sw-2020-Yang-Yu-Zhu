@@ -1,13 +1,12 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.model.Messages;
+import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.observers.Observable;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -50,7 +49,7 @@ public class SocketConnection extends Observable implements Runnable {
     public void closeConnection() {
         active = false;
         try {
-            send("Connection closed!");
+            send(Messages.connectionClosed);
             socket.close();
         } catch(IOException e) {
             System.err.println("Error when closing socket!");

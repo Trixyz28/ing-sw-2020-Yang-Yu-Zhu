@@ -1,22 +1,22 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.model.Messages;
+import it.polimi.ingsw.messages.GodChosenMessage;
+import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.observers.Observer;
-import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.view.gui.controllers.Commuter;
 import it.polimi.ingsw.view.gui.controllers.GodController;
 import it.polimi.ingsw.view.gui.controllers.LoadingController;
 import it.polimi.ingsw.view.gui.controllers.ServerController;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -35,7 +35,7 @@ public class GuiLauncher extends Application implements Observer {
     private Commuter commuter;
     private GUI gui;
 
-    private boolean playerNameSet = false;
+    private boolean playerNameSet;
     private ArrayList<String> playerList;
     private ArrayList<String> godList;
 
@@ -52,6 +52,7 @@ public class GuiLauncher extends Application implements Observer {
         this.gui = new GUI();
         this.playerList = new ArrayList<>();
         this.godList = new ArrayList<>();
+        this.playerNameSet = false;
     }
 
 
@@ -68,6 +69,12 @@ public class GuiLauncher extends Application implements Observer {
 
         Scene scene = new Scene(root);
         this.scene = scene;
+
+        stage.setOnCloseRequest(e-> {
+            thread.interrupt();
+            Platform.exit();
+            System.exit(0);
+        });
 
         stage.setScene(scene);
         stage.show();
@@ -94,6 +101,10 @@ public class GuiLauncher extends Application implements Observer {
 
             if(index==3) {
                 ((LoadingController)commuter).setChoiceBox();
+            }
+
+            if(index==4) {
+                ((GodController)commuter).setName(playerList);
             }
 
         } catch (Exception e) {
@@ -147,6 +158,19 @@ public class GuiLauncher extends Application implements Observer {
     @Override
     public void update(Object message) {
 
+        if(message.equals(Messages.connectionClosed)) {
+            Platform.runLater(() -> {
+                Stage popup = new Stage();
+                popup.setResizable(false);
+                popup.setTitle("Game over!");
+                Pane pane = new Pane();
+                Label label = new Label((String) message);
+                pane.getChildren().add(label);
+                popup.setScene(new Scene(pane,400,300));
+                popup.show();
+            });
+        }
+
         if(message.equals(Messages.nicknameAvailable)) {
             Platform.runLater(() -> changeScene(3));
         }
@@ -159,20 +183,18 @@ public class GuiLauncher extends Application implements Observer {
             Platform.runLater(() -> changeScene(4));
         }
 
-        if(message.equals(Messages.challengerChosen)) {
-            Platform.runLater(() -> ((GodController)commuter).setChosen(true));
+        if(message instanceof GodChosenMessage) {
+            System.out.println("Received: " + ((GodChosenMessage) message).getGod());
+            Platform.runLater(() -> ((GodController)commuter).changeImage(((GodChosenMessage) message).getGod()));
         }
 
-/*
         if(message instanceof ArrayList) {
             if(!playerNameSet) {
-                playerList = (ArrayList<String>) message;
                 playerNameSet = true;
-            } else {
-                godList = (ArrayList<String>) message;
+                playerList = (ArrayList<String>) ((ArrayList) message).clone();
             }
         }
-*/
+
 
     }
 

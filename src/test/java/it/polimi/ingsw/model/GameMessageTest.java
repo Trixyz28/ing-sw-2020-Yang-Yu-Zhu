@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.messages.GameMessage;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.messages;
 
 public enum GodPowerMessage {
     ARTEMIS ("Artemis: Move again? (Yes/No)"),

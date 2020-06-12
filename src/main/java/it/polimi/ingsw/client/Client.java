@@ -1,7 +1,8 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.model.GameMessage;
-import it.polimi.ingsw.model.Messages;
+import it.polimi.ingsw.messages.GameMessage;
+import it.polimi.ingsw.messages.GodChosenMessage;
+import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.BoardView;
@@ -110,6 +111,9 @@ public class Client implements Runnable {
                         gmReceived = true;  /* ricevuto un GameMessage */
                         gMessage = (GameMessage)inputObject;
                         ui.showMessage(gMessage.getMessage());
+
+                    } else if(inputObject instanceof GodChosenMessage) {
+                        ui.showGodChosen((GodChosenMessage) inputObject);
                     }
                     else {
                         throw new IllegalArgumentException();
@@ -125,7 +129,7 @@ public class Client implements Runnable {
     }
 
 
-    public Thread cliWriteToSocket(final PrintWriter socketOut) {
+    public Thread cliWriteToSocket() {
 
         Thread t = new Thread(() -> {
 
@@ -156,7 +160,7 @@ public class Client implements Runnable {
             t0 = asyncReadFromSocket(socketIn);
             if(ui instanceof CLI) {
                 cli = true;
-                t1 = cliWriteToSocket(socketOut);
+                t1 = cliWriteToSocket();
             }
             t0.join();
 

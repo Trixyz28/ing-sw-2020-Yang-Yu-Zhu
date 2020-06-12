@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.messages.GodChosenMessage;
 import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.BoardView;
@@ -9,9 +10,6 @@ import java.util.Scanner;
 
 public class GUI extends Observable implements Ui {
 
-    private String playerName;
-    private String input = new String();
-    private boolean waitingMsg = false;
     private Scanner scanner = new Scanner(System.in);
 
 
@@ -38,12 +36,10 @@ public class GUI extends Observable implements Ui {
         notify(list);
     }
 
-
-    public void setInput(String str) {
-        input = str;
-        waitingMsg = true;
+    @Override
+    public void showGodChosen(GodChosenMessage message) {
+        notify(message);
     }
-
 
 
     public void print() {

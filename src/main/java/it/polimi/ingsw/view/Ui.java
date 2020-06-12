@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.messages.GodChosenMessage;
+
 import java.util.ArrayList;
 
 
@@ -15,6 +17,9 @@ public interface Ui {
     String getInput();
 
     void showList(ArrayList<String> list);
+
+
+    void showGodChosen(GodChosenMessage message);
 
 
 

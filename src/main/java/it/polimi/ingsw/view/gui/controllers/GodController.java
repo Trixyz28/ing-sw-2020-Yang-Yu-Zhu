@@ -87,78 +87,92 @@ public class GodController extends Commuter {
 
         System.out.println(imageView.getId());
         super.getGuiLauncher().getClient().sendInput(imageView.getId().toUpperCase());
-        changeImage(imageView);
-        counter++;
-    }
-
-    public void setChosen(boolean bool) {
-        chosen = bool;
     }
 
 
 
-    public void changeImage(ImageView imageView) {
+    public void changeImage(String god) {
+
+        for(Node node : cardGrid.getChildren()) {
+            if(node instanceof ImageView) {
+                if(node.getId().toUpperCase().equals(god)) {
+                    Image image;
+
+                    switch(node.getId()) {
+                        case "Apollo":
+                            image = new Image("/godcards/chosen/ApolloChosen.png");
+                            break;
+
+                        case "Artemis":
+                            image = new Image("/godcards/chosen/ArtemisChosen.png");
+                            break;
+
+                        case" Athena":
+                            image = new Image("/godcards/chosen/AthenaChosen.png");
+                            break;
+
+                        case "Atlas":
+                            image = new Image("/godcards/chosen/AtlasChosen.png");
+                            break;
+
+                        case "Demeter":
+                            image = new Image("/godcards/chosen/DemeterChosen.png");
+                            break;
+
+                        case "Hephaestus":
+                            image = new Image("/godcards/chosen/HephaestusChosen.png");
+                            break;
+
+                        case "Hera":
+                            image = new Image("/godcards/chosen/HeraChosen.png");
+                            break;
+
+                        case "Hestia":
+                            image = new Image("/godcards/chosen/HestiaChosen.png");
+                            break;
+
+                        case "Limus":
+                            image = new Image("/godcards/chosen/LimusChosen.png");
+                            break;
+
+                        case "Minotaur":
+                            image = new Image("/godcards/chosen/MinotaurChosen.png");
+                            break;
+
+                        case "Pan":
+                            image = new Image("/godcards/chosen/PanChosen0.png");
+                            break;
+
+                        case "Poseidon":
+                            image = new Image("/godcards/chosen/PoseidonChosen.png");
+                            break;
+
+                        case "Prometheus":
+                            image = new Image("/godcards/chosen/PrometheusChosen.png");
+                            break;
+
+                        case "Triton":
+                            image = new Image("/godcards/chosen/TritonChosen.png");
+                            break;
+
+                        case "Zeus":
+                            image = new Image("/godcards/chosen/ZeusChosen.png");
+                            break;
+
+                        default:
+                            image = ((ImageView) node).getImage();
+                            break;
+                    }
+
+                    ((ImageView) node).setImage(image);
+                }
+            }
+
+        }
+
+
         if(!chosen) {
-            if(imageView.getId().equals("Apollo")) {
-                Image image = new Image("/godcards/chosen/ApolloChosen.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Artemis")) {
-                Image image = new Image("/godcards/chosen/ArtemisChosen.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Athena")) {
-                Image image = new Image("/godcards/chosen/AthenaChosen.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Atlas")) {
-                Image image = new Image("/godcards/chosen/AtlasChosen.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Demeter")) {
-                Image image = new Image("/godcards/chosen/DemeterChosen.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Hephaestus")) {
-                Image image = new Image("/godcards/chosen/HephaestusChosen.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Hera")) {
-                Image image = new Image("/godcards/chosen/HeraChosen.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Hestia")) {
-                Image image = new Image("/godcards/chosen/HestiaChosen.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Limus")) {
-                Image image = new Image("/godcards/chosen/LimusChosen.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Minotaur")) {
-                Image image = new Image("/godcards/chosen/MinotaurChosen.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Pan")) {
-                Image image = new Image("/godcards/chosen/PanChosen0.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Poseidon")) {
-                Image image = new Image("/godcards/chosen/PoseidonChosen.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Prometheus")) {
-                Image image = new Image("/godcards/chosen/PrometheusChosen.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Triton")) {
-                Image image = new Image("/godcards/chosen/TritonChosen.png");
-                imageView.setImage(image);
-            }
-            if(imageView.getId().equals("Zeus")) {
-                Image image = new Image("/godcards/chosen/ZeusChosen.png");
-                imageView.setImage(image);
-            }
+
         }
 
         /*else {
@@ -207,7 +221,22 @@ public class GodController extends Commuter {
         playerName1.setText(nameList.get(1));
         if(nameList.size()==3) {
             playerName2.setText(nameList.get(2));
+        } else {
+            cloud2.setDisable(true);
+            cloud2.setVisible(false);
         }
+    }
+
+    public void select0(MouseEvent event) {
+        super.getGuiLauncher().getClient().sendInput(playerName0.getText());
+    }
+
+    public void select1(MouseEvent event) {
+        super.getGuiLauncher().getClient().sendInput(playerName1.getText());
+    }
+
+    public void select2(MouseEvent event) {
+        super.getGuiLauncher().getClient().sendInput(playerName2.getText());
     }
 
 

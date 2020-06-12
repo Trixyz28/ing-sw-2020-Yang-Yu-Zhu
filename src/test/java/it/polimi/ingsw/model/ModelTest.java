@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.messages.GameMessage;
+import it.polimi.ingsw.messages.GodPowerMessage;
+import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.model.God.*;
 import it.polimi.ingsw.observers.Observer;
 import junit.framework.TestCase;

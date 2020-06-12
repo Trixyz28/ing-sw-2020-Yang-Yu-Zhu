@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.messages.GodChosenMessage;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.Ui;
@@ -63,6 +64,11 @@ public class CLI implements Ui {
                 System.out.println(str);
             }
         }
+    }
+
+    @Override
+    public void showGodChosen(GodChosenMessage message) {
+        System.out.println("The challenger chooses: " + message.getGod());
     }
 
 

@@ -3,7 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.lobby.LobbyController;
 import it.polimi.ingsw.lobby.LobbyHandler;
-import it.polimi.ingsw.model.Messages;
+import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.RemoteView;

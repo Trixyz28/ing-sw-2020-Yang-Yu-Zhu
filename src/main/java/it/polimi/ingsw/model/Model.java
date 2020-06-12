@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.messages.GameMessage;
+import it.polimi.ingsw.messages.GodChosenMessage;
+import it.polimi.ingsw.messages.GodPowerMessage;
+import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.model.God.Conditions;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observable;
@@ -70,6 +74,8 @@ public class Model extends Observable {
         if(!godsList.addInGodList()){  /* se il God scelto non viene aggiunto nella currentList */
             //views.get(challenger).showMessage("Scelta invalida");
             sendMessage(Messages.invalidChoice);
+        } else {
+            notify(new GodChosenMessage(god.toUpperCase()));
         }
         if(godsList.checkLength()){
             //views.get(p).showMessage("Il Challenger ha finito di scegliere i God! La Lista dei God scelti è :");

@@ -134,7 +134,7 @@
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="250.0">
                      <children>
                         <Pane prefHeight="200.0" prefWidth="200.0" />
-                        <Pane fx:id="cloud0" prefHeight="200.0" prefWidth="200.0">
+                        <Pane fx:id="cloud0" onMouseClicked="#select0" prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -144,7 +144,7 @@
                               <Label fx:id="playerName0" layoutX="41.0" layoutY="92.0" prefHeight="17.0" prefWidth="172.0" text="Player 0: " />
                               <Label fx:id="god0" layoutX="41.0" layoutY="134.0" prefHeight="17.0" prefWidth="157.0" text="God:" />
                            </children></Pane>
-                        <Pane fx:id="cloud1" prefHeight="200.0" prefWidth="200.0">
+                        <Pane fx:id="cloud1" onMouseClicked="#select1" prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -154,7 +154,7 @@
                               <Label fx:id="playerName1" layoutX="51.0" layoutY="100.0" prefHeight="17.0" prefWidth="172.0" text="Player 0: " />
                               <Label fx:id="god1" layoutX="51.0" layoutY="144.0" prefHeight="17.0" prefWidth="157.0" text="God:" />
                            </children></Pane>
-                        <Pane fx:id="cloud2" prefHeight="200.0" prefWidth="200.0">
+                        <Pane fx:id="cloud2" onMouseClicked="#select2" prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
