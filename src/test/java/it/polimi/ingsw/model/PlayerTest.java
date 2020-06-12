@@ -32,7 +32,7 @@ public class PlayerTest extends TestCase {
 
     @Test
     public void testGodChoice() {
-        player.godChoice("APOLLO");
+        player.setGodCard("APOLLO");
         assertEquals("APOLLO",player.getGodCard());
     }
 

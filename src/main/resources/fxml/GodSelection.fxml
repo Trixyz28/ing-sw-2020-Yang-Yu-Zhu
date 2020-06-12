@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-image: url(/background/BgBeach.png); -fx-background-repeat: no-repeat;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.controllers.GodController">
    <children>
@@ -36,91 +37,91 @@
                     </rowConstraints>
                      <children>
 
-                        <ImageView fx:id="Apollo" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <ImageView fx:id="apollo" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
                            <image>
                               <Image url="@../godcards/unchosen/ApolloCard.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Artemis" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <ImageView fx:id="artemis" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
                            <image>
                               <Image url="@../godcards/unchosen/ArtemisCard.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Athena" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <ImageView fx:id="athena" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0">
                            <image>
                               <Image url="@../godcards/unchosen/AthenaCard.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Atlas" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                        <ImageView fx:id="atlas" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="0">
                            <image>
                               <Image url="@../godcards/unchosen/AtlasCard.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Demeter" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="0">
+                        <ImageView fx:id="demeter" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="0">
                            <image>
                               <Image url="@../godcards/unchosen/DemeterCard.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Hephaestus" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <ImageView fx:id="hephaestus" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">
                            <image>
                               <Image url="@../godcards/unchosen/HephaestusCard.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Hera" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <ImageView fx:id="hera" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <image>
                               <Image url="@../godcards/unchosen/HeraCard.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Hestia" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <ImageView fx:id="hestia" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <image>
                               <Image url="@../godcards/unchosen/HestiaCard.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Limus" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                        <ImageView fx:id="limus" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                            <image>
                               <Image url="@../godcards/unchosen/LimusCard.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Minotaur" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                        <ImageView fx:id="minotaur" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
                            <image>
                               <Image url="@../godcards/unchosen/MinotaurCard.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Pan" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <ImageView fx:id="pan" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2">
                            <image>
                               <Image url="@../godcards/unchosen/PanCard0.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Poseidon" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <ImageView fx:id="poseidon" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <image>
                               <Image url="@../godcards/unchosen/PoseidonCard.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Prometheus" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <ImageView fx:id="prometheus" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
                            <image>
                               <Image url="@../godcards/unchosen/PrometheusCard.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Triton" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                        <ImageView fx:id="triton" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
                            <image>
                               <Image url="@../godcards/unchosen/TritonCard.png" />
                            </image>
                         </ImageView>
 
-                        <ImageView fx:id="Zeus" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                        <ImageView fx:id="zeus" fitHeight="206.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
                            <image>
                               <Image url="@../godcards/unchosen/ZeusCard.png" />
                            </image>
@@ -138,31 +139,67 @@
                            <children>
                               <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../components/PlayerCloud.png" />
+                                    <Image url="@../clouds/Cloud.png" />
                                  </image>
                               </ImageView>
-                              <Label fx:id="playerName0" layoutX="41.0" layoutY="92.0" prefHeight="17.0" prefWidth="172.0" text="Player 0: " />
-                              <Label fx:id="god0" layoutX="41.0" layoutY="134.0" prefHeight="17.0" prefWidth="157.0" text="God:" />
+                              <ImageView fx:id="godCloud0" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../clouds/UnknownCloud.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="playerName0" alignment="CENTER" contentDisplay="CENTER" layoutX="72.0" layoutY="106.0" prefHeight="31.0" prefWidth="140.0" text="Player 0" textFill="#5368b0f0">
+                                 <font>
+                                    <Font name="Book Antiqua Bold" size="20.0" />
+                                 </font></Label>
+                              <Label fx:id="challenger0" alignment="CENTER" contentDisplay="CENTER" layoutX="102.0" layoutY="77.0" prefHeight="23.0" prefWidth="110.0" textFill="#ac7d61">
+                                 <font>
+                                    <Font name="Bodoni MT" size="14.0" />
+                                 </font>
+                              </Label>
                            </children></Pane>
                         <Pane fx:id="cloud1" onMouseClicked="#select1" prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../components/PlayerCloud.png" />
+                                    <Image url="@../clouds/Cloud.png" />
                                  </image>
                               </ImageView>
-                              <Label fx:id="playerName1" layoutX="51.0" layoutY="100.0" prefHeight="17.0" prefWidth="172.0" text="Player 0: " />
-                              <Label fx:id="god1" layoutX="51.0" layoutY="144.0" prefHeight="17.0" prefWidth="157.0" text="God:" />
+                              <ImageView fx:id="godCloud1" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../clouds/UnknownCloud.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="playerName1" alignment="CENTER" contentDisplay="CENTER" layoutX="72.0" layoutY="106.0" prefHeight="31.0" prefWidth="140.0" text="Player 1 " textFill="#5368b0f0">
+                                 <font>
+                                    <Font name="Book Antiqua Bold" size="20.0" />
+                                 </font></Label>
+                              <Label fx:id="challenger1" alignment="CENTER" contentDisplay="CENTER" layoutX="102.0" layoutY="77.0" prefHeight="23.0" prefWidth="110.0" textFill="#ac7d61">
+                                 <font>
+                                    <Font name="Bodoni MT" size="14.0" />
+                                 </font>
+                              </Label>
                            </children></Pane>
                         <Pane fx:id="cloud2" onMouseClicked="#select2" prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../components/PlayerCloud.png" />
+                                    <Image url="@../clouds/Cloud.png" />
                                  </image>
                               </ImageView>
-                              <Label fx:id="playerName2" layoutX="51.0" layoutY="102.0" prefHeight="17.0" prefWidth="172.0" text="Player 0: " />
-                              <Label fx:id="god2" layoutX="51.0" layoutY="144.0" prefHeight="17.0" prefWidth="157.0" text="God:" />
+                              <ImageView fx:id="godCloud2" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../clouds/UnknownCloud.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="playerName2" alignment="CENTER" contentDisplay="CENTER" layoutX="72.0" layoutY="106.0" prefHeight="31.0" prefWidth="140.0" text="Player 2" textFill="#5368b0f0">
+                                 <font>
+                                    <Font name="Book Antiqua Bold" size="20.0" />
+                                 </font></Label>
+                              <Label fx:id="challenger2" alignment="CENTER" contentDisplay="CENTER" layoutX="102.0" layoutY="77.0" prefHeight="23.0" prefWidth="110.0" textFill="#ac7d61">
+                                 <font>
+                                    <Font name="Bodoni MT" size="14.0" />
+                                 </font>
+                              </Label>
                            </children></Pane>
                      </children>
                   </VBox>

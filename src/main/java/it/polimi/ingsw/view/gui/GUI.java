@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.BoardView;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class GUI extends Observable implements Ui {
 
     private Scanner scanner = new Scanner(System.in);

@@ -68,7 +68,12 @@ public class CLI implements Ui {
 
     @Override
     public void showGodChosen(GodChosenMessage message) {
-        System.out.println("The challenger chooses: " + message.getGod());
+        if(message.getCommand().equals("define")) {
+            System.out.println("The challenger chooses: " + message.getGod());
+        }
+        if(message.getCommand().equals("choose")) {
+            System.out.println("The player "+ message.getPlayer() + " chooses " + message.getGod() + "!");
+        }
     }
 
 

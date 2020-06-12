@@ -49,7 +49,7 @@ public class Player {
 
 
     //Choose a God from the list
-    public void godChoice(String god) {
+    public void setGodCard(String god) {
         godCard = god;
     }
     public String getGodCard() {

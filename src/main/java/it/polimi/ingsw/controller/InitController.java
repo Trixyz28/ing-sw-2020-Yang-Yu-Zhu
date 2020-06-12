@@ -71,7 +71,7 @@ public class InitController {
         }
         if(!endInitialize) {
             /* continuare con posizionare i worker */
-            model.placeWoker(indexWorker);
+            model.placeWorker(indexWorker);
         }
     }
 

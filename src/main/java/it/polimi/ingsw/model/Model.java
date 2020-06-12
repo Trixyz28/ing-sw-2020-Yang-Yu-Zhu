@@ -75,7 +75,7 @@ public class Model extends Observable {
             //views.get(challenger).showMessage("Scelta invalida");
             sendMessage(Messages.invalidChoice);
         } else {
-            notify(new GodChosenMessage(god.toUpperCase()));
+            notify(new GodChosenMessage("define",god.toUpperCase()));
         }
         if(godsList.checkLength()){
             //views.get(p).showMessage("Il Challenger ha finito di scegliere i God! La Lista dei God scelti è :");
@@ -95,9 +95,11 @@ public class Model extends Observable {
         if(index == challengerID){
             /* dare direttamente la god rimanente al Challenger */
             String god = godsList.getCurrentGodList().get(0);
+
             sendMessage("Il god rimasto è " + god + "!");
             Player challenger = matchPlayersList.get(challengerID);
-            challenger.godChoice(god);
+            notify(new GodChosenMessage("choose",god,challenger.getPlayerNickname()));
+            challenger.setGodCard(god);
             challenger.createWorker(god, getCondition(),getTotalWorkers());
             /* creare lista di tutti i workers */
             createTotalWorkerList();
@@ -116,10 +118,10 @@ public class Model extends Observable {
             //far printare alla view la conferma della scelta
             Player currentPlayer = currentTurn.getCurrentPlayer();
             String name = currentPlayer.getPlayerNickname();
-            broadcast("Il player " + name + " ha scelto " +
-                    god + ".");
+            notify(new GodChosenMessage("choose",god,name));
+
             /* assegnare al Player il God scelto */
-            currentPlayer.godChoice(god);
+            currentPlayer.setGodCard(god);
             /* creare worker determinato God */
             currentPlayer.createWorker(god, getCondition(), getTotalWorkers());
             /* eliminare dalla currentGodList il god scelto */
@@ -306,8 +308,7 @@ public class Model extends Observable {
     public void startTurn() {
         currentTurn.setCurrentPlayer(matchPlayersList.get(startingPlayerID));
         int indexWorker = 0;
-        placeWoker(indexWorker);
-
+        placeWorker(indexWorker);
     }
 
     public Turn getCurrentTurn() {
@@ -354,7 +355,7 @@ public class Model extends Observable {
         notify(new Operation(currentTurn.getCurrentPlayer(),0, -1, -1));
     }
 
-    public void placeWoker(int indexWorker){
+    public void placeWorker(int indexWorker){
         showBoard();
         sendMessage("Posiziona il worker" + indexWorker);
         place();
@@ -430,8 +431,8 @@ public class Model extends Observable {
 
     public void createTotalWorkerList() {
 
-        for(int i=0;i<matchPlayersList.size();i++) {
-            totalWorkerList.addAll(matchPlayersList.get(i).getWorkerList());
+        for (Player player : matchPlayersList) {
+            totalWorkerList.addAll(player.getWorkerList());
         }
 
     }

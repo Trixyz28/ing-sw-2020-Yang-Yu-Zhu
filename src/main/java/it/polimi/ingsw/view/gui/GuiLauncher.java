@@ -184,8 +184,13 @@ public class GuiLauncher extends Application implements Observer {
         }
 
         if(message instanceof GodChosenMessage) {
-            System.out.println("Received: " + ((GodChosenMessage) message).getGod());
-            Platform.runLater(() -> ((GodController)commuter).changeImage(((GodChosenMessage) message).getGod()));
+            if(((GodChosenMessage) message).getCommand().equals("define")) {
+                Platform.runLater(() -> ((GodController)commuter).changeImage(((GodChosenMessage) message).getGod()));
+            }
+            if(((GodChosenMessage) message).getCommand().equals("choose")) {
+                Platform.runLater(() -> ((GodController)commuter).setChosenGod((GodChosenMessage) message));
+            }
+
         }
 
         if(message instanceof ArrayList) {
