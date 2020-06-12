@@ -28,7 +28,10 @@
                               <Font name="Bodoni MT" size="25.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="ipField" layoutX="170.0" layoutY="51.0" prefHeight="41.0" prefWidth="218.0" />
+                        <TextField fx:id="ipField" alignment="CENTER" layoutX="170.0" layoutY="52.0" prefHeight="41.0" prefWidth="218.0" promptText="IP address">
+                           <font>
+                              <Font name="Bodoni MT" size="17.0" />
+                           </font></TextField>
                      </children>
                   </Pane>
                   <Pane prefHeight="114.0" prefWidth="414.0">
@@ -38,7 +41,10 @@
                               <Font name="Bodoni MT" size="25.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="portField" layoutX="170.0" layoutY="38.0" prefHeight="41.0" prefWidth="218.0" />
+                        <TextField fx:id="portField" alignment="CENTER" layoutX="170.0" layoutY="43.0" prefHeight="41.0" prefWidth="218.0" promptText="Port number">
+                           <font>
+                              <Font name="Bodoni MT" size="17.0" />
+                           </font></TextField>
                      </children>
                   </Pane>
                   <Pane prefHeight="130.0" prefWidth="414.0">
@@ -46,8 +52,11 @@
                         <Insets />
                      </VBox.margin>
                      <children>
-                        <Button fx:id="serverButton" alignment="CENTER" contentDisplay="CENTER" layoutX="157.0" layoutY="55.0" mnemonicParsing="false" onAction="#serverInfo" prefHeight="35.0" prefWidth="101.0" text="Enter" textAlignment="CENTER" />
-                        <Label fx:id="serverMsg" alignment="CENTER" contentDisplay="CENTER" layoutX="115.0" layoutY="21.0" prefHeight="23.0" prefWidth="186.0" textFill="#d70c0c">
+                        <Button fx:id="serverButton" alignment="CENTER" contentDisplay="CENTER" layoutX="157.0" layoutY="55.0" mnemonicParsing="false" onAction="#serverInfo" prefHeight="35.0" prefWidth="101.0" text="Enter" textAlignment="CENTER" textFill="#795026e5">
+                           <font>
+                              <Font name="Century" size="14.0" />
+                           </font></Button>
+                        <Label fx:id="serverMsg" alignment="CENTER" contentDisplay="CENTER" layoutX="104.0" layoutY="20.0" prefHeight="23.0" prefWidth="207.0" textFill="#d70c0c">
                            <font>
                               <Font name="Bodoni MT" size="12.0" />
                            </font>

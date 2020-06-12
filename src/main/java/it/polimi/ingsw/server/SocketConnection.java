@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.messages.LobbyMessage;
 import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.observers.Observable;
@@ -111,20 +112,18 @@ public class SocketConnection extends Observable implements Runnable {
                 } while(number!=2 && number!=3);
 
                 lobbyID = server.getLobbyController().createLobby(player.getPlayerNickname(),number);
-                send("Create the lobby n." + lobbyID);
+                send(new LobbyMessage("create",lobbyID));
             }
 
             //Join a lobby
             else {
                 lobbyID = server.getLobbyController().joinLobby(player.getPlayerNickname());
-                send("Successfully join the lobby n." + lobbyID);
+                send(new LobbyMessage("join",lobbyID));
             }
-
 
 
             //Add the connection to the connection list & setup match
             server.match(lobbyID,this);
-
 
 
             //Read commands

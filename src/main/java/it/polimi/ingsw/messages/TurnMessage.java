@@ -4,14 +4,22 @@ import java.io.Serializable;
 
 public class TurnMessage implements Serializable {
 
-    private int currentID;
+    //source = "god"/"board"
+    private String source;
+    private String name;
 
-    public TurnMessage(int id) {
-        this.currentID = id;
+    public TurnMessage(String source,String name) {
+        this.source = source;
+        this.name = name;
     }
 
-    public int getCurrentID() {
-        return currentID;
+
+    public String getSource() {
+        return source;
+    }
+
+    public String getName() {
+        return name;
     }
 
 }

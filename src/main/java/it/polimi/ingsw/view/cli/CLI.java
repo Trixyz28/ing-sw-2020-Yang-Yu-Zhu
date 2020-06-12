@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.messages.GodChosenMessage;
+import it.polimi.ingsw.messages.LobbyMessage;
+import it.polimi.ingsw.messages.TurnMessage;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.Ui;
@@ -73,6 +75,26 @@ public class CLI implements Ui {
         }
         if(message.getCommand().equals("choose")) {
             System.out.println("The player "+ message.getPlayer() + " chooses " + message.getGod() + "!");
+        }
+    }
+
+    @Override
+    public void showLobbyMsg(LobbyMessage message) {
+        if(message.getCommand().equals("create")) {
+            System.out.println("Create the lobby n." + message.getNumber());
+        }
+        if(message.getCommand().equals("join")) {
+            System.out.println("Successfully join the lobby n." + message.getNumber());
+        }
+    }
+
+    @Override
+    public void showTurnMsg(TurnMessage message) {
+        if(message.getSource().equals("god")) {
+            System.out.println("God setting phase: turn of " + message.getName());
+        }
+        if(message.getSource().equals("board")) {
+            System.out.println("From board: turn of " + message.getName());
         }
     }
 
