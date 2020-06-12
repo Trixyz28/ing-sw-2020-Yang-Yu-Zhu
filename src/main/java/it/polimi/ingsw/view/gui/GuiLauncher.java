@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.GodChosenMessage;
+import it.polimi.ingsw.messages.LobbyMessage;
 import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.view.gui.controllers.Commuter;
@@ -71,7 +72,9 @@ public class GuiLauncher extends Application implements Observer {
         this.scene = scene;
 
         stage.setOnCloseRequest(e-> {
-            thread.interrupt();
+            if(thread!=null) {
+                thread.interrupt();
+            }
             Platform.exit();
             System.exit(0);
         });
@@ -84,33 +87,37 @@ public class GuiLauncher extends Application implements Observer {
 
     public void changeScene(int index)  {
 
-        try {
-            Parent parent = loadScene(index).load();
-            this.commuter = loadScene(index).getController();
-            this.commuter.setGuiLauncher(this);
-            scene.setRoot(parent);
+        Platform.runLater(() -> {
+            try {
+                Parent parent = loadScene(index).load();
+                this.commuter = loadScene(index).getController();
+                this.commuter.setGuiLauncher(this);
+                scene.setRoot(parent);
 
-            if(index==1) {
-                createClient();
+                if(index==1) {
+                    createClient();
+                }
+
+                if(index==2) {
+                    thread = new Thread(client);
+                    thread.start();
+                }
+
+                if(index==3) {
+                    ((LoadingController)commuter).setChoiceBox();
+                }
+
+                if(index==4) {
+                    ((GodController)commuter).setName(playerList);
+                }
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                stage.close();
             }
 
-            if(index==2) {
-                thread = new Thread(client);
-                thread.start();
-            }
+        });
 
-            if(index==3) {
-                ((LoadingController)commuter).setChoiceBox();
-            }
-
-            if(index==4) {
-                ((GodController)commuter).setName(playerList);
-            }
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            stage.close();
-        }
 
     }
 
@@ -171,17 +178,25 @@ public class GuiLauncher extends Application implements Observer {
             });
         }
 
-        if(message.equals(Messages.nicknameAvailable)) {
-            Platform.runLater(() -> changeScene(3));
+        if(message instanceof String) {
+            if(message.equals(Messages.nicknameAvailable)) {
+                changeScene(3);
+            }
+
+            if(message.equals(Messages.nicknameInUse)) {
+                Platform.runLater(() -> ((LoadingController)commuter).showNameMsg((String) message));
+            }
+
+            if(message.equals(Messages.matchStarting)) {
+                changeScene(4);
+            }
+
+            if(message.equals(Messages.boardStarting)) {
+                changeScene(5);
+            }
+
         }
 
-        if(message.equals(Messages.nicknameInUse)) {
-            Platform.runLater(() -> ((LoadingController)commuter).showNameMsg((String) message));
-        }
-
-        if(message.equals(Messages.matchStarting)) {
-            Platform.runLater(() -> changeScene(4));
-        }
 
         if(message instanceof GodChosenMessage) {
             if(((GodChosenMessage) message).getCommand().equals("define")) {
@@ -190,13 +205,22 @@ public class GuiLauncher extends Application implements Observer {
             if(((GodChosenMessage) message).getCommand().equals("choose")) {
                 Platform.runLater(() -> ((GodController)commuter).setChosenGod((GodChosenMessage) message));
             }
-
         }
 
         if(message instanceof ArrayList) {
             if(!playerNameSet) {
                 playerNameSet = true;
                 playerList = (ArrayList<String>) ((ArrayList) message).clone();
+            }
+        }
+
+        if(message instanceof LobbyMessage) {
+
+            if(((LobbyMessage) message).getCommand().equals("create")) {
+                Platform.runLater(()-> ((LoadingController)commuter).createdLobby(((LobbyMessage) message).getNumber()));
+            }
+            if(((LobbyMessage) message).getCommand().equals("join")) {
+                Platform.runLater(()-> ((LoadingController)commuter).joinedLobby(((LobbyMessage) message).getNumber()));
             }
         }
 

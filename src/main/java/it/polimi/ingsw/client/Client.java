@@ -1,8 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.messages.GameMessage;
-import it.polimi.ingsw.messages.GodChosenMessage;
-import it.polimi.ingsw.messages.Messages;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.BoardView;
@@ -102,9 +100,9 @@ public class Client implements Runnable {
                         Operation operation = (Operation)inputObject;
                         if(operation.getType() == 0){
                             ui.showMessage(Messages.Place + Messages.Operation);
-                        }else  if(operation.getType() == 1){
+                        } else if(operation.getType() == 1){
                             ui.showMessage(Messages.Move + Messages.Operation);
-                        }else{
+                        } else {
                             ui.showMessage(Messages.Build + Messages.Operation);
                         }
                     }else if(inputObject instanceof GameMessage){
@@ -114,6 +112,12 @@ public class Client implements Runnable {
 
                     } else if(inputObject instanceof GodChosenMessage) {
                         ui.showGodChosen((GodChosenMessage) inputObject);
+
+                    } else if(inputObject instanceof LobbyMessage) {
+                        ui.showLobbyMsg((LobbyMessage) inputObject);
+
+                    } else if(inputObject instanceof TurnMessage) {
+                        ui.showTurnMsg((TurnMessage) inputObject);
                     }
                     else {
                         throw new IllegalArgumentException();

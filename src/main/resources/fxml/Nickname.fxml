@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -45,6 +46,9 @@
                            <font>
                               <Font name="Bodoni MT" size="17.0" />
                            </font>
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
                         </TextField>
                      </children>
                   </Pane>
@@ -53,7 +57,10 @@
                         <Insets />
                      </VBox.margin>
                      <children>
-                        <Button fx:id="nameButton" alignment="CENTER" contentDisplay="CENTER" layoutX="157.0" layoutY="19.0" mnemonicParsing="false" onAction="#sendName" prefHeight="35.0" prefWidth="101.0" text="Enter" textAlignment="CENTER" />
+                        <Button fx:id="nameButton" alignment="CENTER" contentDisplay="CENTER" layoutX="157.0" layoutY="19.0" mnemonicParsing="false" onAction="#sendName" prefHeight="35.0" prefWidth="101.0" text="Enter" textAlignment="CENTER" textFill="#592d10">
+                           <font>
+                              <Font name="Century" size="13.0" />
+                           </font></Button>
                      </children>
                   </Pane>
                </children>

@@ -1,21 +1,13 @@
 package it.polimi.ingsw.view.gui.controllers;
 
-import it.polimi.ingsw.view.gui.GUI;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
-
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -47,29 +39,48 @@ public class LoadingController extends Commuter {
     private Label lobbyRecv;
 
     @FXML
+    private Label waiting;
+
+    @FXML
     private ChoiceBox<String> playerNumberSelect;
 
     @FXML
     private Button lobbyButton;
+
 
     public void setChoiceBox() {
         ArrayList<String> list = new ArrayList<>();
         list.add("2 players");
         list.add("3 players");
         playerNumberSelect.setItems(FXCollections.observableArrayList(list));
+        playerNumberSelect.setStyle("-fx-font: 14px \"Bell MT\";");
     }
 
     public void sendLobby(ActionEvent event) {
-        if(playerNumberSelect.getValue()==null || playerNumberSelect.getValue().equals("2 players")) {
-            super.getGuiLauncher().getClient().sendInput("2");
-        } else {
+        if(playerNumberSelect.getValue().equals("3 players")) {
             super.getGuiLauncher().getClient().sendInput("3");
+        } else {
+            super.getGuiLauncher().getClient().sendInput("2");
         }
+    }
+
+
+    public void createdLobby(int number) {
+        inLobby();
+        lobbyRecv.setText("Create the lobby n." + number);
+    }
+
+    public void joinedLobby(int number) {
+        inLobby();
+        lobbyRecv.setText("Successfully join the lobby n." + number);
+    }
+
+    public void inLobby() {
         playerNumberSelect.setDisable(true);
         playerNumberSelect.setVisible(false);
         lobbyButton.setDisable(true);
         lobbyButton.setVisible(false);
-        lobbyRecv.setText("Waiting for other players");
+        waiting.setText("Waiting for other players");
     }
 
 

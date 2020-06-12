@@ -164,7 +164,7 @@ public class Model extends Observable {
         }
     }
 
-    /* per sceglire il startingPlayer attraverso Nickname */
+    /* per scegliere il startingPlayer attraverso Nickname */
     public boolean setStartingPlayer(String startingPlayerNickname){
 
         Player startingPlayer;
@@ -174,6 +174,7 @@ public class Model extends Observable {
                 //settare il startingPlayerID del model
                 setStartingPlayerID(startingPlayer.getPlayerID());
                 broadcast("Il primo player che fa la mossa è " + startingPlayer.getPlayerNickname());
+                broadcast(Messages.boardStarting);
                 return true;
             }
         }
