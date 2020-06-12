@@ -75,4 +75,13 @@ public class PoseidonTest extends TestCase {
 
     }
 
+    @Test
+    public void testUnmovedWorker(){
+        initialize();
+        totalWorkerList.remove(poseidon);
+        Assert.assertTrue(worker.canBuildBlock(board.getTile(0,1)));
+        Assert.assertEquals(null, worker.getWorker(board.getTile(0,1),totalWorkerList));
+        worker.buildBlock(board.getTile(0,1));
+        Assert.assertFalse(worker.getGodPower());
+    }
 }

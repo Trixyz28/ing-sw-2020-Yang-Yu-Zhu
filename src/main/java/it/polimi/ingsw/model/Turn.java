@@ -51,14 +51,10 @@ public class Turn {
         return turnNumber;
     }
 
-    //set() of the turn number
-    public void nextTurnNumber() {
-        this.turnNumber++;
-    }
 
     public int getState(){
         /* cambio di stato per God speciali */
-        if(!chosenWorker.getGodPower() && chosenWorker.getState() <= 2) {
+        if(chosenWorker != null && !chosenWorker.getGodPower() && chosenWorker.getState() <= 2) {
             state = chosenWorker.getState();
         }
         return state;
@@ -72,7 +68,7 @@ public class Turn {
     public void nextTurn(Player player){
         turnNumber++;
         state = 0;
-        currentPlayer = player;
+        setCurrentPlayer(player);
     }
 
 

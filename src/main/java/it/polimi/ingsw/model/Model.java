@@ -104,7 +104,7 @@ public class Model extends Observable {
     }
 
     /* Scelta God + creazione worker */
-    public void chooseGod(String god){
+    public boolean chooseGod(String god){
         godsList.selectGod(god);
         if(godsList.checkGod()){
             //far printare alla view la conferma della scelta
@@ -119,10 +119,11 @@ public class Model extends Observable {
             /* eliminare dalla currentGodList il god scelto */
             godsList.removeFromGodList(god);
             /* prossimo player */
-            nextChoiceGod();
+            return true;
         }else{
             //far printare alla view la richiesta di ripetere la scelta
             sendMessage(Messages.tryAgain);
+            return false;
         }
     }
 
@@ -163,7 +164,7 @@ public class Model extends Observable {
             if (p.getPlayerNickname().equals(startingPlayerNickname)) {
                 startingPlayer = p;
                 //settare il startingPlayerID del model
-                startingPlayerID = startingPlayer.getPlayerID();
+                setStartingPlayerID(startingPlayer.getPlayerID());
                 broadcast("Il primo player che fa la mossa è " + startingPlayer.getPlayerNickname());
                 return true;
             }
@@ -347,14 +348,6 @@ public class Model extends Observable {
         notify(new Operation(currentTurn.getCurrentPlayer(),0, -1, -1));
     }
 
-    public void move(){  /* type 1 = move */
-        notify(new Operation(currentTurn.getCurrentPlayer(),1, -1, -1));
-    }
-
-    public void build(){  /* type 2 = build */
-        notify(new Operation(currentTurn.getCurrentPlayer(),2, -1,-1));
-    }
-
     public void placeWoker(int indexWorker){
         showBoard();
         sendMessage("Posiziona il worker" + indexWorker);
@@ -367,6 +360,7 @@ public class Model extends Observable {
         if (currentTurn.getChosenWorker().checkWin(currentTurn.getInitialTile())){
             sendMessage("Hai vintoooooo!!!");
             gameOver();
+            return true;
         }
         return false;
     }

@@ -28,7 +28,9 @@ public class InitController {
     /* scelta God dal Player */
     protected void chooseGod(String god){
         god = god.toUpperCase();
-        model.chooseGod(god);
+        if(model.chooseGod(god)){
+            model.nextChoiceGod();
+        }
     }
 
 

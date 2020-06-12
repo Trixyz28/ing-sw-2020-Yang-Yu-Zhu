@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class GameMessageTest extends TestCase {
@@ -15,13 +16,16 @@ public class GameMessageTest extends TestCase {
 
     @Test
     public void testMessage() {
-        assertEquals("hello",gameMessage.getMessage());
+        Assert.assertEquals("hello",gameMessage.getMessage());
+
+        Assert.assertFalse(gameMessage.readOnly());
     }
 
     @Test
     public void testAnswer() {
         gameMessage.setAnswer("hellooo");
-        assertEquals("hellooo",gameMessage.getAnswer());
+        Assert.assertEquals("hellooo",gameMessage.getAnswer());
+
     }
 
 }
