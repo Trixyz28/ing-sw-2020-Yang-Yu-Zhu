@@ -22,11 +22,10 @@ public class Controller implements Observer {
 
     public Controller(Model model, Map<Player, View> views) {
         this.model = model;
-        minorControllers(model);
+        initController = new InitController(model);
     }
 
     public void minorControllers(Model model) {
-        initController = new InitController(model);
         turnController = new TurnController(model);
         moveController = new MoveController(model);
         buildController = new BuildController(model);
@@ -78,6 +77,8 @@ public class Controller implements Observer {
         if (operation.getType() == 0) {  //type 0 -> posizione default
             initController.placeWorker(operation);
             if(initController.isEndInitialize()){
+                /* creazione controller minori */
+                minorControllers(model);
                 /* inizio partita con Turn 1 */
                 turnController.nextTurn();
             }

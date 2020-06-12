@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.God.*;
 import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,8 +13,35 @@ import java.util.List;
 
 public class MoveControllerTest extends TestCase {
 
-    Model model;
-    MoveController moveController;
+    Model model = new Model();
+    MoveController moveController = new MoveController(model);
+    Player player1 = new Player("A");
+    Player player2 = new Player("B");
+
+    @Before
+    public void initialize(){
+        model.initialize(2);
+        model.getMatchPlayersList().add(player1);
+        model.getMatchPlayersList().add(player2);
+        model.challengerStart();
+        player1.setPlayerID(0);
+        player1.createWorker("ATLAS", model.getCondition(), model.getTotalWorkers());
+        player1.chooseWorker(0).setPosition(model.commandToTile(0,0));
+        model.getCurrentTurn().nextTurn(player1);
+        model.getCurrentTurn().choseWorker(player1.chooseWorker(0));
+    }
+
+    @Test
+    public void testMove () {
+        initialize();
+        Assert.assertTrue(model.getCurrentTurn().getChosenWorker() instanceof Atlas);
+
+        Assert.assertFalse(moveController.moveWorker(new Operation(player1, 1, 3,4)));
+        Assert.assertFalse(model.commandToTile(3,4).isOccupiedByWorker());
+
+        Assert.assertTrue(moveController.moveWorker(new Operation(player1, 1, 0,1)));
+        Assert.assertTrue(model.commandToTile(0,1).isOccupiedByWorker());
+    }
 
     /*
     @Test
@@ -42,23 +70,5 @@ public class MoveControllerTest extends TestCase {
     }
 
      */
-
-    /*
-    @Test
-    public void testMoveWorker() {
-        initialize();
-        Operation operation = new Operation(model.getCurrentTurn().getCurrentPlayer(),1,1,1);
-        assertTrue(moveController.moveWorker(operation));
-
-        operation = new Operation(model.getCurrentTurn().getCurrentPlayer(),1,3,3);
-        assertFalse(moveController.moveWorker(operation));
-    }*/
-
-
-    @Test
-    public void test() {
-        assertTrue(true);
-    }
-
 
 }

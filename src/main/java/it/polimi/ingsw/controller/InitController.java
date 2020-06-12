@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.model.*;
 
 public class InitController {
@@ -63,10 +64,10 @@ public class InitController {
                 if(nextPlayer.getPlayerID() == model.getStartingPlayerID()){
                     /* fine giro : inizio partita */
                     endInitialize = true;
+                    model.broadcast(Messages.startMatch);
                 }else {
                     model.getCurrentTurn().setCurrentPlayer(nextPlayer);
                 }
-
             }
         }
         if(!endInitialize) {

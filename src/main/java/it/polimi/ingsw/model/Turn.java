@@ -68,6 +68,7 @@ public class Turn {
     public void nextTurn(Player player){
         turnNumber++;
         state = 0;
+        chosenWorker = null;
         setCurrentPlayer(player);
     }
 

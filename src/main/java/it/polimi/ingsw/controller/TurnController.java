@@ -12,6 +12,7 @@ public class TurnController {
 
     public TurnController(Model model) {
         this.model = model;
+        currentTurn = model.getCurrentTurn();
     }
 
     private Turn currentTurn;
@@ -105,7 +106,6 @@ public class TurnController {
 
     /* aggiornare Turn + ripristinare condizioni */
     protected void nextTurn() {
-        currentTurn = model.getCurrentTurn();
         ArrayList<Player> playerList = model.getMatchPlayersList();
         //trovare indice del player successivo
         int index = model.getNextPlayerIndex();

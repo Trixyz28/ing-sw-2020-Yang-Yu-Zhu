@@ -30,12 +30,17 @@ public class TurnTest extends TestCase {
 
     @Test
     public void testNextTurn() {
+        testChoseWorker();
         Assert.assertEquals(0,turn.getTurnNumber());
         Assert.assertSame(player, turn.getCurrentPlayer());
+        Assert.assertEquals(2, turn.getState());
+        Assert.assertNotEquals(null, turn.getChosenWorker());
 
         turn.nextTurn(player2);
         Assert.assertEquals(1,turn.getTurnNumber());
         Assert.assertSame(player2, turn.getCurrentPlayer());
+        Assert.assertEquals(null, turn.getChosenWorker());
+        Assert.assertEquals(0, turn.getState());
 
     }
 
@@ -66,6 +71,9 @@ public class TurnTest extends TestCase {
         initialize();
         turn.choseWorker(player.chooseWorker(0));
         Assert.assertEquals(player.chooseWorker(0),turn.getChosenWorker());
+        Assert.assertEquals(turn.getInitialTile(), turn.getChosenWorker().getPosition());
+        Assert.assertEquals(null, turn.getFinalTile());
+        Assert.assertEquals(null, turn.getFinalTile());
         Assert.assertEquals(0, turn.getState());
         Assert.assertFalse(turn.checkLose());
         turn.nextState();

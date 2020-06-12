@@ -8,6 +8,7 @@ public class Messages {
     public static String gameOver = "Game over!";
     public static String spectator = "Be a patient spectator, you can't send messages :D";
     public static String lose = "Hai perso!";
+    public static String startMatch = "Start!";
 
     //Requests
     public static String Worker = "Scegli il worker con cui vuoi fare la mossa: indice 0 o 1";
