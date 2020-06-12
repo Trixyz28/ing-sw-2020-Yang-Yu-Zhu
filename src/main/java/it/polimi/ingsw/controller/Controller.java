@@ -20,19 +20,19 @@ public class Controller implements Observer {
     private BuildController buildController;
 
 
-    public Controller(Model model, Map<Player, View> views) {
+    public Controller(Model model) {
         this.model = model;
         initController = new InitController(model);
     }
 
-    public void minorControllers(Model model) {
+    private void minorControllers(Model model) {
         turnController = new TurnController(model);
         moveController = new MoveController(model);
         buildController = new BuildController(model);
     }
 
 
-    public boolean checkTurn(Object arg) {
+    private boolean checkTurn(Object arg) {
         if(arg instanceof Operation){
            return model.checkTurn(((Operation) arg).getPlayer());
         }else if (arg instanceof GameMessage){

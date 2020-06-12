@@ -34,18 +34,19 @@ public class TurnControllerTest extends TestCase {
 
         player1.setPlayerID(0);
         player2.setPlayerID(1);
+        player3.setPlayerID(2);
 
-        player1.godChoice("POSEIDON");
+        player1.setGodCard("POSEIDON");
         player1.createWorker("POSEIDON", model.getCondition(), model.getTotalWorkers());
         player1.chooseWorker(0).setPosition(model.commandToTile(0,0));
         player1.chooseWorker(1).setPosition(model.commandToTile(0,1));
 
-        player2.godChoice("PROMETHEUS");
+        player2.setGodCard("PROMETHEUS");
         player2.createWorker("PROMETHEUS", model.getCondition(), model.getTotalWorkers());
         player2.chooseWorker(0).setPosition(model.commandToTile(1,0));
         player2.chooseWorker(1).setPosition(model.commandToTile(1,1));
 
-        player3.godChoice("TRITON");
+        player3.setGodCard("TRITON");
         player3.createWorker("TRITON", model.getCondition(), model.getTotalWorkers());
         player3.chooseWorker(0).setPosition(model.commandToTile(4,4));
         player3.chooseWorker(1).setPosition(model.commandToTile(3,3));

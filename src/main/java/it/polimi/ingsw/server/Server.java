@@ -126,7 +126,7 @@ public class Server {
             views.put(matchConnection.get(lobbyID).get(1).getPlayer(),view1);
 
             //Create Controller
-            Controller controller = new Controller(model,views);
+            Controller controller = new Controller(model);
 
             //Set observers
             model.addObservers(view0);

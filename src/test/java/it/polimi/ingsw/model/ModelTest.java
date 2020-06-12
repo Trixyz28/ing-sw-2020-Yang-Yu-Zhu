@@ -9,10 +9,11 @@ import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 public class ModelTest extends TestCase {
 
     Model model = new Model();
-    Messages messages = new Messages();
     Player player1 = new Player("A");
     Player player2 = new Player("B");
 
@@ -126,6 +127,18 @@ public class ModelTest extends TestCase {
         testStartTurn();
         Assert.assertEquals(player2, model.getCurrentTurn().getCurrentPlayer());
 
+        Observer observer = new Observer() {
+            @Override
+            public void update(Object message) {
+                Assert.assertTrue(message instanceof GameMessage);
+                GameMessage gm = (GameMessage) message;
+                Assert.assertEquals(gm.getPlayer(), player1.getPlayerNickname());
+                Assert.assertTrue(gm.readOnly());
+                Assert.assertEquals(Messages.wrongTurn, gm.getMessage());
+            }
+        };
+        model.addObservers(observer);
+
         Assert.assertFalse(model.checkTurn(player1.getPlayerNickname()));
         Assert.assertTrue(model.checkTurn(player2.getPlayerNickname()));
     }
@@ -151,19 +164,37 @@ public class ModelTest extends TestCase {
     }
 
     @Test
-    public void testOperation(){
+    public void testBeforeOperation(){
         testStartTurn();
         Assert.assertEquals(0, model.getCurrentTurn().getState());
         model.getCurrentTurn().choseWorker(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0));
         model.getCurrentTurn().nextState();
         Assert.assertEquals(1, model.getCurrentTurn().getState());
+
+    }
+
+    public void testOperation(){
+        testBeforeOperation();
+        Observer observer = new Observer() {
+            @Override
+            public void update(Object message) {
+                Assert.assertTrue(message instanceof Operation);
+                Operation op = (Operation) message;
+                Assert.assertEquals(model.getCurrentTurn().getState(), op.getType());
+                Assert.assertEquals(1, op.getType());
+                Assert.assertEquals(model.getCurrentTurn().getCurrentPlayer().getPlayerNickname(), op.getPlayer());
+                Assert.assertEquals(-1, op.getRow());
+                Assert.assertEquals(-1, op.getColumn());
+            }
+        };
+        model.addObservers(observer);
         model.operation();
     }
 
 
     @Test
     public void testCheckWin() {
-        testOperation();
+        testBeforeOperation();
         Tile position = new Tile();
         position.setBlockLevel(2);
         Tile destination = new Tile();
@@ -201,7 +232,7 @@ public class ModelTest extends TestCase {
 
     @Test
     public void testLose() {
-        testOperation();
+        testBeforeOperation();
         model.getCurrentTurn().getChosenWorker().setPosition(model.commandToTile(0,0));
         Assert.assertFalse(model.checkLose());;
 
@@ -275,7 +306,7 @@ public class ModelTest extends TestCase {
 
     @Test
     public void testSendMessage() {
-        testOperation();
+        testBeforeOperation();
         Observer observer = new Observer() {
             @Override
             public void update(Object message) {
@@ -293,7 +324,7 @@ public class ModelTest extends TestCase {
 
     @Test
     public void testSendGodPowerMessage() {
-        testOperation();
+        testBeforeOperation();
         Observer observer = new Observer() {
             @Override
             public void update(Object message) {
@@ -310,4 +341,46 @@ public class ModelTest extends TestCase {
 
     }
 
+    @Test
+    public void testShowComplete() {
+        testBeforeOperation();
+        Observer observer = new Observer() {
+            @Override
+            public void update(Object message) {
+                Assert.assertTrue(message instanceof String[]);
+                Assert.assertEquals(message, model.getGodsList().getCompleteGodList());
+            }
+        };
+        model.addObservers(observer);
+        model.showCompleteGodList();
+    }
+
+    @Test
+    public void testShowGodList(){
+        testDefineGodList();
+        Observer observer = new Observer() {
+            @Override
+            public void update(Object message) {
+                Assert.assertTrue(message instanceof ArrayList);
+                Assert.assertEquals(message, model.getGodsList().getCurrentGodList());
+            }
+        };
+        model.addObservers(observer);
+        model.showGodList();
+        Assert.assertEquals(2, model.getGodsList().getCurrentGodList().size());
+    }
+
+    @Test
+    public void testBroadcast() {
+        Observer observer = new Observer() {
+            @Override
+            public void update(Object message) {
+                Assert.assertTrue(message instanceof String);
+                Assert.assertEquals(message, "ciao");
+            }
+        };
+        model.addObservers(observer);
+        model.broadcast("ciao");
+
+    }
 }

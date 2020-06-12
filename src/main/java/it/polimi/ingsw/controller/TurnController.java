@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.messages.Messages;
+import it.polimi.ingsw.messages.TurnMessage;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.God.*;
 
@@ -110,6 +111,7 @@ public class TurnController {
         //trovare indice del player successivo
         int index = model.getNextPlayerIndex();
         currentTurn.nextTurn(playerList.get(index));
+        model.notify(new TurnMessage("god", currentTurn.getCurrentPlayer().getPlayerNickname()));
         model.showBoard();
         if (model.checkLose()) {
             checkGameOver();

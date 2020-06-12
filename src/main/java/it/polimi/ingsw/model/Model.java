@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.messages.GameMessage;
-import it.polimi.ingsw.messages.GodChosenMessage;
-import it.polimi.ingsw.messages.GodPowerMessage;
-import it.polimi.ingsw.messages.Messages;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.God.Conditions;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observable;
@@ -62,6 +59,7 @@ public class Model extends Observable {
     public void challengerStart(){
         randomChooseChallenger();
         currentTurn = new Turn(matchPlayersList.get(challengerID));
+        notify(new TurnMessage("god", currentTurn.getCurrentPlayer().getPlayerNickname()));
         sendMessage("Sei il Challenger");
         /* mandare al Challenger la lista completa dei God */
         showCompleteGodList();
@@ -92,6 +90,7 @@ public class Model extends Observable {
 
         int index = getNextPlayerIndex();
         currentTurn.setCurrentPlayer(matchPlayersList.get(index));
+        notify(new TurnMessage("god", currentTurn.getCurrentPlayer().getPlayerNickname()));
         if(index == challengerID){
             /* dare direttamente la god rimanente al Challenger */
             String god = godsList.getCurrentGodList().get(0);
