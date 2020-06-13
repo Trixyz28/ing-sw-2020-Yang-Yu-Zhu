@@ -56,7 +56,6 @@ public class InitController {
             /* posizionare il worker */
             currentPlayer.chooseWorker(indexWorker).setPosition(currentPosition);
             indexWorker++;
-            model.showBoard();
             if(indexWorker > 1){
                 /* passare al nextPlayer */
                 indexWorker = 0;

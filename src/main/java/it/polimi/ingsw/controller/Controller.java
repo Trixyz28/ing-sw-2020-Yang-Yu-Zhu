@@ -4,10 +4,8 @@ import it.polimi.ingsw.messages.GameMessage;
 import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
-import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.observers.Observer;
 
-import java.util.Map;
 
 
 public class Controller implements Observer {
@@ -30,7 +28,6 @@ public class Controller implements Observer {
         moveController = new MoveController(model);
         buildController = new BuildController(model);
     }
-
 
     private boolean checkTurn(Object arg) {
         if(arg instanceof Operation){
