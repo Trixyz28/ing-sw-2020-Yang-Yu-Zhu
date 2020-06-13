@@ -2,6 +2,7 @@ package it.polimi.ingsw.messages;
 
 import java.io.Serializable;
 
+
 public class TurnMessage implements Serializable {
 
     //source = "god"/"board"

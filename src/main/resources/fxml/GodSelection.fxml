@@ -134,7 +134,14 @@
                <children>
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="250.0">
                      <children>
-                        <Pane prefHeight="200.0" prefWidth="200.0" />
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="commandRecv" alignment="CENTER" contentDisplay="CENTER" prefHeight="200.0" prefWidth="250.0" textAlignment="CENTER" textFill="#945e51">
+                                 <font>
+                                    <Font name="Bodoni MT" size="22.0" />
+                                 </font>
+                              </Label>
+                           </children></Pane>
                         <Pane fx:id="cloud0" onMouseClicked="#select0" prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
@@ -149,7 +156,7 @@
                               </ImageView>
                               <Label fx:id="playerName0" alignment="CENTER" contentDisplay="CENTER" layoutX="72.0" layoutY="106.0" prefHeight="31.0" prefWidth="140.0" text="Player 0" textFill="#5368b0f0">
                                  <font>
-                                    <Font name="Book Antiqua Bold" size="20.0" />
+                                    <Font name="Book Antiqua" size="20.0" />
                                  </font></Label>
                               <Label fx:id="challenger0" alignment="CENTER" contentDisplay="CENTER" layoutX="102.0" layoutY="77.0" prefHeight="23.0" prefWidth="110.0" textFill="#ac7d61">
                                  <font>
@@ -171,7 +178,7 @@
                               </ImageView>
                               <Label fx:id="playerName1" alignment="CENTER" contentDisplay="CENTER" layoutX="72.0" layoutY="106.0" prefHeight="31.0" prefWidth="140.0" text="Player 1 " textFill="#5368b0f0">
                                  <font>
-                                    <Font name="Book Antiqua Bold" size="20.0" />
+                                    <Font name="Book Antiqua" size="20.0" />
                                  </font></Label>
                               <Label fx:id="challenger1" alignment="CENTER" contentDisplay="CENTER" layoutX="102.0" layoutY="77.0" prefHeight="23.0" prefWidth="110.0" textFill="#ac7d61">
                                  <font>
@@ -193,7 +200,7 @@
                               </ImageView>
                               <Label fx:id="playerName2" alignment="CENTER" contentDisplay="CENTER" layoutX="72.0" layoutY="106.0" prefHeight="31.0" prefWidth="140.0" text="Player 2" textFill="#5368b0f0">
                                  <font>
-                                    <Font name="Book Antiqua Bold" size="20.0" />
+                                    <Font name="Book Antiqua" size="20.0" />
                                  </font></Label>
                               <Label fx:id="challenger2" alignment="CENTER" contentDisplay="CENTER" layoutX="102.0" layoutY="77.0" prefHeight="23.0" prefWidth="110.0" textFill="#ac7d61">
                                  <font>

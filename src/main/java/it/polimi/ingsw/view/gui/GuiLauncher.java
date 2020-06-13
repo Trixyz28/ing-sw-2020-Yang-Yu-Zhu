@@ -4,17 +4,19 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.GodChosenMessage;
 import it.polimi.ingsw.messages.LobbyMessage;
 import it.polimi.ingsw.messages.Messages;
+import it.polimi.ingsw.messages.TurnMessage;
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Turn;
 import it.polimi.ingsw.observers.Observer;
-import it.polimi.ingsw.view.gui.controllers.Commuter;
-import it.polimi.ingsw.view.gui.controllers.GodController;
-import it.polimi.ingsw.view.gui.controllers.LoadingController;
-import it.polimi.ingsw.view.gui.controllers.ServerController;
+import it.polimi.ingsw.view.BoardView;
+import it.polimi.ingsw.view.gui.controllers.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -37,9 +39,19 @@ public class GuiLauncher extends Application implements Observer {
     private GUI gui;
 
     private boolean playerNameSet;
+    private boolean challengerSet;
+    private String challengerName;
     private ArrayList<String> playerList;
-    private ArrayList<String> godList;
+    private String[] godList;
 
+    private boolean chooseWorker;
+    private BoardView lastView;
+
+    public Image[] getCoins() {
+        return coins;
+    }
+
+    private Image[] coins;
 
 
     public GuiLauncher() {
@@ -51,9 +63,11 @@ public class GuiLauncher extends Application implements Observer {
         allScenes.add(new FXMLLoader(getClass().getResource("/fxml/GodSelection.fxml")));
         allScenes.add(new FXMLLoader(getClass().getResource("/fxml/Board.fxml")));
         this.gui = new GUI();
-        this.playerList = new ArrayList<>();
-        this.godList = new ArrayList<>();
+
         this.playerNameSet = false;
+        this.challengerSet = false;
+        this.chooseWorker = false;
+        this.playerList = new ArrayList<>();
     }
 
 
@@ -108,7 +122,16 @@ public class GuiLauncher extends Application implements Observer {
                 }
 
                 if(index==4) {
+                    this.godList = new String[playerList.size()];
+                    this.coins = new Image[playerList.size()];
                     ((GodController)commuter).setName(playerList);
+                    ((GodController)commuter).setChallenger(challengerName);
+                }
+
+                if(index==5) {
+                    setCoin(coins,godList);
+                    ((BoardController)commuter).setName(playerList);
+                    ((BoardController)commuter).setGod(godList);
                 }
 
             } catch (Exception e) {
@@ -195,6 +218,18 @@ public class GuiLauncher extends Application implements Observer {
                 changeScene(5);
             }
 
+            if(message.equals(Messages.chooseStartPlayer)) {
+                Platform.runLater(()-> ((GodController)commuter).showMessage((String) message));
+            }
+
+            if(message.equals(Messages.Worker)) {
+                this.chooseWorker = true;
+            }
+
+            if(message.equals(Messages.workerChose)) {
+                this.chooseWorker = false;
+            }
+
         }
 
 
@@ -203,6 +238,12 @@ public class GuiLauncher extends Application implements Observer {
                 Platform.runLater(() -> ((GodController)commuter).changeImage(((GodChosenMessage) message).getGod()));
             }
             if(((GodChosenMessage) message).getCommand().equals("choose")) {
+                for(String name : playerList) {
+                    if(name.equals(((GodChosenMessage) message).getPlayer())) {
+                        godList[playerList.indexOf(name)] = ((GodChosenMessage) message).getGod();
+                    }
+                }
+
                 Platform.runLater(() -> ((GodController)commuter).setChosenGod((GodChosenMessage) message));
             }
         }
@@ -224,9 +265,72 @@ public class GuiLauncher extends Application implements Observer {
             }
         }
 
+        if(message instanceof TurnMessage) {
+            if(!challengerSet) {
+                this.challengerName = ((TurnMessage) message).getName();
+                challengerSet = true;
+            }
+
+            if(((TurnMessage) message).getSource().equals("god")) {
+                Platform.runLater(()-> ((GodController)commuter).setTurn(((TurnMessage) message).getName()));
+            }
+        }
+
+        if(message instanceof BoardView) {
+            this.lastView = (BoardView)message;
+            Platform.runLater(()-> ((BoardController)commuter).showBoard((BoardView) message));
+        }
+
+
 
     }
 
+    public boolean isChooseWorker() {
+        return chooseWorker;
+    }
 
+    public BoardView getLastView() {
+        return lastView;
+    }
+
+    public void setCoin(Image[] images,String[] godList ) {
+
+        for (int i = 0; i < images.length; i++) {
+
+            switch (godList[i].toUpperCase()) {
+
+                case "APOLLO" -> images[i] = new Image("/coins/ApolloCoin.png");
+
+                case "ARTEMIS" -> images[i] = new Image("/coins/ArtemisCoin.png");
+
+                case "ATHENA" -> images[i] = new Image("/coins/AthenaCoin.png");
+
+                case "ATLAS" -> images[i] = new Image("/coins/AtlasCoin.png");
+
+                case "DEMETER" -> images[i] = new Image("/coins/DemeterCoin.png");
+
+                case "HEPHAESTUS" -> images[i] = new Image("/coins/HephaestusCoin.png");
+
+                case "HERA" -> images[i] = new Image("/coins/HeraCoin.png");
+
+                case "HESTIA" -> images[i] = new Image("/coins/HestiaCoin.png");
+
+                case "LIMUS" -> images[i] = new Image("/coins/LimusCoin.png");
+
+                case "MINOTAUR" -> images[i] = new Image("/coins/MinotaurCoin.png");
+
+                case "PAN" -> images[i] = new Image("/coins/PanCoin.png");
+
+                case "POSEIDON" -> images[i] = new Image("/coins/PoseidonCoin.png");
+
+                case "PROMETHEUS" -> images[i] = new Image("/coins/PrometheusCoin.png");
+
+                case "TRITON" -> images[i] = new Image("/coins/TritonCoin.png");
+
+                case "ZEUS" -> images[i] = new Image("/coins/ZeusCoin.png");
+
+            }
+        }
+    }
 
 }

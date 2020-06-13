@@ -141,6 +141,9 @@ public class GodController extends Commuter {
     }
 
     @FXML
+    private Label commandRecv;
+
+    @FXML
     private Pane cloud0;
 
     @FXML
@@ -219,8 +222,20 @@ public class GodController extends Commuter {
                setCloud(godCloud2,message.getGod());
            }
         }
-
     }
+
+    public void setChallenger(String challenger) {
+        if(challenger.equals(playerName0.getText())) {
+            challenger0.setText("Challenger");
+        }
+        if(challenger.equals(playerName1.getText())) {
+            challenger1.setText("Challenger");
+        }
+        if(challenger.equals(playerName2.getText())) {
+            challenger2.setText("Challenger");
+        }
+    }
+
 
 
     public void setCloud(ImageView imageView,String god) {
@@ -261,6 +276,31 @@ public class GodController extends Commuter {
         };
 
         imageView.setImage(image);
+    }
+
+
+    public void setTurn(String player) {
+        if(player.equals(playerName0.getText())) {
+            cloud0.setOpacity(1);
+            cloud1.setOpacity(0.5);
+            cloud2.setOpacity(0.5);
+        }
+        if(player.equals(playerName1.getText())) {
+            cloud0.setOpacity(0.5);
+            cloud1.setOpacity(1);
+            cloud2.setOpacity(0.5);
+        }
+        if(player.equals(playerName2.getText())) {
+            cloud0.setOpacity(0.5);
+            cloud1.setOpacity(0.5);
+            cloud2.setOpacity(1);
+        }
+
+        showMessage(player +"'s turn");
+    }
+
+    public void showMessage(String str) {
+        commandRecv.setText(str);
     }
 
 

@@ -54,7 +54,9 @@ public class Messages {
     public static String challengerChosen = "Il Challenger ha finito di scegliere i God! \nLa Lista dei God scelti è :";
 
     //Match
+    public static String chooseStartPlayer = "Choose the first player!";
     public static String boardStarting = "Enjoy :D";
+    public static String workerChose = "Worker chosen";
 
 
 

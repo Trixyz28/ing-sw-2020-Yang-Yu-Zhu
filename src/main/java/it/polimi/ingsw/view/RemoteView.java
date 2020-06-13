@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.messages.GameMessage;
 import it.polimi.ingsw.messages.GodChosenMessage;
 import it.polimi.ingsw.messages.Messages;
+import it.polimi.ingsw.messages.TurnMessage;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.server.SocketConnection;
@@ -99,6 +100,11 @@ public class RemoteView extends View {
         if(message instanceof GodChosenMessage) {
             clientConnection.asyncSend(message);
         }
+
+        if(message instanceof TurnMessage) {
+            clientConnection.asyncSend(message);
+        }
+
     }
 
     private void showComplete(String[] godList){

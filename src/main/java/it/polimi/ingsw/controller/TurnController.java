@@ -43,6 +43,7 @@ public class TurnController {
 
         currentTurn.choseWorker(chosenWorker);
         model.setWorkerChosen(true);
+        model.sendMessage(Messages.workerChose);
         /* godPower prima di move -> Prometheus */
         if(chosenWorker.getGodPower()) {
             model.showBoard();
@@ -111,7 +112,7 @@ public class TurnController {
         //trovare indice del player successivo
         int index = model.getNextPlayerIndex();
         currentTurn.nextTurn(playerList.get(index));
-        model.notify(new TurnMessage("god", currentTurn.getCurrentPlayer().getPlayerNickname()));
+        model.notify(new TurnMessage("board", currentTurn.getCurrentPlayer().getPlayerNickname()));
         model.showBoard();
         if (model.checkLose()) {
             checkGameOver();

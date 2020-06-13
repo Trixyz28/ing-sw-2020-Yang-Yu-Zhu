@@ -14,6 +14,7 @@ public class WorkerView implements Serializable {
     private Tile position;
     private int state;
     private int belongToPlayer;
+    private int workerID;
 
     private List<Tile> movableList;
     private List<Tile> buildableList;
@@ -60,5 +61,13 @@ public class WorkerView implements Serializable {
 
     public int getBelongToPlayer() {
         return belongToPlayer;
+    }
+
+    public int getWorkerID() {
+        return workerID;
+    }
+
+    public void setWorkerID(int workerID) {
+        this.workerID = workerID;
     }
 }

@@ -17,6 +17,10 @@ public class GUI extends Observable implements Ui {
 
 
 
+    private String nickname;
+
+
+
     @Override
     public void showMessage(String str) {
         System.out.println("Received in gui: " + str);
@@ -26,7 +30,7 @@ public class GUI extends Observable implements Ui {
 
     @Override
     public void showBoard(BoardView boardView) {
-
+        notify(boardView);
     }
 
     @Override
@@ -54,9 +58,12 @@ public class GUI extends Observable implements Ui {
         notify(message);
     }
 
+    public String getNickname() {
+        return nickname;
+    }
 
-    public void print() {
-        System.out.println("print");
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
 }

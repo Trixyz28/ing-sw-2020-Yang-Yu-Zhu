@@ -102,7 +102,7 @@ public class Model extends Observable {
             challenger.createWorker(god, getCondition(),getTotalWorkers());
             /* creare lista di tutti i workers */
             createTotalWorkerList();
-            sendMessage("Scegli il Player che inizia la partita!");
+            sendMessage(Messages.chooseStartPlayer);
         }else {
             /* show currentList */
             showGodList();
@@ -201,6 +201,7 @@ public class Model extends Observable {
         for(UndecoratedWorker worker : totalWorkerList) {
             int index = totalWorkerList.indexOf(worker);
             totalWorkerView[index] = new WorkerView(worker);
+            totalWorkerView[index].setWorkerID(index%2);
 
             if(workerChosen) {
                 if(worker.equals(currentTurn.getChosenWorker())) {
