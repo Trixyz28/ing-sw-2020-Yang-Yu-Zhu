@@ -55,6 +55,14 @@ public class Model extends Observable {
         condition = new Conditions();
     }
 
+
+    //Create the players
+    public void addPlayer(Player player) {
+        matchPlayersList.add(player);
+        player.setChallenger(false);
+    }
+
+
     /* preparazione scelta godList dal challenger */
     public void challengerStart(){
         randomChooseChallenger();
@@ -63,6 +71,21 @@ public class Model extends Observable {
         sendMessage("Sei il Challenger");
         /* mandare al Challenger la lista completa dei God */
         showCompleteGodList();
+    }
+
+
+    //Choose a Challenger from playersList in a random way
+    public void randomChooseChallenger() {
+        Random r = new Random();
+        challengerID = (r.nextInt(playersNumber));
+        matchPlayersList.get(challengerID).setChallenger(true);
+        broadcast("The chosen challenger is: " + matchPlayersList.get(challengerID).getPlayerNickname());
+    }
+
+
+    //print completeList
+    public void showCompleteGodList(){
+        notify(godsList.getCompleteGodList());
     }
 
 
@@ -81,9 +104,9 @@ public class Model extends Observable {
             return true;
         }
 
-
         return false;
     }
+
 
     //far scegliere God dai player
     public void nextChoiceGod(){
@@ -110,6 +133,7 @@ public class Model extends Observable {
         }
     }
 
+
     /* Scelta God + creazione worker */
     public boolean chooseGod(String god){
         godsList.selectGod(god);
@@ -134,6 +158,27 @@ public class Model extends Observable {
         }
     }
 
+
+    /* per scegliere il startingPlayer attraverso Nickname */
+    public boolean setStartingPlayer(String startingPlayerNickname){
+
+        Player startingPlayer;
+        for (Player p : matchPlayersList) {
+            if (p.getPlayerNickname().equals(startingPlayerNickname)) {
+                startingPlayer = p;
+                //settare il startingPlayerID del model
+                setStartingPlayerID(startingPlayer.getPlayerID());
+                broadcast("Il primo player che fa la mossa è " + startingPlayer.getPlayerNickname());
+                broadcast(Messages.boardStarting);
+                return true;
+            }
+        }
+        /* se esce dal for -> Nickname non trovato riprovare a chiedere */
+        sendMessage(Messages.wrongArgument+ "\n" + Messages.tryAgain);
+        return false;
+    }
+
+
     //check turn dei messaggi ricevuti
     public boolean checkTurn(String playerNickname){
         if(playerNickname.equals(currentTurn.getCurrentPlayer().getPlayerNickname())) {
@@ -143,6 +188,7 @@ public class Model extends Observable {
             return false;
         }
     }
+
 
     /* check risposta per divinità */
     public boolean checkAnswer(GameMessage gMessage){
@@ -163,25 +209,7 @@ public class Model extends Observable {
         }
     }
 
-    /* per scegliere il startingPlayer attraverso Nickname */
-    public boolean setStartingPlayer(String startingPlayerNickname){
 
-        Player startingPlayer;
-        for (Player p : matchPlayersList) {
-            if (p.getPlayerNickname().equals(startingPlayerNickname)) {
-                startingPlayer = p;
-                //settare il startingPlayerID del model
-                setStartingPlayerID(startingPlayer.getPlayerID());
-                broadcast("Il primo player che fa la mossa è " + startingPlayer.getPlayerNickname());
-                broadcast(Messages.boardStarting);
-                return true;
-            }
-        }
-        /* se esce dal for -> Nickname non trovato riprovare a chiedere */
-        sendMessage(Messages.wrongArgument+ "\n" + Messages.tryAgain);
-        return false;
-
-    }
 
     public Board getBoard() {
         return board;
@@ -248,6 +276,7 @@ public class Model extends Observable {
         }
     }
 
+
     public int getPlayersNumber() {
         return playersNumber;
     }
@@ -267,19 +296,12 @@ public class Model extends Observable {
         return challengerID;
     }
 
-    //Choose a Challenger from playersList in a random way
-    public void randomChooseChallenger() {
-        Random r = new Random();
-        challengerID = (r.nextInt(playersNumber));
-        matchPlayersList.get(challengerID).setChallenger(true);
-        broadcast("The chosen challenger is: " + matchPlayersList.get(challengerID).getPlayerNickname());
-    }
+
 
     //get() starting playerID
     public int getStartingPlayerID() {
         return startingPlayerID;
     }
-
     //set of the starting playerID
     public void setStartingPlayerID(int id){
         startingPlayerID = id;
@@ -290,17 +312,10 @@ public class Model extends Observable {
         return godsList;
     }
 
-    //print completeList
-    public void showCompleteGodList(){
-        notify(godsList.getCompleteGodList());
-    }
 
 
-   //Create the players
-    public void addPlayer(Player player) {
-        matchPlayersList.add(player);
-        player.setChallenger(false);
-    }
+
+
 
     public void showGodList(){
         notify(godsList.getCurrentGodList());
@@ -341,6 +356,7 @@ public class Model extends Observable {
         }
 
     }
+
 
     public void broadcast(String message){
         notify(message);
@@ -429,7 +445,6 @@ public class Model extends Observable {
     }
 
 
-
     public void createTotalWorkerList() {
 
         for (Player player : matchPlayersList) {
@@ -437,6 +452,7 @@ public class Model extends Observable {
         }
 
     }
+
 
     public ArrayList<UndecoratedWorker> getTotalWorkers() {
         return totalWorkerList;

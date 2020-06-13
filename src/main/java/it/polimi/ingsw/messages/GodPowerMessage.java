@@ -42,5 +42,13 @@ public enum GodPowerMessage {
         return 0;
     }
 
+    public String getAnswer1() {
+        return this.answer1;
+    }
+
+    public String getAnswer2() {
+        return this.answer2;
+    }
+
 
 }

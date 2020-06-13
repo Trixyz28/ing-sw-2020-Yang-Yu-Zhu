@@ -1,12 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.messages.GodChosenMessage;
-import it.polimi.ingsw.messages.LobbyMessage;
-import it.polimi.ingsw.messages.Messages;
-import it.polimi.ingsw.messages.TurnMessage;
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Turn;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.gui.controllers.*;
@@ -132,6 +127,7 @@ public class GuiLauncher extends Application implements Observer {
                     setCoin(coins,godList);
                     ((BoardController)commuter).setName(playerList);
                     ((BoardController)commuter).setGod(godList);
+                    ((BoardController)commuter).resetButtons();
                 }
 
             } catch (Exception e) {
@@ -281,6 +277,32 @@ public class GuiLauncher extends Application implements Observer {
             Platform.runLater(()-> ((BoardController)commuter).showBoard((BoardView) message));
         }
 
+        /*
+        if(message instanceof GameMessage) {
+
+            if(((GameMessage) message).getMessage().equals(Messages.Worker)) {
+                this.chooseWorker = true;
+            }
+
+            if(((GameMessage) message).getMessage().equals(Messages.workerChose)) {
+                this.chooseWorker = false;
+            }
+
+
+            if (!((GameMessage) message).readOnly()) {
+                System.out.println("gamemsg: " + ((GameMessage) message).getMessage());
+                if(((GameMessage) message).getMessage().equals(GodPowerMessage.valueOf(lastView.getCurrentGod()).getMessage())) {
+                    GodPowerMessage god = GodPowerMessage.valueOf(lastView.getCurrentGod());
+                    System.out.println("current god: " + lastView.getCurrentGod());
+
+                    Platform.runLater(() -> {
+                        ((BoardController)commuter).setButtons(god.getAnswer1(),god.getAnswer2());
+                    });
+                }
+            }
+        }
+
+         */
 
 
     }

@@ -1,11 +1,11 @@
 package it.polimi.ingsw.view.gui.controllers;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.WorkerView;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,10 +15,20 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
+
 public class BoardController extends Commuter {
 
     @FXML
     private Label commandRecv;
+    @FXML
+    private Label turnMsg;
+    @FXML
+    private Pane godButtonPane;
+    @FXML
+    private Button godPowerButton1;
+    @FXML
+    private Button godPowerButton2;
+
 
     @FXML
     private Pane cloud0;
@@ -378,19 +388,19 @@ public class BoardController extends Commuter {
 
 
                 if(tile.isOccupiedByWorker()) {
-                    printWorker(getLayer(row,column,1),boardView,tile);
+                    printWorker((ImageView) ((Pane) node).getChildren().get(1),boardView,tile);
                 } else if(tile.isDomePresence()) {
-                    printDome(getLayer(row,column,1));
+                    printDome((ImageView) ((Pane) node).getChildren().get(1));
                 } else {
-                    printEmpty(getLayer(row,column,1));
+                    printEmpty((ImageView) ((Pane) node).getChildren().get(1));
                 }
 
-                printBlock(getLayer(row,column,0),tile.getBlockLevel());
+                printBlock((ImageView) ((Pane) node).getChildren().get(0),tile.getBlockLevel());
 
                 if(checkCanOp(boardView,tile)) {
-                    printCanOp(getLayer(row,column,2));
+                    printCanOp((ImageView) ((Pane) node).getChildren().get(2));
                 } else {
-                    printEmpty(getLayer(row,column,2));
+                    printEmpty((ImageView) ((Pane) node).getChildren().get(2));
                 }
 
             }
@@ -495,209 +505,28 @@ public class BoardController extends Commuter {
         commandRecv.setText(str);
     }
 
+    public void resetButtons() {
+        godButtonPane.setVisible(false);
+        godButtonPane.setDisable(true);
+    }
 
-    public ImageView getLayer(int row,int column,int layer) {
-        if(row==0 && column==0) {
-            if(layer==0) {
-                return buildLayer00;
-            } else if(layer==1) {
-                return workerLayer00;
-            } else {
-                return opLayer00;
-            }
-        } else if(row==0 && column==1) {
-            if(layer==0) {
-                return buildLayer01;
-            } else if(layer==1) {
-                return workerLayer01;
-            } else {
-                return opLayer01;
-            }
-        } else if(row==0 && column==2) {
-            if(layer==0) {
-                return buildLayer02;
-            } else if(layer==1) {
-                return workerLayer02;
-            } else {
-                return opLayer02;
-            }
-        } else if(row==0 && column==3) {
-            if(layer==0) {
-                return buildLayer03;
-            } else if(layer==1) {
-                return workerLayer03;
-            } else {
-                return opLayer03;
-            }
-        } else if(row==0 && column==4) {
-            if(layer==0) {
-                return buildLayer04;
-            } else if(layer==1) {
-                return workerLayer04;
-            } else {
-                return opLayer04;
-            }
-        } else if(row==1 && column==0) {
-            if(layer==0) {
-                return buildLayer10;
-            } else if(layer==1) {
-                return workerLayer10;
-            } else {
-                return opLayer10;
-            }
-        } else if(row==1 && column==1) {
-            if(layer==0) {
-                return buildLayer11;
-            } else if(layer==1) {
-                return workerLayer11;
-            } else {
-                return opLayer11;
-            }
-        } else if(row==1 && column==2) {
-            if(layer==0) {
-                return buildLayer12;
-            } else if(layer==1) {
-                return workerLayer12;
-            } else {
-                return opLayer12;
-            }
-        } else if(row==1 && column==3) {
-            if(layer==0) {
-                return buildLayer13;
-            } else if(layer==1) {
-                return workerLayer13;
-            } else {
-                return opLayer13;
-            }
-        } else if(row==1 && column==4) {
-            if(layer==0) {
-                return buildLayer14;
-            } else if(layer==1) {
-                return workerLayer14;
-            } else {
-                return opLayer14;
-            }
-        } else if(row==2 && column==0) {
-            if(layer==0) {
-                return buildLayer20;
-            } else if(layer==1) {
-                return workerLayer20;
-            } else {
-                return opLayer20;
-            }
-        } else if(row==2 && column==1) {
-            if(layer==0) {
-                return buildLayer21;
-            } else if(layer==1) {
-                return workerLayer21;
-            } else {
-                return opLayer21;
-            }
-        } else if(row==2 && column==2) {
-            if(layer==0) {
-                return buildLayer22;
-            } else if(layer==1) {
-                return workerLayer22;
-            } else {
-                return opLayer22;
-            }
-        } else if(row==2 && column==3) {
-            if(layer==0) {
-                return buildLayer23;
-            } else if(layer==1) {
-                return workerLayer23;
-            } else {
-                return opLayer23;
-            }
-        } else if(row==2 && column==4) {
-            if(layer==0) {
-                return buildLayer24;
-            } else if(layer==1) {
-                return workerLayer24;
-            } else {
-                return opLayer24;
-            }
-        } else if(row==3 && column==0) {
-            if(layer==0) {
-                return buildLayer30;
-            } else if(layer==1) {
-                return workerLayer30;
-            } else {
-                return opLayer30;
-            }
-        } else if(row==3 && column==1) {
-            if(layer==0) {
-                return buildLayer31;
-            } else if(layer==1) {
-                return workerLayer31;
-            } else {
-                return opLayer31;
-            }
-        } else if(row==3 && column==2) {
-            if(layer==0) {
-                return buildLayer32;
-            } else if(layer==1) {
-                return workerLayer32;
-            } else {
-                return opLayer32;
-            }
-        } else if(row==3 && column==3) {
-            if(layer==0) {
-                return buildLayer33;
-            } else if(layer==1) {
-                return workerLayer33;
-            } else {
-                return opLayer33;
-            }
-        } else if(row==3 && column==4) {
-            if(layer==0) {
-                return buildLayer34;
-            } else if(layer==1) {
-                return workerLayer34;
-            } else {
-                return opLayer34;
-            }
-        } else if(row==4 && column==0) {
-            if(layer==0) {
-                return buildLayer40;
-            } else if(layer==1) {
-                return workerLayer40;
-            } else {
-                return opLayer40;
-            }
-        } else if(row==4 && column==1) {
-            if(layer==0) {
-                return buildLayer41;
-            } else if(layer==1) {
-                return workerLayer41;
-            } else {
-                return opLayer41;
-            }
-        } else if(row==4 && column==2) {
-            if(layer==0) {
-                return buildLayer42;
-            } else if(layer==1) {
-                return workerLayer42;
-            } else {
-                return opLayer42;
-            }
-        } else if(row==4 && column==3) {
-            if(layer==0) {
-                return buildLayer43;
-            } else if(layer==1) {
-                return workerLayer43;
-            } else {
-                return opLayer43;
-            }
-        } else {
-            if(layer==0) {
-                return buildLayer44;
-            } else if(layer==1) {
-                return workerLayer44;
-            } else {
-                return opLayer44;
-            }
-        }
+
+    public void setButtons(String str1,String str2) {
+        godButtonPane.setDisable(false);
+        godButtonPane.setVisible(true);
+        godPowerButton1.setText(str1);
+        godPowerButton2.setText(str2);
+    }
+
+
+    public void sendAnswer1() {
+        super.getGuiLauncher().getClient().sendInput(godPowerButton1.getText());
+        resetButtons();
+    }
+
+    public void sendAnswer2() {
+        super.getGuiLauncher().getClient().sendInput(godPowerButton2.getText());
+        resetButtons();
     }
 
 }

@@ -38,6 +38,26 @@
       <version>14.0.1</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>14.0.1</version>
+      <classifier>win</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>14.0.1</version>
+      <classifier>linux</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>14.0.1</version>
+      <classifier>mac</classifier>
+    </dependency>
   </dependencies>
 
   <build>
