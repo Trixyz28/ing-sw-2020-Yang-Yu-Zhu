@@ -383,6 +383,8 @@ public class Model extends Observable {
     public boolean checkWin() {
         if (currentTurn.getChosenWorker().checkWin(currentTurn.getInitialTile())){
             sendMessage("Hai vintoooooo!!!");
+            setWorkerChosen(false);
+            showBoard();
             gameOver();
             return true;
         }
