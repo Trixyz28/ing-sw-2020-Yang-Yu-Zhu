@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.messages.GameMessage;
 import it.polimi.ingsw.messages.GodChosenMessage;
 import it.polimi.ingsw.messages.LobbyMessage;
 import it.polimi.ingsw.messages.TurnMessage;
@@ -26,6 +27,8 @@ public interface Ui {
     void showLobbyMsg(LobbyMessage message);
 
     void showTurnMsg(TurnMessage message);
+
+    void showGameMsg(GameMessage message);
 
 
 

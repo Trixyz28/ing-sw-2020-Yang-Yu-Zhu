@@ -23,6 +23,9 @@ public class SocketConnection extends Observable implements Runnable {
     private int lobbyID;
     private Player player;
 
+
+
+    private boolean inMatch = false;
     private boolean active = true;
     private boolean lost = false;
 
@@ -143,7 +146,9 @@ public class SocketConnection extends Observable implements Runnable {
             System.err.println("Error!" + e.getMessage());
             active = false;
         } finally {
-            if(!lost) {
+            if(!inMatch) {
+                server.removeFromLobby(lobbyID,this,player.getPlayerNickname());
+            } else if(!lost) {
                 closeMatch();
             } else {
                 deregisterPlayer();
@@ -187,5 +192,7 @@ public class SocketConnection extends Observable implements Runnable {
         send("Hi, " + player.getPlayerNickname() + "!");
     }
 
-
+    public void setInMatch(boolean inMatch) {
+        this.inMatch = inMatch;
+    }
 }

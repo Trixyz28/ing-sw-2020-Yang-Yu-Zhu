@@ -397,11 +397,7 @@ public class BoardController extends Commuter {
 
                 printBlock((ImageView) ((Pane) node).getChildren().get(0),tile.getBlockLevel());
 
-                if(checkCanOp(boardView,tile)) {
-                    printCanOp((ImageView) ((Pane) node).getChildren().get(2));
-                } else {
-                    printEmpty((ImageView) ((Pane) node).getChildren().get(2));
-                }
+                printCanOp((ImageView) ((Pane) node).getChildren().get(2),checkCanOp(boardView,tile));
 
             }
         }
@@ -437,9 +433,20 @@ public class BoardController extends Commuter {
     }
 
 
-    public void printCanOp(ImageView imageView) {
-        Image image = new Image("/buildings/canOp.png");
-        imageView.setImage(image);
+    public void printCanOp(ImageView imageView,int number) {
+
+        if(number==0) {
+            printEmpty(imageView);
+        } else {
+            Image image;
+            if(number==1) {
+                image = new Image("/buildings/canMove.png");
+            } else {
+                image = new Image("/buildings/canBuild.png");
+            }
+            imageView.setImage(image);
+        }
+
     }
 
     public void printEmpty(ImageView imageView) {
@@ -448,19 +455,23 @@ public class BoardController extends Commuter {
     }
 
 
-    public boolean checkCanOp(BoardView boardView,Tile t) {
+    public int checkCanOp(BoardView boardView,Tile t) {
         if(boardView.getChosenWorkerID()!=-1) {
             WorkerView chosen = boardView.getWorkerList()[boardView.getChosenWorkerID()];
 
             if(chosen.getState()==1) {
-                return chosen.getMovableList().contains(t);
+                if(chosen.getMovableList().contains(t)) {
+                    return 1;
+                }
             }
             if(chosen.getState()==2 || chosen.getState()==3) {
-                return chosen.getBuildableList().contains(t);
+                if(chosen.getBuildableList().contains(t)) {
+                    return 2;
+                }
             }
 
         }
-        return false;
+        return 0;
     }
 
     public void printDome(ImageView dome) {
@@ -498,11 +509,11 @@ public class BoardController extends Commuter {
             }
         }
 
-        showMsg(player +"'s turn");
+        showTurnMsg(player);
     }
 
-    public void showMsg(String str) {
-        commandRecv.setText(str);
+    public void showTurnMsg(String str) {
+        turnMsg.setText(str);
     }
 
     public void resetButtons() {
@@ -518,6 +529,9 @@ public class BoardController extends Commuter {
         godPowerButton2.setText(str2);
     }
 
+    public void setRecvMsg(String str) {
+        commandRecv.setText(str);
+    }
 
     public void sendAnswer1() {
         super.getGuiLauncher().getClient().sendInput(godPowerButton1.getText());

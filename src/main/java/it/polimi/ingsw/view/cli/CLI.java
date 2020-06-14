@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.messages.GodChosenMessage;
-import it.polimi.ingsw.messages.LobbyMessage;
-import it.polimi.ingsw.messages.TurnMessage;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.Ui;
@@ -51,7 +49,14 @@ public class CLI implements Ui {
 
     @Override
     public void showMessage(String message) {
-        System.out.println(message);
+
+        if(message.equals(Messages.Place) || message.equals(Messages.Move) || message.equals(Messages.Build) || message.equals(Messages.tryAgain)) {
+            System.out.println(message + Messages.Operation);
+        } else {
+            System.out.println(message);
+        }
+
+
     }
 
     @Override
@@ -90,12 +95,20 @@ public class CLI implements Ui {
 
     @Override
     public void showTurnMsg(TurnMessage message) {
+        /*
         if(message.getSource().equals("god")) {
             System.out.println("God setting phase: turn of " + message.getName());
         }
         if(message.getSource().equals("board")) {
             System.out.println("From board: turn of " + message.getName());
         }
+
+         */
+    }
+
+    @Override
+    public void showGameMsg(GameMessage message) {
+        System.out.println(message.getMessage());
     }
 
 
@@ -206,6 +219,7 @@ public class CLI implements Ui {
 
 
     public boolean checkCanOp(Tile t) {
+
         if(boardView.getChosenWorkerID()!=-1) {
             WorkerView chosen = boardView.getWorkerList()[boardView.getChosenWorkerID()];
 
@@ -215,7 +229,6 @@ public class CLI implements Ui {
             if(chosen.getState()==2 || chosen.getState()==3) {
                 return chosen.getBuildableList().contains(t);
             }
-
         }
 
         return false;

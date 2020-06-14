@@ -20,12 +20,38 @@
       </ImageView>
       <VBox prefHeight="800.0" prefWidth="250.0">
          <children>
-            <Label fx:id="turnMsg" alignment="CENTER" contentDisplay="CENTER" prefHeight="250.0" prefWidth="250.0" />
-            <Label fx:id="commandRecv" alignment="CENTER" contentDisplay="CENTER" prefHeight="200.0" prefWidth="250.0" />
+            <Pane>
+               <children>
+                  <ImageView fitHeight="200.0" fitWidth="250.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../components/msgBoard.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="51.0" prefHeight="46.0" prefWidth="206.0" text="Current player:" textFill="WHITE">
+                     <font>
+                        <Font name="Papyrus" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="turnMsg" alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="106.0" prefHeight="46.0" prefWidth="206.0" text="aaa" textFill="WHITE">
+                     <font>
+                        <Font name="Papyrus" size="22.0" />
+                     </font></Label>
+               </children>
+            </Pane>
+            <Label fx:id="commandRecv" alignment="CENTER" contentDisplay="CENTER" prefHeight="200.0" prefWidth="250.0" text="aaa" textFill="#e7edd4">
+               <font>
+                  <Font name="Papyrus" size="16.0" />
+               </font></Label>
             <Pane fx:id="godButtonPane" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="godPowerButton1" alignment="CENTER" contentDisplay="CENTER" layoutX="61.0" layoutY="117.0" mnemonicParsing="false" onAction="#sendAnswer1" prefHeight="26.0" prefWidth="130.0" text="Button" />
-                  <Button fx:id="godPowerButton2" layoutX="61.0" layoutY="45.0" mnemonicParsing="false" onAction="#sendAnswer2" prefHeight="26.0" prefWidth="129.0" text="Button" />
+                  <Button fx:id="godPowerButton1" alignment="CENTER" contentDisplay="CENTER" layoutX="61.0" layoutY="124.0" mnemonicParsing="false" onAction="#sendAnswer1" prefHeight="40.0" prefWidth="130.0" text="Button" textFill="#a63850dd">
+                     <font>
+                        <Font name="Bodoni MT" size="14.0" />
+                     </font></Button>
+                  <Button fx:id="godPowerButton2" layoutX="61.0" layoutY="45.0" mnemonicParsing="false" onAction="#sendAnswer2" prefHeight="40.0" prefWidth="129.0" text="Button" textFill="#cd8237bf">
+                     <font>
+                        <Font name="Bodoni MT" size="14.0" />
+                     </font></Button>
                </children>
             </Pane>
          </children>

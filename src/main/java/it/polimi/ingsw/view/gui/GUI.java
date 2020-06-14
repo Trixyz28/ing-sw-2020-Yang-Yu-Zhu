@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.messages.GameMessage;
 import it.polimi.ingsw.messages.GodChosenMessage;
 import it.polimi.ingsw.messages.LobbyMessage;
 import it.polimi.ingsw.messages.TurnMessage;
@@ -55,6 +56,11 @@ public class GUI extends Observable implements Ui {
 
     @Override
     public void showTurnMsg(TurnMessage message) {
+        notify(message);
+    }
+
+    @Override
+    public void showGameMsg(GameMessage message) {
         notify(message);
     }
 

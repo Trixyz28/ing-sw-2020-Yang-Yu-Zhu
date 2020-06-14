@@ -17,7 +17,6 @@ public class ServerApp {
             } else {
                 server.startServer(args[0]);
             }
-
         } catch(IOException e) {
             System.err.println(e.getMessage());
         }

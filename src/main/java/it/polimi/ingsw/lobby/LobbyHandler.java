@@ -23,6 +23,7 @@ public class LobbyHandler {
         playerList.add(name);
     }
 
+
     public void removePlayer(String name) {
         playerList.remove(name);
     }
@@ -52,19 +53,13 @@ public class LobbyHandler {
     //Creation of a new lobby and setting up groundwork for the players List
     public int newLobby(String name,int playerNumber) {
 
-        Lobby newLobby = new Lobby();
+        Lobby newLobby = new Lobby(playerNumber);
         lobbyList.add(newLobby);
         newLobby.setLobbyID(lobbyList.indexOf(newLobby));
 
-        //Set in the Lobby of the total players number
-        newLobby.setLobbyPlayersNumber(playerNumber);
-
-        ArrayList<String> temporaryList = new ArrayList<String>();
-        //First player nickname added in position [0], unknown players coded as "0000"
+        ArrayList<String> temporaryList = new ArrayList<>();
         temporaryList.add(name);
-        for (int i = 1; i < playerNumber; i++) {
-            temporaryList.add("0000");
-        }
+
         //copies temporaryList into the attribute of the associated Lobby object
         newLobby.setPlayersNameList(temporaryList);
 

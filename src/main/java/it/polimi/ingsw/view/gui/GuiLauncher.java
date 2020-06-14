@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.gui.controllers.*;
@@ -10,11 +11,10 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -67,7 +67,7 @@ public class GuiLauncher extends Application implements Observer {
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws IOException {
 
         this.stage = primaryStage;
         this.stage.setResizable(false);
@@ -188,11 +188,15 @@ public class GuiLauncher extends Application implements Observer {
             Platform.runLater(() -> {
                 Stage popup = new Stage();
                 popup.setResizable(false);
-                popup.setTitle("Game over!");
-                Pane pane = new Pane();
-                Label label = new Label((String) message);
-                pane.getChildren().add(label);
-                popup.setScene(new Scene(pane,400,300));
+                popup.setTitle("Game over");
+                try {
+                    Parent root = new FXMLLoader(getClass().getResource("/fxml/Popup.fxml")).load();
+                    Scene scene = new Scene(root);
+                    popup.setScene(scene);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 popup.show();
             });
         }
@@ -224,6 +228,10 @@ public class GuiLauncher extends Application implements Observer {
 
             if(message.equals(Messages.workerChose)) {
                 this.chooseWorker = false;
+            }
+
+            if(message.equals(Messages.Place) || message.equals(Messages.Move) || message.equals(Messages.Build) || message.equals(Messages.tryAgain)) {
+                Platform.runLater(() ->((BoardController)commuter).setRecvMsg((String) message));
             }
 
         }
@@ -277,33 +285,22 @@ public class GuiLauncher extends Application implements Observer {
             Platform.runLater(()-> ((BoardController)commuter).showBoard((BoardView) message));
         }
 
-        /*
+
         if(message instanceof GameMessage) {
 
             if(((GameMessage) message).getMessage().equals(Messages.Worker)) {
                 this.chooseWorker = true;
-            }
+            } else {
+                GodPowerMessage god = GodPowerMessage.valueOf(lastView.getCurrentGod());
+                System.out.println("current god: " + lastView.getCurrentGod());
 
-            if(((GameMessage) message).getMessage().equals(Messages.workerChose)) {
-                this.chooseWorker = false;
-            }
+                Platform.runLater(() -> {
+                    ((BoardController)commuter).setButtons(god.getAnswer1(),god.getAnswer2());
+                    ((BoardController)commuter).setRecvMsg(god.getMessage());
+                });
 
-
-            if (!((GameMessage) message).readOnly()) {
-                System.out.println("gamemsg: " + ((GameMessage) message).getMessage());
-                if(((GameMessage) message).getMessage().equals(GodPowerMessage.valueOf(lastView.getCurrentGod()).getMessage())) {
-                    GodPowerMessage god = GodPowerMessage.valueOf(lastView.getCurrentGod());
-                    System.out.println("current god: " + lastView.getCurrentGod());
-
-                    Platform.runLater(() -> {
-                        ((BoardController)commuter).setButtons(god.getAnswer1(),god.getAnswer2());
-                    });
-                }
             }
         }
-
-         */
-
 
     }
 

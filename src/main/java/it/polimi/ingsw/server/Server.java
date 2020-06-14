@@ -37,14 +37,12 @@ public class Server {
     public void startServer(String inputPort) throws IOException {
 
         this.port = Integer.parseInt(inputPort);
-        serverSocket = new ServerSocket(port);
+        this.serverSocket = new ServerSocket(port);
 
         System.out.println("Server socket ready on port: " + port);
 
         while(true) {
             try {
-
-                System.out.println("Waiting for client connection");
                 Socket newSocket = serverSocket.accept();
 
                 //Connection handle
@@ -52,7 +50,6 @@ public class Server {
                 System.out.println("There is a new connected client");
 
                 executor.submit(socketConnection);
-
 
             } catch (IOException e) {
                 System.out.println("Connection Error");
@@ -94,11 +91,13 @@ public class Server {
         //Add the connection into the match
         matchConnection.get(lobbyID).add(c);
 
+        System.out.println("Lobby n." + lobbyID +": " + matchConnection.get(lobbyID).size() + " available players");
+
         //All players ready to start
         if(matchConnection.get(lobbyID).size()==lobbyHandler.getLobbyList().get(lobbyID).getLobbyPlayersNumber()) {
 
-
             for(SocketConnection connection : matchConnection.get(lobbyID)) {
+                connection.setInMatch(true);
 
                 //Set player ID
                 connection.getPlayer().setPlayerID(matchConnection.get(lobbyID).indexOf(connection));
@@ -155,6 +154,14 @@ public class Server {
 
         }
 
+    }
+
+    public void removeFromLobby(int lobbyID, SocketConnection connection,String nickname) {
+        matchConnection.get(lobbyID).remove(connection);
+        lobbyHandler.removePlayer(nickname);
+        lobbyHandler.getLobbyList().get(lobbyID).removePlayer(nickname);
+        System.out.println("Removed lobby connection of " + connection.getPlayer().getPlayerNickname() + " in lobby n." + lobbyID);
+        System.out.println("Lobby n." + lobbyID + " actual size: " + lobbyHandler.getLobbyList().get(lobbyID).getAvailablePlayerNumber());
     }
 
 

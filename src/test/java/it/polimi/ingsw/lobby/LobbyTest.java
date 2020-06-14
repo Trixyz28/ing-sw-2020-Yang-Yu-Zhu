@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class LobbyTest extends TestCase {
 
-    Lobby lobby = new Lobby();
+    Lobby lobby = new Lobby(3);
 
     @Test
     public void testLobbyID() {
@@ -18,7 +18,6 @@ public class LobbyTest extends TestCase {
 
     @Test
     public void testLobbyPlayersNumber() {
-        lobby.setLobbyPlayersNumber(3);
         assertEquals(3,lobby.getLobbyPlayersNumber());
     }
 
@@ -44,7 +43,6 @@ public class LobbyTest extends TestCase {
 
     @Test
     public void testAddPlayer() {
-        lobby.setLobbyPlayersNumber(3);
 
         ArrayList<String> parameterList = new ArrayList<>();
         parameterList.add("A");
@@ -54,11 +52,9 @@ public class LobbyTest extends TestCase {
 
         lobby.addPlayer("B");
         assertEquals("B",lobby.getPlayersNameList().get(1));
-        assertEquals(2,lobby.getAvailablePlayerNumber());
 
         lobby.addPlayer("C");
         assertEquals("C",lobby.getPlayersNameList().get(2));
-        assertEquals(3,lobby.getAvailablePlayerNumber());
         assertTrue(lobby.isFull());
 
     }

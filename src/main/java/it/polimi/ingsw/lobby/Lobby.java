@@ -15,11 +15,14 @@ public class Lobby extends Observable {
     private ArrayList<String> playersNameList;
 
     //Number of players the Lobby was made for
-    private int lobbyPlayersNumber;
+    private final int lobbyPlayersNumber;
 
     //If the Lobby is complete -> true
     private boolean full = false;
 
+    public Lobby(int playerNumber) {
+        this.lobbyPlayersNumber = playerNumber;
+    }
 
     //Get() of the LobbyID
     public int getLobbyID() {
@@ -48,12 +51,6 @@ public class Lobby extends Observable {
         return lobbyPlayersNumber;
     }
 
-    //Set() of the number of the Lobby players
-    public void setLobbyPlayersNumber(int playersNumber) {
-
-        this.lobbyPlayersNumber = playersNumber;
-    }
-
 
     public ArrayList<String> getPlayersNameList() {
         return playersNameList;
@@ -61,43 +58,26 @@ public class Lobby extends Observable {
 
     //Set() of the playersNameList from Lobbies at creation of Lobby
     public void setPlayersNameList(ArrayList<String> parameterList){
-
         playersNameList = (ArrayList<String>) parameterList.clone();
     }
 
     //Adds a player name to the List: if value is "0000" it is changed to the player name then return
     public void addPlayer(String playerName) {
 
-        int flag = 0;
-        int i;
+        playersNameList.add(playerName);
 
-        for (i = 0; (i < lobbyPlayersNumber && flag==0); i++) {
-            String helper = playersNameList.get(i);
-            if (helper.equals("0000")) {
-                playersNameList.set(i,playerName);
-                flag++;
-            }
-        }
-
-        if (i==lobbyPlayersNumber) {
+        if (getAvailablePlayerNumber()==lobbyPlayersNumber) {
             setFull(true);
         }
     }
 
     //Get() of the value of the available Players : for every player not "0000" availablePlayers +1
     public int getAvailablePlayerNumber() {
+        return playersNameList.size();
+    }
 
-        int availablePlayers = 0;
-
-        for (int i = 0; i < lobbyPlayersNumber; i++) {
-
-            String helper = playersNameList.get(i);
-            if (!helper.equals("0000")) {
-                availablePlayers++;
-            }
-        }
-
-        return availablePlayers;
+    public void removePlayer(String playerName) {
+        playersNameList.remove(playerName);
     }
 
 }

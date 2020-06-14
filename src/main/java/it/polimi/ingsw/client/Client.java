@@ -28,8 +28,6 @@ public class Client implements Runnable {
     private Thread t1;
 
 
-
-
     public Client() {
         this.opReceived = false;
         this.gmReceived = false;
@@ -99,16 +97,20 @@ public class Client implements Runnable {
                         opReceived = true;  /* ricevuto un Operation */
                         Operation operation = (Operation)inputObject;
                         if(operation.getType() == 0){
-                            ui.showMessage(Messages.Place + Messages.Operation);
+                            ui.showMessage(Messages.Place);
                         } else if(operation.getType() == 1){
-                            ui.showMessage(Messages.Move + Messages.Operation);
+                            ui.showMessage(Messages.Move);
                         } else {
-                            ui.showMessage(Messages.Build + Messages.Operation);
+                            ui.showMessage(Messages.Build);
                         }
                     }else if(inputObject instanceof GameMessage){
                         gmReceived = true;  /* ricevuto un GameMessage */
                         gMessage = (GameMessage)inputObject;
-                        ui.showMessage(gMessage.getMessage());
+                        if(((GameMessage) inputObject).readOnly()) {
+                            ui.showMessage(gMessage.getMessage());
+                        } else {
+                            ui.showGameMsg((GameMessage) inputObject);
+                        }
 
                     } else if(inputObject instanceof GodChosenMessage) {
                         ui.showGodChosen((GodChosenMessage) inputObject);
@@ -204,8 +206,8 @@ public class Client implements Runnable {
                     opReceived = false;
                 }else {
 
-                    ui.showMessage(Messages.tryAgain + "\n" + Messages.Operation);
-                    //ui.showMessage(Messages.Operation);
+                    ui.showMessage(Messages.tryAgain);
+
                 }
             } catch (Exception e) {
                 ui.showMessage(Messages.wrongArgument);

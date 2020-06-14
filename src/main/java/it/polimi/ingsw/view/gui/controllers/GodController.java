@@ -296,7 +296,7 @@ public class GodController extends Commuter {
             cloud2.setOpacity(1);
         }
 
-        showMessage(player +"'s turn");
+        showMessage(player);
     }
 
     public void showMessage(String str) {
