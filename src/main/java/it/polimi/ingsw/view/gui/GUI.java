@@ -17,11 +17,6 @@ public class GUI extends Observable implements Ui {
     private Scanner scanner = new Scanner(System.in);
 
 
-
-    private String nickname;
-
-
-
     @Override
     public void showMessage(String str) {
         System.out.println("Received in gui: " + str);
@@ -30,7 +25,7 @@ public class GUI extends Observable implements Ui {
 
 
     @Override
-    public void showBoard(BoardView boardView) {
+    public void showBoard(BoardView boardView,boolean command) {
         notify(boardView);
     }
 
@@ -62,14 +57,6 @@ public class GUI extends Observable implements Ui {
     @Override
     public void showGameMsg(GameMessage message) {
         notify(message);
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
 }

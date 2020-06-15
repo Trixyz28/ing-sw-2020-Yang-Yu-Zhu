@@ -102,7 +102,7 @@ public class TurnController {
         /* mostrare mappa dopo build */
         model.showBoard();
         /* mandare solo al currentPlayer */
-        model.sendMessage("Il tuo turno è terminato!");
+        model.sendMessage(Messages.endTurn);
         nextTurn();
     }
 

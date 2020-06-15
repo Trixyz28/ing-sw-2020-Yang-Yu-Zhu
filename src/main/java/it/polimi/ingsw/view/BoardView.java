@@ -16,6 +16,7 @@ public class BoardView implements Serializable {
     private int currentID;
     private String currentGod;
 
+
     public BoardView(Tile[][] map, WorkerView[] workerList, Player player, int chosenWorkerID) {
         this.map = map;
         this.workerList = workerList;

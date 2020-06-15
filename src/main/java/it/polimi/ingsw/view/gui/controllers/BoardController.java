@@ -18,6 +18,10 @@ import java.util.ArrayList;
 
 public class BoardController extends Commuter {
 
+    private String nickname;
+    private BoardView lastView;
+    private Image[] coins;
+
     @FXML
     private Label commandRecv;
     @FXML
@@ -52,235 +56,8 @@ public class BoardController extends Commuter {
     private Label playerName2;
 
 
-
     @FXML
     private GridPane boardGrid;
-
-    @FXML
-    private Pane tile00;
-    @FXML
-    private ImageView buildLayer00;
-    @FXML
-    private ImageView workerLayer00;
-    @FXML
-    private ImageView opLayer00;
-
-    @FXML
-    private Pane tile01;
-    @FXML
-    private ImageView buildLayer01;
-    @FXML
-    private ImageView workerLayer01;
-    @FXML
-    private ImageView opLayer01;
-
-    @FXML
-    private Pane tile02;
-    @FXML
-    private ImageView buildLayer02;
-    @FXML
-    private ImageView workerLayer02;
-    @FXML
-    private ImageView opLayer02;
-
-    @FXML
-    private Pane tile03;
-    @FXML
-    private ImageView buildLayer03;
-    @FXML
-    private ImageView workerLayer03;
-    @FXML
-    private ImageView opLayer03;
-
-    @FXML
-    private Pane tile04;
-    @FXML
-    private ImageView buildLayer04;
-    @FXML
-    private ImageView workerLayer04;
-    @FXML
-    private ImageView opLayer04;
-
-    @FXML
-    private Pane tile10;
-    @FXML
-    private ImageView buildLayer10;
-    @FXML
-    private ImageView workerLayer10;
-    @FXML
-    private ImageView opLayer10;
-
-    @FXML
-    private Pane tile11;
-    @FXML
-    private ImageView buildLayer11;
-    @FXML
-    private ImageView workerLayer11;
-    @FXML
-    private ImageView opLayer11;
-
-    @FXML
-    private Pane tile12;
-    @FXML
-    private ImageView buildLayer12;
-    @FXML
-    private ImageView workerLayer12;
-    @FXML
-    private ImageView opLayer12;
-
-    @FXML
-    private Pane tile13;
-    @FXML
-    private ImageView buildLayer13;
-    @FXML
-    private ImageView workerLayer13;
-    @FXML
-    private ImageView opLayer13;
-
-    @FXML
-    private Pane tile14;
-    @FXML
-    private ImageView buildLayer14;
-    @FXML
-    private ImageView workerLayer14;
-    @FXML
-    private ImageView opLayer14;
-
-    @FXML
-    private Pane tile20;
-    @FXML
-    private ImageView buildLayer20;
-    @FXML
-    private ImageView workerLayer20;
-    @FXML
-    private ImageView opLayer20;
-
-    @FXML
-    private Pane tile21;
-    @FXML
-    private ImageView buildLayer21;
-    @FXML
-    private ImageView workerLayer21;
-    @FXML
-    private ImageView opLayer21;
-
-    @FXML
-    private Pane tile22;
-    @FXML
-    private ImageView buildLayer22;
-    @FXML
-    private ImageView workerLayer22;
-    @FXML
-    private ImageView opLayer22;
-
-    @FXML
-    private Pane tile23;
-    @FXML
-    private ImageView buildLayer23;
-    @FXML
-    private ImageView workerLayer23;
-    @FXML
-    private ImageView opLayer23;
-
-    @FXML
-    private Pane tile24;
-    @FXML
-    private ImageView buildLayer24;
-    @FXML
-    private ImageView workerLayer24;
-    @FXML
-    private ImageView opLayer24;
-
-    @FXML
-    private Pane tile30;
-    @FXML
-    private ImageView buildLayer30;
-    @FXML
-    private ImageView workerLayer30;
-    @FXML
-    private ImageView opLayer30;
-
-    @FXML
-    private Pane tile31;
-    @FXML
-    private ImageView buildLayer31;
-    @FXML
-    private ImageView workerLayer31;
-    @FXML
-    private ImageView opLayer31;
-
-    @FXML
-    private Pane tile32;
-    @FXML
-    private ImageView buildLayer32;
-    @FXML
-    private ImageView workerLayer32;
-    @FXML
-    private ImageView opLayer32;
-
-    @FXML
-    private Pane tile33;
-    @FXML
-    private ImageView buildLayer33;
-    @FXML
-    private ImageView workerLayer33;
-    @FXML
-    private ImageView opLayer33;
-
-    @FXML
-    private Pane tile34;
-    @FXML
-    private ImageView buildLayer34;
-    @FXML
-    private ImageView workerLayer34;
-    @FXML
-    private ImageView opLayer34;
-
-    @FXML
-    private Pane tile40;
-    @FXML
-    private ImageView buildLayer40;
-    @FXML
-    private ImageView workerLayer40;
-    @FXML
-    private ImageView opLayer40;
-
-    @FXML
-    private Pane tile41;
-    @FXML
-    private ImageView buildLayer41;
-    @FXML
-    private ImageView workerLayer41;
-    @FXML
-    private ImageView opLayer41;
-
-    @FXML
-    private Pane tile42;
-    @FXML
-    private ImageView buildLayer42;
-    @FXML
-    private ImageView workerLayer42;
-    @FXML
-    private ImageView opLayer42;
-
-    @FXML
-    private Pane tile43;
-    @FXML
-    private ImageView buildLayer43;
-    @FXML
-    private ImageView workerLayer43;
-    @FXML
-    private ImageView opLayer43;
-
-    @FXML
-    private Pane tile44;
-    @FXML
-    private ImageView buildLayer44;
-    @FXML
-    private ImageView workerLayer44;
-    @FXML
-    private ImageView opLayer44;
-
 
 
 
@@ -294,13 +71,13 @@ public class BoardController extends Commuter {
                         System.out.println("Clicked at the pane at row " + GridPane.getRowIndex(node) + ", column " + GridPane.getColumnIndex(node));
 
                         if(super.getGuiLauncher().isChooseWorker()) {
-                            BoardView boardView = super.getGuiLauncher().getLastView();
-                            for(WorkerView workerView : boardView.getWorkerList()) {
-                                if(workerView.getPosition().equals(boardView.getTile(GridPane.getRowIndex(node),GridPane.getColumnIndex(node)))) {
-                                    super.getGuiLauncher().getClient().sendInput(String.valueOf(workerView.getWorkerID()));
+                            for(WorkerView workerView : lastView.getWorkerList()) {
+                                if(workerView.getBelongToPlayer() == lastView.getCurrentID()) {
+                                    if(workerView.getPosition().equals(lastView.getTile(GridPane.getRowIndex(node),GridPane.getColumnIndex(node)))) {
+                                        super.getGuiLauncher().getClient().sendInput(String.valueOf(workerView.getWorkerID()));
+                                    }
                                 }
                             }
-
                         } else {
                             String command = GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node);
                             super.getGuiLauncher().getClient().sendInput(command);
@@ -315,6 +92,7 @@ public class BoardController extends Commuter {
 
 
     public void setName(ArrayList<String> nameList) {
+
         playerName0.setText(nameList.get(0));
         playerName1.setText(nameList.get(1));
         if(nameList.size()==3) {
@@ -325,7 +103,9 @@ public class BoardController extends Commuter {
         }
     }
 
+
     public void setGod(String[] godList) {
+
         setCloud(god0,godList[0]);
         setCloud(god1,godList[1]);
 
@@ -335,38 +115,23 @@ public class BoardController extends Commuter {
     }
 
 
-
     public void setCloud(ImageView cloud,String god) {
         Image image = switch (god) {
 
             case "APOLLO" -> new Image("/clouds/ApolloCloud.png");
-
             case "ARTEMIS" -> new Image("/clouds/ArtemisCloud.png");
-
             case "ATHENA" -> new Image("/clouds/AthenaCloud.png");
-
             case "ATLAS" -> new Image("/clouds/AtlasCloud.png");
-
             case "DEMETER" -> new Image("/clouds/DemeterCloud.png");
-
             case "HEPHAESTUS" -> new Image("/clouds/HephaestusCloud.png");
-
             case "HERA" -> new Image("/clouds/HeraCloud.png");
-
             case "HESTIA" -> new Image("/clouds/HestiaCloud.png");
-
             case "LIMUS" -> new Image("/clouds/LimusCloud.png");
-
             case "MINOTAUR" -> new Image("/clouds/MinotaurCloud.png");
-
             case "PAN" -> new Image("/clouds/PanCloud.png");
-
             case "POSEIDON" -> new Image("/clouds/PoseidonCloud.png");
-
             case "PROMETHEUS" -> new Image("/clouds/PrometheusCloud.png");
-
             case "TRITON" -> new Image("/clouds/TritonCloud.png");
-
             case "ZEUS" -> new Image("/clouds/ZeusCloud.png");
 
             default -> throw new IllegalStateException("Unexpected value: " + god);
@@ -378,14 +143,11 @@ public class BoardController extends Commuter {
 
     public void showBoard(BoardView boardView) {
 
+        this.lastView = boardView;
 
         for(Node node : boardGrid.getChildren()) {
             if(node instanceof Pane) {
-                int row = GridPane.getRowIndex(node);
-                int column = GridPane.getColumnIndex(node);
-
-                Tile tile = boardView.getTile(row,column);
-
+                Tile tile = boardView.getTile(GridPane.getRowIndex(node),GridPane.getColumnIndex(node));
 
                 if(tile.isOccupiedByWorker()) {
                     printWorker((ImageView) ((Pane) node).getChildren().get(1),boardView,tile);
@@ -396,9 +158,7 @@ public class BoardController extends Commuter {
                 }
 
                 printBlock((ImageView) ((Pane) node).getChildren().get(0),tile.getBlockLevel());
-
                 printCanOp((ImageView) ((Pane) node).getChildren().get(2),checkCanOp(boardView,tile));
-
             }
         }
         setTurn(boardView.getCurrentName());
@@ -407,35 +167,22 @@ public class BoardController extends Commuter {
 
     public void printWorker(ImageView imageView,BoardView boardView,Tile t) {
 
-
         for (int i = 0; i < boardView.getWorkerList().length; i++) {
 
             if (boardView.getWorkerList()[i].isPositionSet()) {
                 if (t.equals(boardView.getWorkerList()[i].getPosition())) {
 
-                    if(boardView.getWorkerList()[i].getBelongToPlayer()==0) {
-                        imageView.setImage(getGuiLauncher().getCoins()[0]);
-                    }
-                    if(boardView.getWorkerList()[i].getBelongToPlayer()==1) {
-                        imageView.setImage(getGuiLauncher().getCoins()[1]);
-                    }
-
-                    if(getGuiLauncher().getCoins().length==3) {
-                        if(boardView.getWorkerList()[i].getBelongToPlayer()==2) {
-                            imageView.setImage(getGuiLauncher().getCoins()[2]);
-                        }
-                    }
+                    imageView.setImage(coins[boardView.getWorkerList()[i].getBelongToPlayer()]);
 
                 }
             }
         }
-
     }
 
 
     public void printCanOp(ImageView imageView,int number) {
 
-        if(number==0) {
+        if(!(nickname.equals(lastView.getCurrentName())) || number==0) {
             printEmpty(imageView);
         } else {
             Image image;
@@ -446,7 +193,6 @@ public class BoardController extends Commuter {
             }
             imageView.setImage(image);
         }
-
     }
 
     public void printEmpty(ImageView imageView) {
@@ -474,10 +220,12 @@ public class BoardController extends Commuter {
         return 0;
     }
 
+
     public void printDome(ImageView dome) {
         Image image = new Image("/buildings/dome.png");
         dome.setImage(image);
     }
+
 
     public void printBlock(ImageView block,int level) {
         Image image = switch (level) {
@@ -490,7 +238,14 @@ public class BoardController extends Commuter {
         block.setImage(image);
     }
 
+
     public void setTurn(String player) {
+        if(player.equals(nickname)) {
+            boardGrid.setDisable(false);
+        } else {
+            boardGrid.setDisable(true);
+        }
+
         if(player.equals(playerName0.getText())) {
             cloud0.setOpacity(1);
             cloud1.setOpacity(0.5);
@@ -512,9 +267,11 @@ public class BoardController extends Commuter {
         showTurnMsg(player);
     }
 
+
     public void showTurnMsg(String str) {
         turnMsg.setText(str);
     }
+
 
     public void resetButtons() {
         godButtonPane.setVisible(false);
@@ -529,9 +286,16 @@ public class BoardController extends Commuter {
         godPowerButton2.setText(str2);
     }
 
+
+    public void hideRecvMsg() {
+        commandRecv.setText("");
+    }
+
+
     public void setRecvMsg(String str) {
         commandRecv.setText(str);
     }
+
 
     public void sendAnswer1() {
         super.getGuiLauncher().getClient().sendInput(godPowerButton1.getText());
@@ -543,4 +307,34 @@ public class BoardController extends Commuter {
         resetButtons();
     }
 
+
+    public void setCoin(String[] godList) {
+
+        coins = new Image[godList.length];
+
+        for (int i = 0; i < coins.length; i++) {
+            switch (godList[i].toUpperCase()) {
+                case "APOLLO" -> coins[i] = new Image("/coins/ApolloCoin.png");
+                case "ARTEMIS" -> coins[i] = new Image("/coins/ArtemisCoin.png");
+                case "ATHENA" -> coins[i] = new Image("/coins/AthenaCoin.png");
+                case "ATLAS" -> coins[i] = new Image("/coins/AtlasCoin.png");
+                case "DEMETER" -> coins[i] = new Image("/coins/DemeterCoin.png");
+                case "HEPHAESTUS" -> coins[i] = new Image("/coins/HephaestusCoin.png");
+                case "HERA" -> coins[i] = new Image("/coins/HeraCoin.png");
+                case "HESTIA" -> coins[i] = new Image("/coins/HestiaCoin.png");
+                case "LIMUS" -> coins[i] = new Image("/coins/LimusCoin.png");
+                case "MINOTAUR" -> coins[i] = new Image("/coins/MinotaurCoin.png");
+                case "PAN" -> coins[i] = new Image("/coins/PanCoin.png");
+                case "POSEIDON" -> coins[i] = new Image("/coins/PoseidonCoin.png");
+                case "PROMETHEUS" -> coins[i] = new Image("/coins/PrometheusCoin.png");
+                case "TRITON" -> coins[i] = new Image("/coins/TritonCoin.png");
+                case "ZEUS" -> coins[i] = new Image("/coins/ZeusCoin.png");
+            }
+        }
+    }
+
+
+    public void setNickname(String str) {
+        this.nickname = str;
+    }
 }

@@ -56,7 +56,9 @@ public class InitController {
             /* posizionare il worker */
             currentPlayer.chooseWorker(indexWorker).setPosition(currentPosition);
             indexWorker++;
+
             if(indexWorker > 1){
+                model.sendMessage(Messages.endTurn);
                 /* passare al nextPlayer */
                 indexWorker = 0;
                 Player nextPlayer = model.getMatchPlayersList().get(model.getNextPlayerIndex());

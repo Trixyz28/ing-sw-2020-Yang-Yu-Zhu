@@ -92,7 +92,7 @@ public class RemoteView extends View {
         }
 
         if(message instanceof Player) {
-            if(((Player)message).equals(clientConnection.getPlayer())) {
+            if(message.equals(clientConnection.getPlayer())) {
                 clientConnection.setLost(true);
             }
         }

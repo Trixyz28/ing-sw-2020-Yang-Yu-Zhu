@@ -23,13 +23,20 @@ public class LoadingController extends Commuter {
     @FXML
     private Button nameButton;
 
+    private String nickname;
+
+
     public void sendName(ActionEvent event) {
-        System.out.println(nameField.getCharacters().toString());
-        super.getGuiLauncher().getClient().sendInput(nameField.getCharacters().toString());
+        nickname = nameField.getCharacters().toString();
+        super.getGuiLauncher().getClient().sendInput(nickname);
     }
 
     public void showNameMsg(String str) {
         nameRecv.setText(str);
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
 

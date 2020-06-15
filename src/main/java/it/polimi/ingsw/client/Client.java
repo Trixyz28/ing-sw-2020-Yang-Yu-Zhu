@@ -27,6 +27,8 @@ public class Client implements Runnable {
     private Thread t0;
     private Thread t1;
 
+    private String nickname;
+
 
     public Client() {
         this.opReceived = false;
@@ -84,7 +86,7 @@ public class Client implements Runnable {
                         }
 
                     } else if (inputObject instanceof BoardView) {
-                        ui.showBoard((BoardView)inputObject);
+                            ui.showBoard((BoardView)inputObject,nickname.equals(((BoardView) inputObject).getCurrentName()));
 
                     } else if(inputObject instanceof String[]) {
                         for(String s : (String[])inputObject) {
@@ -104,12 +106,16 @@ public class Client implements Runnable {
                             ui.showMessage(Messages.Build);
                         }
                     }else if(inputObject instanceof GameMessage){
-                        gmReceived = true;  /* ricevuto un GameMessage */
-                        gMessage = (GameMessage)inputObject;
-                        if(((GameMessage) inputObject).readOnly()) {
-                            ui.showMessage(gMessage.getMessage());
+                        if(((GameMessage) inputObject).getMessage().equals("setName")) {
+                            this.nickname = ((GameMessage) inputObject).getPlayer();
                         } else {
-                            ui.showGameMsg((GameMessage) inputObject);
+                            gmReceived = true;  /* ricevuto un GameMessage */
+                            gMessage = (GameMessage)inputObject;
+                            if(((GameMessage) inputObject).readOnly()) {
+                                ui.showMessage(gMessage.getMessage());
+                            } else {
+                                ui.showGameMsg((GameMessage) inputObject);
+                            }
                         }
 
                     } else if(inputObject instanceof GodChosenMessage) {

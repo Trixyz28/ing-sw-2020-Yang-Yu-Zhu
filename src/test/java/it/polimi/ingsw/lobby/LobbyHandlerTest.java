@@ -52,8 +52,6 @@ public class LobbyHandlerTest extends TestCase {
         assertTrue(lobbyID==0);
         assertTrue(lobbyHandler.getLobbyList().get(lobbyID).getLobbyPlayersNumber()==3);
         assertEquals("A", lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList().get(0));
-        assertEquals("0000", lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList().get(1));
-        assertEquals("0000", lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList().get(2));
     }
 
     @Test

@@ -14,7 +14,7 @@ public interface Ui {
     void showMessage(String str);
 
     //Display the game board
-    void showBoard(BoardView boardView);
+    void showBoard(BoardView boardView,boolean command);
 
     //Receive a message in input
     String getInput();

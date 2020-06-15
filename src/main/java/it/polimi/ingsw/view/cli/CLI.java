@@ -14,6 +14,7 @@ public class CLI implements Ui {
 
     Scanner in = new Scanner(System.in);
     private BoardView boardView;
+    private boolean command;
 
     //Color indicators
     private final String RESET = Colors.RESET;
@@ -37,7 +38,6 @@ public class CLI implements Ui {
     private final String infBoard = gridColor + "────╚═══════╧═══════╧═══════╧═══════╧═══════╝" + RESET;
     private String verticalBoard = gridColor + "║" + RESET;
 
-
     private String extColor = Colors.WHITE;
     private String upExt = extColor + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + RESET;
     private String downExt = extColor + "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" + RESET;
@@ -50,12 +50,11 @@ public class CLI implements Ui {
     @Override
     public void showMessage(String message) {
 
-        if(message.equals(Messages.Place) || message.equals(Messages.Move) || message.equals(Messages.Build) || message.equals(Messages.tryAgain)) {
+        if(message.equals(Messages.Place) || message.equals(Messages.Move) || message.equals(Messages.Build)) {
             System.out.println(message + Messages.Operation);
         } else {
             System.out.println(message);
         }
-
 
     }
 
@@ -113,9 +112,10 @@ public class CLI implements Ui {
 
 
     @Override
-    public void showBoard(BoardView boardView) {
+    public void showBoard(BoardView boardView,boolean command) {
 
         this.boardView = boardView;
+        this.command = command;
 
         System.out.println(upExt);
         System.out.println(emptyExt);
@@ -138,11 +138,10 @@ public class CLI implements Ui {
                     System.out.print(verticalBar + " ");
                 }
 
-
                 if(t.isOccupiedByWorker()) {
                     printWorker(t);
                 } else if(t.isDomePresence()) {
-                    printDome(t);
+                    printDome();
                 } else {
                     printBlock(t);
                 }
@@ -206,7 +205,7 @@ public class CLI implements Ui {
     }
 
 
-    public void printDome(Tile t) {
+    public void printDome() {
         System.out.print(domeColor + "  ^  ");
     }
 
@@ -220,14 +219,16 @@ public class CLI implements Ui {
 
     public boolean checkCanOp(Tile t) {
 
-        if(boardView.getChosenWorkerID()!=-1) {
-            WorkerView chosen = boardView.getWorkerList()[boardView.getChosenWorkerID()];
+        if(command) {
+            if(boardView.getChosenWorkerID()!=-1) {
+                WorkerView chosen = boardView.getWorkerList()[boardView.getChosenWorkerID()];
 
-            if(chosen.getState()==1) {
-                return chosen.getMovableList().contains(t);
-            }
-            if(chosen.getState()==2 || chosen.getState()==3) {
-                return chosen.getBuildableList().contains(t);
+                if(chosen.getState()==1) {
+                    return chosen.getMovableList().contains(t);
+                }
+                if(chosen.getState()==2 || chosen.getState()==3) {
+                    return chosen.getBuildableList().contains(t);
+                }
             }
         }
 
@@ -235,6 +236,7 @@ public class CLI implements Ui {
     }
 
     public String workerColor(int playerID) {
+
         if(playerID==0) {
             return player0;
         } else if(playerID==1) {

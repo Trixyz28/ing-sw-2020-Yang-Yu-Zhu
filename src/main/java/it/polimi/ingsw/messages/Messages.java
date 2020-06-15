@@ -57,7 +57,7 @@ public class Messages {
     public static String chooseStartPlayer = "Choose the first player!";
     public static String boardStarting = "Enjoy :D";
     public static String workerChose = "Worker chosen";
-
+    public static String endTurn = "Il tuo turno è terminato!";
 
 
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.messages.GameMessage;
 import it.polimi.ingsw.messages.LobbyMessage;
 import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.model.Player;
@@ -22,8 +23,6 @@ public class SocketConnection extends Observable implements Runnable {
 
     private int lobbyID;
     private Player player;
-
-
 
     private boolean inMatch = false;
     private boolean active = true;
@@ -188,6 +187,7 @@ public class SocketConnection extends Observable implements Runnable {
         } while(!check);
 
         player = new Player(readName);
+        send(new GameMessage(player,"setName",true));
         server.getLobbyHandler().addPlayer(player.getPlayerNickname());
         send("Hi, " + player.getPlayerNickname() + "!");
     }

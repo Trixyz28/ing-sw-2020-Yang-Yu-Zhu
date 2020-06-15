@@ -35,18 +35,13 @@ public class GuiLauncher extends Application implements Observer {
 
     private boolean playerNameSet;
     private boolean challengerSet;
+    private boolean chooseWorker;
+
+    private String nickname;
     private String challengerName;
     private ArrayList<String> playerList;
     private String[] godList;
-
-    private boolean chooseWorker;
     private BoardView lastView;
-
-    public Image[] getCoins() {
-        return coins;
-    }
-
-    private Image[] coins;
 
 
     public GuiLauncher() {
@@ -65,7 +60,6 @@ public class GuiLauncher extends Application implements Observer {
         this.playerList = new ArrayList<>();
     }
 
-
     @Override
     public void start(Stage primaryStage) throws IOException {
 
@@ -82,7 +76,9 @@ public class GuiLauncher extends Application implements Observer {
 
         stage.setOnCloseRequest(e-> {
             if(thread!=null) {
-                thread.interrupt();
+                if(thread.isAlive()) {
+                    thread.interrupt();
+                }
             }
             Platform.exit();
             System.exit(0);
@@ -90,7 +86,6 @@ public class GuiLauncher extends Application implements Observer {
 
         stage.setScene(scene);
         stage.show();
-
     }
 
 
@@ -118,13 +113,13 @@ public class GuiLauncher extends Application implements Observer {
 
                 if(index==4) {
                     this.godList = new String[playerList.size()];
-                    this.coins = new Image[playerList.size()];
                     ((GodController)commuter).setName(playerList);
                     ((GodController)commuter).setChallenger(challengerName);
                 }
 
                 if(index==5) {
-                    setCoin(coins,godList);
+                    ((BoardController)commuter).setCoin(godList);
+                    ((BoardController)commuter).setNickname(this.nickname);
                     ((BoardController)commuter).setName(playerList);
                     ((BoardController)commuter).setGod(godList);
                     ((BoardController)commuter).resetButtons();
@@ -136,7 +131,6 @@ public class GuiLauncher extends Application implements Observer {
             }
 
         });
-
 
     }
 
@@ -169,7 +163,7 @@ public class GuiLauncher extends Application implements Observer {
         try {
             Socket socket = new Socket(ip, Integer.parseInt(port));
             client.startClient("gui",socket);
-            Platform.runLater(() -> changeScene(2));
+            changeScene(2);
         } catch (Exception e) {
            ((ServerController) commuter).showMessage(e.getMessage());
         }
@@ -203,6 +197,8 @@ public class GuiLauncher extends Application implements Observer {
 
         if(message instanceof String) {
             if(message.equals(Messages.nicknameAvailable)) {
+                this.nickname = ((LoadingController)commuter).getNickname();
+                System.out.println("Nickname set: " + this.nickname);
                 changeScene(3);
             }
 
@@ -219,7 +215,7 @@ public class GuiLauncher extends Application implements Observer {
             }
 
             if(message.equals(Messages.chooseStartPlayer)) {
-                Platform.runLater(()-> ((GodController)commuter).showMessage((String) message));
+                Platform.runLater(() -> ((GodController)commuter).showMessage((String) message));
             }
 
             if(message.equals(Messages.Worker)) {
@@ -230,8 +226,12 @@ public class GuiLauncher extends Application implements Observer {
                 this.chooseWorker = false;
             }
 
-            if(message.equals(Messages.Place) || message.equals(Messages.Move) || message.equals(Messages.Build) || message.equals(Messages.tryAgain)) {
+            if(message.equals(Messages.Place) || message.equals(Messages.Move) || message.equals(Messages.Build)) {
                 Platform.runLater(() ->((BoardController)commuter).setRecvMsg((String) message));
+            }
+
+            if(message.equals(Messages.endTurn)) {
+                Platform.runLater(()->((BoardController)commuter).hideRecvMsg());
             }
 
         }
@@ -282,7 +282,9 @@ public class GuiLauncher extends Application implements Observer {
 
         if(message instanceof BoardView) {
             this.lastView = (BoardView)message;
-            Platform.runLater(()-> ((BoardController)commuter).showBoard((BoardView) message));
+            Platform.runLater(()-> {
+                ((BoardController)commuter).showBoard((BoardView) message);
+            });
         }
 
 
@@ -290,6 +292,7 @@ public class GuiLauncher extends Application implements Observer {
 
             if(((GameMessage) message).getMessage().equals(Messages.Worker)) {
                 this.chooseWorker = true;
+                Platform.runLater(() -> ((BoardController)commuter).setRecvMsg((String) message));
             } else {
                 GodPowerMessage god = GodPowerMessage.valueOf(lastView.getCurrentGod());
                 System.out.println("current god: " + lastView.getCurrentGod());
@@ -308,48 +311,5 @@ public class GuiLauncher extends Application implements Observer {
         return chooseWorker;
     }
 
-    public BoardView getLastView() {
-        return lastView;
-    }
-
-    public void setCoin(Image[] images,String[] godList ) {
-
-        for (int i = 0; i < images.length; i++) {
-
-            switch (godList[i].toUpperCase()) {
-
-                case "APOLLO" -> images[i] = new Image("/coins/ApolloCoin.png");
-
-                case "ARTEMIS" -> images[i] = new Image("/coins/ArtemisCoin.png");
-
-                case "ATHENA" -> images[i] = new Image("/coins/AthenaCoin.png");
-
-                case "ATLAS" -> images[i] = new Image("/coins/AtlasCoin.png");
-
-                case "DEMETER" -> images[i] = new Image("/coins/DemeterCoin.png");
-
-                case "HEPHAESTUS" -> images[i] = new Image("/coins/HephaestusCoin.png");
-
-                case "HERA" -> images[i] = new Image("/coins/HeraCoin.png");
-
-                case "HESTIA" -> images[i] = new Image("/coins/HestiaCoin.png");
-
-                case "LIMUS" -> images[i] = new Image("/coins/LimusCoin.png");
-
-                case "MINOTAUR" -> images[i] = new Image("/coins/MinotaurCoin.png");
-
-                case "PAN" -> images[i] = new Image("/coins/PanCoin.png");
-
-                case "POSEIDON" -> images[i] = new Image("/coins/PoseidonCoin.png");
-
-                case "PROMETHEUS" -> images[i] = new Image("/coins/PrometheusCoin.png");
-
-                case "TRITON" -> images[i] = new Image("/coins/TritonCoin.png");
-
-                case "ZEUS" -> images[i] = new Image("/coins/ZeusCoin.png");
-
-            }
-        }
-    }
 
 }
