@@ -34,19 +34,15 @@ public class Atlas extends WorkerDecorator {
         if(used && getGodPower()){
             return t == buildTile;
         }
-        if(super.canBuildBlock(t) && canBuildDome(t)){
-            setGodPower(true);
-        }
         return super.canBuildBlock(t);
     }
 
     @Override
     public void buildBlock(Tile t) {
         /* se può buildare Block di sicuro può buildare Dome */
-        if(getGodPower()) {
-            buildTile = t;
-            used = true;
-        }
+        buildTile = t;
+        used = true;
+        setGodPower(true);
     }
 
     @Override
