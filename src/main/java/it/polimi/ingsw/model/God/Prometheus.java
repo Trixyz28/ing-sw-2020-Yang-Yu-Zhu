@@ -18,7 +18,7 @@ public class Prometheus extends WorkerDecorator {
     @Override
     public boolean canMove(Tile t) {
         if(buildCounter == 0){
-            if(!used && !getGodPower() && moveCounter == 0 && canBuild(t)){
+            if(!used && !getGodPower() && moveCounter == 0 && canBuild(t) && super.canMove(t)){
                 setGodPower(true);
             }
             return super.canMove(t);

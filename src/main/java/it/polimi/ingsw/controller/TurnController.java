@@ -21,12 +21,12 @@ public class TurnController {
 
 
     /* scelta worker + controllo tipo worker */
-    protected void setChosenWorker(int index){
+    protected void setChosenWorker(int index) {
         UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(index);
 
         //controllare se il Worker scelta possa fare la mossa o no
-        if(currentTurn.movableList(worker).size() != 0 || worker.getGodPower()) {
-            /* tile che può andarci != 0 oppure Prometheus canBuild */
+        if (currentTurn.movableList(worker).size() != 0) {
+            /* tile che può andarci != 0 */
             chosenWorker = worker;
             choseWorker();
 

@@ -146,7 +146,7 @@ public class Turn {
 
     //check lose conditions
     public boolean checkLose(){
-        if(state == 0){
+        if(getState() == 0){
             /* before choosing worker: se tutti i worker non hanno più tile da poter andare -> perde */
             for (UndecoratedWorker worker : currentPlayer.getWorkerList()) {
                 if (movableList(worker).size() != 0 || worker.getGodPower()) {
@@ -154,7 +154,7 @@ public class Turn {
                 }
             }
             return true;
-        }else if(state == 1){
+        }else if(getState() == 1){
             /* before move */
             return (movableList(chosenWorker).size() == 0);
         }else {
