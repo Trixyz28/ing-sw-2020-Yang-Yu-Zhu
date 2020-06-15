@@ -120,8 +120,7 @@ public class Controller implements Observer {
         /* if godPower = true -> use Power (another operation)  false -> end operation */
         if(worker.getGodPower()){
             worker.setGodPower(false);
-            model.showBoard();
-            model.operation();
+            turnController.operation();
         }else {
             turnController.endOperation();
         }

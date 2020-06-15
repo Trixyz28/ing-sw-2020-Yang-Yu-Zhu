@@ -132,13 +132,7 @@ public class TurnController {
         if (currentTurn.getState() == 0){
             endTurn();
         }else {
-            model.showBoard();
-            /* checkLose prima dell'operazione */
-            if(model.checkLose()) {
-                checkGameOver();
-            }else {
-                model.operation();
-            }
+            operation();
         }
     }
 
@@ -146,6 +140,16 @@ public class TurnController {
     private void checkGameOver(){
         if(!model.isGameOver()){
             nextTurn();
+        }
+    }
+
+    protected void operation() {
+        model.showBoard();
+        /* checkLose prima dell'operazione */
+        if(model.checkLose()) {
+            checkGameOver();
+        }else {
+            model.operation();
         }
     }
 

@@ -20,9 +20,9 @@ public class AtlasTest extends TestCase {
         worker.setPosition(board.getTile(0, 1));
         Assert.assertTrue(worker.canBuildBlock(board.getTile(1, 1)));
         Assert.assertFalse(worker.canBuildBlock(board.getTile(2, 2)));
+        worker.buildBlock(board.getTile(1, 1));
         Assert.assertTrue(worker.getGodPower());
         Assert.assertEquals(2, worker.getState());
-        worker.buildBlock(board.getTile(1, 1));
         Assert.assertTrue(worker.canBuildBlock(board.getTile(1, 1)));
         Assert.assertFalse(worker.canBuildBlock(board.getTile(0, 2)));
         Assert.assertEquals(0,board.getTile(1, 1).getBlockLevel());
