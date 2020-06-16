@@ -10,7 +10,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 
-public abstract class View extends Observable implements Observer{
+public abstract class View extends Observable implements Observer {
 
     protected Player player;
     private boolean endGame = false;
@@ -28,10 +28,9 @@ public abstract class View extends Observable implements Observer{
 
     }
 
-
     @Override
-    public void update(Object message) {
-    }
+    public abstract void update(Object message);
+
 
     protected void handleOp(String input){  /* modificare l'Op precedentemente salvata con l'input dal Client */
         try {

@@ -42,6 +42,7 @@ public class Messages {
     //Nickname
     public static String nicknameRequest = "Welcome! What is your nickname?";
     public static String nicknameInUse = "Nickname in use, choose another one";
+    public static String invalidNickname = "Invalid nickname (length bound: 1-16 characters)";
     public static String nicknameAvailable = "You can use this nickname!";
 
 

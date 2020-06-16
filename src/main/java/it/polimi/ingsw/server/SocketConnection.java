@@ -175,15 +175,21 @@ public class SocketConnection extends Observable implements Runnable {
         //Set nickname
         send(Messages.nicknameRequest);
         String readName;
-        boolean check;
+        boolean check = false;
         do {
             readName = in.nextLine();
-            check = server.getLobbyController().canUseNickname(readName);
-            if(!check) {
-                send(Messages.nicknameInUse);
+
+            if(readName.isBlank() || readName.length()>16) {
+                send(Messages.invalidNickname);
             } else {
-                send(Messages.nicknameAvailable);
+                check = server.getLobbyController().canUseNickname(readName);
+                if(!check) {
+                    send(Messages.nicknameInUse);
+                } else {
+                    send(Messages.nicknameAvailable);
+                }
             }
+
         } while(!check);
 
         player = new Player(readName);

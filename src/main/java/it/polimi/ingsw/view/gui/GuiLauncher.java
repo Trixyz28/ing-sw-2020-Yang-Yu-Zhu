@@ -202,7 +202,7 @@ public class GuiLauncher extends Application implements Observer {
                 changeScene(3);
             }
 
-            if(message.equals(Messages.nicknameInUse)) {
+            if(message.equals(Messages.nicknameInUse) || message.equals(Messages.invalidNickname)) {
                 Platform.runLater(() -> ((LoadingController)commuter).showNameMsg((String) message));
             }
 
@@ -292,7 +292,7 @@ public class GuiLauncher extends Application implements Observer {
 
             if(((GameMessage) message).getMessage().equals(Messages.Worker)) {
                 this.chooseWorker = true;
-                Platform.runLater(() -> ((BoardController)commuter).setRecvMsg((String) message));
+                Platform.runLater(() -> ((BoardController)commuter).setRecvMsg((String) ((GameMessage) message).getMessage()));
             } else {
                 GodPowerMessage god = GodPowerMessage.valueOf(lastView.getCurrentGod());
                 System.out.println("current god: " + lastView.getCurrentGod());

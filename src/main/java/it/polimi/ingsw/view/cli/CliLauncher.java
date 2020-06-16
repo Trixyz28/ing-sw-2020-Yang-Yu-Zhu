@@ -34,7 +34,7 @@ public class CliLauncher {
                 this.client = new Client();
                 client.startClient("cli", socket);
                 client.run();
-            } catch (Exception e) {
+            } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }
