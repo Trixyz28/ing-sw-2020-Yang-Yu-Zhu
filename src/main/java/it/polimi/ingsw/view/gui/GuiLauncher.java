@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.gui.controllers.*;
@@ -11,7 +10,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,7 +26,7 @@ public class GuiLauncher extends Application implements Observer {
     private String ip;
     private String port;
 
-    private Thread thread;
+    private Thread clientThread;
     private Client client;
     private Commuter commuter;
     private GUI gui;
@@ -75,9 +73,9 @@ public class GuiLauncher extends Application implements Observer {
         this.scene = scene;
 
         stage.setOnCloseRequest(e-> {
-            if(thread!=null) {
-                if(thread.isAlive()) {
-                    thread.interrupt();
+            if(clientThread !=null) {
+                if(clientThread.isAlive()) {
+                    clientThread.interrupt();
                 }
             }
             Platform.exit();
@@ -103,8 +101,8 @@ public class GuiLauncher extends Application implements Observer {
                 }
 
                 if(index==2) {
-                    thread = new Thread(client);
-                    thread.start();
+                    clientThread = new Thread(client);
+                    clientThread.start();
                 }
 
                 if(index==3) {

@@ -8,12 +8,29 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+
 import java.util.ArrayList;
 
 
 public class LoadingController extends Commuter {
 
+    //FXML Start
 
+    @FXML
+    private Pane startPane;
+
+    @FXML
+    public void loadingScene(MouseEvent event) throws Exception {
+        System.out.println("Go to loading scene");
+        super.getGuiLauncher().changeScene(1);
+    }
+
+
+
+    //FXML Nickname
+    
     @FXML
     private Label nameRecv;
 
@@ -41,6 +58,7 @@ public class LoadingController extends Commuter {
 
 
 
+    //FXML Lobby
 
     @FXML
     private Label lobbyRecv;
@@ -89,17 +107,6 @@ public class LoadingController extends Commuter {
         lobbyButton.setVisible(false);
         waiting.setText("Waiting for other players");
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

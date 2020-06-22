@@ -19,15 +19,15 @@ public class CLI implements Ui {
     //Color indicators
     private final String RESET = Colors.RESET;
 
-    private String gridColor = Colors.BLACK_BRIGHT;
-    private String gridNumberColor = Colors.YELLOW;
+    private final String gridColor = Colors.BLACK_BRIGHT;
+    private final String gridNumberColor = Colors.YELLOW;
 
-    private String domeColor = Colors.BLUE_BOLD;
-    private String heightColor = Colors.WHITE;
+    private final String domeColor = Colors.BLUE_BOLD;
+    private final String heightColor = Colors.WHITE;
 
-    private String player0 = Colors.GREEN_BOLD;
-    private String player1 = Colors.PURPLE_BOLD;
-    private String player2 = Colors.CYAN_BOLD;
+    private final String player0 = Colors.GREEN_BOLD;
+    private final String player1 = Colors.PURPLE_BOLD;
+    private final String player2 = Colors.CYAN_BOLD;
 
     private String chosenColor = Colors.RED_UNDERLINED;
     private String canOpColor = Colors.BLACK_BACKGROUND_BRIGHT;
@@ -39,12 +39,11 @@ public class CLI implements Ui {
     private String verticalBoard = gridColor + "║" + RESET;
 
     private String extColor = Colors.WHITE;
-    private String upExt = extColor + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + RESET;
-    private String downExt = extColor + "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" + RESET;
+    private String upExt = extColor + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + RESET;
+    private String downExt = extColor + "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" + RESET;
     private String leftExt = extColor + "┃   " + RESET;
     private String rightExt = extColor + "   ┃" + RESET;
     private String emptyExt = extColor + "┃                                                   ┃" + RESET;
-    private String barExt = extColor + "┠─── ─── ─── ─── ─── ─── ─── ─── ─── ─── ─── ─── ───┨" + RESET;
 
 
     @Override
@@ -118,53 +117,71 @@ public class CLI implements Ui {
         this.command = command;
 
         System.out.println(upExt);
-        System.out.println(emptyExt);
+
+        System.out.print(emptyExt);
+        System.out.format("%1$52s",rightExt + "\n");
+
         System.out.print(leftExt + "    " + verticalBar);
 
         for(int i=0;i<5;i++){
             System.out.print(gridNumberColor + "   " + i + "   " + verticalBar);
         }
-        System.out.println(rightExt + "\n" + leftExt + supBoard + rightExt);
+        System.out.print(rightExt);
+        System.out.format("%1$52s",rightExt + "\n");
+
+        System.out.print(leftExt + supBoard + rightExt);
+        System.out.format("%1$52s",rightExt + "\n");
 
 
-        for(int i=0;i<5;i++) {
-            System.out.print(leftExt + gridNumberColor + " " + i + "  " + RESET);
+        for(int i=0;i<9;i++) {
 
-            for(int j=0;j<5;j++) {
-                Tile t = boardView.getTile(i,j);
-                if(j==0) {
-                    System.out.print(verticalBoard + " ");
-                } else {
-                    System.out.print(verticalBar + " ");
+            if (i%2==0) {
+                System.out.print(leftExt + gridNumberColor + " " + i/2 + "  " + RESET);
+
+                for (int j=0;j<5;j++) {
+                    Tile t = boardView.getTile(i/2,j);
+
+                    if(j==0) {
+                        System.out.print(verticalBoard + " ");
+                    } else {
+                        System.out.print(verticalBar + " ");
+                    }
+
+                    if (t.isOccupiedByWorker()) {
+                        printWorker(t);
+                    } else if (t.isDomePresence()) {
+                        printDome();
+                    } else {
+                        printBlock(t);
+                    }
+
+                    System.out.print(RESET + " ");
                 }
 
-                if(t.isOccupiedByWorker()) {
-                    printWorker(t);
-                } else if(t.isDomePresence()) {
-                    printDome();
-                } else {
-                    printBlock(t);
-                }
+                System.out.print(verticalBoard + rightExt);
 
-                System.out.print(RESET + " ");
-            }
 
-            System.out.println(verticalBoard + rightExt);
-            if(i==4) {
-                System.out.println(leftExt + infBoard + rightExt);
             } else {
-                System.out.println(leftExt + horizontalBar + rightExt);
+                System.out.print(leftExt + horizontalBar + rightExt);
             }
 
+
+            if (i == 1) {
+                System.out.format("%1$-36s", "    Current Player:");
+                System.out.println(rightExt);
+            } else if (i == 3) {
+                System.out.print(workerColor(boardView.getCurrentID()));
+                System.out.format("%1$-40s", "    " + boardView.getCurrentName() + RESET + " (" + boardView.getCurrentGod() + ")");
+                System.out.println(rightExt);
+            } else {
+                System.out.format("%1$52s",rightExt + "\n");
+            }
         }
 
-        System.out.println(emptyExt);
-        System.out.println(barExt);
-        System.out.print(leftExt + " Current player: ");
-        System.out.print(workerColor(boardView.getCurrentID()));
-        System.out.format("%1$-32s", boardView.getCurrentName() + RESET + " (" + boardView.getCurrentGod() + ")");
-        System.out.println(rightExt);
-        System.out.println(emptyExt);
+        System.out.print(leftExt + infBoard + rightExt);
+        System.out.format("%1$52s",rightExt + "\n");
+        System.out.print(emptyExt);
+        System.out.format("%1$52s",rightExt + "\n");
         System.out.println(downExt);
     }
 
