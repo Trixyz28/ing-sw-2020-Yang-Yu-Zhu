@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.gui.controllers;
 
 
+import it.polimi.ingsw.view.gui.GUI;
+import it.polimi.ingsw.view.gui.GuiLauncher;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +16,9 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
 
-public class LoadingController extends Commuter {
+public class LoadingController {
+
+    private GuiLauncher guiLauncher;
 
     //FXML Start
 
@@ -24,7 +28,34 @@ public class LoadingController extends Commuter {
     @FXML
     public void loadingScene(MouseEvent event) throws Exception {
         System.out.println("Go to loading scene");
-        super.getGuiLauncher().changeScene(1);
+        guiLauncher.changeScene(1);
+    }
+
+
+    //FXML Server
+
+    @FXML
+    private TextField ipField;
+
+    @FXML
+    private TextField portField;
+
+    @FXML
+    private Label serverMsg;
+
+    @FXML
+    private Button serverButton;
+
+    public void serverInfo(ActionEvent event) {
+        guiLauncher.setIp(ipField.getCharacters().toString());
+        guiLauncher.setPort(portField.getCharacters().toString());
+        System.out.println("Server set to " + ipField.getCharacters().toString() + ", port " + portField.getCharacters().toString());
+        guiLauncher.setServer();
+
+    }
+
+    public void showMessage(String str) {
+        serverMsg.setText(str);
     }
 
 
@@ -45,7 +76,7 @@ public class LoadingController extends Commuter {
 
     public void sendName(ActionEvent event) {
         nickname = nameField.getCharacters().toString();
-        super.getGuiLauncher().getClient().sendInput(nickname);
+        guiLauncher.getClient().sendInput(nickname);
     }
 
     public void showNameMsg(String str) {
@@ -83,9 +114,9 @@ public class LoadingController extends Commuter {
 
     public void sendLobby(ActionEvent event) {
         if(playerNumberSelect.getValue().equals("3 players")) {
-            super.getGuiLauncher().getClient().sendInput("3");
+            guiLauncher.getClient().sendInput("3");
         } else {
-            super.getGuiLauncher().getClient().sendInput("2");
+            guiLauncher.getClient().sendInput("2");
         }
     }
 
@@ -106,6 +137,10 @@ public class LoadingController extends Commuter {
         lobbyButton.setDisable(true);
         lobbyButton.setVisible(false);
         waiting.setText("Waiting for other players");
+    }
+
+    public void setGuiLauncher(GuiLauncher guiLauncher) {
+        this.guiLauncher = guiLauncher;
     }
 
 
