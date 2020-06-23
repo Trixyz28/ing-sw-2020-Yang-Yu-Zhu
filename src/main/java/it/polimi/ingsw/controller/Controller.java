@@ -118,9 +118,10 @@ public class Controller implements Observer {
     private void gmUpdate() {
         UndecoratedWorker worker = model.getCurrentTurn().getChosenWorker();
         /* if godPower = true -> use Power (another operation)  false -> end operation */
-        if(worker.getGodPower()){
+        if(worker.getGodPower()){  /* se il power è attivato implica che la mossa è possibile -> no ulteriore check */
             worker.setGodPower(false);
-            turnController.operation();
+            model.showBoard();
+            model.operation();
         }else {
             turnController.endOperation();
         }

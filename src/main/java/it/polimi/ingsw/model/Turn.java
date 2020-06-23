@@ -149,7 +149,7 @@ public class Turn {
         if(getState() == 0){
             /* before choosing worker: se tutti i worker non hanno più tile da poter andare -> perde */
             for (UndecoratedWorker worker : currentPlayer.getWorkerList()) {
-                if (movableList(worker).size() != 0 || worker.getGodPower()) {
+                if (movableList(worker).size() != 0) {
                     return false;
                 }
             }
