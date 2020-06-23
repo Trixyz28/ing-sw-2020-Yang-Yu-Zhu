@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui.controllers;
 
 import it.polimi.ingsw.messages.GodChosenMessage;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -79,7 +78,7 @@ public class GodController extends Commuter {
                 if (node.getBoundsInParent().contains(event.getX(), event.getY())) {
                     row = GridPane.getRowIndex(node);
                     column = GridPane.getColumnIndex(node);
-                    System.out.println("Clicked at row " + GridPane.getRowIndex(node) + ", column " + GridPane.getColumnIndex(node));
+                    System.out.println("Clicked at row " + row + ", column " + column);
                     imageView = (ImageView) node;
                     break;
                 }
