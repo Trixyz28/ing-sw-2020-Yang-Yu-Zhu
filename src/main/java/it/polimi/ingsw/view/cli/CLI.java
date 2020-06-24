@@ -13,7 +13,8 @@ public class CLI implements Ui {
 
     Scanner in = new Scanner(System.in);
     private BoardView boardView;
-    private boolean command;
+    private String nickname;
+    private boolean current;
 
     //Color indicators
     private final String RESET = Colors.RESET;
@@ -83,7 +84,11 @@ public class CLI implements Ui {
                 System.out.println(str);
             }
 
-        } else if(command.equals("turn")) {
+        } else if (command.equals("setName")) {
+            nickname = obj.getMessage();
+        }
+
+        else if(command.equals("turn")) {
             //System.out.println("Turn of " + obj.getMessage());
 
         } else if(command.equals("completeList")) {
@@ -105,6 +110,8 @@ public class CLI implements Ui {
                     System.out.println(str);
                 }
             }
+        } else if(command.equals("board")) {
+            showBoard(obj.getBoardView(),obj.getBoardView().getCurrentName().equals(nickname));
         }
 
         else {
@@ -113,11 +120,10 @@ public class CLI implements Ui {
     }
 
 
-    @Override
     public void showBoard(BoardView boardView,boolean command) {
 
         this.boardView = boardView;
-        this.command = command;
+        this.current = command;
 
         System.out.println(upExt);
 
@@ -239,7 +245,7 @@ public class CLI implements Ui {
 
     public boolean checkCanOp(Tile t) {
 
-        if(command) {
+        if(current) {
             if(boardView.getChosenWorkerID()!=-1) {
                 WorkerView chosen = boardView.getWorkerList()[boardView.getChosenWorkerID()];
 

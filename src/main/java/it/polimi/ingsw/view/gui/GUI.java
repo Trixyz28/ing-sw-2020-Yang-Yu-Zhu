@@ -3,9 +3,6 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.view.Ui;
-import it.polimi.ingsw.view.BoardView;
-
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -20,11 +17,6 @@ public class GUI extends Observable implements Ui {
         notify(str);
     }
 
-
-    @Override
-    public void showBoard(BoardView boardView,boolean command) {
-        notify(boardView);
-    }
 
     @Override
     public String getInput() {

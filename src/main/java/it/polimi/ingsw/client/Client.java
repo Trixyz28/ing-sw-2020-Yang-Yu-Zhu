@@ -26,8 +26,6 @@ public class Client implements Runnable {
     private Thread t0;
     private Thread t1;
 
-    private String nickname;
-
 
     public Client() {
         this.opReceived = false;
@@ -92,14 +90,10 @@ public class Client implements Runnable {
 
                     } else if (inputObject instanceof Obj) {
                         Obj obj = (Obj)inputObject;
-                        if(obj.getTag().equals("setName")) {
-                            this.nickname = obj.getMessage();
-                        } else if(obj.getTag().equals("board")) {
-                            ui.showBoard(obj.getBoardView(),nickname.equals(obj.getBoardView().getCurrentName()));
 
-                        } else if(obj.getTag().equals("operation")) {
-                            opReceived = true;  /* ricevuto un Operation */
-                            Operation operation = obj.getOperation();
+                        if(obj.getTag().equals("operation")) {
+
+                            opReceived = true;  /* ricevuto un Operation */Operation operation = obj.getOperation();
                             if(operation.getType() == 0){
                                 ui.showMessage(Messages.Place);
                             } else if(operation.getType() == 1){

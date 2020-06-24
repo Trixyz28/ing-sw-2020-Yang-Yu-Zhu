@@ -235,7 +235,7 @@ public class GuiLauncher extends Application implements Observer {
 
             if(((GameMessage) message).getMessage().equals(Messages.Worker)) {
                 this.chooseWorker = true;
-                Platform.runLater(() -> boardController.setRecvMsg((String) ((GameMessage) message).getMessage()));
+                Platform.runLater(() -> boardController.setRecvMsg( ((GameMessage) message).getMessage()));
             } else {
                 GodPowerMessage god = GodPowerMessage.valueOf(lastView.getCurrentGod());
                 System.out.println("current god: " + lastView.getCurrentGod());

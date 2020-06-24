@@ -167,6 +167,7 @@ public class BoardController {
                 printCanOp((ImageView) ((Pane) node).getChildren().get(2),checkCanOp(boardView,tile));
             }
         }
+
         setTurn(boardView.getCurrentName());
     }
 
