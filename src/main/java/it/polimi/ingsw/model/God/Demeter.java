@@ -87,7 +87,7 @@ public class Demeter extends WorkerDecorator {
 
 
     private boolean canBuild(){
-        for(Tile t : getPosition().getAdjacentTiles()){
+        for(Tile t : getAdjacentTiles()){
             if(canBuildBlock(t) || canBuildDome(t)){
                 return true;
             }

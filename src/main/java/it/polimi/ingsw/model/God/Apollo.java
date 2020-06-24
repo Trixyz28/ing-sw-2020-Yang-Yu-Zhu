@@ -21,7 +21,7 @@ public class Apollo extends WorkerDecorator {
                 && t.getBlockLevel() - getPosition().getBlockLevel()<=1 ) {
             if(getConditions().checkMoveCondition(getPosition(), t)) {
                 if(t.isOccupiedByWorker()){
-                    UndecoratedWorker opponent = getWorker(t, totalWorkers);
+                    UndecoratedWorker opponent = t.getWorker(totalWorkers);
                     /* trovato worker che occupa la tile */
                     if(opponent.getBelongToPlayer() != getBelongToPlayer()){
                         return true;
@@ -42,7 +42,7 @@ public class Apollo extends WorkerDecorator {
             super.move(t);
         } else {
             /* scambiare posizione */
-            getWorker(t, totalWorkers).setPosition(getPosition());
+            t.getWorker(totalWorkers).setPosition(getPosition());
             setPosition(t);
         }
 

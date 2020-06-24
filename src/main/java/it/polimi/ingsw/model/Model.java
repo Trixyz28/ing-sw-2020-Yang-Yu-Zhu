@@ -256,7 +256,7 @@ public class Model extends Observable {
                     chosenID--;
                 }
                 chosen = totalWorkerView[chosenID];
-                chosen.setBuildableList(currentTurn.buildableList(currentTurn.getCurrentPlayer().chooseWorker(chosenID%2)));
+                chosen.setBuildableList(currentTurn.buildableList(currentTurn.getChosenWorker()));
                 System.out.println("buildable list size: " + chosen.getBuildableList().size());
             }
             chosen.setState(op);

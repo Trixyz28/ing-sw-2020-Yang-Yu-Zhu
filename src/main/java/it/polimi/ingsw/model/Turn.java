@@ -112,7 +112,7 @@ public class Turn {
     //get() worker movableTile
     public List<Tile> movableList(UndecoratedWorker worker){
         List<Tile> movable = new ArrayList<>();
-        for (Tile tile : worker.getPosition().getAdjacentTiles()){
+        for (Tile tile : worker.getAdjacentTiles()){
             if(worker.canMove(tile)){
                 movable.add(tile);
             }
@@ -123,7 +123,7 @@ public class Turn {
     //get() worker buildableTile
     public List<Tile> buildableList(UndecoratedWorker worker) {
         List<Tile> buildable = new ArrayList<>();
-        for (Tile tile : worker.getPosition().getAdjacentTiles()){
+        for (Tile tile : worker.getAdjacentTiles()){
             if(worker.canBuildBlock(tile) || worker.canBuildDome(tile)){
                 buildable.add(tile);
             }
@@ -159,7 +159,7 @@ public class Turn {
             return (movableList(chosenWorker).size() == 0);
         }else {
             /* se il worker non può né build Block né build Dome */
-            for(Tile t : chosenWorker.getPosition().getAdjacentTiles()){
+            for(Tile t : chosenWorker.getAdjacentTiles()){
                 if(chosenWorker.canBuildBlock(t) || chosenWorker.canBuildDome(t)){
                     return false;
                 }

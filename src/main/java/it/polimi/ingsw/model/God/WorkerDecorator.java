@@ -106,14 +106,12 @@ public abstract class WorkerDecorator implements UndecoratedWorker {
         return this.worker.getState();
     }
 
-    protected UndecoratedWorker getWorker(Tile tile, List<UndecoratedWorker> totalWorkers){
-        for(UndecoratedWorker w : totalWorkers){
-            if(w.getPosition() == tile){
-                /* trovato worker sulla tile */
-                return w;
-            }
-        }
-        return null;
+    @Override
+    public List<Tile> getAdjacentTiles() {
+        return this.worker.getAdjacentTiles();
     }
+
+
+
 
 }

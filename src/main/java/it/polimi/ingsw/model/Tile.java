@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.God.UndecoratedWorker;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -141,4 +143,14 @@ public class Tile implements Cloneable, Serializable {
         return (getRow() == 0 || getRow() == 4 || getColumn() == 0 || getColumn() == 4);
     }
 
+    //Return woker on this Tile
+    public UndecoratedWorker getWorker(List<UndecoratedWorker> totalWorkers){
+        for(UndecoratedWorker w : totalWorkers){
+            if(this == w.getPosition()){
+                /* trovato worker sulla tile */
+                return w;
+            }
+        }
+        return null;
+    }
 }

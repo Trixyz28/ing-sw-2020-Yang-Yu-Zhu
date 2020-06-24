@@ -60,6 +60,7 @@ public class PoseidonTest extends TestCase {
         initialize();
         board.getTile(1,0).setBlockLevel(3);
         board.getTile(2,1).setBlockLevel(3);
+        Assert.assertEquals(poseidon.getPosition().getAdjacentTiles(), poseidon.getAdjacentTiles());
         for(Tile t: poseidon.getPosition().getAdjacentTiles()){
             if(t != board.getTile(2,1)){
                 t.setDomePresence(true);
@@ -69,6 +70,7 @@ public class PoseidonTest extends TestCase {
         worker.buildDome(board.getTile(1,0));
         Assert.assertTrue(worker.getGodPower());
         worker.setGodPower(false);
+        Assert.assertEquals(worker.getAdjacentTiles(), poseidon.getAdjacentTiles());
         Assert.assertTrue(worker.canBuildDome(board.getTile(2,1)));
         worker.buildDome(board.getTile(2,1));
         Assert.assertFalse(worker.getGodPower());
@@ -80,7 +82,7 @@ public class PoseidonTest extends TestCase {
         initialize();
         totalWorkerList.remove(poseidon);
         Assert.assertTrue(worker.canBuildBlock(board.getTile(0,1)));
-        Assert.assertEquals(null, worker.getWorker(board.getTile(0,1),totalWorkerList));
+        Assert.assertEquals(null, board.getTile(0,1).getWorker(totalWorkerList));
         worker.buildBlock(board.getTile(0,1));
         Assert.assertFalse(worker.getGodPower());
     }

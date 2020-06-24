@@ -21,7 +21,7 @@ public class Minotaur extends WorkerDecorator {
         if(getPosition().isAdjacentTo(t) && !t.isDomePresence() && t.getBlockLevel()-getPosition().getBlockLevel()<=1) {
             if(getConditions().checkMoveCondition(getPosition(), t)) {
                 if(t.isOccupiedByWorker()){
-                    UndecoratedWorker opponent = getWorker(t,totalWorkers);
+                    UndecoratedWorker opponent = t.getWorker(totalWorkers);
                     /* trovato worker sulla tile */
                     if(opponent.getBelongToPlayer() != getBelongToPlayer()){
                         Tile forcedTile = getForcedTile(t);
@@ -47,7 +47,7 @@ public class Minotaur extends WorkerDecorator {
     public void move(Tile t) {
         if(t.isOccupiedByWorker()){
             /* cambiare posizione avversario */
-            getWorker(t,totalWorkers).setPosition(getForcedTile(t));
+            t.getWorker(totalWorkers).setPosition(getForcedTile(t));
         }
         super.move(t);
     }

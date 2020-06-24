@@ -42,4 +42,6 @@ public interface UndecoratedWorker {
 
     int getState();
 
+    List<Tile> getAdjacentTiles();
+
 }

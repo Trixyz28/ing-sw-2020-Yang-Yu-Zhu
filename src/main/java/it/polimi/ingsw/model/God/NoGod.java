@@ -4,6 +4,7 @@ package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
 
+import java.util.List;
 
 
 public class NoGod implements UndecoratedWorker {
@@ -126,6 +127,11 @@ public class NoGod implements UndecoratedWorker {
           return 0;
        }
       return state;
+   }
+
+   @Override
+   public List<Tile> getAdjacentTiles() {
+      return position.getAdjacentTiles();
    }
 
    /*all basic methods

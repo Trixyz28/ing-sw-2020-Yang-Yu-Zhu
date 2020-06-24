@@ -36,7 +36,7 @@ public class Artemis extends WorkerDecorator {
             originalTile = getPosition();
             super.move(t);
             moveCounter++;
-            for(Tile tile : getPosition().getAdjacentTiles()){
+            for(Tile tile : getAdjacentTiles()){
                 if(canMove(tile)){
                     /* attivare godPower */
                     setGodPower(true);
