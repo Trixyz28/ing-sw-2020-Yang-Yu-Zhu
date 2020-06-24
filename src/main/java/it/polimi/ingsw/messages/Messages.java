@@ -72,6 +72,7 @@ public class Messages {
 
 
     public static String invalidWorker = "Invalid worker index!";
+    public static String anotherWorker = "Choose another worker!";
 
 
 }

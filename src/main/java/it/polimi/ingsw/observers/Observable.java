@@ -22,14 +22,5 @@ public class Observable {
 
     }
 
-    /*
-    public void notifyGod(String god){
-        for(Observer o: observers) {
-            o.updateGod(god.toUpperCase());
-        }
-    }
-
-    da definire
-     */
 
 }

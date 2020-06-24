@@ -222,7 +222,7 @@ public class Model extends Observable {
 
 
     public void sendBoard() {
-        notify(createBoardView());
+        notify(new Obj(createBoardView()));
     }
 
 
@@ -355,6 +355,13 @@ public class Model extends Observable {
     }
 
 
+    public void unicastMsg(Obj obj) {
+        obj.setBroadcast(false);
+        obj.setReceiver(currentTurn.getCurrentPlayer());
+        notify(obj);
+    }
+
+
     public void broadcast(String message){
         notify(message);
     }
@@ -362,11 +369,11 @@ public class Model extends Observable {
 
     public void operation(){  /* type 1 = move type 2 = build */
         int type = currentTurn.getState();
-        notify(new Operation(currentTurn.getCurrentPlayer(), type, -1, -1));
+        unicastMsg(new Obj(new Operation(type, -1, -1)));
     }
 
     public void place(){  /* type 0 = place */
-        notify(new Operation(currentTurn.getCurrentPlayer(),0, -1, -1));
+        unicastMsg(new Obj(new Operation(0, -1, -1)));
     }
 
     public void placeWorker(int indexWorker){

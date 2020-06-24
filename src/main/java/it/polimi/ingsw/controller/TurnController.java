@@ -31,7 +31,7 @@ public class TurnController {
 
         }else {
             //view.chooseWorker; -> richiedere scelta
-            model.sendMessage("Riprova con un altro");
+            model.sendMessage(Messages.anotherWorker);
             model.sendMessage(Messages.Worker);
         }
 

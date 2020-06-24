@@ -36,10 +36,10 @@ public class BuildControllerTest extends TestCase {
         initialize();
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker() instanceof Hera);
 
-        Assert.assertFalse(buildController.build(new Operation(player1, 2, 4,4)));
+        Assert.assertFalse(buildController.build(new Operation( 2, 4,4)));
         Assert.assertEquals(0, model.commandToTile(4,4).getBlockLevel());
 
-        Assert.assertTrue(buildController.build(new Operation(player1, 2, 1,0)));
+        Assert.assertTrue(buildController.build(new Operation( 2, 1,0)));
         Assert.assertEquals(1, model.commandToTile(1,0).getBlockLevel());
     }
 
@@ -48,7 +48,7 @@ public class BuildControllerTest extends TestCase {
         initialize();
         model.commandToTile(1,1).setBlockLevel(3);
 
-        Assert.assertTrue(buildController.build(new Operation(player1, 2, 1,1)));
+        Assert.assertTrue(buildController.build(new Operation( 2, 1,1)));
         Assert.assertTrue(model.commandToTile(1,1).isDomePresence());
     }
     /*

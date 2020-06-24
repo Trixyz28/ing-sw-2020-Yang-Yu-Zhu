@@ -31,7 +31,7 @@ public class Controller implements Observer {
 
     private boolean checkTurn(Object arg) {
         if(arg instanceof Operation){
-           return model.checkTurn(((Operation) arg).getPlayer());
+           return true;
         }else if (arg instanceof GameMessage){
            return model.checkTurn(((GameMessage)arg).getPlayer());
         }else if (arg instanceof Integer){
@@ -52,8 +52,10 @@ public class Controller implements Observer {
 
             if (arg instanceof Operation) {
                 opUpdate((Operation) arg);
+
             } else if (arg instanceof Integer) {  /* indice del Worker scelto 0 o 1 */
                 turnController.setChosenWorker((Integer) arg);
+
             } else if (arg instanceof GameMessage) {
                 GameMessage gm = (GameMessage) arg;
 

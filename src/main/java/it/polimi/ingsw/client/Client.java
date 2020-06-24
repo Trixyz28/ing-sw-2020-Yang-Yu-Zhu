@@ -9,7 +9,6 @@ import it.polimi.ingsw.view.gui.GUI;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 
 
 public class Client implements Runnable {
@@ -80,19 +79,6 @@ public class Client implements Runnable {
                             setActive(false);
                         }
 
-                    } else if (inputObject instanceof BoardView) {
-                            ui.showBoard((BoardView)inputObject,nickname.equals(((BoardView) inputObject).getCurrentName()));
-
-                    } else if(inputObject instanceof Operation){
-                        opReceived = true;  /* ricevuto un Operation */
-                        Operation operation = (Operation)inputObject;
-                        if(operation.getType() == 0){
-                            ui.showMessage(Messages.Place);
-                        } else if(operation.getType() == 1){
-                            ui.showMessage(Messages.Move);
-                        } else {
-                            ui.showMessage(Messages.Build);
-                        }
                     }else if(inputObject instanceof GameMessage){
 
                         gmReceived = true;  /* ricevuto un GameMessage */
@@ -106,10 +92,21 @@ public class Client implements Runnable {
 
                     } else if (inputObject instanceof Obj) {
                         Obj obj = (Obj)inputObject;
-                        if(obj.getClassifier().equals("setName")) {
+                        if(obj.getTag().equals("setName")) {
                             this.nickname = obj.getMessage();
-                        } else if(obj.getClassifier().equals("board")) {
+                        } else if(obj.getTag().equals("board")) {
+                            ui.showBoard(obj.getBoardView(),nickname.equals(obj.getBoardView().getCurrentName()));
 
+                        } else if(obj.getTag().equals("operation")) {
+                            opReceived = true;  /* ricevuto un Operation */
+                            Operation operation = obj.getOperation();
+                            if(operation.getType() == 0){
+                                ui.showMessage(Messages.Place);
+                            } else if(operation.getType() == 1){
+                                ui.showMessage(Messages.Move);
+                            } else {
+                                ui.showMessage(Messages.Build);
+                            }
 
                         } else {
                             ui.showObj(obj);

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.messages.GameMessage;
 import it.polimi.ingsw.messages.GodPowerMessage;
 import it.polimi.ingsw.messages.Messages;
+import it.polimi.ingsw.messages.Obj;
 import it.polimi.ingsw.model.God.*;
 import it.polimi.ingsw.observers.Observer;
 import junit.framework.TestCase;
@@ -178,11 +179,9 @@ public class ModelTest extends TestCase {
         Observer observer = new Observer() {
             @Override
             public void update(Object message) {
-                Assert.assertTrue(message instanceof Operation);
-                Operation op = (Operation) message;
+                Operation op = ((Obj) message).getOperation();
                 Assert.assertEquals(model.getCurrentTurn().getState(), op.getType());
                 Assert.assertEquals(1, op.getType());
-                Assert.assertEquals(model.getCurrentTurn().getCurrentPlayer().getPlayerNickname(), op.getPlayer());
                 Assert.assertEquals(-1, op.getRow());
                 Assert.assertEquals(-1, op.getColumn());
             }

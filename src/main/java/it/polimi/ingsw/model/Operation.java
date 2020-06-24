@@ -5,20 +5,14 @@ import java.io.Serializable;
 public class Operation implements Serializable {
 
     //type of the operation: 1-move, 2-build
-    private final String player;
     private int type;
     private int row;
     private int column;
 
-    public Operation(final Player player,int type,int row,int column) {
-        this.player = player.getPlayerNickname();
+    public Operation(int type,int row,int column) {
         this.type = type;
         this.row = row;
         this.column = column;
-    }
-
-    public String getPlayer() {
-        return player;
     }
 
     public int getType() {

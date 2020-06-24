@@ -97,21 +97,21 @@ public class InitControllerTest extends TestCase {
         testSetStartingPlayer();
         Player player = model.getCurrentTurn().getCurrentPlayer();
 
-        initController.placeWorker(new Operation(player, 0, 0,0));
+        initController.placeWorker(new Operation( 0, 0,0));
         Assert.assertSame(model.commandToTile(0,0), player.chooseWorker(0).getPosition());
-        initController.placeWorker(new Operation(player, 0, 0,0));
+        initController.placeWorker(new Operation(0, 0,0));
         /* Tile occupata */
         Assert.assertEquals(null, player.chooseWorker(1).getPosition());
-        initController.placeWorker(new Operation(player, 0, 1,0));
+        initController.placeWorker(new Operation(0, 1,0));
         Assert.assertSame(model.commandToTile(1,0), player.chooseWorker(1).getPosition());
 
         /* next Player */
         Assert.assertNotEquals(player, model.getCurrentTurn().getCurrentPlayer());
 
         player = model.getCurrentTurn().getCurrentPlayer();
-        initController.placeWorker(new Operation(player, 0, 2,2));
+        initController.placeWorker(new Operation(0, 2,2));
         Assert.assertSame(model.commandToTile(2,2), player.chooseWorker(0).getPosition());
-        initController.placeWorker(new Operation(player, 0, 4,4));
+        initController.placeWorker(new Operation( 0, 4,4));
         Assert.assertSame(model.commandToTile(4,4), player.chooseWorker(1).getPosition());
 
         Assert.assertTrue(initController.isEndInitialize());

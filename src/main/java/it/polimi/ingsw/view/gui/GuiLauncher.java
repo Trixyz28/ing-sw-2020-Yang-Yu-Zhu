@@ -231,14 +231,6 @@ public class GuiLauncher extends Application implements Observer {
         }
 
 
-        if(message instanceof BoardView) {
-            this.lastView = (BoardView)message;
-            Platform.runLater(()-> {
-                boardController.showBoard((BoardView) message);
-            });
-        }
-
-
         if(message instanceof GameMessage) {
 
             if(((GameMessage) message).getMessage().equals(Messages.Worker)) {
@@ -259,7 +251,7 @@ public class GuiLauncher extends Application implements Observer {
         if(message instanceof Obj) {
             Obj obj = (Obj)message;
 
-            if(obj.getClassifier().equals("nameMsg")) {
+            if(obj.getTag().equals("nameMsg")) {
                 if(obj.getMessage().equals(Messages.nicknameAvailable)) {
                     this.nickname = loadingController.getNickname();
                     System.out.println("Nickname set: " + this.nickname);
@@ -270,17 +262,17 @@ public class GuiLauncher extends Application implements Observer {
                 }
             }
 
-            if(obj.getClassifier().equals("createLobby")) {
+            else if(obj.getTag().equals("createLobby")) {
                 Platform.runLater(()-> loadingController.createdLobby(obj.getMessage()));
             }
-            if(obj.getClassifier().equals("joinLobby")) {
+            else if(obj.getTag().equals("joinLobby")) {
                 Platform.runLater(()-> loadingController.joinedLobby(obj.getMessage()));
             }
-            if(obj.getClassifier().equals("playerList")) {
+            else if(obj.getTag().equals("playerList")) {
                 playerList = obj.getList();
                 changeScene(4);
             }
-            if(obj.getClassifier().equals("turn")) {
+            else if(obj.getTag().equals("turn")) {
                 if(!challengerSet) {
                     this.challengerName = obj.getMessage();
                     challengerSet = true;
@@ -288,17 +280,23 @@ public class GuiLauncher extends Application implements Observer {
                 Platform.runLater(()-> godController.setTurn(obj.getMessage()));
             }
 
-            if(obj.getClassifier().equals("defineGod")) {
+            else if(obj.getTag().equals("defineGod")) {
                 Platform.runLater(() -> godController.changeImage(obj.getMessage()));
             }
 
-            if(obj.getClassifier().equals("chooseGod")) {
+            else if(obj.getTag().equals("chooseGod")) {
                 for(String name : playerList) {
                     if(name.equals(obj.getPlayer())) {
                         godList[playerList.indexOf(name)] = obj.getMessage();
                     }
                 }
                 Platform.runLater(() -> godController.setChosenGod(obj));
+            }
+            else if(obj.getTag().equals("board")) {
+                this.lastView = obj.getBoardView();
+                Platform.runLater(()-> {
+                    boardController.showBoard(lastView);
+                });
             }
 
 

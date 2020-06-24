@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.messages.GameMessage;
 import it.polimi.ingsw.messages.GodPowerMessage;
+import it.polimi.ingsw.messages.Obj;
 import it.polimi.ingsw.model.God.Artemis;
 import it.polimi.ingsw.model.God.NoGod;
 import it.polimi.ingsw.model.God.Prometheus;
@@ -118,7 +119,7 @@ public class ControllerTest extends TestCase {
     public void testPlaceWorkers() {
         testSetStartingPlayer();
 
-        Operation op = new Operation(model.getCurrentTurn().getCurrentPlayer(), 0, 2,2);
+        Operation op = new Operation(0, 2,2);
         observable.notify(op);
         Assert.assertEquals(player2.chooseWorker(0).getPosition(), model.commandToTile(2,2));
         op.setPosition(1,1);
@@ -127,7 +128,7 @@ public class ControllerTest extends TestCase {
 
         Assert.assertEquals(player1, model.getCurrentTurn().getCurrentPlayer());
 
-        Operation op2 = new Operation(model.getCurrentTurn().getCurrentPlayer(), 0, 4,3);
+        Operation op2 = new Operation(0, 4,3);
         observable.notify(op2);
         Assert.assertEquals(player1.chooseWorker(0).getPosition(), model.commandToTile(4,3));
         op2.setPosition(4,4);
@@ -155,7 +156,7 @@ public class ControllerTest extends TestCase {
     public void testMove() {
         testChooseWorker();
 
-        Operation move = new Operation(model.getCurrentTurn().getCurrentPlayer(), 1, 2,2);
+        Operation move = new Operation( 1, 2,2);
         Assert.assertEquals("B", model.getCurrentTurn().getCurrentPlayer().getPlayerNickname());
         observable.notify(move);
         Assert.assertEquals(model.getCurrentTurn().getInitialTile(), model.getCurrentTurn().getChosenWorker().getPosition());
@@ -174,7 +175,7 @@ public class ControllerTest extends TestCase {
     public void testBuild() {
         testMove();
 
-        Operation build = new Operation(model.getCurrentTurn().getCurrentPlayer(), 2, 2,2);
+        Operation build = new Operation( 2, 2,2);
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker().canBuildBlock(model.commandToTile(2,2)));
         observable.notify(build);
         Assert.assertEquals(1, model.commandToTile(2,2).getBlockLevel());
@@ -241,7 +242,7 @@ public class ControllerTest extends TestCase {
         Assert.assertEquals(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0), model.getCurrentTurn().getChosenWorker());
 
         Assert.assertEquals(1, model.getCurrentTurn().getState());
-        Operation move = new Operation(model.getCurrentTurn().getCurrentPlayer(), 1, 2,1);
+        Operation move = new Operation( 1, 2,1);
         observable.notify(move);
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker() instanceof Artemis);
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker().getGodPower());

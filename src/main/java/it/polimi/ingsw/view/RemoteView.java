@@ -5,8 +5,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.server.SocketConnection;
 
-import java.util.ArrayList;
-
 
 public class RemoteView extends View {
 
@@ -49,17 +47,7 @@ public class RemoteView extends View {
     @Override
     public void update(Object message) {
 
-        if(message instanceof BoardView){  /* Mappa */
-            clientConnection.asyncSend(message);
-        }
 
-        if(message instanceof Operation){  /* inviare l'Operation con tipo già definito solo al currentPlayer*/
-            if(((Operation) message).getPlayer().equals(player.getPlayerNickname())) {
-                operation = (Operation)message;  /* salvare l'op nella view e notify */
-                opSend = true;
-                clientConnection.asyncSend(message);
-            }
-        }
         if(message instanceof GameMessage){  /* inviare richiesta solo al currentPlayer*/
             if(((GameMessage) message).getPlayer().equals(player.getPlayerNickname())) {
                 if(((GameMessage) message).readOnly()){
@@ -91,11 +79,21 @@ public class RemoteView extends View {
 
             if(obj.isBroadcast()) {
 
-                if(obj.getClassifier().equals("completeList")) {
+                if(obj.getTag().equals("completeList")) {
                     if(clientConnection.getPlayer().isChallenger()) {
                         clientConnection.asyncSend(message);
                     }
                 } else {
+                    clientConnection.asyncSend(message);
+                }
+
+            } else {
+                if(clientConnection.getPlayer().getPlayerNickname().equals(obj.getReceiver())) {
+
+                    if(obj.getTag().equals("operation")) {
+                        operation = obj.getOperation();  /* salvare l'op nella view e notify */
+                        opSend = true;
+                    }
                     clientConnection.asyncSend(message);
                 }
 

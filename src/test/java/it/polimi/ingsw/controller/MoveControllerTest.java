@@ -33,10 +33,10 @@ public class MoveControllerTest extends TestCase {
         initialize();
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker() instanceof Atlas);
 
-        Assert.assertFalse(moveController.moveWorker(new Operation(player1, 1, 3,4)));
+        Assert.assertFalse(moveController.moveWorker(new Operation( 1, 3,4)));
         Assert.assertFalse(model.commandToTile(3,4).isOccupiedByWorker());
 
-        Assert.assertTrue(moveController.moveWorker(new Operation(player1, 1, 0,1)));
+        Assert.assertTrue(moveController.moveWorker(new Operation( 1, 0,1)));
         Assert.assertTrue(model.commandToTile(0,1).isOccupiedByWorker());
     }
 

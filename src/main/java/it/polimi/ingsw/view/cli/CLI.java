@@ -6,7 +6,6 @@ import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.WorkerView;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -70,7 +69,7 @@ public class CLI implements Ui {
 
     @Override
     public void showObj(Obj obj) {
-        String command = obj.getClassifier();
+        String command = obj.getTag();
 
         if(command.equals("createLobby")) {
             System.out.println("Create the lobby n." + obj.getMessage());
