@@ -25,7 +25,7 @@ public class BuildControllerTest extends TestCase {
         model.getMatchPlayersList().add(player2);
         model.challengerStart();
         player1.setPlayerID(0);
-        player1.createWorker("HERA", model.getCondition(), model.getTotalWorkers());
+        player1.createWorker("HERA", model.getConditions(), model.getTotalWorkers());
         player1.chooseWorker(0).setPosition(model.commandToTile(0,0));
         model.getCurrentTurn().nextTurn(player1);
         model.getCurrentTurn().choseWorker(player1.chooseWorker(0));

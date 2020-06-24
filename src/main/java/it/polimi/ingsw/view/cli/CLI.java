@@ -62,51 +62,55 @@ public class CLI implements Ui {
         return in.nextLine();
     }
 
-    @Override
-    public void showList(ArrayList<String> list) {
-        if(list.size()!=0) {
-            for(String str : list) {
-                System.out.println(str);
-            }
-        }
-    }
-
-    @Override
-    public void showGodChosen(GodChosenMessage message) {
-        if(message.getCommand().equals("define")) {
-            System.out.println("The challenger chooses: " + message.getGod());
-        }
-        if(message.getCommand().equals("choose")) {
-            System.out.println("The player "+ message.getPlayer() + " chooses " + message.getGod() + "!");
-        }
-    }
-
-    @Override
-    public void showLobbyMsg(LobbyMessage message) {
-        if(message.getCommand().equals("create")) {
-            System.out.println("Create the lobby n." + message.getNumber());
-        }
-        if(message.getCommand().equals("join")) {
-            System.out.println("Successfully join the lobby n." + message.getNumber());
-        }
-    }
-
-    @Override
-    public void showTurnMsg(TurnMessage message) {
-        /*
-        if(message.getSource().equals("god")) {
-            System.out.println("God setting phase: turn of " + message.getName());
-        }
-        if(message.getSource().equals("board")) {
-            System.out.println("From board: turn of " + message.getName());
-        }
-
-         */
-    }
 
     @Override
     public void showGameMsg(GameMessage message) {
         System.out.println(message.getMessage());
+    }
+
+    @Override
+    public void showObj(Obj obj) {
+        String command = obj.getClassifier();
+
+        if(command.equals("createLobby")) {
+            System.out.println("Create the lobby n." + obj.getMessage());
+
+        } else if(command.equals("joinLobby")) {
+            System.out.println("Successfully join the lobby n." + obj.getMessage());
+
+        } else if(command.equals("playerList")) {
+            System.out.println(Messages.matchStarting);
+            for(String str : obj.getList()) {
+                System.out.println(str);
+            }
+
+        } else if(command.equals("turn")) {
+            //System.out.println("Turn of " + obj.getMessage());
+
+        } else if(command.equals("completeList")) {
+            System.out.println("You can choose godcards from this list:");
+            for(String str : obj.getList()) {
+                System.out.println(str);
+            }
+
+        } else if(command.equals("defineGod")) {
+            System.out.println("The challenger chooses: " + obj.getMessage());
+
+        } else if(command.equals("chooseGod")) {
+            System.out.println("The player "+ obj.getPlayer() + " chooses " + obj.getMessage() + "!");
+
+        } else if(command.equals("currentList")) {
+            if(obj.getList().size()!=0) {
+                System.out.println("Actual cards:");
+                for(String str : obj.getList()) {
+                    System.out.println(str);
+                }
+            }
+        }
+
+        else {
+            System.out.println(obj.getMessage());
+        }
     }
 
 

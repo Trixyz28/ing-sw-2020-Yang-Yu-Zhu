@@ -30,7 +30,6 @@ public class GuiLauncher extends Application implements Observer {
     private Client client;
     private GUI gui;
 
-    private boolean playerNameSet;
     private boolean challengerSet;
     private boolean chooseWorker;
 
@@ -55,7 +54,6 @@ public class GuiLauncher extends Application implements Observer {
         allScenes.add(new FXMLLoader(getClass().getResource("/fxml/Board.fxml")));
         this.gui = new GUI();
 
-        this.playerNameSet = false;
         this.challengerSet = false;
         this.chooseWorker = false;
         this.playerList = new ArrayList<>();
@@ -171,7 +169,7 @@ public class GuiLauncher extends Application implements Observer {
 
         try {
             Socket socket = new Socket(ip, Integer.parseInt(port));
-            client.startClient("gui",socket);
+            client.setupClient("gui",socket);
             changeScene(2);
         } catch (Exception e) {
            loadingController.showMessage(e.getMessage());
@@ -205,19 +203,6 @@ public class GuiLauncher extends Application implements Observer {
         }
 
         if(message instanceof String) {
-            if(message.equals(Messages.nicknameAvailable)) {
-                this.nickname = loadingController.getNickname();
-                System.out.println("Nickname set: " + this.nickname);
-                changeScene(3);
-            }
-
-            if(message.equals(Messages.nicknameInUse) || message.equals(Messages.invalidNickname)) {
-                Platform.runLater(() -> loadingController.showNameMsg((String) message));
-            }
-
-            if(message.equals(Messages.matchStarting)) {
-                changeScene(4);
-            }
 
             if(message.equals(Messages.boardStarting)) {
                 changeScene(5);
@@ -246,49 +231,6 @@ public class GuiLauncher extends Application implements Observer {
         }
 
 
-        if(message instanceof GodChosenMessage) {
-            if(((GodChosenMessage) message).getCommand().equals("define")) {
-                Platform.runLater(() -> godController.changeImage(((GodChosenMessage) message).getGod()));
-            }
-            if(((GodChosenMessage) message).getCommand().equals("choose")) {
-                for(String name : playerList) {
-                    if(name.equals(((GodChosenMessage) message).getPlayer())) {
-                        godList[playerList.indexOf(name)] = ((GodChosenMessage) message).getGod();
-                    }
-                }
-
-                Platform.runLater(() -> godController.setChosenGod((GodChosenMessage) message));
-            }
-        }
-
-        if(message instanceof ArrayList) {
-            if(!playerNameSet) {
-                playerNameSet = true;
-                playerList = (ArrayList<String>) ((ArrayList) message).clone();
-            }
-        }
-
-        if(message instanceof LobbyMessage) {
-
-            if(((LobbyMessage) message).getCommand().equals("create")) {
-                Platform.runLater(()-> loadingController.createdLobby(((LobbyMessage) message).getNumber()));
-            }
-            if(((LobbyMessage) message).getCommand().equals("join")) {
-                Platform.runLater(()-> loadingController.joinedLobby(((LobbyMessage) message).getNumber()));
-            }
-        }
-
-        if(message instanceof TurnMessage) {
-            if(!challengerSet) {
-                this.challengerName = ((TurnMessage) message).getName();
-                challengerSet = true;
-            }
-
-            if(((TurnMessage) message).getSource().equals("god")) {
-                Platform.runLater(()-> godController.setTurn(((TurnMessage) message).getName()));
-            }
-        }
-
         if(message instanceof BoardView) {
             this.lastView = (BoardView)message;
             Platform.runLater(()-> {
@@ -312,6 +254,54 @@ public class GuiLauncher extends Application implements Observer {
                 });
 
             }
+        }
+
+        if(message instanceof Obj) {
+            Obj obj = (Obj)message;
+
+            if(obj.getClassifier().equals("nameMsg")) {
+                if(obj.getMessage().equals(Messages.nicknameAvailable)) {
+                    this.nickname = loadingController.getNickname();
+                    System.out.println("Nickname set: " + this.nickname);
+                    changeScene(3);
+                }
+                if(obj.getMessage().equals(Messages.nicknameInUse) || message.equals(Messages.invalidNickname)) {
+                    Platform.runLater(() -> loadingController.showNameMsg((String) message));
+                }
+            }
+
+            if(obj.getClassifier().equals("createLobby")) {
+                Platform.runLater(()-> loadingController.createdLobby(obj.getMessage()));
+            }
+            if(obj.getClassifier().equals("joinLobby")) {
+                Platform.runLater(()-> loadingController.joinedLobby(obj.getMessage()));
+            }
+            if(obj.getClassifier().equals("playerList")) {
+                playerList = obj.getList();
+                changeScene(4);
+            }
+            if(obj.getClassifier().equals("turn")) {
+                if(!challengerSet) {
+                    this.challengerName = obj.getMessage();
+                    challengerSet = true;
+                }
+                Platform.runLater(()-> godController.setTurn(obj.getMessage()));
+            }
+
+            if(obj.getClassifier().equals("defineGod")) {
+                Platform.runLater(() -> godController.changeImage(obj.getMessage()));
+            }
+
+            if(obj.getClassifier().equals("chooseGod")) {
+                for(String name : playerList) {
+                    if(name.equals(obj.getPlayer())) {
+                        godList[playerList.indexOf(name)] = obj.getMessage();
+                    }
+                }
+                Platform.runLater(() -> godController.setChosenGod(obj));
+            }
+
+
         }
 
     }

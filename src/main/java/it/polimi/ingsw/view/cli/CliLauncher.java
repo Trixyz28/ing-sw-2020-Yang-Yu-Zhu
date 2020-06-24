@@ -1,10 +1,10 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.server.SocketConnection;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.IllegalFormatException;
 import java.util.Scanner;
 
 public class CliLauncher {
@@ -32,9 +32,9 @@ public class CliLauncher {
                 this.set = true;
 
                 this.client = new Client();
-                client.startClient("cli", socket);
+                client.setupClient("cli", socket);
                 client.run();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.messages.GameMessage;
-import it.polimi.ingsw.messages.LobbyMessage;
 import it.polimi.ingsw.messages.Messages;
+import it.polimi.ingsw.messages.Obj;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.observers.Observable;
 
@@ -101,26 +101,26 @@ public class SocketConnection extends Observable implements Runnable {
             if(!server.getLobbyHandler().checkAvailableLobby()) {
                 int number;
 
-                send(Messages.canCreateLobby);
+                send(new Obj("lobbyMsg",Messages.canCreateLobby));
 
                 do {
                     try {
                         String str = in.nextLine();
                         number = Integer.parseInt(str);
                     } catch (NumberFormatException e) {
-                        send("Insert 2 or 3");
+                        send(new Obj("lobbyMsg",Messages.lobbyPlayerNumber));
                         number = 0;
                     }
                 } while(number!=2 && number!=3);
 
                 lobbyID = server.getLobbyController().createLobby(player.getPlayerNickname(),number);
-                send(new LobbyMessage("create",lobbyID));
+                send(new Obj("createLobby",String.valueOf(lobbyID)));
             }
 
             //Join a lobby
             else {
                 lobbyID = server.getLobbyController().joinLobby(player.getPlayerNickname());
-                send(new LobbyMessage("join",lobbyID));
+                send(new Obj("joinLobby",String.valueOf(lobbyID)));
             }
 
 
@@ -173,29 +173,28 @@ public class SocketConnection extends Observable implements Runnable {
 
     public void setNickname() {
         //Set nickname
-        send(Messages.nicknameRequest);
+        send(new Obj("nameMsg",Messages.nicknameRequest));
         String readName;
         boolean check = false;
         do {
             readName = in.nextLine();
 
             if(readName.isBlank() || readName.length()>16) {
-                send(Messages.invalidNickname);
+                send(new Obj("nameMsg",Messages.invalidNickname));
             } else {
                 check = server.getLobbyController().canUseNickname(readName);
                 if(!check) {
-                    send(Messages.nicknameInUse);
+                    send(new Obj("nameMsg",Messages.nicknameInUse));
                 } else {
-                    send(Messages.nicknameAvailable);
+                    send(new Obj("nameMsg",Messages.nicknameAvailable));
                 }
             }
 
         } while(!check);
 
         player = new Player(readName);
-        send(new GameMessage(player,"setName",true));
+        send(new Obj("setName",readName));
         server.getLobbyHandler().addPlayer(player.getPlayerNickname());
-        send("Hi, " + player.getPlayerNickname() + "!");
     }
 
     public void setInMatch(boolean inMatch) {

@@ -1,9 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.messages.GameMessage;
-import it.polimi.ingsw.messages.GodChosenMessage;
-import it.polimi.ingsw.messages.Messages;
-import it.polimi.ingsw.messages.TurnMessage;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.server.SocketConnection;
@@ -52,14 +49,6 @@ public class RemoteView extends View {
     @Override
     public void update(Object message) {
 
-        if (message instanceof ArrayList){
-            clientConnection.asyncSend(message);  /* currentList */
-        }
-
-        if(message instanceof String[]){  /* godList Completo */
-            showComplete((String[]) message);
-        }
-
         if(message instanceof BoardView){  /* Mappa */
             clientConnection.asyncSend(message);
         }
@@ -97,25 +86,25 @@ public class RemoteView extends View {
             }
         }
 
-        if(message instanceof GodChosenMessage) {
-            clientConnection.asyncSend(message);
-        }
+        if(message instanceof Obj) {
+            Obj obj = (Obj)message;
 
-        if(message instanceof TurnMessage) {
-            clientConnection.asyncSend(message);
+            if(obj.isBroadcast()) {
+
+                if(obj.getClassifier().equals("completeList")) {
+                    if(clientConnection.getPlayer().isChallenger()) {
+                        clientConnection.asyncSend(message);
+                    }
+                } else {
+                    clientConnection.asyncSend(message);
+                }
+
+            }
+
+
         }
 
     }
 
-    private void showComplete(String[] godList){
-        if(clientConnection.getPlayer().isChallenger()) {
-            clientConnection.asyncSend("You can choose godcards from this list: ");
-            clientConnection.asyncSend(godList);  /* Array di Stringhe da stampare al lato Client */
-        } else {
-            clientConnection.asyncSend("Waiting for the challenger's choice");
-        }
-
-
-    }
 
 }

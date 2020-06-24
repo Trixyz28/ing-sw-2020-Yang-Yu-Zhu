@@ -2,9 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.messages.GameMessage;
 import it.polimi.ingsw.messages.GodPowerMessage;
-import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.model.God.Artemis;
-import it.polimi.ingsw.model.God.Limus;
 import it.polimi.ingsw.model.God.NoGod;
 import it.polimi.ingsw.model.God.Prometheus;
 import it.polimi.ingsw.model.Model;
@@ -12,16 +10,10 @@ import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.observers.Observable;
-import it.polimi.ingsw.server.SocketConnection;
-import it.polimi.ingsw.view.RemoteView;
-import it.polimi.ingsw.view.View;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ControllerTest extends TestCase {
 
@@ -198,8 +190,8 @@ public class ControllerTest extends TestCase {
         Tile position1 = player2.chooseWorker(0).getPosition();
         Tile position2 = player2.chooseWorker(1).getPosition();
         player2.setGodCard("PROMETHEUS");
-        player2.getWorkerList().set(0, new Prometheus(new NoGod(player2.getPlayerID(), model.getCondition())));
-        player2.getWorkerList().set(1, new Prometheus(new NoGod(player2.getPlayerID(), model.getCondition())));
+        player2.getWorkerList().set(0, new Prometheus(new NoGod(player2.getPlayerID(), model.getConditions())));
+        player2.getWorkerList().set(1, new Prometheus(new NoGod(player2.getPlayerID(), model.getConditions())));
         player2.chooseWorker(0).setPosition(position1);
         player2.chooseWorker(1).setPosition(position2);
 
@@ -240,8 +232,8 @@ public class ControllerTest extends TestCase {
         Tile position1 = player2.chooseWorker(0).getPosition();
         Tile position2 = player2.chooseWorker(1).getPosition();
         player2.setGodCard("ARTEMIS");
-        player2.getWorkerList().set(0, new Artemis(new NoGod(player2.getPlayerID(), model.getCondition())));
-        player2.getWorkerList().set(1, new Artemis(new NoGod(player2.getPlayerID(), model.getCondition())));
+        player2.getWorkerList().set(0, new Artemis(new NoGod(player2.getPlayerID(), model.getConditions())));
+        player2.getWorkerList().set(1, new Artemis(new NoGod(player2.getPlayerID(), model.getConditions())));
         player2.chooseWorker(0).setPosition(position1);
         player2.chooseWorker(1).setPosition(position2);
 

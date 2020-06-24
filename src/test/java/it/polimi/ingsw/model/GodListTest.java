@@ -3,21 +3,23 @@ package it.polimi.ingsw.model;
 import junit.framework.TestCase;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 public class GodListTest extends TestCase{
 
     GodList godList = new GodList(3);
 
     @Test
     public void testSetComplete() {
-        String[] completeGodList = godList.getCompleteGodList();
+        ArrayList<String> completeGodList = godList.getCompleteGodList();
 
-        assertEquals("APOLLO",completeGodList[0]);
-        assertEquals("ARTEMIS",completeGodList[1]);
-        assertEquals("ATHENA",completeGodList[2]);
-        assertEquals("ATLAS",completeGodList[3]);
-        assertEquals("DEMETER",completeGodList[4]);
-        assertEquals("HEPHAESTUS",completeGodList[5]);
-        assertEquals("HERA",completeGodList[6]);
+        assertEquals("APOLLO",completeGodList.get(0));
+        assertEquals("ARTEMIS",completeGodList.get(1));
+        assertEquals("ATHENA",completeGodList.get(2));
+        assertEquals("ATLAS",completeGodList.get(3));
+        assertEquals("DEMETER",completeGodList.get(4));
+        assertEquals("HEPHAESTUS",completeGodList.get(5));
+        assertEquals("HERA",completeGodList.get(6));
     }
 
 

@@ -73,7 +73,7 @@ public class ModelTest extends TestCase {
         Assert.assertEquals(model.getChallengerID(), model.getCurrentTurn().getCurrentPlayer().getPlayerID());
         Assert.assertEquals("HESTIA", model.getCurrentTurn().getCurrentPlayer().getGodCard());
         Assert.assertTrue(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0) instanceof Hestia);
-        Assert.assertEquals(model.getCondition(), model.getCurrentTurn().getCurrentPlayer().chooseWorker(0).getConditions());
+        Assert.assertEquals(model.getConditions(), model.getCurrentTurn().getCurrentPlayer().chooseWorker(0).getConditions());
 
     }
 
@@ -254,7 +254,7 @@ public class ModelTest extends TestCase {
         Player player3 = new Player("C");
         player3.setPlayerID(2);
         model.addPlayer(player3);
-        player3.createWorker("MINOTAUR", model.getCondition(), model.getTotalWorkers());
+        player3.createWorker("MINOTAUR", model.getConditions(), model.getTotalWorkers());
         Assert.assertTrue(player3.chooseWorker(0) instanceof Minotaur);
         Assert.assertSame(player3.chooseWorker(0).getClass(), player3.chooseWorker(1).getClass());
         model.getTotalWorkers().addAll(player3.getWorkerList());
@@ -347,12 +347,11 @@ public class ModelTest extends TestCase {
         Observer observer = new Observer() {
             @Override
             public void update(Object message) {
-                Assert.assertTrue(message instanceof String[]);
+                Assert.assertTrue(message instanceof ArrayList);
                 Assert.assertEquals(message, model.getGodsList().getCompleteGodList());
             }
         };
         model.addObservers(observer);
-        model.showCompleteGodList();
     }
 
     @Test
@@ -366,7 +365,6 @@ public class ModelTest extends TestCase {
             }
         };
         model.addObservers(observer);
-        model.showGodList();
         Assert.assertEquals(2, model.getGodsList().getCurrentGodList().size());
     }
 

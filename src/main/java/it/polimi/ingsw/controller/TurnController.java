@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.messages.Messages;
-import it.polimi.ingsw.messages.TurnMessage;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.God.*;
 
@@ -46,7 +45,7 @@ public class TurnController {
         model.sendMessage(Messages.workerChose);
         /* godPower prima di move -> Prometheus */
         if(chosenWorker.getGodPower()) {
-            model.showBoard();
+            model.sendBoard();
             model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());
         }else {
             nextState();
@@ -72,7 +71,7 @@ public class TurnController {
             if(chosenWorker.getGodPower()){
                 /* se il worker può fare un'altra mossa */
                 currentTurn.setInitialTile(currentTurn.getFinalTile());
-                model.showBoard();
+                model.sendBoard();
                 /* chiedere al Player se vuole fare move in più */
                 model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());
             }else {
@@ -86,7 +85,7 @@ public class TurnController {
     private void endBuild(){
         /* godPower prima di end turn */
         if(chosenWorker.getGodPower()){
-            model.showBoard();
+            model.sendBoard();
             /* chiedere al Player se vuole fare build in più */
             model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());
         }else{
@@ -100,7 +99,7 @@ public class TurnController {
         /* per stampa Board in Client */
         model.setWorkerChosen(false);
         /* mostrare mappa dopo build */
-        model.showBoard();
+        model.sendBoard();
         /* mandare solo al currentPlayer */
         model.sendMessage(Messages.endTurn);
         nextTurn();
@@ -113,8 +112,7 @@ public class TurnController {
         //trovare indice del player successivo
         int index = model.getNextPlayerIndex();
         currentTurn.nextTurn(playerList.get(index));
-        model.notify(new TurnMessage("board", currentTurn.getCurrentPlayer().getPlayerNickname()));
-        model.showBoard();
+        model.sendBoard();
         if (model.checkLose()) {
             checkGameOver();
         } else {
@@ -144,7 +142,7 @@ public class TurnController {
     }
 
     protected void operation() {
-        model.showBoard();
+        model.sendBoard();
         /* checkLose prima dell'operazione */
         if(model.checkLose()) {
             checkGameOver();

@@ -46,15 +46,11 @@ public class Client implements Runnable {
     }
 
 
-    public void startClient(String uiStyle,Socket socket) {
+    public void setupClient(String uiStyle, Socket socket) {
 
         //Create CLI
-        if(uiStyle.toUpperCase().equals("CLI") || uiStyle.isBlank()) {
+        if(uiStyle.toUpperCase().equals("CLI")) {
             ui = new CLI();
-        }
-
-        //Create GUI
-        if(uiStyle.toUpperCase().equals("GUI")) {
         }
 
         this.socket = socket;
@@ -67,7 +63,6 @@ public class Client implements Runnable {
             System.out.println(e.getMessage());
         }
 
-        ui.showMessage(Messages.connectionReady);
     }
 
 
@@ -88,13 +83,6 @@ public class Client implements Runnable {
                     } else if (inputObject instanceof BoardView) {
                             ui.showBoard((BoardView)inputObject,nickname.equals(((BoardView) inputObject).getCurrentName()));
 
-                    } else if(inputObject instanceof String[]) {
-                        for(String s : (String[])inputObject) {
-                            ui.showMessage(s);
-                        }
-                    } else if(inputObject instanceof ArrayList){  /* currentGodList */
-                        ui.showList((ArrayList<String>) inputObject);
-
                     } else if(inputObject instanceof Operation){
                         opReceived = true;  /* ricevuto un Operation */
                         Operation operation = (Operation)inputObject;
@@ -106,28 +94,28 @@ public class Client implements Runnable {
                             ui.showMessage(Messages.Build);
                         }
                     }else if(inputObject instanceof GameMessage){
-                        if(((GameMessage) inputObject).getMessage().equals("setName")) {
-                            this.nickname = ((GameMessage) inputObject).getPlayer();
+
+                        gmReceived = true;  /* ricevuto un GameMessage */
+                        gMessage = (GameMessage)inputObject;
+                        if(((GameMessage) inputObject).readOnly()) {
+                            ui.showMessage(gMessage.getMessage());
                         } else {
-                            gmReceived = true;  /* ricevuto un GameMessage */
-                            gMessage = (GameMessage)inputObject;
-                            if(((GameMessage) inputObject).readOnly()) {
-                                ui.showMessage(gMessage.getMessage());
-                            } else {
-                                ui.showGameMsg((GameMessage) inputObject);
-                            }
+                            ui.showGameMsg((GameMessage) inputObject);
                         }
 
-                    } else if(inputObject instanceof GodChosenMessage) {
-                        ui.showGodChosen((GodChosenMessage) inputObject);
 
-                    } else if(inputObject instanceof LobbyMessage) {
-                        ui.showLobbyMsg((LobbyMessage) inputObject);
+                    } else if (inputObject instanceof Obj) {
+                        Obj obj = (Obj)inputObject;
+                        if(obj.getClassifier().equals("setName")) {
+                            this.nickname = obj.getMessage();
+                        } else if(obj.getClassifier().equals("board")) {
 
-                    } else if(inputObject instanceof TurnMessage) {
-                        ui.showTurnMsg((TurnMessage) inputObject);
-                    }
-                    else {
+
+                        } else {
+                            ui.showObj(obj);
+                        }
+
+                    } else {
                         throw new IllegalArgumentException();
                     }
                 }
@@ -184,7 +172,7 @@ public class Client implements Runnable {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             ui.showMessage(Messages.connectionClosed);
 
         } finally{
@@ -211,15 +199,14 @@ public class Client implements Runnable {
                     socketOut.flush();
                     opReceived = false;
                 }else {
-
-                    ui.showMessage(Messages.tryAgain);
-
+                    ui.showMessage(Messages.invalidTile);
                 }
+
             } catch (Exception e) {
                 ui.showMessage(Messages.wrongArgument);
             }
 
-        }else if (gmReceived) {  /* Risposta al messaggio */
+        } else if (gmReceived) {  /* Risposta al messaggio */
 
             input = input.toUpperCase();
 
@@ -232,18 +219,18 @@ public class Client implements Runnable {
                         gmReceived = false;
                         gMessage = null;
                     } else {
-                        ui.showMessage(Messages.tryAgain + "\n" + gMessage.getMessage());
-                        //ui.showMessage(gMessage.getMessage());
+                        ui.showMessage(Messages.invalidWorker);
                     }
                 } catch (IllegalArgumentException e) {
-                        ui.showMessage(Messages.wrongArgument);
+                    ui.showMessage(Messages.wrongArgument);
                 }
-            }else {  /* problema yes or no */
+            } else {  /* problema yes or no */
                 socketOut.println(input);
                 socketOut.flush();
                 gmReceived = false;
                 gMessage = null;
             }
+
         } else {
             socketOut.println(input);
             socketOut.flush();

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class GodList {
 
     //List of all Gods
-    private String[] completeGodList;
+    private ArrayList<String> completeGodList;
 
     //List of Gods selected by the Challenger
     private ArrayList<String> currentGodList;
@@ -14,38 +14,38 @@ public class GodList {
     private String selectedGod;
 
     //currentGodList length
-    private int listLength;
+    private int currentLength;
 
     //Number of players in match
     private int playerNumber;
 
 
     public GodList (int playerNumber){
-        completeGodList = new String[15];
+        completeGodList = new ArrayList<>();
         setComplete();
         currentGodList = new ArrayList<>();
-        listLength = 0;
+        currentLength = 0;
         this.playerNumber = playerNumber;
     }
 
 
     //Initializing completeGodList
     private void setComplete(){
-        completeGodList[0] = "APOLLO";
-        completeGodList[1] = "ARTEMIS";
-        completeGodList[2] = "ATHENA";
-        completeGodList[3] = "ATLAS";
-        completeGodList[4] = "DEMETER";
-        completeGodList[5] = "HEPHAESTUS";
-        completeGodList[6] = "HERA";
-        completeGodList[7] = "HESTIA";
-        completeGodList[8] = "LIMUS";
-        completeGodList[9] = "MINOTAUR";
-        completeGodList[10] = "PAN";
-        completeGodList[11] = "POSEIDON";
-        completeGodList[12] = "PROMETHEUS";
-        completeGodList[13] = "TRITON";
-        completeGodList[14] = "ZEUS";
+        completeGodList.add("APOLLO");
+        completeGodList.add("ARTEMIS");
+        completeGodList.add("ATHENA");
+        completeGodList.add("ATLAS");
+        completeGodList.add("DEMETER");
+        completeGodList.add("HEPHAESTUS");
+        completeGodList.add("HERA");
+        completeGodList.add("HESTIA");
+        completeGodList.add("LIMUS");
+        completeGodList.add("MINOTAUR");
+        completeGodList.add("PAN");
+        completeGodList.add("POSEIDON");
+        completeGodList.add("PROMETHEUS");
+        completeGodList.add("TRITON");
+        completeGodList.add("ZEUS");
     }
 
 
@@ -56,7 +56,7 @@ public class GodList {
 
 
     //CompleteGodList getter
-    public String[] getCompleteGodList() {
+    public ArrayList<String> getCompleteGodList() {
         return completeGodList;
     }
 
@@ -74,7 +74,7 @@ public class GodList {
             for(String god : completeGodList){
                 if(selectedGod.equals(god)){
                     currentGodList.add(selectedGod);
-                    listLength++;
+                    currentLength++;
                     return true;
                 }
             }
@@ -107,7 +107,7 @@ public class GodList {
 
     //Check the dimension of currentGodList == playerNumber
     public boolean checkLength(){
-        return listLength==playerNumber;
+        return currentLength == playerNumber;
     }
 
 

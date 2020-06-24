@@ -7,9 +7,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class MoveControllerTest extends TestCase {
 
@@ -25,7 +22,7 @@ public class MoveControllerTest extends TestCase {
         model.getMatchPlayersList().add(player2);
         model.challengerStart();
         player1.setPlayerID(0);
-        player1.createWorker("ATLAS", model.getCondition(), model.getTotalWorkers());
+        player1.createWorker("ATLAS", model.getConditions(), model.getTotalWorkers());
         player1.chooseWorker(0).setPosition(model.commandToTile(0,0));
         model.getCurrentTurn().nextTurn(player1);
         model.getCurrentTurn().choseWorker(player1.chooseWorker(0));

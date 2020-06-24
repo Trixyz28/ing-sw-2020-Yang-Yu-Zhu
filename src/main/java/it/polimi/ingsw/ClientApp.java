@@ -15,13 +15,8 @@ public class ClientApp {
         if(args.length==0) {
             Application.launch(GuiLauncher.class);
         } else {
-            if(args[0].toUpperCase().equals("CLI")) {
-                cliLauncher = new CliLauncher();
-                cliLauncher.start();
-            } else {
-                Application.launch(GuiLauncher.class);
-            }
-
+            cliLauncher = new CliLauncher();
+            cliLauncher.start();
         }
     }
 

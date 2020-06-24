@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui.controllers;
 
-import it.polimi.ingsw.messages.GodChosenMessage;
-import it.polimi.ingsw.view.gui.GUI;
+import it.polimi.ingsw.messages.Obj;
 import it.polimi.ingsw.view.gui.GuiLauncher;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -202,11 +201,11 @@ public class GodController {
         guiLauncher.getClient().sendInput(playerName2.getText());
     }
 
-    public void setChosenGod(GodChosenMessage message) {
+    public void setChosenGod(Obj message) {
 
         for(Node node : cardGrid.getChildren()) {
             if (node instanceof ImageView) {
-                if (node.getId().toUpperCase().equals(message.getGod())) {
+                if (node.getId().toUpperCase().equals(message.getMessage())) {
                     node.setOpacity(0.5);
                     break;
                 }
@@ -214,14 +213,14 @@ public class GodController {
         }
 
         if(message.getPlayer().equals(playerName0.getText())) {
-            setCloud(godCloud0,message.getGod());
+            setCloud(godCloud0,message.getMessage());
         }
         if(message.getPlayer().equals(playerName1.getText())) {
-            setCloud(godCloud1,message.getGod());
+            setCloud(godCloud1,message.getMessage());
         }
         if(cloud2.isVisible()) {
            if(message.getPlayer().equals(playerName2.getText())) {
-               setCloud(godCloud2,message.getGod());
+               setCloud(godCloud2,message.getMessage());
            }
         }
     }

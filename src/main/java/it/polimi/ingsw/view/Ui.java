@@ -1,9 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.messages.GameMessage;
-import it.polimi.ingsw.messages.GodChosenMessage;
-import it.polimi.ingsw.messages.LobbyMessage;
-import it.polimi.ingsw.messages.TurnMessage;
+import it.polimi.ingsw.messages.*;
 
 import java.util.ArrayList;
 
@@ -19,17 +16,10 @@ public interface Ui {
     //Receive a message in input
     String getInput();
 
-    void showList(ArrayList<String> list);
-
-
-    void showGodChosen(GodChosenMessage message);
-
-    void showLobbyMsg(LobbyMessage message);
-
-    void showTurnMsg(TurnMessage message);
 
     void showGameMsg(GameMessage message);
 
+    void showObj(Obj message);
 
 
 }

@@ -105,11 +105,11 @@ public class Controller implements Observer {
             if (!model.getGodsList().checkLength()) {
                 /* se non è finita parte scelta god arg = God */
                 initController.defineGodList(answer, model.getGodsList());
-            }else{
+            } else {
                 /* finita parte God arg = StartingPlayerNickname */
                 initController.setStartingPlayer(answer);
             }
-        }else {
+        } else {
             /* scelta God */
             initController.chooseGod(answer);
         }
@@ -120,7 +120,7 @@ public class Controller implements Observer {
         /* if godPower = true -> use Power (another operation)  false -> end operation */
         if(worker.getGodPower()){  /* se il power è attivato implica che la mossa è possibile -> no ulteriore check */
             worker.setGodPower(false);
-            model.showBoard();
+            model.sendBoard();
             model.operation();
         }else {
             turnController.endOperation();

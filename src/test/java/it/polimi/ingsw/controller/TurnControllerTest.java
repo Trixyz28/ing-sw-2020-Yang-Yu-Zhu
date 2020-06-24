@@ -4,18 +4,10 @@ import it.polimi.ingsw.model.God.*;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.Turn;
-import it.polimi.ingsw.observers.Observer;
-import it.polimi.ingsw.view.View;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class TurnControllerTest extends TestCase {
 
@@ -37,17 +29,17 @@ public class TurnControllerTest extends TestCase {
         player3.setPlayerID(2);
 
         player1.setGodCard("POSEIDON");
-        player1.createWorker("POSEIDON", model.getCondition(), model.getTotalWorkers());
+        player1.createWorker("POSEIDON", model.getConditions(), model.getTotalWorkers());
         player1.chooseWorker(0).setPosition(model.commandToTile(0,0));
         player1.chooseWorker(1).setPosition(model.commandToTile(0,1));
 
         player2.setGodCard("PROMETHEUS");
-        player2.createWorker("PROMETHEUS", model.getCondition(), model.getTotalWorkers());
+        player2.createWorker("PROMETHEUS", model.getConditions(), model.getTotalWorkers());
         player2.chooseWorker(0).setPosition(model.commandToTile(1,0));
         player2.chooseWorker(1).setPosition(model.commandToTile(1,1));
 
         player3.setGodCard("TRITON");
-        player3.createWorker("TRITON", model.getCondition(), model.getTotalWorkers());
+        player3.createWorker("TRITON", model.getConditions(), model.getTotalWorkers());
         player3.chooseWorker(0).setPosition(model.commandToTile(4,4));
         player3.chooseWorker(1).setPosition(model.commandToTile(3,3));
 

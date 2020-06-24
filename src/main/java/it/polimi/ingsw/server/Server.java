@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.lobby.LobbyController;
 import it.polimi.ingsw.lobby.LobbyHandler;
 import it.polimi.ingsw.messages.Messages;
+import it.polimi.ingsw.messages.Obj;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.RemoteView;
@@ -103,8 +104,7 @@ public class Server {
                 connection.getPlayer().setPlayerID(matchConnection.get(lobbyID).indexOf(connection));
 
                 //Display match players info
-                connection.syncSend(Messages.matchStarting);
-                connection.syncSend(lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList());
+                connection.asyncSend(new Obj("playerList",lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList()));
 
             }
 
@@ -118,11 +118,9 @@ public class Server {
 
 
             //Create and connect RemoteView
-            Map<Player,View> views = new HashMap<>();
             View view0 = new RemoteView(matchConnection.get(lobbyID).get(0).getPlayer(),matchConnection.get(lobbyID).get(0));
             View view1 = new RemoteView(matchConnection.get(lobbyID).get(1).getPlayer(),matchConnection.get(lobbyID).get(1));
-            views.put(matchConnection.get(lobbyID).get(0).getPlayer(),view0);
-            views.put(matchConnection.get(lobbyID).get(1).getPlayer(),view1);
+
 
             //Create Controller
             Controller controller = new Controller(model);
@@ -138,16 +136,9 @@ public class Server {
             if(model.getPlayersNumber()==3) {
                 model.addPlayer(matchConnection.get(lobbyID).get(2).getPlayer());
                 View view2 = new RemoteView(matchConnection.get(lobbyID).get(2).getPlayer(),matchConnection.get(lobbyID).get(2));
-                views.put(matchConnection.get(lobbyID).get(2).getPlayer(),view2);
-
                 model.addObservers(view2);
                 view2.addObservers(controller);
             }
-
-            for(SocketConnection connection : matchConnection.get(lobbyID)) {
-                connection.asyncSend("Setup completed");
-            }
-
 
             //Initialize match conditions
             view0.notify("setup");
@@ -163,7 +154,6 @@ public class Server {
         System.out.println("Removed lobby connection of " + connection.getPlayer().getPlayerNickname() + " in lobby n." + lobbyID);
         System.out.println("Lobby n." + lobbyID + " actual size: " + lobbyHandler.getLobbyList().get(lobbyID).getAvailablePlayerNumber());
     }
-
 
 
 

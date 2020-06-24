@@ -26,8 +26,7 @@ public class LoadingController {
     private Pane startPane;
 
     @FXML
-    public void loadingScene(MouseEvent event) throws Exception {
-        System.out.println("Go to loading scene");
+    public void loadingScene(MouseEvent event) {
         guiLauncher.changeScene(1);
     }
 
@@ -121,12 +120,12 @@ public class LoadingController {
     }
 
 
-    public void createdLobby(int number) {
+    public void createdLobby(String number) {
         inLobby();
         lobbyRecv.setText("Create the lobby n." + number);
     }
 
-    public void joinedLobby(int number) {
+    public void joinedLobby(String number) {
         inLobby();
         lobbyRecv.setText("Successfully join the lobby n." + number);
     }

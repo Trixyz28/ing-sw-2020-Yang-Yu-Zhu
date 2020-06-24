@@ -39,7 +39,7 @@ public abstract class View extends Observable implements Observer {
             int column = Integer.parseInt(inputs[1]);
             operation.setPosition(row, column);
             System.out.println("Received: Operation type " + operation.getType() + " ("
-                    + operation.getRow() + ", " + operation.getColumn() + ")");
+                    + operation.getRow() + "," + operation.getColumn() + ")");
             notify(operation);
             /* ripristinare */
             //operation = null;
@@ -53,7 +53,7 @@ public abstract class View extends Observable implements Observer {
         if(gameMessage.getMessage().equals(Messages.Worker)){
             try {
                 int index = Integer.parseInt(input);
-                System.out.println("Received: WorkerIndex : " + index);
+                System.out.println("Received: WorkerIndex = " + index);
                 notify(index);  /* Integer */
                 //gameMessage = null;
             }catch(IllegalArgumentException e){
@@ -61,7 +61,7 @@ public abstract class View extends Observable implements Observer {
             }
         }else{
             gameMessage.setAnswer(input);
-            System.out.println("Received: Answer : " + gameMessage.getAnswer());
+            System.out.println("Received: Answer = " + gameMessage.getAnswer());
             notify(gameMessage);  /* ripristinare */
         }
 
