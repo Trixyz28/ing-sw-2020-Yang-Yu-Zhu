@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.controllers;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.WorkerView;
+import it.polimi.ingsw.view.gui.GuiLauncher;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -16,11 +17,16 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
 
-public class BoardController extends Commuter {
+public class BoardController {
 
     private String nickname;
     private BoardView lastView;
     private Image[] coins;
+
+
+
+
+    private GuiLauncher guiLauncher;
 
     @FXML
     private Label commandRecv;
@@ -70,17 +76,17 @@ public class BoardController extends Commuter {
 
                         System.out.println("Clicked at the pane at row " + GridPane.getRowIndex(node) + ", column " + GridPane.getColumnIndex(node));
 
-                        if(super.getGuiLauncher().isChooseWorker()) {
+                        if(guiLauncher.isChooseWorker()) {
                             for(WorkerView workerView : lastView.getWorkerList()) {
                                 if(workerView.getBelongToPlayer() == lastView.getCurrentID()) {
                                     if(workerView.getPosition().equals(lastView.getTile(GridPane.getRowIndex(node),GridPane.getColumnIndex(node)))) {
-                                        super.getGuiLauncher().getClient().sendInput(String.valueOf(workerView.getWorkerID()));
+                                        guiLauncher.getClient().sendInput(String.valueOf(workerView.getWorkerID()));
                                     }
                                 }
                             }
                         } else {
                             String command = GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node);
-                            super.getGuiLauncher().getClient().sendInput(command);
+                            guiLauncher.getClient().sendInput(command);
                         }
 
                     }
@@ -298,12 +304,12 @@ public class BoardController extends Commuter {
 
 
     public void sendAnswer1() {
-        super.getGuiLauncher().getClient().sendInput(godPowerButton1.getText());
+        guiLauncher.getClient().sendInput(godPowerButton1.getText());
         resetButtons();
     }
 
     public void sendAnswer2() {
-        super.getGuiLauncher().getClient().sendInput(godPowerButton2.getText());
+        guiLauncher.getClient().sendInput(godPowerButton2.getText());
         resetButtons();
     }
 
@@ -336,5 +342,9 @@ public class BoardController extends Commuter {
 
     public void setNickname(String str) {
         this.nickname = str;
+    }
+
+    public void setGuiLauncher(GuiLauncher guiLauncher) {
+        this.guiLauncher = guiLauncher;
     }
 }

@@ -28,7 +28,6 @@ public class GuiLauncher extends Application implements Observer {
 
     private Thread clientThread;
     private Client client;
-    private Commuter commuter;
     private GUI gui;
 
     private boolean playerNameSet;
@@ -40,6 +39,10 @@ public class GuiLauncher extends Application implements Observer {
     private ArrayList<String> playerList;
     private String[] godList;
     private BoardView lastView;
+
+    private LoadingController loadingController;
+    private GodController godController;
+    private BoardController boardController;
 
 
     public GuiLauncher() {
@@ -66,8 +69,8 @@ public class GuiLauncher extends Application implements Observer {
         this.stage.setTitle("Santorini");
 
         Parent root = loadScene(0).load();
-        this.commuter = loadScene(0).getController();
-        this.commuter.setGuiLauncher(this);
+        this.loadingController = loadScene(0).getController();
+        this.loadingController.setGuiLauncher(this);
 
         Scene scene = new Scene(root);
         this.scene = scene;
@@ -92,35 +95,43 @@ public class GuiLauncher extends Application implements Observer {
         Platform.runLater(() -> {
             try {
                 Parent parent = loadScene(index).load();
-                this.commuter = loadScene(index).getController();
-                this.commuter.setGuiLauncher(this);
                 scene.setRoot(parent);
 
                 if(index==1) {
+                    loadingController = loadScene(1).getController();
+                    loadingController.setGuiLauncher(this);
                     createClient();
                 }
 
                 if(index==2) {
+                    loadingController = loadScene(2).getController();
+                    loadingController.setGuiLauncher(this);
                     clientThread = new Thread(client);
                     clientThread.start();
                 }
 
                 if(index==3) {
-                    ((LoadingController)commuter).setChoiceBox();
+                    loadingController = loadScene(3).getController();
+                    loadingController.setGuiLauncher(this);
+                    loadingController.setChoiceBox();
                 }
 
                 if(index==4) {
+                    godController = loadScene(4).getController();
+                    godController.setGuiLauncher(this);
                     this.godList = new String[playerList.size()];
-                    ((GodController)commuter).setName(playerList);
-                    ((GodController)commuter).setChallenger(challengerName);
+                    godController.setName(playerList);
+                    godController.setChallenger(challengerName);
                 }
 
                 if(index==5) {
-                    ((BoardController)commuter).setCoin(godList);
-                    ((BoardController)commuter).setNickname(this.nickname);
-                    ((BoardController)commuter).setName(playerList);
-                    ((BoardController)commuter).setGod(godList);
-                    ((BoardController)commuter).resetButtons();
+                    boardController = loadScene(5).getController();
+                    boardController.setGuiLauncher(this);
+                    boardController.setCoin(godList);
+                    boardController.setNickname(this.nickname);
+                    boardController.setName(playerList);
+                    boardController.setGod(godList);
+                    boardController.resetButtons();
                 }
 
             } catch (Exception e) {
@@ -163,7 +174,7 @@ public class GuiLauncher extends Application implements Observer {
             client.startClient("gui",socket);
             changeScene(2);
         } catch (Exception e) {
-           ((ServerController) commuter).showMessage(e.getMessage());
+           loadingController.showMessage(e.getMessage());
         }
 
     }
@@ -195,13 +206,13 @@ public class GuiLauncher extends Application implements Observer {
 
         if(message instanceof String) {
             if(message.equals(Messages.nicknameAvailable)) {
-                this.nickname = ((LoadingController)commuter).getNickname();
+                this.nickname = loadingController.getNickname();
                 System.out.println("Nickname set: " + this.nickname);
                 changeScene(3);
             }
 
             if(message.equals(Messages.nicknameInUse) || message.equals(Messages.invalidNickname)) {
-                Platform.runLater(() -> ((LoadingController)commuter).showNameMsg((String) message));
+                Platform.runLater(() -> loadingController.showNameMsg((String) message));
             }
 
             if(message.equals(Messages.matchStarting)) {
@@ -213,7 +224,7 @@ public class GuiLauncher extends Application implements Observer {
             }
 
             if(message.equals(Messages.chooseStartPlayer)) {
-                Platform.runLater(() -> ((GodController)commuter).showMessage((String) message));
+                Platform.runLater(() -> godController.showMessage((String) message));
             }
 
             if(message.equals(Messages.Worker)) {
@@ -225,11 +236,11 @@ public class GuiLauncher extends Application implements Observer {
             }
 
             if(message.equals(Messages.Place) || message.equals(Messages.Move) || message.equals(Messages.Build)) {
-                Platform.runLater(() ->((BoardController)commuter).setRecvMsg((String) message));
+                Platform.runLater(() -> boardController.setRecvMsg((String) message));
             }
 
             if(message.equals(Messages.endTurn)) {
-                Platform.runLater(()->((BoardController)commuter).hideRecvMsg());
+                Platform.runLater(()-> boardController.hideRecvMsg());
             }
 
         }
@@ -237,7 +248,7 @@ public class GuiLauncher extends Application implements Observer {
 
         if(message instanceof GodChosenMessage) {
             if(((GodChosenMessage) message).getCommand().equals("define")) {
-                Platform.runLater(() -> ((GodController)commuter).changeImage(((GodChosenMessage) message).getGod()));
+                Platform.runLater(() -> godController.changeImage(((GodChosenMessage) message).getGod()));
             }
             if(((GodChosenMessage) message).getCommand().equals("choose")) {
                 for(String name : playerList) {
@@ -246,7 +257,7 @@ public class GuiLauncher extends Application implements Observer {
                     }
                 }
 
-                Platform.runLater(() -> ((GodController)commuter).setChosenGod((GodChosenMessage) message));
+                Platform.runLater(() -> godController.setChosenGod((GodChosenMessage) message));
             }
         }
 
@@ -260,10 +271,10 @@ public class GuiLauncher extends Application implements Observer {
         if(message instanceof LobbyMessage) {
 
             if(((LobbyMessage) message).getCommand().equals("create")) {
-                Platform.runLater(()-> ((LoadingController)commuter).createdLobby(((LobbyMessage) message).getNumber()));
+                Platform.runLater(()-> loadingController.createdLobby(((LobbyMessage) message).getNumber()));
             }
             if(((LobbyMessage) message).getCommand().equals("join")) {
-                Platform.runLater(()-> ((LoadingController)commuter).joinedLobby(((LobbyMessage) message).getNumber()));
+                Platform.runLater(()-> loadingController.joinedLobby(((LobbyMessage) message).getNumber()));
             }
         }
 
@@ -274,14 +285,14 @@ public class GuiLauncher extends Application implements Observer {
             }
 
             if(((TurnMessage) message).getSource().equals("god")) {
-                Platform.runLater(()-> ((GodController)commuter).setTurn(((TurnMessage) message).getName()));
+                Platform.runLater(()-> godController.setTurn(((TurnMessage) message).getName()));
             }
         }
 
         if(message instanceof BoardView) {
             this.lastView = (BoardView)message;
             Platform.runLater(()-> {
-                ((BoardController)commuter).showBoard((BoardView) message);
+                boardController.showBoard((BoardView) message);
             });
         }
 
@@ -290,14 +301,14 @@ public class GuiLauncher extends Application implements Observer {
 
             if(((GameMessage) message).getMessage().equals(Messages.Worker)) {
                 this.chooseWorker = true;
-                Platform.runLater(() -> ((BoardController)commuter).setRecvMsg((String) ((GameMessage) message).getMessage()));
+                Platform.runLater(() -> boardController.setRecvMsg((String) ((GameMessage) message).getMessage()));
             } else {
                 GodPowerMessage god = GodPowerMessage.valueOf(lastView.getCurrentGod());
                 System.out.println("current god: " + lastView.getCurrentGod());
 
                 Platform.runLater(() -> {
-                    ((BoardController)commuter).setButtons(god.getAnswer1(),god.getAnswer2());
-                    ((BoardController)commuter).setRecvMsg(god.getMessage());
+                    boardController.setButtons(god.getAnswer1(),god.getAnswer2());
+                    boardController.setRecvMsg(god.getMessage());
                 });
 
             }

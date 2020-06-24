@@ -249,7 +249,6 @@ public class Model extends Observable {
                 chosen.setBuildableList(currentTurn.buildableList(currentTurn.getChosenWorker()));
             }
             if(op==3) {
-                System.out.println("enter in op3");
                 if(chosenID%2==0) {
                     chosenID++;
                 } else {

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.gui.controllers;
 
 import it.polimi.ingsw.messages.GodChosenMessage;
+import it.polimi.ingsw.view.gui.GUI;
+import it.polimi.ingsw.view.gui.GuiLauncher;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -12,10 +14,12 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
-public class GodController extends Commuter {
+public class GodController {
 
     private boolean chosen = false;
     private int counter = 0;
+
+    private GuiLauncher guiLauncher;
 
     @FXML
     private GridPane cardGrid;
@@ -86,7 +90,7 @@ public class GodController extends Commuter {
         }
 
         System.out.println(imageView.getId());
-        super.getGuiLauncher().getClient().sendInput(imageView.getId().toUpperCase());
+        guiLauncher.getClient().sendInput(imageView.getId().toUpperCase());
     }
 
 
@@ -187,16 +191,15 @@ public class GodController extends Commuter {
         }
     }
 
-    public void select0(MouseEvent event) {
-        super.getGuiLauncher().getClient().sendInput(playerName0.getText());
+    public void select0(MouseEvent event) { guiLauncher.getClient().sendInput(playerName0.getText());
     }
 
     public void select1(MouseEvent event) {
-        super.getGuiLauncher().getClient().sendInput(playerName1.getText());
+        guiLauncher.getClient().sendInput(playerName1.getText());
     }
 
     public void select2(MouseEvent event) {
-        super.getGuiLauncher().getClient().sendInput(playerName2.getText());
+        guiLauncher.getClient().sendInput(playerName2.getText());
     }
 
     public void setChosenGod(GodChosenMessage message) {
@@ -302,6 +305,8 @@ public class GodController extends Commuter {
         commandRecv.setText(str);
     }
 
-
+    public void setGuiLauncher(GuiLauncher guiLauncher) {
+        this.guiLauncher = guiLauncher;
+    }
 
 }
