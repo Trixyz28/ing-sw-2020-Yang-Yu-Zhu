@@ -79,7 +79,7 @@ public class Model extends Observable {
         Random r = new Random();
         challengerID = (r.nextInt(playersNumber));
         matchPlayersList.get(challengerID).setChallenger(true);
-        broadcast("The chosen challenger is: " + matchPlayersList.get(challengerID).getPlayerNickname());
+        broadcast(new Obj("generic","The chosen challenger is: " + matchPlayersList.get(challengerID).getPlayerNickname()));
     }
 
 
@@ -100,7 +100,7 @@ public class Model extends Observable {
         }
         if(godsList.checkLength()){
             //views.get(p).showMessage("Il Challenger ha finito di scegliere i God! La Lista dei God scelti è :");
-            broadcast(Messages.challengerChosen);
+            broadcast(new Obj("generic",Messages.challengerChosen));
             return true;
         }
 
@@ -173,8 +173,7 @@ public class Model extends Observable {
                 startingPlayer = p;
                 //settare il startingPlayerID del model
                 setStartingPlayerID(startingPlayer.getPlayerID());
-                broadcast("Il primo player che fa la mossa è " + startingPlayer.getPlayerNickname());
-                broadcast(Messages.boardStarting);
+                broadcast(new Obj("generic","Il primo player che fa la mossa è " + startingPlayer.getPlayerNickname()));
                 return true;
             }
         }
@@ -342,12 +341,12 @@ public class Model extends Observable {
     //Messages
     public void sendMessage(String tag,String arg) {
         if(tag.equals("gMsg")) {
-            String message = null;
 
+            String message = null;
             try{
                 GodPowerMessage god = Enum.valueOf(GodPowerMessage.class, arg);
                 message = god.getMessage();
-            }catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e){
                 message = arg;
             } finally {
                 unicastMsg(new Obj(new GameMessage(currentTurn.getCurrentPlayer(), message)));
@@ -366,9 +365,8 @@ public class Model extends Observable {
         notify(obj);
     }
 
-
-    public void broadcast(String message){
-        notify(message);
+    public void broadcast(Obj obj){
+        notify(obj);
     }
 
 
@@ -425,8 +423,7 @@ public class Model extends Observable {
             totalWorkerList.remove(player.chooseWorker(1));
             conditions.update(player.getPlayerID());
             matchPlayersList.remove(player);
-            broadcast("The player " + player.getPlayerNickname() + " loses");
-            losingPlayer(player);
+            broadcast(new Obj("end","lose",player.getPlayerNickname()));
         } else {
             currentTurn.nextTurn(matchPlayersList.get(getNextPlayerIndex()));
             gameOver();
@@ -443,16 +440,11 @@ public class Model extends Observable {
 
     public void gameOver() {
         isGameOver = true;
-        broadcast("The winner is " + currentTurn.getCurrentPlayer().getPlayerNickname() + "!");
-        broadcast(Messages.gameOver);
+        broadcast(new Obj("end","win",currentTurn.getCurrentPlayer().getPlayerNickname()));
     }
 
     public boolean isGameOver() {
         return isGameOver;
-    }
-
-    public void losingPlayer(Player player) {
-        notify(player);
     }
 
 

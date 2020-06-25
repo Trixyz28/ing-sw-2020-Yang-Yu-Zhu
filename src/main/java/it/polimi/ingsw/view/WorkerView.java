@@ -19,6 +19,7 @@ public class WorkerView implements Serializable,Cloneable {
     private List<Tile> movableList;
     private List<Tile> buildableList;
 
+
     public WorkerView(UndecoratedWorker worker) {
         if(worker.getPosition()!=null) {
             this.positionSet = true;
@@ -70,4 +71,5 @@ public class WorkerView implements Serializable,Cloneable {
     public void setWorkerID(int workerID) {
         this.workerID = workerID;
     }
+
 }

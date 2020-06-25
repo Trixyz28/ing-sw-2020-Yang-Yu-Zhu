@@ -23,10 +23,6 @@ public class GUI extends Observable implements Ui {
         return scanner.nextLine();
     }
 
-    @Override
-    public void showGameMsg(GameMessage message) {
-        notify(message);
-    }
 
     @Override
     public void showObj(Obj message) {

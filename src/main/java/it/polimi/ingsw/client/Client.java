@@ -4,7 +4,6 @@ import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.cli.CLI;
-import it.polimi.ingsw.view.gui.GUI;
 
 import java.io.*;
 import java.net.Socket;
@@ -25,20 +24,10 @@ public class Client implements Runnable {
     private Thread t0;
     private Thread t1;
 
-
     public Client() {
         this.opReceived = false;
         this.gmReceived = false;
         this.active = true;
-    }
-
-
-    public synchronized boolean isActive() {
-        return active;
-    }
-
-    public synchronized void setActive(boolean active) {
-        this.active = active;
     }
 
 
@@ -48,7 +37,6 @@ public class Client implements Runnable {
         if(uiStyle.toUpperCase().equals("CLI")) {
             ui = new CLI();
         }
-
         this.socket = socket;
 
         try {
@@ -58,9 +46,41 @@ public class Client implements Runnable {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
     }
 
+    @Override
+    public void run() {
+        boolean cli = false;
+
+        try {
+            t0 = asyncReadFromSocket(socketIn);
+            if(ui instanceof CLI) {
+                cli = true;
+                t1 = cliWriteToSocket();
+            }
+            t0.join();
+
+            if(cli) {
+                if(isActive()) {
+                    t1.join();
+                } else {
+                    t1.interrupt();
+                }
+            }
+
+        } catch (InterruptedException e) {
+            ui.showMessage(Messages.connectionClosed);
+
+        } finally{
+            try {
+                socketOut.close();
+                socketIn.close();
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public Thread asyncReadFromSocket(ObjectInputStream socketIn) {
 
@@ -72,9 +92,7 @@ public class Client implements Runnable {
 
                     if(inputObject instanceof String) {
                         ui.showMessage((String)inputObject);
-                        if(inputObject.equals(Messages.gameOver)) {
-                            setActive(false);
-                        }
+
 
                     } else if (inputObject instanceof Obj) {
                         Obj obj = (Obj)inputObject;
@@ -83,17 +101,20 @@ public class Client implements Runnable {
                             opReceived = true;  /* ricevuto un Operation */
                             Operation operation = obj.getOperation();
                             if(operation.getType() == 0){
-                                ui.showMessage(Messages.Place);
+                                ui.showObj(new Obj("boardMsg",Messages.Place));
                             } else if(operation.getType() == 1){
-                                ui.showMessage(Messages.Move);
+                                ui.showObj(new Obj("boardMsg",Messages.Move));
                             } else {
-                                ui.showMessage(Messages.Build);
+                                ui.showObj(new Obj("boardMsg",Messages.Build));
                             }
 
                         } else if(obj.getTag().equals("gMsg")) {
                             gmReceived = true;
                             gMessage = obj.getGameMessage();
                             ui.showObj(obj);
+
+                        } else if(obj.getTag().equals("generic")) {
+                            ui.showMessage(obj.getMessage());
 
                         } else {
                             ui.showObj(obj);
@@ -136,39 +157,7 @@ public class Client implements Runnable {
         this.ui = ui;
     }
 
-    @Override
-    public void run() {
-        boolean cli = false;
 
-        try {
-            t0 = asyncReadFromSocket(socketIn);
-            if(ui instanceof CLI) {
-                cli = true;
-                t1 = cliWriteToSocket();
-            }
-            t0.join();
-
-            if(cli) {
-                if(isActive()) {
-                    t1.join();
-                } else {
-                    t1.interrupt();
-                }
-            }
-
-        } catch (InterruptedException e) {
-            ui.showMessage(Messages.connectionClosed);
-
-        } finally{
-            try {
-                socketOut.close();
-                socketIn.close();
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public void sendInput(String input) {
 
@@ -220,5 +209,15 @@ public class Client implements Runnable {
             socketOut.flush();
         }
     }
+
+    public synchronized boolean isActive() {
+        return active;
+    }
+
+    public synchronized void setActive(boolean active) {
+        this.active = active;
+    }
+
+
 }
 

@@ -34,6 +34,7 @@ public class GuiLauncher extends Application implements Observer {
 
     private boolean challengerSet;
     private boolean chooseWorker;
+    private boolean boardReceived;
 
     private String nickname;
     private String challengerName;
@@ -58,6 +59,7 @@ public class GuiLauncher extends Application implements Observer {
 
         this.challengerSet = false;
         this.chooseWorker = false;
+        this.boardReceived = false;
         this.playerList = new ArrayList<>();
     }
 
@@ -205,25 +207,6 @@ public class GuiLauncher extends Application implements Observer {
             });
         }
 
-        if(message instanceof String) {
-
-            if(message.equals(Messages.boardStarting)) {
-                changeScene(5);
-            }
-
-            if(message.equals(Messages.chooseStartPlayer)) {
-                Platform.runLater(() -> godController.setCurrentPlayer((String) message));
-            }
-
-            if(message.equals(Messages.Place) || message.equals(Messages.Move) || message.equals(Messages.Build)) {
-                Platform.runLater(() -> boardController.setRecvMsg((String) message));
-            }
-
-            if(message.equals(Messages.endTurn)) {
-                Platform.runLater(()-> boardController.hideRecvMsg());
-            }
-
-        }
 
         if(message instanceof Obj) {
             Obj obj = (Obj)message;
@@ -269,6 +252,10 @@ public class GuiLauncher extends Application implements Observer {
             }
             else if(obj.getTag().equals("board")) {
                 this.lastView = obj.getBoardView();
+                if(!boardReceived) {
+                    changeScene(5);
+                    this.boardReceived = true;
+                }
                 Platform.runLater(()-> {
                     boardController.showBoard(lastView);
                 });
@@ -277,36 +264,57 @@ public class GuiLauncher extends Application implements Observer {
 
                 if(obj.getMessage().equals(Messages.workerChose)) {
                     this.chooseWorker = false;
+                } else if(obj.getMessage().equals(Messages.endTurn)) {
+                    Platform.runLater(()-> boardController.hideRecvMsg());
                 } else {
-                    Platform.runLater(() -> boardController.setRecvMsg(obj.getMessage()));
+                    showBoardMsg(obj.getMessage());
                 }
-
 
             } else if(obj.getTag().equals("gMsg")) {
                 if(obj.getGameMessage().getMessage().equals(Messages.Worker)) {
                     this.chooseWorker = true;
-                    Platform.runLater(() -> boardController.setRecvMsg(obj.getGameMessage().getMessage()));
+                    showBoardMsg(obj.getGameMessage().getMessage());
                 } else {
                     GodPowerMessage god = GodPowerMessage.valueOf(lastView.getCurrentGod());
                     System.out.println("current god: " + lastView.getCurrentGod());
 
-                    Platform.runLater(() -> {
-                        boardController.setButtons(god.getAnswer1(),god.getAnswer2());
-                        boardController.setRecvMsg(god.getMessage());
-                    });
-
+                    Platform.runLater(() -> boardController.setButtons(god.getAnswer1(),god.getAnswer2()));
+                    showBoardMsg(god.getMessage());
                 }
+
             } else if(obj.getTag().equals("godMsg")) {
-                Platform.runLater(() -> godController.setCommand(obj.getMessage()));
+                showGodMsg(obj.getMessage());
+
+            } else if(obj.getTag().equals("end")) {
+                if(obj.getMessage().equals("win")) {
+                    if(obj.getPlayer().equals(nickname)) {
+                        showBoardMsg("You win!");
+                    } else {
+                        showBoardMsg("The winner is " + obj.getPlayer() + "!");
+                    }
+                } else {
+                    if(obj.getPlayer().equals(nickname)) {
+                        showBoardMsg("You lose!");
+                    } else {
+                        showBoardMsg("The player " + obj.getPlayer() + " loses!");
+                    }
+                }
             }
-
-
         }
 
     }
 
     public boolean isChooseWorker() {
         return chooseWorker;
+    }
+
+
+    public void showGodMsg(String str) {
+        Platform.runLater(() -> godController.setCommand(str));
+    }
+
+    public void showBoardMsg(String str) {
+        Platform.runLater(() -> boardController.setRecvMsg(str));
     }
 
 

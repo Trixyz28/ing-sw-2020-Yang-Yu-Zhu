@@ -65,11 +65,6 @@ public class CLI implements Ui {
 
 
     @Override
-    public void showGameMsg(GameMessage message) {
-        System.out.println(message.getMessage());
-    }
-
-    @Override
     public void showObj(Obj obj) {
         String command = obj.getTag();
 
@@ -109,6 +104,20 @@ public class CLI implements Ui {
             showBoard(obj.getBoardView(),obj.getBoardView().getCurrentName().equals(nickname));
         } else if(command.equals("gMsg")) {
             System.out.println(obj.getGameMessage().getMessage());
+        } else if(command.equals("end")) {
+            if(obj.getMessage().equals("win")) {
+                if(obj.getPlayer().equals(nickname)) {
+                    System.out.println("You win!");
+                } else {
+                    System.out.println("The winner is " + obj.getPlayer() + "!");
+                }
+            } else {
+                if(obj.getPlayer().equals(nickname)) {
+                    System.out.println("You lose!");
+                } else {
+                    System.out.println("The player " + obj.getPlayer() + " loses!");
+                }
+            }
         }
         else {
             System.out.println(obj.getMessage());

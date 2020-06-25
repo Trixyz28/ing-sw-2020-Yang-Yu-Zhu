@@ -367,12 +367,12 @@ public class ModelTest extends TestCase {
         Observer observer = new Observer() {
             @Override
             public void update(Object message) {
-                Assert.assertTrue(message instanceof String);
-                Assert.assertEquals(message, "ciao");
+                Assert.assertTrue(message instanceof Obj);
+                Assert.assertEquals(((Obj) message).getMessage(), "ciao");
             }
         };
         model.addObservers(observer);
-        model.broadcast("ciao");
+        model.broadcast(new Obj("generic","ciao"));
 
     }
 }

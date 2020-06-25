@@ -5,8 +5,7 @@ import it.polimi.ingsw.model.God.UndecoratedWorker;
 
 public class BuildController {
 
-    private Model model;
-    private Tile position;
+    private final Model model;
     private UndecoratedWorker worker;
 
     public BuildController(Model model) {
@@ -16,10 +15,11 @@ public class BuildController {
 
     public boolean build(Operation operation){
         worker = model.getCurrentTurn().getChosenWorker();
-        position = model.commandToTile(operation.getRow(), operation.getColumn());
+        Tile position = model.commandToTile(operation.getRow(), operation.getColumn());
 
         return checkPosition(position);
     }
+
 
     /* check buildBlock/Dome if true -> Build */
     private boolean checkPosition(Tile position){
@@ -34,7 +34,5 @@ public class BuildController {
         }
         return false;
     }
-
-
 
 }

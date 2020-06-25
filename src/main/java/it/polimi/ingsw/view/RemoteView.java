@@ -40,64 +40,49 @@ public class RemoteView extends View {
         gmSend = false;
     }
 
-    public void showMessage(String message){  /* utilizzato dal Controller per messaggi al Client */
-        clientConnection.asyncSend(message);
-    }
-
     @Override
     public void update(Object message) {
 
+        Obj obj = (Obj)message;
 
-        if(message instanceof String) {
-            clientConnection.asyncSend(message);
-            if(message.equals(Messages.gameOver)) {
-                clientConnection.closeMatch();
-            }
-        }
+        if(obj.isBroadcast()) {
 
-        if(message instanceof Player) {
-            if(message.equals(clientConnection.getPlayer())) {
-                clientConnection.setLost(true);
-            }
-        }
-
-        if(message instanceof Obj) {
-            Obj obj = (Obj)message;
-
-            if(obj.isBroadcast()) {
-
-                if(obj.getTag().equals("completeList")) {
-                    if(clientConnection.getPlayer().isChallenger()) {
-                        clientConnection.asyncSend(message);
-                    }
-                } else {
+            if(obj.getTag().equals("completeList")) {
+                if(clientConnection.getPlayer().isChallenger()) {
                     clientConnection.asyncSend(message);
                 }
+            } else if (obj.getTag().equals("end")) {
+                clientConnection.syncSend(obj);
 
+                if(player.getPlayerNickname().equals(obj.getPlayer())) {
+                    if(obj.getMessage().equals("lose")) {
+                        clientConnection.setLost(true);
+                    } else {
+                        clientConnection.closeMatch();
+                    }
+                }
             } else {
-                if(clientConnection.getPlayer().getPlayerNickname().equals(obj.getReceiver())) {
-
-                    if(obj.getTag().equals("operation")) {
-                        operation = obj.getOperation();  /* salvare l'op nella view e notify */
-                        opSend = true;
-                    } else if (obj.getTag().equals("gMsg")) {
-
-                        if(obj.getReceiver().equals(player.getPlayerNickname())) {
-                            /* salvare prima di notify */
-                            gameMessage = obj.getGameMessage();
-                            gmSend = true;
-                        }
-                    }
-
-                    clientConnection.asyncSend(message);
-                }
-
+                clientConnection.asyncSend(message);
             }
 
+        } else {
+            if(clientConnection.getPlayer().getPlayerNickname().equals(obj.getReceiver())) {
 
+                if(obj.getTag().equals("operation")) {
+                    operation = obj.getOperation();  /* salvare l'op nella view e notify */
+                    opSend = true;
+                } else if (obj.getTag().equals("gMsg")) {
+
+                    if(obj.getReceiver().equals(player.getPlayerNickname())) {
+                        /* salvare prima di notify */
+                        gameMessage = obj.getGameMessage();
+                        gmSend = true;
+                    }
+                }
+
+                clientConnection.asyncSend(message);
+            }
         }
-
     }
-
 
 }

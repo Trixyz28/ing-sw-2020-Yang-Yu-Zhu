@@ -3,10 +3,8 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.lobby.LobbyController;
 import it.polimi.ingsw.lobby.LobbyHandler;
-import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.messages.Obj;
 import it.polimi.ingsw.model.Model;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.RemoteView;
 import it.polimi.ingsw.view.View;
 
@@ -23,11 +21,11 @@ public class Server {
 
     private int port;
     private ServerSocket serverSocket;
-    private ExecutorService executor = Executors.newCachedThreadPool();
-    private Map<Integer, List<SocketConnection>> matchConnection = new HashMap<>();
+    private final ExecutorService executor = Executors.newCachedThreadPool();
+    private final Map<Integer, List<SocketConnection>> matchConnection = new HashMap<>();
 
-    private LobbyHandler lobbyHandler;
-    private LobbyController lobbyController;
+    private final LobbyHandler lobbyHandler;
+    private final LobbyController lobbyController;
 
     public Server() {
         lobbyHandler = new LobbyHandler();
@@ -56,28 +54,6 @@ public class Server {
                 System.out.println("Connection Error");
             }
         }
-    }
-
-
-    public synchronized void deregisterMatch(SocketConnection c) {
-
-        int lobbyID = c.getLobbyID();
-
-        if(matchConnection.containsKey(lobbyID)) {
-            for(SocketConnection connection : matchConnection.get(lobbyID)) {
-                lobbyHandler.removePlayer(connection.getPlayer().getPlayerNickname());
-                if(connection.getPlayer().getPlayerID()!=c.getPlayer().getPlayerID()) {
-                    connection.closeConnection();
-                }
-            }
-            matchConnection.remove(lobbyID);
-        }
-    }
-
-    public synchronized void lostPlayerQuit(SocketConnection c) {
-        lobbyHandler.removePlayer(c.getPlayer().getPlayerNickname());
-        matchConnection.get(c.getLobbyID()).remove(c);
-        c.closeConnection();
     }
 
 
@@ -116,11 +92,9 @@ public class Server {
             model.addPlayer(matchConnection.get(lobbyID).get(0).getPlayer());
             model.addPlayer(matchConnection.get(lobbyID).get(1).getPlayer());
 
-
             //Create and connect RemoteView
             View view0 = new RemoteView(matchConnection.get(lobbyID).get(0).getPlayer(),matchConnection.get(lobbyID).get(0));
             View view1 = new RemoteView(matchConnection.get(lobbyID).get(1).getPlayer(),matchConnection.get(lobbyID).get(1));
-
 
             //Create Controller
             Controller controller = new Controller(model);
@@ -142,9 +116,7 @@ public class Server {
 
             //Initialize match conditions
             view0.notify("setup");
-
         }
-
     }
 
     public void removeFromLobby(int lobbyID, SocketConnection connection,String nickname) {
@@ -156,6 +128,26 @@ public class Server {
     }
 
 
+    public synchronized void lostPlayerQuit(SocketConnection c) {
+        lobbyHandler.removePlayer(c.getPlayer().getPlayerNickname());
+        matchConnection.get(c.getLobbyID()).remove(c);
+        c.closeConnection();
+    }
+
+    public synchronized void deregisterMatch(SocketConnection c) {
+
+        int lobbyID = c.getLobbyID();
+
+        if(matchConnection.containsKey(lobbyID)) {
+            for(SocketConnection connection : matchConnection.get(lobbyID)) {
+                lobbyHandler.removePlayer(connection.getPlayer().getPlayerNickname());
+                if(connection.getPlayer().getPlayerID()!=c.getPlayer().getPlayerID()) {
+                    connection.closeConnection();
+                }
+            }
+            matchConnection.remove(lobbyID);
+        }
+    }
 
     public LobbyHandler getLobbyHandler() {
         return lobbyHandler;

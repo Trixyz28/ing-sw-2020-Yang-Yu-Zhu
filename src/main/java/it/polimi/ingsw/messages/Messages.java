@@ -3,7 +3,6 @@ package it.polimi.ingsw.messages;
 public class Messages {
 
     //Communications
-    public static String connectionReady = "Connection established";
     public static String connectionClosed = "Connection closed";
     public static String gameOver = "Game over!";
     public static String spectator = "Be a patient spectator, you can't send messages :D";
@@ -49,11 +48,9 @@ public class Messages {
 
     //Match
     public static String chooseStartPlayer = "Choose the first player!";
-    public static String boardStarting = "Enjoy :D";
     public static String workerChose = "Worker chosen";
     public static String yourTurn = "Ecco il tuo turno!";
     public static String endTurn = "Il tuo turno è terminato!";
-
 
 
     //

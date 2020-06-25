@@ -53,7 +53,9 @@ public class SocketConnection extends Observable implements Runnable {
         active = false;
         try {
             send(Messages.connectionClosed);
+            System.out.println("Deregistering player " + player.getPlayerNickname() + " of lobby n." + lobbyID);
             socket.close();
+
         } catch(IOException e) {
             System.err.println("Error when closing socket!");
         }
@@ -67,9 +69,7 @@ public class SocketConnection extends Observable implements Runnable {
 
     public void closeMatch() {
         closeConnection();
-        System.out.println("Deregistering player " + player.getPlayerNickname() + " of lobby n." + lobbyID);
         server.deregisterMatch(this);
-        System.out.println("Client disconnected");
     }
 
 
@@ -143,14 +143,16 @@ public class SocketConnection extends Observable implements Runnable {
 
         } catch(IOException | NoSuchElementException e) {
             System.err.println("Error!" + e.getMessage());
-            active = false;
         } finally {
-            if(!inMatch) {
-                server.removeFromLobby(lobbyID,this,player.getPlayerNickname());
-            } else if(!lost) {
-                closeMatch();
-            } else {
-                deregisterPlayer();
+            if (!inMatch) {
+                server.removeFromLobby(lobbyID, this, player.getPlayerNickname());
+            } else if (active) {
+                if(!lost) {
+                    closeMatch();
+                } else {
+                    deregisterPlayer();
+                }
+
             }
         }
     }

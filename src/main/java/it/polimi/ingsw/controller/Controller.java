@@ -7,12 +7,11 @@ import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observer;
 
 
-
 public class Controller implements Observer {
 
-    private Model model;
+    private final Model model;
 
-    private InitController initController;
+    private final InitController initController;
     private TurnController turnController;
     private MoveController moveController;
     private BuildController buildController;
