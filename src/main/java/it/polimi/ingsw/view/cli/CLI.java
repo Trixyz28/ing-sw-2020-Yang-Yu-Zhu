@@ -25,9 +25,9 @@ public class CLI implements Ui {
     private final String domeColor = Colors.BLUE_BOLD;
     private final String heightColor = Colors.WHITE;
 
-    private final String player0 = Colors.GREEN_BOLD;
+    private final String player0 = Colors.CYAN_BOLD;
     private final String player1 = Colors.PURPLE_BOLD;
-    private final String player2 = Colors.CYAN_BOLD;
+    private final String player2 = Colors.GREEN_BOLD;
 
     private String chosenColor = Colors.RED_UNDERLINED;
     private String canOpColor = Colors.BLACK_BACKGROUND_BRIGHT;
@@ -44,6 +44,7 @@ public class CLI implements Ui {
     private String leftExt = extColor + "┃   " + RESET;
     private String rightExt = extColor + "   ┃" + RESET;
     private String emptyExt = extColor + "┃                                                   ┃" + RESET;
+
 
 
     @Override
@@ -72,13 +73,8 @@ public class CLI implements Ui {
     public void showObj(Obj obj) {
         String command = obj.getTag();
 
-        if(command.equals("createLobby")) {
-            System.out.println("Create the lobby n." + obj.getMessage());
 
-        } else if(command.equals("joinLobby")) {
-            System.out.println("Successfully join the lobby n." + obj.getMessage());
-
-        } else if(command.equals("playerList")) {
+        if (command.equals("playerList")) {
             System.out.println(Messages.matchStarting);
             for(String str : obj.getList()) {
                 System.out.println(str);
@@ -86,9 +82,8 @@ public class CLI implements Ui {
 
         } else if (command.equals("setName")) {
             nickname = obj.getMessage();
-        }
 
-        else if(command.equals("turn")) {
+        } else if(command.equals("turn")) {
             //System.out.println("Turn of " + obj.getMessage());
 
         } else if(command.equals("completeList")) {
@@ -112,8 +107,9 @@ public class CLI implements Ui {
             }
         } else if(command.equals("board")) {
             showBoard(obj.getBoardView(),obj.getBoardView().getCurrentName().equals(nickname));
+        } else if(command.equals("gMsg")) {
+            System.out.println(obj.getGameMessage().getMessage());
         }
-
         else {
             System.out.println(obj.getMessage());
         }

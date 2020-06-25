@@ -10,10 +10,12 @@ import java.util.ArrayList;
 
 public class Obj implements Serializable {
 
-    //Tags:   nameMsg, setName,
-    //        lobbyMsg, createLobby, joinLobby, playerList
-    //        completeList, currentList, defineGod, chooseGod,
-    //        turn, board, operation
+    /*
+      Tags:   nameMsg, setName, lobbyMsg, lobbyOk, playerList,
+              completeList, currentList, defineGod, chooseGod,
+              turn, board, operation, gMsg
+              godMsg, boardMsg, generic
+     */
 
     private final String tag;
 
@@ -23,6 +25,7 @@ public class Obj implements Serializable {
 
     private BoardView boardView;
     private Operation operation;
+    private GameMessage gameMessage;
 
     private boolean broadcast = true;
     private String receiver;
@@ -53,6 +56,11 @@ public class Obj implements Serializable {
         this.operation = operation;
     }
 
+    public Obj(GameMessage gameMessage) {
+        this.tag = "gMsg";
+        this.gameMessage = gameMessage;
+    }
+
 
     public String getTag() {
         return tag;
@@ -80,6 +88,8 @@ public class Obj implements Serializable {
         return operation;
     }
 
+    public GameMessage getGameMessage() { return gameMessage; }
+
 
 
     public boolean isBroadcast() {
@@ -97,4 +107,5 @@ public class Obj implements Serializable {
     public void setReceiver(Player player) {
         this.receiver = player.getPlayerNickname();
     }
+
 }

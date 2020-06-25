@@ -68,7 +68,7 @@ public class Model extends Observable {
         randomChooseChallenger();
         currentTurn = new Turn(matchPlayersList.get(challengerID));
         notify(new Obj("turn",currentTurn.getCurrentPlayer().getPlayerNickname()));
-        sendMessage(Messages.challenger);
+        sendMessage("generic",Messages.challenger);
         /* mandare al Challenger la lista completa dei God */
         showCompleteGodList();
     }
@@ -94,7 +94,7 @@ public class Model extends Observable {
         godsList.selectGod(god);
         if(!godsList.addInGodList()){  /* se il God scelto non viene aggiunto nella currentList */
             //views.get(challenger).showMessage("Scelta invalida");
-            sendMessage(Messages.invalidChoice);
+            sendMessage("godMsg",Messages.invalidChoice);
         } else {
             notify(new Obj("defineGod",god.toUpperCase()));
         }
@@ -118,18 +118,18 @@ public class Model extends Observable {
             /* dare direttamente la god rimanente al Challenger */
             String god = godsList.getCurrentGodList().get(0);
 
-            sendMessage("Il god rimasto è " + god + "!");
+            sendMessage("generic","Il god rimasto è " + god + "!");
             Player challenger = matchPlayersList.get(challengerID);
             notify(new Obj("chooseGod",god,challenger.getPlayerNickname()));
             challenger.setGodCard(god);
             challenger.createWorker(god, getConditions(),getTotalWorkers());
             /* creare lista di tutti i workers */
             createTotalWorkerList();
-            sendMessage(Messages.chooseStartPlayer);
+            sendMessage("godMsg",Messages.chooseStartPlayer);
         }else {
             /* show currentList */
             showGodList();
-            sendMessage("Scegli la tua divinità");
+            sendMessage("godMsg","Scegli la tua divinità");
         }
     }
 
@@ -158,7 +158,7 @@ public class Model extends Observable {
             return true;
         }else{
             //far printare alla view la richiesta di ripetere la scelta
-            sendMessage(Messages.tryAgain);
+            sendMessage("godMsg",Messages.tryAgain);
             return false;
         }
     }
@@ -179,7 +179,7 @@ public class Model extends Observable {
             }
         }
         /* se esce dal for -> Nickname non trovato riprovare a chiedere */
-        sendMessage(Messages.wrongArgument+ "\n" + Messages.tryAgain);
+        sendMessage("generic",Messages.wrongArgument+ "\n" + Messages.tryAgain);
         return false;
     }
 
@@ -189,7 +189,10 @@ public class Model extends Observable {
         if(playerNickname.equals(currentTurn.getCurrentPlayer().getPlayerNickname())) {
             return true;
         }else {
-            notify(new GameMessage(new Player(playerNickname),Messages.wrongTurn,true));
+            Obj obj = new Obj("generic",Messages.wrongTurn);
+            obj.setBroadcast(false);
+            obj.setReceiver(new Player(playerNickname));
+            notify(obj);
             return false;
         }
     }
@@ -201,8 +204,8 @@ public class Model extends Observable {
         GodPowerMessage god = GodPowerMessage.valueOf(currentTurn.getCurrentPlayer().getGodCard());
 
         if(god.checkAnswer(answer) == 0){
-            sendMessage(Messages.tryAgain);
-            sendMessage(currentTurn.getCurrentPlayer().getGodCard());
+            sendMessage("boardMsg",Messages.tryAgain);
+            sendMessage("gMsg",currentTurn.getCurrentPlayer().getGodCard());
             return false;
         }else {
             if (god.checkAnswer(answer) == 1){
@@ -337,19 +340,21 @@ public class Model extends Observable {
     }
 
     //Messages
-    public void sendMessage(String arg) {
-        String message = null;
-        boolean readOnly = false;
-        try{
-            GodPowerMessage god = Enum.valueOf(GodPowerMessage.class, arg);
-            message = god.getMessage();
-        }catch (IllegalArgumentException e){
-            if(!arg.equals(Messages.Worker)){
-                readOnly = true;
+    public void sendMessage(String tag,String arg) {
+        if(tag.equals("gMsg")) {
+            String message = null;
+
+            try{
+                GodPowerMessage god = Enum.valueOf(GodPowerMessage.class, arg);
+                message = god.getMessage();
+            }catch (IllegalArgumentException e){
+                message = arg;
+            } finally {
+                unicastMsg(new Obj(new GameMessage(currentTurn.getCurrentPlayer(), message)));
             }
-            message = arg;
-        }finally {
-            notify(new GameMessage(currentTurn.getCurrentPlayer(), message, readOnly));
+
+        } else {
+            unicastMsg(new Obj(tag,arg));
         }
 
     }
@@ -378,7 +383,7 @@ public class Model extends Observable {
 
     public void placeWorker(int indexWorker){
         sendBoard();
-        sendMessage("Posiziona il worker" + indexWorker);
+        sendMessage("boardMsg","Posiziona il worker" + indexWorker);
         place();
         //notify(new Operation(currentTurn.getCurrentPlayer(),0, -1, -1));
     }
@@ -386,7 +391,7 @@ public class Model extends Observable {
     //metodi da implementare con il controller
     public boolean checkWin() {
         if (currentTurn.getChosenWorker().checkWin(currentTurn.getInitialTile())){
-            sendMessage("Hai vintoooooo!!!");
+            sendMessage("boardMsg","Hai vintoooooo!!!");
             setWorkerChosen(false);
             sendBoard();
             gameOver();
@@ -397,7 +402,7 @@ public class Model extends Observable {
 
     public boolean checkLose(){
         if (currentTurn.checkLose()){
-            sendMessage(Messages.lose);
+            sendMessage("boardMsg",Messages.lose);
             /* lose */
             lose(currentTurn.getCurrentPlayer());
             return true;

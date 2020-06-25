@@ -68,6 +68,9 @@ public class GodController {
     @FXML
     private ImageView zeus;
 
+    @FXML
+    private Label currentPlayer;
+
 
 
     public void gridClicked(MouseEvent event) {
@@ -297,15 +300,18 @@ public class GodController {
             cloud2.setOpacity(1);
         }
 
-        showMessage(player);
+        setCurrentPlayer(player);
     }
 
-    public void showMessage(String str) {
-        commandRecv.setText(str);
+    public void setCurrentPlayer(String str) {
+        currentPlayer.setText(str);
     }
 
     public void setGuiLauncher(GuiLauncher guiLauncher) {
         this.guiLauncher = guiLauncher;
     }
 
+    public void setCommand(String str) {
+        commandRecv.setText(str);
+    }
 }

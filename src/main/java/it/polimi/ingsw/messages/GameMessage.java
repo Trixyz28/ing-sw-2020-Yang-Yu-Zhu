@@ -11,12 +11,10 @@ public class GameMessage implements Serializable {
     private final String message;
     private String answer;
     private final String player;
-    private final boolean readOnly;
 
-    public GameMessage(final Player player, final String message, final boolean readOnly){
+    public GameMessage(final Player player, final String message){
         this.player = player.getPlayerNickname();
         this.message = message;
-        this.readOnly = readOnly;
     }
 
 
@@ -24,11 +22,6 @@ public class GameMessage implements Serializable {
     public String getPlayer(){
         return player;
     }
-
-    public boolean readOnly() {
-        return readOnly;
-    }
-
 
     //Message getter
     public String getMessage(){

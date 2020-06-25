@@ -48,19 +48,6 @@ public class RemoteView extends View {
     public void update(Object message) {
 
 
-        if(message instanceof GameMessage){  /* inviare richiesta solo al currentPlayer*/
-            if(((GameMessage) message).getPlayer().equals(player.getPlayerNickname())) {
-                if(((GameMessage) message).readOnly()){
-                    showMessage(((GameMessage) message).getMessage());
-                }else {
-                     /* salvare prima di notify */
-                    gameMessage = (GameMessage)message;
-                    gmSend = true;
-                    clientConnection.asyncSend(message);
-                }
-            }
-        }
-
         if(message instanceof String) {
             clientConnection.asyncSend(message);
             if(message.equals(Messages.gameOver)) {
@@ -93,7 +80,15 @@ public class RemoteView extends View {
                     if(obj.getTag().equals("operation")) {
                         operation = obj.getOperation();  /* salvare l'op nella view e notify */
                         opSend = true;
+                    } else if (obj.getTag().equals("gMsg")) {
+
+                        if(obj.getReceiver().equals(player.getPlayerNickname())) {
+                            /* salvare prima di notify */
+                            gameMessage = obj.getGameMessage();
+                            gmSend = true;
+                        }
                     }
+
                     clientConnection.asyncSend(message);
                 }
 

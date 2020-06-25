@@ -72,7 +72,7 @@ public abstract class View extends Observable implements Observer {
 
 
     void messageString(String input) {
-        GameMessage gm = new GameMessage(player, null, false);
+        GameMessage gm = new GameMessage(player, null);
         gm.setAnswer(input);
         notify(gm);
     }

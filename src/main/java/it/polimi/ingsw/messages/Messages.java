@@ -24,19 +24,7 @@ public class Messages {
     public static String wrongArgument = "Invalid argument!";
     public static String wrongOperation = "Impossibile fare questa mossa!";
 
-/*
-    //GodPower messages
-    public static String Artemis = "Arthemis: Move again?";
-    public static String Atlas = "Atlas: Block or Dome?";
-    public static String Demeter = "Demeter: Build again?";
-    public static String Hephaestus = "Hephaestus: Another Block?";
-    public static String Prometheus = "Prometheus: Move or Build";
-    public static String Hestia = "Hestia: Build again?";
-    public static String Poseidon = "Poseidon: Unmove worker Build?";
-    public static String Triton = "Triton: Move again?";
-*/
 
-    //Generics
 
 
     //Nickname
@@ -63,6 +51,7 @@ public class Messages {
     public static String chooseStartPlayer = "Choose the first player!";
     public static String boardStarting = "Enjoy :D";
     public static String workerChose = "Worker chosen";
+    public static String yourTurn = "Ecco il tuo turno!";
     public static String endTurn = "Il tuo turno è terminato!";
 
 

@@ -31,8 +31,8 @@ public class TurnController {
 
         }else {
             //view.chooseWorker; -> richiedere scelta
-            model.sendMessage(Messages.anotherWorker);
-            model.sendMessage(Messages.Worker);
+            model.sendMessage("boardMsg",Messages.anotherWorker);
+            model.sendMessage("gMsg",Messages.Worker);
         }
 
     }
@@ -42,11 +42,11 @@ public class TurnController {
 
         currentTurn.choseWorker(chosenWorker);
         model.setWorkerChosen(true);
-        model.sendMessage(Messages.workerChose);
+        model.sendMessage("boardMsg",Messages.workerChose);
         /* godPower prima di move -> Prometheus */
         if(chosenWorker.getGodPower()) {
             model.sendBoard();
-            model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());
+            model.sendMessage("gMsg",currentTurn.getCurrentPlayer().getGodCard());
         }else {
             nextState();
         }
@@ -73,7 +73,7 @@ public class TurnController {
                 currentTurn.setInitialTile(currentTurn.getFinalTile());
                 model.sendBoard();
                 /* chiedere al Player se vuole fare move in più */
-                model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());
+                model.sendMessage("gMsg",currentTurn.getCurrentPlayer().getGodCard());
             }else {
                 nextState();
             }
@@ -87,7 +87,7 @@ public class TurnController {
         if(chosenWorker.getGodPower()){
             model.sendBoard();
             /* chiedere al Player se vuole fare build in più */
-            model.sendMessage(currentTurn.getCurrentPlayer().getGodCard());
+            model.sendMessage("gMsg",currentTurn.getCurrentPlayer().getGodCard());
         }else{
             nextState();
         }
@@ -101,7 +101,7 @@ public class TurnController {
         /* mostrare mappa dopo build */
         model.sendBoard();
         /* mandare solo al currentPlayer */
-        model.sendMessage(Messages.endTurn);
+        model.sendMessage("boardMsg",Messages.endTurn);
         nextTurn();
     }
 
@@ -116,9 +116,9 @@ public class TurnController {
         if (model.checkLose()) {
             checkGameOver();
         } else {
-            model.sendMessage("Ecco il tuo turno!");
+            model.sendMessage("boardMsg",Messages.yourTurn);
             /* inviare richiesta worker */
-            model.sendMessage(Messages.Worker);
+            model.sendMessage("gMsg",Messages.Worker);
             /* attesa scelta worker */
         }
     }

@@ -146,7 +146,12 @@
                                     <Font name="Papyrus" size="24.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="commandRecv" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="100.0" prefHeight="51.0" prefWidth="230.0" textAlignment="CENTER" textFill="#ffe3dd">
+                              <Label fx:id="currentPlayer" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="100.0" prefHeight="51.0" prefWidth="230.0" textAlignment="CENTER" textFill="#ffe3dd">
+                                 <font>
+                                    <Font name="Papyrus" size="22.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="commandRecv" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="143.0" prefHeight="51.0" prefWidth="230.0" textAlignment="CENTER" textFill="#ffe3dd">
                                  <font>
                                     <Font name="Papyrus" size="22.0" />
                                  </font>

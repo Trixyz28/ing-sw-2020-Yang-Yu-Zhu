@@ -8,7 +8,7 @@ import org.junit.Test;
 public class GameMessageTest extends TestCase {
 
     Player player = new Player("A");
-    GameMessage gameMessage = new GameMessage(player,"hello",false);
+    GameMessage gameMessage = new GameMessage(player,"hello");
 
     @Test
     public void testPlayer() {
@@ -18,8 +18,6 @@ public class GameMessageTest extends TestCase {
     @Test
     public void testMessage() {
         Assert.assertEquals("hello",gameMessage.getMessage());
-
-        Assert.assertFalse(gameMessage.readOnly());
     }
 
     @Test

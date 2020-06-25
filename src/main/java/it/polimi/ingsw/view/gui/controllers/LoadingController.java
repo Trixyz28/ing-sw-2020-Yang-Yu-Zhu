@@ -120,17 +120,9 @@ public class LoadingController {
     }
 
 
-    public void createdLobby(String number) {
-        inLobby();
-        lobbyRecv.setText("Create the lobby n." + number);
-    }
 
-    public void joinedLobby(String number) {
-        inLobby();
-        lobbyRecv.setText("Successfully join the lobby n." + number);
-    }
-
-    public void inLobby() {
+    public void inLobby(String str) {
+        lobbyRecv.setText(str);
         playerNumberSelect.setDisable(true);
         playerNumberSelect.setVisible(false);
         lobbyButton.setDisable(true);

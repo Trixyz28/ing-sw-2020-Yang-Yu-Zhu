@@ -93,7 +93,7 @@ public class Controller implements Observer {
                 turnController.endOperation();
             } else {
                 //mostrare messaggio di posizione errata e ripetere mossa
-                model.sendMessage(Messages.wrongOperation);
+                model.sendMessage("boardMsg",Messages.wrongOperation);
                 model.operation();
             }
         }

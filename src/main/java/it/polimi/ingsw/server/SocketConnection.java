@@ -114,13 +114,13 @@ public class SocketConnection extends Observable implements Runnable {
                 } while(number!=2 && number!=3);
 
                 lobbyID = server.getLobbyController().createLobby(player.getPlayerNickname(),number);
-                send(new Obj("createLobby",String.valueOf(lobbyID)));
+                send(new Obj("lobbyOk","Create the lobby n." + lobbyID));
             }
 
             //Join a lobby
             else {
                 lobbyID = server.getLobbyController().joinLobby(player.getPlayerNickname());
-                send(new Obj("joinLobby",String.valueOf(lobbyID)));
+                send(new Obj("lobbyOk","Successfully join the lobby n." + lobbyID));
             }
 
 

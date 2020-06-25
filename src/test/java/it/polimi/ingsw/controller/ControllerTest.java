@@ -50,8 +50,8 @@ public class ControllerTest extends TestCase {
     @Test
     public void testDefineGodList() {
         testSetup();
-        GameMessage gm = new GameMessage(model.getCurrentTurn().getCurrentPlayer(), null, true);
-        GameMessage gm2 = new GameMessage(model.getMatchPlayersList().get(model.getNextPlayerIndex()), null, true);
+        GameMessage gm = new GameMessage(model.getCurrentTurn().getCurrentPlayer(), null);
+        GameMessage gm2 = new GameMessage(model.getMatchPlayersList().get(model.getNextPlayerIndex()), null);
 
         gm.setAnswer("ATHENA");
         observable.notify(gm);
@@ -81,7 +81,7 @@ public class ControllerTest extends TestCase {
     @Test
     public void testChooseGod() {
         testDefineGodList();
-        GameMessage gm = new GameMessage(model.getCurrentTurn().getCurrentPlayer(), null, true);
+        GameMessage gm = new GameMessage(model.getCurrentTurn().getCurrentPlayer(), null);
 
         gm.setAnswer("LIMUS");
         observable.notify(gm);
@@ -100,7 +100,7 @@ public class ControllerTest extends TestCase {
     @Test
     public void testSetStartingPlayer() {
         testChooseGod();
-        GameMessage gm = new GameMessage(model.getCurrentTurn().getCurrentPlayer(), null, true);
+        GameMessage gm = new GameMessage(model.getCurrentTurn().getCurrentPlayer(), null);
 
         observable.notify("B");
         Assert.assertNotEquals(player2.getPlayerID(), model.getStartingPlayerID());
@@ -208,7 +208,7 @@ public class ControllerTest extends TestCase {
     @Test
     public void testGmUpdate() {
         testBeforeGmUpdate();
-        GameMessage gm = new GameMessage(player2, GodPowerMessage.valueOf("PROMETHEUS").getMessage(), false);
+        GameMessage gm = new GameMessage(player2, GodPowerMessage.valueOf("PROMETHEUS").getMessage());
         gm.setAnswer("BUILD");
         observable.notify(gm);
         Assert.assertTrue(model.checkAnswer(gm));
@@ -219,7 +219,7 @@ public class ControllerTest extends TestCase {
     @Test
     public void testGmUpdate2() {
         testBeforeGmUpdate();
-        GameMessage gm = new GameMessage(player2, GodPowerMessage.valueOf("PROMETHEUS").getMessage(), false);
+        GameMessage gm = new GameMessage(player2, GodPowerMessage.valueOf("PROMETHEUS").getMessage());
         gm.setAnswer("MOVE");
         observable.notify(gm);
         Assert.assertTrue(model.checkAnswer(gm));
@@ -251,7 +251,7 @@ public class ControllerTest extends TestCase {
         Assert.assertEquals(1, model.getCurrentTurn().getState());
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker().getGodPower());
 
-        GameMessage gm = new GameMessage(player2, GodPowerMessage.valueOf("ARTEMIS").getMessage(), false);
+        GameMessage gm = new GameMessage(player2, GodPowerMessage.valueOf("ARTEMIS").getMessage());
         gm.setAnswer("MOVE");
         observable.notify(gm);
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker().getGodPower());

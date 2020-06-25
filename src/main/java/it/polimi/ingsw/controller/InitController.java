@@ -50,7 +50,7 @@ public class InitController {
     protected void placeWorker(Operation position){
         Tile currentPosition = model.commandToTile(position.getRow(), position.getColumn());
         if(currentPosition.isOccupiedByWorker()){
-            model.sendMessage("Tile Occupied!");
+            model.sendMessage("boardMsg","Tile Occupied!");
         }else {
             Player currentPlayer = model.getCurrentTurn().getCurrentPlayer();
             /* posizionare il worker */
@@ -58,7 +58,7 @@ public class InitController {
             indexWorker++;
 
             if(indexWorker > 1){
-                model.sendMessage(Messages.endTurn);
+                model.sendMessage("boardMsg",Messages.endTurn);
                 /* passare al nextPlayer */
                 indexWorker = 0;
                 Player nextPlayer = model.getMatchPlayersList().get(model.getNextPlayerIndex());

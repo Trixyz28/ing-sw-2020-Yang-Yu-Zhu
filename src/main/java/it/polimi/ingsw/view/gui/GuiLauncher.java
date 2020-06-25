@@ -8,8 +8,10 @@ import it.polimi.ingsw.view.gui.controllers.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -72,6 +74,7 @@ public class GuiLauncher extends Application implements Observer {
 
         Scene scene = new Scene(root);
         this.scene = scene;
+        scene.setCursor(new ImageCursor(new Image("components/Cursor.png")));
 
         stage.setOnCloseRequest(e-> {
             if(clientThread !=null) {
@@ -209,15 +212,7 @@ public class GuiLauncher extends Application implements Observer {
             }
 
             if(message.equals(Messages.chooseStartPlayer)) {
-                Platform.runLater(() -> godController.showMessage((String) message));
-            }
-
-            if(message.equals(Messages.Worker)) {
-                this.chooseWorker = true;
-            }
-
-            if(message.equals(Messages.workerChose)) {
-                this.chooseWorker = false;
+                Platform.runLater(() -> godController.setCurrentPlayer((String) message));
             }
 
             if(message.equals(Messages.Place) || message.equals(Messages.Move) || message.equals(Messages.Build)) {
@@ -228,24 +223,6 @@ public class GuiLauncher extends Application implements Observer {
                 Platform.runLater(()-> boardController.hideRecvMsg());
             }
 
-        }
-
-
-        if(message instanceof GameMessage) {
-
-            if(((GameMessage) message).getMessage().equals(Messages.Worker)) {
-                this.chooseWorker = true;
-                Platform.runLater(() -> boardController.setRecvMsg( ((GameMessage) message).getMessage()));
-            } else {
-                GodPowerMessage god = GodPowerMessage.valueOf(lastView.getCurrentGod());
-                System.out.println("current god: " + lastView.getCurrentGod());
-
-                Platform.runLater(() -> {
-                    boardController.setButtons(god.getAnswer1(),god.getAnswer2());
-                    boardController.setRecvMsg(god.getMessage());
-                });
-
-            }
         }
 
         if(message instanceof Obj) {
@@ -262,12 +239,10 @@ public class GuiLauncher extends Application implements Observer {
                 }
             }
 
-            else if(obj.getTag().equals("createLobby")) {
-                Platform.runLater(()-> loadingController.createdLobby(obj.getMessage()));
+            else if(obj.getTag().equals("lobbyOk")) {
+                Platform.runLater(()-> loadingController.inLobby(obj.getMessage()));
             }
-            else if(obj.getTag().equals("joinLobby")) {
-                Platform.runLater(()-> loadingController.joinedLobby(obj.getMessage()));
-            }
+
             else if(obj.getTag().equals("playerList")) {
                 playerList = obj.getList();
                 changeScene(4);
@@ -297,6 +272,32 @@ public class GuiLauncher extends Application implements Observer {
                 Platform.runLater(()-> {
                     boardController.showBoard(lastView);
                 });
+
+            } else if(obj.getTag().equals("boardMsg")) {
+
+                if(obj.getMessage().equals(Messages.workerChose)) {
+                    this.chooseWorker = false;
+                } else {
+                    Platform.runLater(() -> boardController.setRecvMsg(obj.getMessage()));
+                }
+
+
+            } else if(obj.getTag().equals("gMsg")) {
+                if(obj.getGameMessage().getMessage().equals(Messages.Worker)) {
+                    this.chooseWorker = true;
+                    Platform.runLater(() -> boardController.setRecvMsg(obj.getGameMessage().getMessage()));
+                } else {
+                    GodPowerMessage god = GodPowerMessage.valueOf(lastView.getCurrentGod());
+                    System.out.println("current god: " + lastView.getCurrentGod());
+
+                    Platform.runLater(() -> {
+                        boardController.setButtons(god.getAnswer1(),god.getAnswer2());
+                        boardController.setRecvMsg(god.getMessage());
+                    });
+
+                }
+            } else if(obj.getTag().equals("godMsg")) {
+                Platform.runLater(() -> godController.setCommand(obj.getMessage()));
             }
 
 

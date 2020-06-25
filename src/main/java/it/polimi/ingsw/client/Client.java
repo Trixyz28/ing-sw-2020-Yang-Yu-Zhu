@@ -3,7 +3,6 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.Operation;
 import it.polimi.ingsw.view.Ui;
-import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.cli.CLI;
 import it.polimi.ingsw.view.gui.GUI;
 
@@ -77,23 +76,12 @@ public class Client implements Runnable {
                             setActive(false);
                         }
 
-                    }else if(inputObject instanceof GameMessage){
-
-                        gmReceived = true;  /* ricevuto un GameMessage */
-                        gMessage = (GameMessage)inputObject;
-                        if(((GameMessage) inputObject).readOnly()) {
-                            ui.showMessage(gMessage.getMessage());
-                        } else {
-                            ui.showGameMsg((GameMessage) inputObject);
-                        }
-
-
                     } else if (inputObject instanceof Obj) {
                         Obj obj = (Obj)inputObject;
 
                         if(obj.getTag().equals("operation")) {
-
-                            opReceived = true;  /* ricevuto un Operation */Operation operation = obj.getOperation();
+                            opReceived = true;  /* ricevuto un Operation */
+                            Operation operation = obj.getOperation();
                             if(operation.getType() == 0){
                                 ui.showMessage(Messages.Place);
                             } else if(operation.getType() == 1){
@@ -101,6 +89,11 @@ public class Client implements Runnable {
                             } else {
                                 ui.showMessage(Messages.Build);
                             }
+
+                        } else if(obj.getTag().equals("gMsg")) {
+                            gmReceived = true;
+                            gMessage = obj.getGameMessage();
+                            ui.showObj(obj);
 
                         } else {
                             ui.showObj(obj);
@@ -139,8 +132,8 @@ public class Client implements Runnable {
         return t;
     }
 
-    public void setUi(GUI gui) {
-        this.ui = gui;
+    public void setUi(Ui ui) {
+        this.ui = ui;
     }
 
     @Override
