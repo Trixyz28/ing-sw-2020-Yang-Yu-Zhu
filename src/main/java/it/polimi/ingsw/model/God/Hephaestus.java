@@ -22,11 +22,8 @@ public class Hephaestus extends WorkerDecorator {
             return super.canBuildBlock(t);
         }else {
             /* second Block */
-            if(builtTile.getBlockLevel() < 3){
-                return true;
-            }
+            return builtTile.getBlockLevel() < 3;
         }
-        return false;
     }
 
     @Override
@@ -41,6 +38,15 @@ public class Hephaestus extends WorkerDecorator {
         } else {
             /* second Build */
             super.buildBlock(builtTile);
+        }
+    }
+
+    @Override
+    public boolean canBuildDome(Tile t) {
+        if(buildCounter == 0) {
+            return super.canBuildDome(t);
+        }else {
+            return false;
         }
     }
 
