@@ -6,6 +6,7 @@ import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.WorkerView;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -45,6 +46,9 @@ public class CLI implements Ui {
     private String rightExt = extColor + "   ┃" + RESET;
     private String emptyExt = extColor + "┃                                                   ┃" + RESET;
 
+    private ArrayList<String> playerList;
+    private String[] godList;
+
 
 
     @Override
@@ -66,11 +70,15 @@ public class CLI implements Ui {
 
     @Override
     public void showObj(Obj obj) {
+
         String command = obj.getTag();
 
-
         if (command.equals("playerList")) {
-            System.out.println(Messages.matchStarting);
+            playerList = obj.getList();
+            godList = new String[playerList.size()];
+
+                System.out.println(Messages.matchStarting);
+
             for(String str : obj.getList()) {
                 System.out.println(str);
             }
@@ -92,6 +100,7 @@ public class CLI implements Ui {
 
         } else if(command.equals("chooseGod")) {
             System.out.println("The player "+ obj.getPlayer() + " chooses " + obj.getMessage() + "!");
+            godList[playerList.indexOf(obj.getPlayer())] = obj.getMessage();
 
         } else if(command.equals("currentList")) {
             if(obj.getList().size()!=0) {
@@ -141,7 +150,8 @@ public class CLI implements Ui {
             System.out.print(gridNumberColor + "   " + i + "   " + verticalBar);
         }
         System.out.print(rightExt);
-        System.out.format("%1$52s",rightExt + "\n");
+        System.out.format("%1$-36s", "    Current Player:");
+        System.out.println(rightExt);
 
         System.out.print(leftExt + supBoard + rightExt);
         System.out.format("%1$52s",rightExt + "\n");
@@ -180,16 +190,25 @@ public class CLI implements Ui {
             }
 
 
-            if (i == 1) {
-                System.out.format("%1$-36s", "    Current Player:");
-                System.out.println(rightExt);
-            } else if (i == 3) {
+            if (i == 0) {
                 System.out.print(workerColor(boardView.getCurrentID()));
                 System.out.format("%1$-40s", "    " + boardView.getCurrentName() + RESET + " (" + boardView.getCurrentGod() + ")");
-                System.out.println(rightExt);
+
+            } else if (i==4) {
+                System.out.format("%1$-47s","  - " + player0 + playerList.get(0) + RESET + " (" + godList[0] + ")");
+            } else if (i==6) {
+                System.out.format("%1$-47s","  - " + player1 + playerList.get(1) + RESET + " (" + godList[1] + ")");
+
             } else {
-                System.out.format("%1$52s",rightExt + "\n");
+
+                if (i==8 && playerList.size()==3) {
+                    System.out.format("%1$-47s", "  - " + player2 + playerList.get(2) + RESET + " (" + godList[2] + ")");
+                } else {
+                    System.out.format("%1$-36s", "");
+                }
             }
+
+            System.out.println(rightExt);
         }
 
         System.out.print(leftExt + infBoard + rightExt);

@@ -13,13 +13,18 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-image: url(/background/BgBeach.png); -fx-background-repeat: no-repeat;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.controllers.GodController">
    <children>
-      <HBox prefHeight="800.0" prefWidth="1280.0">
+      <HBox fx:id="mainHBox" prefHeight="800.0" prefWidth="1280.0">
          <children>
             <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1030.0">
                <children>
                   <ImageView fitHeight="761.0" fitWidth="1024.0" layoutX="5.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../components/MapPainted.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="bookIcon" fitHeight="80.0" fitWidth="90.0" layoutX="5.0" layoutY="722.0" onMouseClicked="#openInstruction" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../components/BookIcon.png" />
                      </image>
                   </ImageView>
                   <GridPane fx:id="cardGrid" layoutX="80.0" layoutY="86.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#gridClicked" prefHeight="618.0" prefWidth="860.0">
@@ -228,5 +233,29 @@
                </children></Pane>
          </children>
       </HBox>
+      <Pane fx:id="instructionPane" prefHeight="800.0" prefWidth="1280.0">
+         <children>
+            <ImageView fx:id="instructionPage" fitHeight="800.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../components/Rules1.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="instructionCross" fitHeight="64.0" fitWidth="73.0" layoutX="1178.0" layoutY="14.0" onMouseClicked="#closeInstruction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../components/Cross.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="leftArrow" fitHeight="77.0" fitWidth="116.0" layoutX="14.0" layoutY="687.0" onMouseClicked="#loadFirstPage" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../components/ArrowLeft.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="rightArrow" fitHeight="77.0" fitWidth="116.0" layoutX="1166.0" layoutY="687.0" onMouseClicked="#loadSecondPage" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../components/ArrowRight.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
    </children>
 </Pane>

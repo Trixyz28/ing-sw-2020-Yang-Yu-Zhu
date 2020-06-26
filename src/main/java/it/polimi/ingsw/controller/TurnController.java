@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.messages.Messages;
+import it.polimi.ingsw.messages.Tags;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.God.*;
 
@@ -31,8 +32,8 @@ public class TurnController {
 
         }else {
             //view.chooseWorker; -> richiedere scelta
-            model.sendMessage("boardMsg",Messages.anotherWorker);
-            model.sendMessage("gMsg",Messages.Worker);
+            model.sendMessage(Tags.boardMsg,Messages.anotherWorker);
+            model.sendMessage(Tags.gMsg,Messages.Worker);
         }
 
     }
@@ -42,11 +43,11 @@ public class TurnController {
 
         currentTurn.choseWorker(chosenWorker);
         model.setWorkerChosen(true);
-        model.sendMessage("boardMsg",Messages.workerChose);
+        model.sendMessage(Tags.boardMsg,Messages.workerChose);
         /* godPower prima di move -> Prometheus */
         if(chosenWorker.getGodPower()) {
             model.sendBoard();
-            model.sendMessage("gMsg",currentTurn.getCurrentPlayer().getGodCard());
+            model.sendMessage(Tags.gMsg,currentTurn.getCurrentPlayer().getGodCard());
         }else {
             nextState();
         }
@@ -73,7 +74,7 @@ public class TurnController {
                 currentTurn.setInitialTile(currentTurn.getFinalTile());
                 model.sendBoard();
                 /* chiedere al Player se vuole fare move in più */
-                model.sendMessage("gMsg",currentTurn.getCurrentPlayer().getGodCard());
+                model.sendMessage(Tags.gMsg,currentTurn.getCurrentPlayer().getGodCard());
             }else {
                 nextState();
             }
@@ -87,7 +88,7 @@ public class TurnController {
         if(chosenWorker.getGodPower()){
             model.sendBoard();
             /* chiedere al Player se vuole fare build in più */
-            model.sendMessage("gMsg",currentTurn.getCurrentPlayer().getGodCard());
+            model.sendMessage(Tags.gMsg,currentTurn.getCurrentPlayer().getGodCard());
         }else{
             nextState();
         }
@@ -101,7 +102,7 @@ public class TurnController {
         /* mostrare mappa dopo build */
         model.sendBoard();
         /* mandare solo al currentPlayer */
-        model.sendMessage("boardMsg",Messages.endTurn);
+        model.sendMessage(Tags.boardMsg,Messages.endTurn);
         nextTurn();
     }
 
@@ -116,9 +117,9 @@ public class TurnController {
         if (model.checkLose()) {
             checkGameOver();
         } else {
-            model.sendMessage("boardMsg",Messages.yourTurn);
+            model.sendMessage(Tags.boardMsg,Messages.yourTurn);
             /* inviare richiesta worker */
-            model.sendMessage("gMsg",Messages.Worker);
+            model.sendMessage(Tags.gMsg,Messages.Worker);
             /* attesa scelta worker */
         }
     }

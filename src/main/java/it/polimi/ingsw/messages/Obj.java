@@ -10,12 +10,6 @@ import java.util.ArrayList;
 
 public class Obj implements Serializable {
 
-    /*
-      Tags:   nameMsg, setName, lobbyMsg, lobbyOk, playerList,
-              completeList, currentList, defineGod, chooseGod,
-              turn, board, operation, gMsg
-              godMsg, boardMsg, generic
-     */
 
     private final String tag;
 
@@ -47,17 +41,17 @@ public class Obj implements Serializable {
     }
 
     public Obj(BoardView boardView) {
-        this.tag = "board";
+        this.tag = Tags.board;
         this.boardView = boardView;
     }
 
     public Obj(Operation operation) {
-        this.tag = "operation";
+        this.tag = Tags.operation;
         this.operation = operation;
     }
 
     public Obj(GameMessage gameMessage) {
-        this.tag = "gMsg";
+        this.tag = Tags.gMsg;
         this.gameMessage = gameMessage;
     }
 

@@ -125,6 +125,7 @@ public class GuiLauncher extends Application implements Observer {
                     this.godList = new String[playerList.size()];
                     godController.setName(playerList);
                     godController.setChallenger(challengerName);
+                    godController.closeInstruction();
                 }
 
                 if(index==5) {
@@ -134,6 +135,7 @@ public class GuiLauncher extends Application implements Observer {
                     boardController.setNickname(this.nickname);
                     boardController.setName(playerList);
                     boardController.setGod(godList);
+                    boardController.closeRule();
                     boardController.resetButtons();
                 }
 
@@ -214,7 +216,6 @@ public class GuiLauncher extends Application implements Observer {
             if(obj.getTag().equals("nameMsg")) {
                 if(obj.getMessage().equals(Messages.nicknameAvailable)) {
                     this.nickname = loadingController.getNickname();
-                    System.out.println("Nickname set: " + this.nickname);
                     changeScene(3);
                 }
                 if(obj.getMessage().equals(Messages.nicknameInUse) || message.equals(Messages.invalidNickname)) {

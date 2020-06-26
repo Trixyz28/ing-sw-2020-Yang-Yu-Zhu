@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.messages.GameMessage;
 import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.messages.Obj;
+import it.polimi.ingsw.messages.Tags;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observer;
@@ -49,10 +50,10 @@ public class Controller implements Observer {
         */
         else if (checkTurn((Obj) arg)) {
 
-            if (((Obj) arg).getTag().equals("operation")) {
+            if (((Obj) arg).getTag().equals(Tags.operation)) {
                 opUpdate(((Obj) arg).getOperation());
 
-            } else if (((Obj) arg).getTag().equals("gMsg")) {
+            } else if (((Obj) arg).getTag().equals(Tags.gMsg)) {
                 GameMessage gm = ((Obj) arg).getGameMessage();
 
                 if (gm.getMessage() == null) {
@@ -93,7 +94,7 @@ public class Controller implements Observer {
                 turnController.endOperation();
             } else {
                 //mostrare messaggio di posizione errata e ripetere mossa
-                model.sendMessage("boardMsg",Messages.wrongOperation);
+                model.sendMessage(Tags.boardMsg,Messages.wrongOperation);
                 model.operation();
             }
         }

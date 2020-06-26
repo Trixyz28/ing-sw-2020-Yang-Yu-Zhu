@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
@@ -23,10 +24,11 @@ public class BoardController {
     private BoardView lastView;
     private Image[] coins;
 
-
-
-
     private GuiLauncher guiLauncher;
+
+
+    @FXML
+    private VBox leftVBox;
 
     @FXML
     private Label commandRecv;
@@ -65,6 +67,18 @@ public class BoardController {
     @FXML
     private GridPane boardGrid;
 
+    @FXML
+    private ImageView bookIcon;
+    @FXML
+    private Pane rulePane;
+    @FXML
+    private ImageView ruleImage;
+    @FXML
+    private ImageView ruleCross;
+    @FXML
+    private ImageView rightArrow;
+    @FXML
+    private ImageView leftArrow;
 
 
     public void boardClicked(MouseEvent event) {
@@ -348,4 +362,41 @@ public class BoardController {
     public void setGuiLauncher(GuiLauncher guiLauncher) {
         this.guiLauncher = guiLauncher;
     }
+
+    public void openRule() {
+        leftVBox.setDisable(true);
+        boardGrid.setDisable(true);
+        rulePane.setDisable(false);
+        rulePane.setVisible(true);
+        loadFirstPage();
+    }
+
+
+    public void closeRule() {
+        rulePane.setVisible(false);
+        rulePane.setDisable(true);
+        leftVBox.setDisable(false);
+        boardGrid.setDisable(false);
+    }
+
+    public void loadFirstPage() {
+        ruleImage.setImage(new Image("/components/Rules1.png"));
+        leftArrow.setDisable(true);
+        leftArrow.setVisible(false);
+        rightArrow.setDisable(false);
+        rightArrow.setVisible(true);
+    }
+
+    public void loadSecondPage() {
+        ruleImage.setImage(new Image("/components/Rules2.png"));
+        leftArrow.setDisable(false);
+        leftArrow.setVisible(true);
+        rightArrow.setVisible(false);
+        rightArrow.setDisable(true);
+    }
+
+
+
+
+
 }

@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -21,55 +22,57 @@ public class GodController {
     private GuiLauncher guiLauncher;
 
     @FXML
+    private HBox mainHBox;
+
+    @FXML
     private GridPane cardGrid;
 
     @FXML
-    private ImageView apollo;
-
-    @FXML
-    private ImageView artemis;
-
-    @FXML
-    private ImageView athena;
-
-    @FXML
-    private ImageView atlas;
-
-    @FXML
-    private ImageView demeter;
-
-    @FXML
-    private ImageView hephaestus;
-
-    @FXML
-    private ImageView hera;
-
-    @FXML
-    private ImageView hestia;
-
-    @FXML
-    private ImageView limus;
-
-    @FXML
-    private ImageView minotaur;
-
-    @FXML
-    private ImageView pan;
-
-    @FXML
-    private ImageView poseidon;
-
-    @FXML
-    private ImageView prometheus;
-
-    @FXML
-    private ImageView triton;
-
-    @FXML
-    private ImageView zeus;
-
-    @FXML
     private Label currentPlayer;
+    @FXML
+    private Label commandRecv;
+
+    @FXML
+    private Pane cloud0;
+    @FXML
+    private ImageView godCloud0;
+    @FXML
+    private Label playerName0;
+    @FXML
+    private Label challenger0;
+
+
+    @FXML
+    private Pane cloud1;
+    @FXML
+    private ImageView godCloud1;
+    @FXML
+    private Label playerName1;
+    @FXML
+    private Label challenger1;
+
+
+    @FXML
+    private Pane cloud2;
+    @FXML
+    private ImageView godCloud2;
+    @FXML
+    private Label playerName2;
+    @FXML
+    private Label challenger2;
+
+    @FXML
+    private ImageView bookIcon;
+    @FXML
+    private Pane instructionPane;
+    @FXML
+    private ImageView instructionPage;
+    @FXML
+    private ImageView instructionCross;
+    @FXML
+    private ImageView leftArrow;
+    @FXML
+    private ImageView rightArrow;
 
 
 
@@ -91,7 +94,7 @@ public class GodController {
             }
         }
 
-        System.out.println(imageView.getId());
+        //System.out.println(imageView.getId());
         guiLauncher.getClient().sendInput(imageView.getId().toUpperCase());
     }
 
@@ -145,40 +148,7 @@ public class GodController {
 
     }
 
-    @FXML
-    private Label commandRecv;
 
-    @FXML
-    private Pane cloud0;
-
-    @FXML
-    private ImageView godCloud0;
-    @FXML
-    private Label playerName0;
-    @FXML
-    private Label challenger0;
-
-
-    @FXML
-    private Pane cloud1;
-
-    @FXML
-    private ImageView godCloud1;
-    @FXML
-    private Label playerName1;
-    @FXML
-    private Label challenger1;
-
-
-    @FXML
-    private Pane cloud2;
-
-    @FXML
-    private ImageView godCloud2;
-    @FXML
-    private Label playerName2;
-    @FXML
-    private Label challenger2;
 
 
 
@@ -193,14 +163,14 @@ public class GodController {
         }
     }
 
-    public void select0(MouseEvent event) { guiLauncher.getClient().sendInput(playerName0.getText());
+    public void select0() { guiLauncher.getClient().sendInput(playerName0.getText());
     }
 
-    public void select1(MouseEvent event) {
+    public void select1() {
         guiLauncher.getClient().sendInput(playerName1.getText());
     }
 
-    public void select2(MouseEvent event) {
+    public void select2() {
         guiLauncher.getClient().sendInput(playerName2.getText());
     }
 
@@ -314,4 +284,37 @@ public class GodController {
     public void setCommand(String str) {
         commandRecv.setText(str);
     }
+
+    public void openInstruction() {
+        mainHBox.setDisable(true);
+        instructionPane.setDisable(false);
+        instructionPane.setVisible(true);
+        loadFirstPage();
+    }
+
+    public void closeInstruction() {
+        System.out.println("closed");
+        mainHBox.setDisable(false);
+        instructionPane.setDisable(true);
+        instructionPane.setVisible(false);
+    }
+
+
+    public void loadFirstPage() {
+        leftArrow.setVisible(false);
+        leftArrow.setDisable(true);
+        rightArrow.setDisable(false);
+        rightArrow.setVisible(true);
+        instructionPage.setImage(new Image("/components/Rules1.png"));
+    }
+
+    public void loadSecondPage() {
+        leftArrow.setDisable(false);
+        leftArrow.setVisible(true);
+        rightArrow.setVisible(false);
+        rightArrow.setDisable(true);
+        instructionPage.setImage(new Image("/components/Rules2.png"));
+
+    }
+
 }

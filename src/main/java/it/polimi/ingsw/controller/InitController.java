@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.messages.Messages;
+import it.polimi.ingsw.messages.Tags;
 import it.polimi.ingsw.model.*;
 
 public class InitController {
@@ -50,7 +51,7 @@ public class InitController {
     protected void placeWorker(Operation position){
         Tile currentPosition = model.commandToTile(position.getRow(), position.getColumn());
         if(currentPosition.isOccupiedByWorker()){
-            model.sendMessage("boardMsg","Tile Occupied!");
+            model.sendMessage(Tags.boardMsg,Messages.occupiedTile);
         }else {
             Player currentPlayer = model.getCurrentTurn().getCurrentPlayer();
             /* posizionare il worker */
@@ -58,7 +59,7 @@ public class InitController {
             indexWorker++;
 
             if(indexWorker > 1){
-                model.sendMessage("boardMsg",Messages.endTurn);
+                model.sendMessage(Tags.boardMsg,Messages.endTurn);
                 /* passare al nextPlayer */
                 indexWorker = 0;
                 Player nextPlayer = model.getMatchPlayersList().get(model.getNextPlayerIndex());

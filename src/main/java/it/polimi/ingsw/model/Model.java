@@ -67,8 +67,8 @@ public class Model extends Observable {
     public void challengerStart(){
         randomChooseChallenger();
         currentTurn = new Turn(matchPlayersList.get(challengerID));
-        notify(new Obj("turn",currentTurn.getCurrentPlayer().getPlayerNickname()));
-        sendMessage("generic",Messages.challenger);
+        notify(new Obj(Tags.turn,currentTurn.getCurrentPlayer().getPlayerNickname()));
+        sendMessage(Tags.generic,Messages.challenger);
         /* mandare al Challenger la lista completa dei God */
         showCompleteGodList();
     }
@@ -79,13 +79,13 @@ public class Model extends Observable {
         Random r = new Random();
         challengerID = (r.nextInt(playersNumber));
         matchPlayersList.get(challengerID).setChallenger(true);
-        broadcast(new Obj("generic","The chosen challenger is: " + matchPlayersList.get(challengerID).getPlayerNickname()));
+        broadcast(new Obj(Tags.generic,"The chosen challenger is: " + matchPlayersList.get(challengerID).getPlayerNickname()));
     }
 
 
     //print completeList
     public void showCompleteGodList(){
-        notify(new Obj("completeList",godsList.getCompleteGodList()));
+        notify(new Obj(Tags.completeList,godsList.getCompleteGodList()));
     }
 
 
@@ -94,13 +94,13 @@ public class Model extends Observable {
         godsList.selectGod(god);
         if(!godsList.addInGodList()){  /* se il God scelto non viene aggiunto nella currentList */
             //views.get(challenger).showMessage("Scelta invalida");
-            sendMessage("godMsg",Messages.invalidChoice);
+            sendMessage(Tags.godMsg,Messages.invalidChoice);
         } else {
-            notify(new Obj("defineGod",god.toUpperCase()));
+            notify(new Obj(Tags.defineGod,god.toUpperCase()));
         }
         if(godsList.checkLength()){
             //views.get(p).showMessage("Il Challenger ha finito di scegliere i God! La Lista dei God scelti è :");
-            broadcast(new Obj("generic",Messages.challengerChosen));
+            broadcast(new Obj(Tags.generic,Messages.challengerChosen));
             return true;
         }
 
@@ -113,29 +113,29 @@ public class Model extends Observable {
 
         int index = getNextPlayerIndex();
         currentTurn.setCurrentPlayer(matchPlayersList.get(index));
-        notify(new Obj("turn",currentTurn.getCurrentPlayer().getPlayerNickname()));
+        notify(new Obj(Tags.turn,currentTurn.getCurrentPlayer().getPlayerNickname()));
         if(index == challengerID){
             /* dare direttamente la god rimanente al Challenger */
             String god = godsList.getCurrentGodList().get(0);
 
-            sendMessage("generic","Il god rimasto è " + god + "!");
+            sendMessage(Tags.generic,"Il god rimasto è " + god + "!");
             Player challenger = matchPlayersList.get(challengerID);
-            notify(new Obj("chooseGod",god,challenger.getPlayerNickname()));
+            notify(new Obj(Tags.chooseGod,god,challenger.getPlayerNickname()));
             challenger.setGodCard(god);
             challenger.createWorker(god, getConditions(),getTotalWorkers());
             /* creare lista di tutti i workers */
             createTotalWorkerList();
-            sendMessage("godMsg",Messages.chooseStartPlayer);
+            sendMessage(Tags.godMsg,Messages.chooseStartPlayer);
         }else {
             /* show currentList */
             showGodList();
-            sendMessage("godMsg","Scegli la tua divinità");
+            sendMessage(Tags.godMsg,Messages.godRequest);
         }
     }
 
 
     public void showGodList(){
-        notify(new Obj("currentList",godsList.getCurrentGodList()));
+        notify(new Obj(Tags.currentList,godsList.getCurrentGodList()));
     }
 
 
@@ -146,7 +146,7 @@ public class Model extends Observable {
             //far printare alla view la conferma della scelta
             Player currentPlayer = currentTurn.getCurrentPlayer();
             String name = currentPlayer.getPlayerNickname();
-            notify(new Obj("chooseGod",god,name));
+            notify(new Obj(Tags.chooseGod,god,name));
 
             /* assegnare al Player il God scelto */
             currentPlayer.setGodCard(god);
@@ -158,7 +158,7 @@ public class Model extends Observable {
             return true;
         }else{
             //far printare alla view la richiesta di ripetere la scelta
-            sendMessage("godMsg",Messages.tryAgain);
+            sendMessage(Tags.godMsg,Messages.tryAgain);
             return false;
         }
     }
@@ -173,12 +173,12 @@ public class Model extends Observable {
                 startingPlayer = p;
                 //settare il startingPlayerID del model
                 setStartingPlayerID(startingPlayer.getPlayerID());
-                broadcast(new Obj("generic","Il primo player che fa la mossa è " + startingPlayer.getPlayerNickname()));
+                broadcast(new Obj(Tags.generic,"Il primo player che fa la mossa è " + startingPlayer.getPlayerNickname()));
                 return true;
             }
         }
         /* se esce dal for -> Nickname non trovato riprovare a chiedere */
-        sendMessage("generic",Messages.wrongArgument+ "\n" + Messages.tryAgain);
+        sendMessage(Tags.generic,Messages.wrongArgument+ "\n" + Messages.tryAgain);
         return false;
     }
 
@@ -188,7 +188,7 @@ public class Model extends Observable {
         if(playerNickname.equals(currentTurn.getCurrentPlayer().getPlayerNickname())) {
             return true;
         }else {
-            Obj obj = new Obj("generic",Messages.wrongTurn);
+            Obj obj = new Obj(Tags.generic,Messages.wrongTurn);
             obj.setBroadcast(false);
             obj.setReceiver(new Player(playerNickname));
             notify(obj);
@@ -209,8 +209,8 @@ public class Model extends Observable {
         /* godPower */
         GodPowerMessage god = GodPowerMessage.valueOf(currentTurn.getCurrentPlayer().getGodCard());
         if(god.checkAnswer(answer) == 0){
-            sendMessage("boardMsg",Messages.tryAgain);
-            sendMessage("gMsg",currentTurn.getCurrentPlayer().getGodCard());
+            sendMessage(Tags.boardMsg,Messages.tryAgain);
+            sendMessage(Tags.gMsg,currentTurn.getCurrentPlayer().getGodCard());
             return false;
         }else {
             if (god.checkAnswer(answer) == 1){
@@ -270,7 +270,7 @@ public class Model extends Observable {
                 }
                 chosen = totalWorkerView[chosenID];
                 chosen.setBuildableList(currentTurn.buildableList(currentTurn.getChosenWorker()));
-                System.out.println("buildable list size: " + chosen.getBuildableList().size());
+                //System.out.println("buildable list size: " + chosen.getBuildableList().size());
             }
             chosen.setState(op);
         }
@@ -347,7 +347,7 @@ public class Model extends Observable {
 
     //Messages
     public void sendMessage(String tag,String arg) {
-        if(tag.equals("gMsg")) {
+        if(tag.equals(Tags.gMsg)) {
 
             String message = null;
             try{
@@ -388,7 +388,7 @@ public class Model extends Observable {
 
     public void placeWorker(int indexWorker){
         sendBoard();
-        sendMessage("boardMsg","Posiziona il worker" + indexWorker);
+        sendMessage(Tags.boardMsg,"Posiziona il worker" + indexWorker);
         place();
         //notify(new Operation(currentTurn.getCurrentPlayer(),0, -1, -1));
     }
@@ -396,7 +396,7 @@ public class Model extends Observable {
     //metodi da implementare con il controller
     public boolean checkWin() {
         if (currentTurn.getChosenWorker().checkWin(currentTurn.getInitialTile())){
-            sendMessage("boardMsg","Hai vintoooooo!!!");
+            sendMessage(Tags.boardMsg,"Hai vintoooooo!!!");
             setWorkerChosen(false);
             sendBoard();
             gameOver();
@@ -407,7 +407,7 @@ public class Model extends Observable {
 
     public boolean checkLose(){
         if (currentTurn.checkLose()){
-            sendMessage("boardMsg",Messages.lose);
+            sendMessage(Tags.boardMsg,Messages.lose);
             /* lose */
             lose(currentTurn.getCurrentPlayer());
             return true;
@@ -430,7 +430,7 @@ public class Model extends Observable {
             totalWorkerList.remove(player.chooseWorker(1));
             conditions.update(player.getPlayerID());
             matchPlayersList.remove(player);
-            broadcast(new Obj("end","lose",player.getPlayerNickname()));
+            broadcast(new Obj(Tags.end,"lose",player.getPlayerNickname()));
         } else {
             currentTurn.nextTurn(matchPlayersList.get(getNextPlayerIndex()));
             gameOver();
@@ -447,7 +447,7 @@ public class Model extends Observable {
 
     public void gameOver() {
         isGameOver = true;
-        broadcast(new Obj("end","win",currentTurn.getCurrentPlayer().getPlayerNickname()));
+        broadcast(new Obj(Tags.end,"win",currentTurn.getCurrentPlayer().getPlayerNickname()));
     }
 
     public boolean isGameOver() {

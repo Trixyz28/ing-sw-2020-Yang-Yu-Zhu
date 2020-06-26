@@ -7,7 +7,7 @@ import java.util.List;
 public class Board {
 
     //map creation 5x5 blocks
-    private Tile[][] map;
+    private final Tile[][] map;
 
     //Constructor for the map
     public Board() {
