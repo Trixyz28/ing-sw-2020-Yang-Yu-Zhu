@@ -1,13 +1,10 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.messages.GameMessage;
-import it.polimi.ingsw.messages.Messages;
+import it.polimi.ingsw.messages.Obj;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.observers.Observer;
-
-import java.io.PrintStream;
-import java.util.Scanner;
 
 
 public abstract class View extends Observable implements Observer {
@@ -16,6 +13,7 @@ public abstract class View extends Observable implements Observer {
     private boolean endGame = false;
     protected Operation operation;
     protected GameMessage gameMessage;
+    protected Obj obj;
 
 
     public View(Player player){
@@ -37,10 +35,11 @@ public abstract class View extends Observable implements Observer {
             String[] inputs = input.split(",");
             int row = Integer.parseInt(inputs[0]);
             int column = Integer.parseInt(inputs[1]);
+            operation = obj.getOperation();
             operation.setPosition(row, column);
             System.out.println("Received: Operation type " + operation.getType() + " ("
                     + operation.getRow() + "," + operation.getColumn() + ")");
-            notify(operation);
+            notify(obj);
             /* ripristinare */
             //operation = null;
         }catch (IllegalArgumentException e){
@@ -50,27 +49,32 @@ public abstract class View extends Observable implements Observer {
 
 
     protected void handleGm(String input){  /* modificare Gm precedentemente salvata con l'input dal Client */
+        gameMessage = obj.getGameMessage();
+        /*
         if(gameMessage.getMessage().equals(Messages.Worker)){
             try {
                 int index = Integer.parseInt(input);
                 System.out.println("Received: WorkerIndex = " + index);
-                notify(index);  /* Integer */
+                notify(index);  /* Integer
                 //gameMessage = null;
             }catch(IllegalArgumentException e){
                 System.out.println("Inserimento invalido");
             }
         }else{
+
+         */
             gameMessage.setAnswer(input);
             System.out.println("Received: Answer = " + gameMessage.getAnswer());
-            notify(gameMessage);  /* ripristinare */
-        }
+            notify(obj);  /* ripristinare */
     }
 
 
     void messageString(String input) {
-        GameMessage gm = new GameMessage(player, null);
+        GameMessage gm = new GameMessage(null);
         gm.setAnswer(input);
-        notify(gm);
+        Obj obj = new Obj(gm);
+        obj.setReceiver(player);
+        notify(obj);
     }
 
 }

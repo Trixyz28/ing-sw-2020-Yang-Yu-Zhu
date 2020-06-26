@@ -10,10 +10,15 @@ public class Triton extends WorkerDecorator {
 
     @Override
     public void move(Tile t) {
-        if (t.perimeterTile()) {
-            setGodPower(true);
-        }
         super.move(t);
+        if (t.perimeterTile()) {
+            for(Tile tile : getAdjacentTiles()){
+                if(canMove(tile)){
+                    setGodPower(true);
+                    break;
+                }
+            }
+        }
     }
 
 }

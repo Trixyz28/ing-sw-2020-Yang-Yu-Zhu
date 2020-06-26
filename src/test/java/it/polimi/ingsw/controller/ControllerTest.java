@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.messages.GameMessage;
 import it.polimi.ingsw.messages.GodPowerMessage;
+import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.messages.Obj;
 import it.polimi.ingsw.model.God.Artemis;
 import it.polimi.ingsw.model.God.NoGod;
@@ -50,26 +51,30 @@ public class ControllerTest extends TestCase {
     @Test
     public void testDefineGodList() {
         testSetup();
-        GameMessage gm = new GameMessage(model.getCurrentTurn().getCurrentPlayer(), null);
-        GameMessage gm2 = new GameMessage(model.getMatchPlayersList().get(model.getNextPlayerIndex()), null);
+        Obj obj = new Obj(new GameMessage(null));
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+        Obj obj2 = new Obj(new GameMessage(null));
+        obj2.setReceiver(model.getMatchPlayersList().get(model.getNextPlayerIndex()));
 
+        GameMessage gm = obj.getGameMessage();
+        GameMessage gm2 = obj2.getGameMessage();
         gm.setAnswer("ATHENA");
-        observable.notify(gm);
+        observable.notify(obj);
         Assert.assertEquals(1, model.getGodsList().getCurrentGodList().size());
         Assert.assertTrue(model.getGodsList().getCurrentGodList().contains("ATHENA"));
         Assert.assertFalse(model.getGodsList().checkLength());
         gm.setAnswer("ooo");
-        observable.notify(gm);
+        observable.notify(obj);
         Assert.assertEquals(1, model.getGodsList().getCurrentGodList().size());
         Assert.assertFalse(model.getGodsList().checkLength());
 
         gm2.setAnswer("APOLLO");
-        observable.notify(gm2);
+        observable.notify(obj2);
         Assert.assertFalse(model.getGodsList().getCurrentGodList().contains("APOLLO"));
         Assert.assertFalse(model.getGodsList().checkLength());
 
         gm.setAnswer("ZEUS");
-        observable.notify(gm);
+        observable.notify(obj);
         Assert.assertEquals(2, model.getGodsList().getCurrentGodList().size());
         Assert.assertTrue(model.getGodsList().getCurrentGodList().contains("ZEUS"));
         Assert.assertTrue(model.getGodsList().checkLength());
@@ -81,14 +86,16 @@ public class ControllerTest extends TestCase {
     @Test
     public void testChooseGod() {
         testDefineGodList();
-        GameMessage gm = new GameMessage(model.getCurrentTurn().getCurrentPlayer(), null);
+        Obj obj = new Obj(new GameMessage(null));
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+        GameMessage gm = obj.getGameMessage();
 
         gm.setAnswer("LIMUS");
-        observable.notify(gm);
+        observable.notify(obj);
         Assert.assertEquals(2, model.getGodsList().getCurrentGodList().size());
 
         gm.setAnswer("ZEUS");
-        observable.notify(gm);
+        observable.notify(obj);
         Assert.assertEquals(1, model.getGodsList().getCurrentGodList().size());
 
         Assert.assertEquals(model.getCurrentTurn().getCurrentPlayer(), challenger);
@@ -100,16 +107,28 @@ public class ControllerTest extends TestCase {
     @Test
     public void testSetStartingPlayer() {
         testChooseGod();
-        GameMessage gm = new GameMessage(model.getCurrentTurn().getCurrentPlayer(), null);
+        Obj obj = new Obj(new GameMessage(null));
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+        GameMessage gm = obj.getGameMessage();
 
-        observable.notify("B");
+
+        Obj obj2 = new Obj(new GameMessage(null));
+        obj2.setReceiver(model.getMatchPlayersList().get(model.getNextPlayerIndex()));
+        /*
+        observable.notify();
         Assert.assertNotEquals(player2.getPlayerID(), model.getStartingPlayerID());
+        */
+        Assert.assertNotEquals(challenger.getPlayerNickname(), obj2.getReceiver());
+        obj2.getGameMessage().setAnswer("B");
+        Assert.assertNotEquals(player2.getPlayerID(), model.getStartingPlayerID());
+
+        Assert.assertEquals(challenger.getPlayerNickname(), obj.getReceiver());
         gm.setAnswer("C");
-        observable.notify(gm);
+        observable.notify(obj);
         Assert.assertFalse(model.setStartingPlayer(gm.getAnswer()));
 
         gm.setAnswer("B");
-        observable.notify(gm);
+        observable.notify(obj);
         Assert.assertEquals(player2.getPlayerID(), model.getStartingPlayerID());
         Assert.assertEquals(player2, model.getCurrentTurn().getCurrentPlayer());
 
@@ -119,20 +138,24 @@ public class ControllerTest extends TestCase {
     public void testPlaceWorkers() {
         testSetStartingPlayer();
 
-        Operation op = new Operation(0, 2,2);
-        observable.notify(op);
+        Obj obj = new Obj(new Operation(0, 2,2));
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+        Operation op = obj.getOperation();
+        observable.notify(obj);
         Assert.assertEquals(player2.chooseWorker(0).getPosition(), model.commandToTile(2,2));
         op.setPosition(1,1);
-        observable.notify(op);
+        observable.notify(obj);
         Assert.assertEquals(player2.chooseWorker(1).getPosition(), model.commandToTile(1,1));
 
         Assert.assertEquals(player1, model.getCurrentTurn().getCurrentPlayer());
 
         Operation op2 = new Operation(0, 4,3);
-        observable.notify(op2);
+        Obj obj2 = new Obj(op2);
+        obj2.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+        observable.notify(obj2);
         Assert.assertEquals(player1.chooseWorker(0).getPosition(), model.commandToTile(4,3));
         op2.setPosition(4,4);
-        observable.notify(op2);
+        observable.notify(obj2);
         Assert.assertEquals(player1.chooseWorker(1).getPosition(), model.commandToTile(4,4));
 
         Assert.assertEquals(1, model.getCurrentTurn().getTurnNumber());
@@ -145,7 +168,12 @@ public class ControllerTest extends TestCase {
     public void testChooseWorker() {
         testPlaceWorkers();
         Assert.assertEquals(0, model.getCurrentTurn().getState());
-        observable.notify(0);
+        GameMessage gm = new GameMessage(Messages.Worker);
+        gm.setAnswer("0");
+        Obj obj = new Obj(gm);
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+
+        observable.notify(obj);
         Assert.assertEquals(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0), model.getCurrentTurn().getChosenWorker());
         Assert.assertEquals(1, model.getCurrentTurn().getState());
         Assert.assertEquals(model.getCurrentTurn().getInitialTile(), model.getCurrentTurn().getChosenWorker().getPosition());
@@ -156,13 +184,16 @@ public class ControllerTest extends TestCase {
     public void testMove() {
         testChooseWorker();
 
-        Operation move = new Operation( 1, 2,2);
+        Obj obj = new Obj(new Operation( 1, 2,2));
+        Operation move = obj.getOperation();
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+
         Assert.assertEquals("B", model.getCurrentTurn().getCurrentPlayer().getPlayerNickname());
-        observable.notify(move);
+        observable.notify(obj);
         Assert.assertEquals(model.getCurrentTurn().getInitialTile(), model.getCurrentTurn().getChosenWorker().getPosition());
 
         move.setPosition(2,1);
-        observable.notify(move);
+        observable.notify(obj);
         Assert.assertNotEquals(model.getCurrentTurn().getInitialTile(), model.getCurrentTurn().getChosenWorker().getPosition());
         Assert.assertEquals(model.commandToTile(2,1), model.getCurrentTurn().getChosenWorker().getPosition());
         Assert.assertEquals(model.getCurrentTurn().getFinalTile(), model.getCurrentTurn().getChosenWorker().getPosition());
@@ -176,8 +207,11 @@ public class ControllerTest extends TestCase {
         testMove();
 
         Operation build = new Operation( 2, 2,2);
+        Obj obj = new Obj(build);
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker().canBuildBlock(model.commandToTile(2,2)));
-        observable.notify(build);
+        observable.notify(obj);
         Assert.assertEquals(1, model.commandToTile(2,2).getBlockLevel());
         Assert.assertEquals(0, model.getCurrentTurn().getState());
         Assert.assertEquals(2, model.getCurrentTurn().getTurnNumber());
@@ -197,7 +231,14 @@ public class ControllerTest extends TestCase {
         player2.chooseWorker(1).setPosition(position2);
 
         Assert.assertEquals(0, model.getCurrentTurn().getState());
-        observable.notify(0);
+        GameMessage gm = new GameMessage(Messages.Worker);
+        gm.setAnswer("0");
+        Obj obj = new Obj(gm);
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+        observable.notify(obj);
+        Assert.assertTrue(model.checkTurn(obj.getReceiver()));
+        Assert.assertTrue(model.checkAnswer(obj.getGameMessage()));
+
         Assert.assertEquals(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0), model.getCurrentTurn().getChosenWorker());
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker() instanceof Prometheus);
         Assert.assertEquals(0, model.getCurrentTurn().getState());
@@ -208,9 +249,11 @@ public class ControllerTest extends TestCase {
     @Test
     public void testGmUpdate() {
         testBeforeGmUpdate();
-        GameMessage gm = new GameMessage(player2, GodPowerMessage.valueOf("PROMETHEUS").getMessage());
+        GameMessage gm = new GameMessage(GodPowerMessage.valueOf("PROMETHEUS").getMessage());
         gm.setAnswer("BUILD");
-        observable.notify(gm);
+        Obj obj = new Obj(gm);
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+        observable.notify(obj);
         Assert.assertTrue(model.checkAnswer(gm));
         Assert.assertFalse(model.getCurrentTurn().getChosenWorker().getGodPower());
         Assert.assertEquals(2, model.getCurrentTurn().getState());
@@ -219,9 +262,12 @@ public class ControllerTest extends TestCase {
     @Test
     public void testGmUpdate2() {
         testBeforeGmUpdate();
-        GameMessage gm = new GameMessage(player2, GodPowerMessage.valueOf("PROMETHEUS").getMessage());
+        GameMessage gm = new GameMessage(GodPowerMessage.valueOf("PROMETHEUS").getMessage());
         gm.setAnswer("MOVE");
-        observable.notify(gm);
+        Obj obj = new Obj(gm);
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+        observable.notify(obj);
+
         Assert.assertTrue(model.checkAnswer(gm));
         Assert.assertFalse(model.getCurrentTurn().getChosenWorker().getGodPower());
         Assert.assertEquals(1, model.getCurrentTurn().getState());
@@ -238,12 +284,18 @@ public class ControllerTest extends TestCase {
         player2.chooseWorker(0).setPosition(position1);
         player2.chooseWorker(1).setPosition(position2);
 
-        observable.notify(0);
+        GameMessage gm = new GameMessage(Messages.Worker);
+        gm.setAnswer("0");
+        Obj obj = new Obj(gm);
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+        observable.notify(obj);
         Assert.assertEquals(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0), model.getCurrentTurn().getChosenWorker());
 
         Assert.assertEquals(1, model.getCurrentTurn().getState());
-        Operation move = new Operation( 1, 2,1);
+        Obj move = new Obj(new Operation( 1, 2,1));
+        move.setReceiver(model.getCurrentTurn().getCurrentPlayer());
         observable.notify(move);
+
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker() instanceof Artemis);
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker().getGodPower());
         Assert.assertEquals(model.getCurrentTurn().getInitialTile(), model.getCurrentTurn().getChosenWorker().getPosition());
@@ -251,13 +303,14 @@ public class ControllerTest extends TestCase {
         Assert.assertEquals(1, model.getCurrentTurn().getState());
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker().getGodPower());
 
-        GameMessage gm = new GameMessage(player2, GodPowerMessage.valueOf("ARTEMIS").getMessage());
-        gm.setAnswer("MOVE");
-        observable.notify(gm);
+        Obj godAnswer = new Obj(new GameMessage(GodPowerMessage.valueOf("ARTEMIS").getMessage()));
+        godAnswer.getGameMessage().setAnswer("MOVE");
+        godAnswer.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+        observable.notify(godAnswer);
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker().getGodPower());
 
-        gm.setAnswer("NO");
-        observable.notify(gm);
+        godAnswer.getGameMessage().setAnswer("NO");
+        observable.notify(godAnswer);
         Assert.assertFalse(model.getCurrentTurn().getChosenWorker().getGodPower());
         Assert.assertEquals(model.getCurrentTurn().getFinalTile(), model.getCurrentTurn().getChosenWorker().getPosition());
         Assert.assertEquals(2, model.getCurrentTurn().getState());

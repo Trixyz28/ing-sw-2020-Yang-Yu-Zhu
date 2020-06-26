@@ -200,8 +200,14 @@ public class Model extends Observable {
     /* check risposta per divinità */
     public boolean checkAnswer(GameMessage gMessage){
         String answer = gMessage.getAnswer();
-        GodPowerMessage god = GodPowerMessage.valueOf(currentTurn.getCurrentPlayer().getGodCard());
 
+        if(gMessage.getMessage().equals(Messages.Worker)){
+            /* workerIndex */
+            return gMessage.getAnswer().equals("0") || gMessage.getAnswer().equals("1");
+        }
+
+        /* godPower */
+        GodPowerMessage god = GodPowerMessage.valueOf(currentTurn.getCurrentPlayer().getGodCard());
         if(god.checkAnswer(answer) == 0){
             sendMessage("boardMsg",Messages.tryAgain);
             sendMessage("gMsg",currentTurn.getCurrentPlayer().getGodCard());
@@ -214,6 +220,7 @@ public class Model extends Observable {
             }
             return true;
         }
+
     }
 
 
@@ -349,7 +356,7 @@ public class Model extends Observable {
             } catch (IllegalArgumentException e){
                 message = arg;
             } finally {
-                unicastMsg(new Obj(new GameMessage(currentTurn.getCurrentPlayer(), message)));
+                unicastMsg(new Obj(new GameMessage(message)));
             }
 
         } else {

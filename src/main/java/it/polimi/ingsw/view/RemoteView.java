@@ -71,17 +71,14 @@ public class RemoteView extends View {
             } else {
                 if(connection.getPlayer().getPlayerNickname().equals(obj.getReceiver())) {
 
-                    if(obj.getTag().equals("operation")) {
-                        operation = obj.getOperation();  /* salvare l'op nella view e notify */
-                        opSend = true;
-                    } else if (obj.getTag().equals("gMsg")) {
-
-                        if(obj.getReceiver().equals(player.getPlayerNickname())) {
-                            /* salvare prima di notify */
-                            gameMessage = obj.getGameMessage();
-                            gmSend = true;
-                        }
-                    }
+                if(obj.getTag().equals("operation")) {
+                    this.obj = obj;  /* salvare l'op nella view e notify */
+                    opSend = true;
+                } else if (obj.getTag().equals("gMsg")) {
+                    /* salvare prima di notify */
+                    this.obj = obj;
+                    gmSend = true;
+                }
 
                     connection.asyncSend(message);
                 }

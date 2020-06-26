@@ -7,13 +7,9 @@ import org.junit.Test;
 
 public class GameMessageTest extends TestCase {
 
-    Player player = new Player("A");
-    GameMessage gameMessage = new GameMessage(player,"hello");
+    GameMessage gameMessage = new GameMessage("hello");
 
-    @Test
-    public void testPlayer() {
-        assertEquals("A",gameMessage.getPlayer());
-    }
+
 
     @Test
     public void testMessage() {

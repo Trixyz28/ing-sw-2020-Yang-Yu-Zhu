@@ -147,7 +147,7 @@ public class ModelTest extends TestCase {
         testStartTurn();
         model.getCurrentTurn().choseWorker(player2.chooseWorker(0));
         GodPowerMessage god = GodPowerMessage.valueOf(player2.getGodCard());
-        GameMessage gm = new GameMessage(player2, god.getMessage());
+        GameMessage gm = new GameMessage(god.getMessage());
         gm.setAnswer("ciao!");
         Assert.assertFalse(model.checkAnswer(gm));
         gm.setAnswer("NO");
@@ -327,7 +327,7 @@ public class ModelTest extends TestCase {
                 GameMessage gm = ((Obj) message).getGameMessage();
                 GodPowerMessage god = GodPowerMessage.valueOf(model.getCurrentTurn().getCurrentPlayer().getGodCard());
                 Assert.assertEquals(gm.getMessage(), god.getMessage());
-                Assert.assertEquals(gm.getPlayer(), model.getCurrentTurn().getCurrentPlayer().getPlayerNickname());
+                Assert.assertEquals(((Obj) message).getReceiver(), model.getCurrentTurn().getCurrentPlayer().getPlayerNickname());
             }
         };
         model.addObservers(observer);

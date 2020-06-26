@@ -1,7 +1,5 @@
 package it.polimi.ingsw.messages;
 
-import it.polimi.ingsw.model.Player;
-
 import java.io.Serializable;
 
 
@@ -10,18 +8,11 @@ public class GameMessage implements Serializable {
 
     private final String message;
     private String answer;
-    private final String player;
 
-    public GameMessage(final Player player, final String message){
-        this.player = player.getPlayerNickname();
+    public GameMessage(final String message){
         this.message = message;
     }
 
-
-    //Player name getter
-    public String getPlayer(){
-        return player;
-    }
 
     //Message getter
     public String getMessage(){

@@ -28,6 +28,7 @@ public class Demeter extends WorkerDecorator {
 
     @Override
     public void buildBlock(Tile t) {
+        super.buildBlock(t);
         if(buildCounter == 0) {
             buildCounter = 1;
             originalBuild = t;
@@ -35,7 +36,6 @@ public class Demeter extends WorkerDecorator {
                 setGodPower(true);
             }
         }
-        super.buildBlock(t);
     }
 
     @Override

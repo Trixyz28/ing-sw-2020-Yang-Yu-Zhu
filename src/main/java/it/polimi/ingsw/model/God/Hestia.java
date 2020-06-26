@@ -21,13 +21,13 @@ public class Hestia extends WorkerDecorator {
 
     @Override
     public void buildBlock(Tile t) {
+        super.buildBlock(t);
         if(buildCounter == 0) {
             buildCounter = 1;
             if(canBuild()) {
                 setGodPower(true);
             }
         }
-        super.buildBlock(t);
     }
 
     @Override
@@ -42,13 +42,13 @@ public class Hestia extends WorkerDecorator {
 
     @Override
     public void buildDome(Tile t) {
+        super.buildDome(t);
         if (buildCounter == 0) {
             buildCounter = 1;
             if(canBuild()) {
                 setGodPower(true);
             }
         }
-        super.buildDome(t);
     }
 
     @Override

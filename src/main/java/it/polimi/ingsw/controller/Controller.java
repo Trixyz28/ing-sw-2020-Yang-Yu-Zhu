@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.messages.GameMessage;
 import it.polimi.ingsw.messages.Messages;
+import it.polimi.ingsw.messages.Obj;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observer;
@@ -28,15 +29,8 @@ public class Controller implements Observer {
         buildController = new BuildController(model);
     }
 
-    private boolean checkTurn(Object arg) {
-        if(arg instanceof Operation){
-           return true;
-        }else if (arg instanceof GameMessage){
-           return model.checkTurn(((GameMessage)arg).getPlayer());
-        }else if (arg instanceof Integer){
-            return true;
-        }
-        return false;
+    private boolean checkTurn(Obj arg) {
+        return model.checkTurn(arg.getReceiver());
     }
 
 
@@ -47,24 +41,31 @@ public class Controller implements Observer {
             /* inizializzazione con decisioni Challenger */
             initController.initializeMatch();
 
-        } else if (checkTurn(arg)) {
+        }
+        /*else if (arg instanceof Integer) {  /* indice del Worker scelto 0 o 1
+            turnController.setChosenWorker((Integer) arg);
 
-            if (arg instanceof Operation) {
-                opUpdate((Operation) arg);
+        }
+        */
+        else if (checkTurn((Obj) arg)) {
 
-            } else if (arg instanceof Integer) {  /* indice del Worker scelto 0 o 1 */
-                turnController.setChosenWorker((Integer) arg);
+            if (((Obj) arg).getTag().equals("operation")) {
+                opUpdate(((Obj) arg).getOperation());
 
-            } else if (arg instanceof GameMessage) {
-                GameMessage gm = (GameMessage) arg;
+            } else if (((Obj) arg).getTag().equals("gMsg")) {
+                GameMessage gm = ((Obj) arg).getGameMessage();
 
                 if (gm.getMessage() == null) {
                     /* Scelta god e StartingPlayerNickname */
-                    stringUpdate(gm.getPlayer(), gm.getAnswer());
+                    stringUpdate(((Obj) arg).getReceiver(), gm.getAnswer());
                 } else {
-                    /* GodPower answers */
-                    if(model.checkAnswer((GameMessage)arg)) {
-                        gmUpdate();
+                    if (model.checkAnswer(gm)) {
+                        if (gm.getMessage().equals(Messages.Worker)) {
+                            turnController.setChosenWorker(Integer.parseInt(gm.getAnswer()));
+                        } else {
+                            /* GodPower answers */
+                            gmUpdate();
+                        }
                     }
                 }
             }

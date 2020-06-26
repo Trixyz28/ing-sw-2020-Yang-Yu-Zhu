@@ -1,10 +1,14 @@
 package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Tile;
+import it.polimi.ingsw.model.Turn;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 public class HestiaTest extends TestCase {
 
