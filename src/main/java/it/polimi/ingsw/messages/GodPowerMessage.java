@@ -1,6 +1,8 @@
 package it.polimi.ingsw.messages;
 
+
 public enum GodPowerMessage {
+
     ARTEMIS ("Artemis: Move again? (Yes/No)"),
     ATLAS ("Atlas: Block or Dome?", "DOME", "BLOCK"),
     DEMETER ("Demeter: Build again? (Yes/No)"),
@@ -11,9 +13,7 @@ public enum GodPowerMessage {
     TRITON ("Triton: Move again? (Yes/No)");
 
     private String message;
-
     private String answer1;
-
     private String answer2;
 
     GodPowerMessage(String message){

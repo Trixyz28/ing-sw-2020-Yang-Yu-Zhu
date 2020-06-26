@@ -34,7 +34,7 @@ public class SocketConnection extends Observable implements Runnable {
     }
 
 
-    private synchronized boolean isActive() {
+    public synchronized boolean isActive() {
         return active;
     }
 
@@ -68,6 +68,11 @@ public class SocketConnection extends Observable implements Runnable {
 
 
     public void closeMatch() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         closeConnection();
         server.deregisterMatch(this);
     }
@@ -81,10 +86,6 @@ public class SocketConnection extends Observable implements Runnable {
                 send(message);
             }
         }).start();
-    }
-
-    public synchronized void syncSend(Object message) {
-        send(message);
     }
 
 
@@ -146,14 +147,15 @@ public class SocketConnection extends Observable implements Runnable {
         } finally {
             if (!inMatch) {
                 server.removeFromLobby(lobbyID, this, player.getPlayerNickname());
-            } else if (active) {
-                if(!lost) {
-                    closeMatch();
-                } else {
-                    deregisterPlayer();
-                }
-
+            } else if(lost) {
+                active = false;
+                deregisterPlayer();
             }
+
+            if(active && !lost) {
+                closeMatch();
+            }
+
         }
     }
 

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.lobby;
 
 import it.polimi.ingsw.observers.Observable;
-import it.polimi.ingsw.model.Model;
 
 import java.util.ArrayList;
 

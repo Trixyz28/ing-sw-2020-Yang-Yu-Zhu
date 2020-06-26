@@ -64,7 +64,6 @@ public abstract class View extends Observable implements Observer {
             System.out.println("Received: Answer = " + gameMessage.getAnswer());
             notify(gameMessage);  /* ripristinare */
         }
-
     }
 
 

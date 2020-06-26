@@ -8,9 +8,10 @@ import it.polimi.ingsw.server.SocketConnection;
 
 public class RemoteView extends View {
 
-    private SocketConnection clientConnection;
+    private SocketConnection connection;
     protected boolean opSend;
     protected boolean gmSend;
+
 
     private class MessageReceiver implements Observer {
 
@@ -34,7 +35,7 @@ public class RemoteView extends View {
 
     public RemoteView(Player player, SocketConnection c){
         super(player);
-        this.clientConnection = c;
+        this.connection = c;
         c.addObservers(new MessageReceiver());
         opSend = false;
         gmSend = false;
@@ -45,44 +46,50 @@ public class RemoteView extends View {
 
         Obj obj = (Obj)message;
 
-        if(obj.isBroadcast()) {
+        if(connection.isActive()) {
 
-            if(obj.getTag().equals("completeList")) {
-                if(clientConnection.getPlayer().isChallenger()) {
-                    clientConnection.asyncSend(message);
-                }
-            } else if (obj.getTag().equals("end")) {
-                clientConnection.syncSend(obj);
+            if(obj.isBroadcast()) {
 
-                if(player.getPlayerNickname().equals(obj.getPlayer())) {
-                    if(obj.getMessage().equals("lose")) {
-                        clientConnection.setLost(true);
-                    } else {
-                        clientConnection.closeMatch();
+                if(obj.getTag().equals("completeList")) {
+                    if(connection.getPlayer().isChallenger()) {
+                        connection.asyncSend(message);
                     }
+                } else if (obj.getTag().equals("end")) {
+                    connection.asyncSend(obj);
+
+                    if(player.getPlayerNickname().equals(obj.getPlayer())) {
+                        if(obj.getMessage().equals("lose")) {
+                            connection.setLost(true);
+                        } else {
+                            connection.closeMatch();
+                        }
+                    }
+                } else {
+                    connection.asyncSend(message);
                 }
+
             } else {
-                clientConnection.asyncSend(message);
-            }
+                if(connection.getPlayer().getPlayerNickname().equals(obj.getReceiver())) {
 
-        } else {
-            if(clientConnection.getPlayer().getPlayerNickname().equals(obj.getReceiver())) {
+                    if(obj.getTag().equals("operation")) {
+                        operation = obj.getOperation();  /* salvare l'op nella view e notify */
+                        opSend = true;
+                    } else if (obj.getTag().equals("gMsg")) {
 
-                if(obj.getTag().equals("operation")) {
-                    operation = obj.getOperation();  /* salvare l'op nella view e notify */
-                    opSend = true;
-                } else if (obj.getTag().equals("gMsg")) {
-
-                    if(obj.getReceiver().equals(player.getPlayerNickname())) {
-                        /* salvare prima di notify */
-                        gameMessage = obj.getGameMessage();
-                        gmSend = true;
+                        if(obj.getReceiver().equals(player.getPlayerNickname())) {
+                            /* salvare prima di notify */
+                            gameMessage = obj.getGameMessage();
+                            gmSend = true;
+                        }
                     }
-                }
 
-                clientConnection.asyncSend(message);
+                    connection.asyncSend(message);
+                }
             }
+
         }
+
+
     }
 
 }
