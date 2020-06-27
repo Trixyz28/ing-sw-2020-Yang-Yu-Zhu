@@ -4,23 +4,28 @@ public class Tags {
 
     //Tags of Obj
 
-    public static String generic = "generic";
+    public static final String generic = "generic";
 
-    public static String defineGod = "defineGod";
-    public static String chooseGod = "chooseGod";
+    public static final String nameMsg = "nameMsg";
 
-    public static String completeList = "completeList";
-    public static String currentList = "currentList";
+    public static final String lobbyOk = "lobbyOk";
+    public static final String playerList = "playerList";
 
-    public static String turn = "turn";
-    public static String godMsg = "godMsg";
+    public static final String defineGod = "defineGod";
+    public static final String chooseGod = "chooseGod";
 
-    public static String operation = "operation";
+    public static final String completeList = "completeList";
+    public static final String currentList = "currentList";
 
-    public static String board = "board";
-    public static String boardMsg = "boardMsg";
-    public static String gMsg = "gMsg";
+    public static final String turn = "turn";
+    public static final String godMsg = "godMsg";
 
-    public static String end = "end";
+    public static final String operation = "operation";
+
+    public static final String board = "board";
+    public static final String boardMsg = "boardMsg";
+    public static final String gMsg = "gMsg";
+
+    public static final String end = "end";
 
 }

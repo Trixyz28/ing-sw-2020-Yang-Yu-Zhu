@@ -97,23 +97,21 @@ public class Client implements Runnable {
                     } else if (inputObject instanceof Obj) {
                         Obj obj = (Obj)inputObject;
 
-                        if(obj.getTag().equals("operation")) {
+                        if(obj.getTag().equals(Tags.operation)) {
                             opReceived = true;  /* ricevuto un Operation */
                             Operation operation = obj.getOperation();
-                            if(operation.getType() == 0){
-                                ui.showObj(new Obj("boardMsg",Messages.Place));
-                            } else if(operation.getType() == 1){
-                                ui.showObj(new Obj("boardMsg",Messages.Move));
-                            } else {
-                                ui.showObj(new Obj("boardMsg",Messages.Build));
+                            if(operation.getType() == 1){
+                                ui.showObj(new Obj(Tags.boardMsg,Messages.Move));
+                            } else if(operation.getType() == 2) {
+                                ui.showObj(new Obj(Tags.boardMsg,Messages.Build));
                             }
 
-                        } else if(obj.getTag().equals("gMsg")) {
+                        } else if(obj.getTag().equals(Tags.gMsg)) {
                             gmReceived = true;
                             gMessage = obj.getGameMessage();
                             ui.showObj(obj);
 
-                        } else if(obj.getTag().equals("generic")) {
+                        } else if(obj.getTag().equals(Tags.generic)) {
                             ui.showMessage(obj.getMessage());
 
                         } else {
@@ -194,7 +192,7 @@ public class Client implements Runnable {
                     } else {
                         ui.showMessage(Messages.invalidWorker);
                     }
-                } catch (IllegalArgumentException e) {
+                } catch (Exception e) {
                     ui.showMessage(Messages.wrongArgument);
                 }
             } else {  /* problema yes or no */

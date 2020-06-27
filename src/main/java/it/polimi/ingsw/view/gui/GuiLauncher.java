@@ -213,7 +213,8 @@ public class GuiLauncher extends Application implements Observer {
         if(message instanceof Obj) {
             Obj obj = (Obj)message;
 
-            if(obj.getTag().equals("nameMsg")) {
+
+            if(obj.getTag().equals(Tags.nameMsg)) {
                 if(obj.getMessage().equals(Messages.nicknameAvailable)) {
                     this.nickname = loadingController.getNickname();
                     changeScene(3);
@@ -223,15 +224,15 @@ public class GuiLauncher extends Application implements Observer {
                 }
             }
 
-            else if(obj.getTag().equals("lobbyOk")) {
+            else if(obj.getTag().equals(Tags.lobbyOk)) {
                 Platform.runLater(()-> loadingController.inLobby(obj.getMessage()));
             }
 
-            else if(obj.getTag().equals("playerList")) {
+            else if(obj.getTag().equals(Tags.playerList)) {
                 playerList = obj.getList();
                 changeScene(4);
             }
-            else if(obj.getTag().equals("turn")) {
+            else if(obj.getTag().equals(Tags.turn)) {
                 if(!challengerSet) {
                     this.challengerName = obj.getMessage();
                     challengerSet = true;
@@ -239,11 +240,11 @@ public class GuiLauncher extends Application implements Observer {
                 Platform.runLater(()-> godController.setTurn(obj.getMessage()));
             }
 
-            else if(obj.getTag().equals("defineGod")) {
+            else if(obj.getTag().equals(Tags.defineGod)) {
                 Platform.runLater(() -> godController.changeImage(obj.getMessage()));
             }
 
-            else if(obj.getTag().equals("chooseGod")) {
+            else if(obj.getTag().equals(Tags.chooseGod)) {
                 for(String name : playerList) {
                     if(name.equals(obj.getPlayer())) {
                         godList[playerList.indexOf(name)] = obj.getMessage();
@@ -251,7 +252,7 @@ public class GuiLauncher extends Application implements Observer {
                 }
                 Platform.runLater(() -> godController.setChosenGod(obj));
             }
-            else if(obj.getTag().equals("board")) {
+            else if(obj.getTag().equals(Tags.board)) {
                 this.lastView = obj.getBoardView();
                 if(!boardReceived) {
                     changeScene(5);
@@ -261,7 +262,7 @@ public class GuiLauncher extends Application implements Observer {
                     boardController.showBoard(lastView);
                 });
 
-            } else if(obj.getTag().equals("boardMsg")) {
+            } else if(obj.getTag().equals(Tags.boardMsg)) {
 
                 if(obj.getMessage().equals(Messages.workerChose)) {
                     this.chooseWorker = false;
@@ -271,7 +272,7 @@ public class GuiLauncher extends Application implements Observer {
                     showBoardMsg(obj.getMessage());
                 }
 
-            } else if(obj.getTag().equals("gMsg")) {
+            } else if(obj.getTag().equals(Tags.gMsg)) {
                 if(obj.getGameMessage().getMessage().equals(Messages.Worker)) {
                     this.chooseWorker = true;
                     showBoardMsg(obj.getGameMessage().getMessage());
@@ -283,10 +284,10 @@ public class GuiLauncher extends Application implements Observer {
                     showBoardMsg(god.getMessage());
                 }
 
-            } else if(obj.getTag().equals("godMsg")) {
+            } else if(obj.getTag().equals(Tags.godMsg)) {
                 showGodMsg(obj.getMessage());
 
-            } else if(obj.getTag().equals("end")) {
+            } else if(obj.getTag().equals(Tags.end)) {
                 if(obj.getMessage().equals("win")) {
                     if(obj.getPlayer().equals(nickname)) {
                         showBoardMsg("You win!");

@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.messages.GameMessage;
 import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.messages.Obj;
+import it.polimi.ingsw.messages.Tags;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.observers.Observable;
 
@@ -67,12 +68,23 @@ public class SocketConnection extends Observable implements Runnable {
     }
 
 
-    public void closeMatch() {
+    public void closeMatch()  {
+
+        Thread locker = new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        locker.start();
+
         try {
-            Thread.sleep(3000);
+            locker.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         closeConnection();
         server.deregisterMatch(this);
     }
