@@ -60,7 +60,7 @@ public class Client implements Observer, Runnable {
 
         } catch (NoSuchElementException | InterruptedException e) {
             ui.showMessage(Messages.connectionClosed);
-            System.out.println("client run exception");
+            System.out.println("client.run() exception");
 
         } finally{
             try {

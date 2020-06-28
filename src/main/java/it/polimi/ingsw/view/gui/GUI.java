@@ -8,8 +8,6 @@ import java.util.Scanner;
 
 public class GUI extends Observable implements Ui {
 
-    private Scanner scanner = new Scanner(System.in);
-
 
     @Override
     public void showMessage(String str) {

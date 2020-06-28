@@ -51,8 +51,9 @@ public class Server {
 
                 executor.submit(socketConnection);
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.out.println("Connection Error");
+                serverSocket.close();
             }
         }
     }

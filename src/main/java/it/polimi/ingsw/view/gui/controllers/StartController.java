@@ -32,7 +32,7 @@ public class StartController {
     public void setGlow() {
         FadeTransition transition = new FadeTransition();
         transition.setNode(firstPageLabel);
-        transition.setDuration(Duration.millis(1000));
+        transition.setDuration(Duration.millis(1200));
         transition.setFromValue(0);
         transition.setToValue(1);
         transition.setCycleCount(-1);
@@ -40,9 +40,6 @@ public class StartController {
 
         transition.play();
     }
-
-
-    Effect effect = new Glow();
 
 
     public void setGuiLauncher(GuiLauncher guiLauncher) {

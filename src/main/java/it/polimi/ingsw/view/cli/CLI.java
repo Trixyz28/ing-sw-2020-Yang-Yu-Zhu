@@ -4,8 +4,10 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.BoardView;
+import it.polimi.ingsw.view.Sender;
 import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.WorkerView;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -13,7 +15,6 @@ import java.util.Scanner;
 
 public class CLI implements Ui {
 
-    Scanner in = new Scanner(System.in);
     private BoardView boardView;
     private String nickname;
     private boolean current;
@@ -35,74 +36,21 @@ public class CLI implements Ui {
 
         String command = obj.getTag();
 
-        if (command.equals(Tags.playerList)) {
-            playerList = obj.getList();
-            godList = new String[playerList.size()];
-
-                System.out.println(Messages.matchStarting);
-
-            for(String str : obj.getList()) {
-                System.out.println(str);
+        switch (command) {
+            case Tags.playerList -> handlePlayerList(obj.getList());
+            case Tags.setName -> nickname = obj.getMessage();
+            case Tags.completeList -> printCompleteList(obj.getList());
+            case Tags.defineGod -> System.out.println("The challenger chooses: " + obj.getMessage());
+            case Tags.chooseGod -> {
+                System.out.println("The player " + obj.getPlayer() + " chooses " + obj.getMessage() + "!");
+                godList[playerList.indexOf(obj.getPlayer())] = obj.getMessage();
             }
-
-        } else if (command.equals("setName")) {
-            nickname = obj.getMessage();
-
-        } else if(command.equals("turn")) {
-            //System.out.println("Turn of " + obj.getMessage());
-
-        } else if(command.equals("completeList")) {
-            System.out.println("You can choose godcards from this list:");
-            for(String str : obj.getList()) {
-                System.out.println(str);
-            }
-
-        } else if(command.equals("defineGod")) {
-            System.out.println("The challenger chooses: " + obj.getMessage());
-
-        } else if(command.equals("chooseGod")) {
-            System.out.println("The player "+ obj.getPlayer() + " chooses " + obj.getMessage() + "!");
-            godList[playerList.indexOf(obj.getPlayer())] = obj.getMessage();
-
-        } else if(command.equals("currentList")) {
-            if(obj.getList().size()!=0) {
-                System.out.println("Actual cards:");
-                for(String str : obj.getList()) {
-                    System.out.println(str);
-                }
-            }
-        } else if(command.equals(Tags.board)) {
-            showBoard(obj.getBoardView(),obj.getBoardView().getCurrentName().equals(nickname));
-        } else if(command.equals("gMsg")) {
-            System.out.println(obj.getGameMessage().getMessage());
-            if(obj.getGameMessage().getMessage().equals(Messages.worker)) {
-                System.out.println(Messages.workerIndex);
-            }
-
-        } else if(command.equals("end")) {
-            if(obj.getMessage().equals("win")) {
-                if(obj.getPlayer().equals(nickname)) {
-                    System.out.println("You win!");
-                } else {
-                    System.out.println("The winner is " + obj.getPlayer() + "!");
-                }
-            } else {
-                if(obj.getPlayer().equals(nickname)) {
-                    System.out.println("You lose!");
-                } else {
-                    System.out.println("The player " + obj.getPlayer() + " loses!");
-                }
-            }
-        } else if(command.equals(Tags.boardMsg)) {
-            System.out.print(obj.getMessage());
-
-            if(obj.getMessage().equals(Messages.move) || obj.getMessage().equals(Messages.Build)) {
-                System.out.println(Messages.operation);
-            } else {
-                System.out.println("");
-            }
-        } else {
-            System.out.println(obj.getMessage());
+            case Tags.currentList -> printCurrentList(obj.getList());
+            case Tags.board -> showBoard(obj.getBoardView(), obj.getBoardView().getCurrentName().equals(nickname));
+            case Tags.gMsg -> handleGameMessage(obj);
+            case Tags.end -> endGame(obj);
+            case Tags.boardMsg -> handleBoardMessage(obj.getMessage());
+            default -> System.out.println(obj.getMessage());
         }
     }
 
@@ -265,6 +213,75 @@ public class CLI implements Ui {
             return CliPrinter.player1;
         } else {
             return CliPrinter.player2;
+        }
+    }
+
+    public void printCompleteList(ArrayList<String> list) {
+        System.out.println("You can choose godcards from this list:");
+        for(String str : list) {
+            System.out.println(str);
+        }
+    }
+
+    public void printCurrentList(ArrayList<String> list) {
+        if(list.size()!=0) {
+            System.out.println("Actual cards:");
+            for(String str : list) {
+                System.out.println(str);
+            }
+        }
+    }
+
+    public void handlePlayerList(ArrayList<String> list) {
+        playerList = list;
+        godList = new String[playerList.size()];
+
+        System.out.println(Messages.matchStarting);
+
+        for(String str : list) {
+            System.out.println(str);
+        }
+    }
+
+
+    public void handleBoardMessage(String message) {
+        System.out.print(message);
+        if(message.equals(Messages.move) || message.equals(Messages.Build)) {
+            System.out.println(Messages.operation);
+        } else {
+            System.out.println("");
+        }
+    }
+
+
+    public void handleGameMessage(Obj obj) {
+        String message = obj.getGameMessage().getMessage();
+
+        System.out.print(message);
+        if(message.equals(Messages.worker)) {
+            System.out.print(Messages.workerIndex);
+        } else if (message.equals(Messages.confirmWorker)) {
+            System.out.print(" (YES/NO)");
+        } else {
+            GodPowerMessage god = GodPowerMessage.valueOf(boardView.getCurrentGod());
+            System.out.print( "(" + god.getAnswer1() + "/" + god.getAnswer2() + ")");
+        }
+        System.out.println("");
+    }
+
+    public void endGame(Obj obj) {
+        if(obj.getMessage().equals("win")) {
+            if(obj.getPlayer().equals(nickname)) {
+                System.out.println("You win!");
+            } else {
+                System.out.println("The winner is " + obj.getPlayer() + "!");
+            }
+        } else {
+            if(obj.getPlayer().equals(nickname)) {
+                System.out.println("You lose!");
+            } else {
+                System.out.println("The player " + obj.getPlayer() + " loses!");
+            }
         }
     }
 

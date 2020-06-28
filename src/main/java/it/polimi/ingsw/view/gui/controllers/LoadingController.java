@@ -4,6 +4,7 @@ package it.polimi.ingsw.view.gui.controllers;
 import it.polimi.ingsw.view.Sender;
 import it.polimi.ingsw.view.gui.GuiLauncher;
 import javafx.animation.Transition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,9 +24,6 @@ public class LoadingController {
 
     private GuiLauncher guiLauncher;
     private Sender sender;
-
-
-
 
 
     //FXML Server
