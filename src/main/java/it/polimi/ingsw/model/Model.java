@@ -205,13 +205,13 @@ public class Model extends Observable {
     public boolean checkAnswer(GameMessage gMessage){
         String answer = gMessage.getAnswer();
 
-        if(gMessage.getMessage().equals(Messages.Worker)){
+        if(gMessage.getMessage().equals(Messages.worker)){
             /* workerIndex */
             if(gMessage.getAnswer().equals("0") || gMessage.getAnswer().equals("1")){
                 return true;
             }else {
                 sendMessage(Tags.boardMsg, Messages.tryAgain);
-                sendMessage(Tags.gMsg, Messages.Worker);
+                sendMessage(Tags.gMsg, Messages.worker);
                 return false;
             }
         }
@@ -396,7 +396,7 @@ public class Model extends Observable {
 
     public void placeWorker(int indexWorker){
         sendBoard();
-        sendMessage(Tags.boardMsg,"Posiziona il worker" + indexWorker);
+        sendMessage(Tags.boardMsg,Messages.place + indexWorker);
         place();
         //notify(new Operation(currentTurn.getCurrentPlayer(),0, -1, -1));
     }
@@ -404,7 +404,6 @@ public class Model extends Observable {
     //metodi da implementare con il controller
     public boolean checkWin() {
         if (currentTurn.getChosenWorker().checkWin(currentTurn.getInitialTile())){
-            sendMessage(Tags.boardMsg,"Hai vintoooooo!!!");
             setWorkerChosen(false);
             sendBoard();
             gameOver();
@@ -415,7 +414,6 @@ public class Model extends Observable {
 
     public boolean checkLose(){
         if (currentTurn.checkLose()){
-            sendMessage(Tags.boardMsg,Messages.lose);
             /* lose */
             lose(currentTurn.getCurrentPlayer());
             return true;
@@ -433,7 +431,7 @@ public class Model extends Observable {
                 index = matchPlayersList.size() - 1;
             }
             currentTurn.setCurrentPlayer(matchPlayersList.get(index));
-            /* aggioranare totalWorkerList + conditions*/
+            /* aggiornare totalWorkerList + conditions*/
             totalWorkerList.remove(player.chooseWorker(0));
             totalWorkerList.remove(player.chooseWorker(1));
             conditions.update(player.getPlayerID());

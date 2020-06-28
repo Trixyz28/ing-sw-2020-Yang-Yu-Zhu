@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.Operation;
+import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.cli.CLI;
 
@@ -10,7 +11,7 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 
 
-public class Client implements Runnable {
+public class Client implements Observer, Runnable {
 
     private Socket socket;
     private ObjectInputStream socketIn;
@@ -23,7 +24,6 @@ public class Client implements Runnable {
 
     private Ui ui;
     private Thread t0;
-    private Thread t1;
 
     public Client() {
         this.opReceived = false;
@@ -47,27 +47,16 @@ public class Client implements Runnable {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+
+
     }
 
     @Override
     public void run() {
-        boolean cli = false;
 
         try {
             t0 = asyncReadFromSocket(socketIn);
-            if(ui instanceof CLI) {
-                cli = true;
-                t1 = cliWriteToSocket();
-            }
             t0.join();
-
-            if(cli) {
-                if(isActive()) {
-                    t1.join();
-                } else {
-                    t1.interrupt();
-                }
-            }
 
         } catch (NoSuchElementException | InterruptedException e) {
             ui.showMessage(Messages.connectionClosed);
@@ -75,6 +64,7 @@ public class Client implements Runnable {
 
         } finally{
             try {
+                // System.out.println("Closing sockets");
                 socketOut.close();
                 socketIn.close();
                 socket.close();
@@ -103,7 +93,7 @@ public class Client implements Runnable {
                             opReceived = true;  /* ricevuto un Operation */
                             Operation operation = obj.getOperation();
                             if(operation.getType() == 1){
-                                ui.showObj(new Obj(Tags.boardMsg,Messages.Move));
+                                ui.showObj(new Obj(Tags.boardMsg,Messages.move));
                             } else if(operation.getType() == 2) {
                                 ui.showObj(new Obj(Tags.boardMsg,Messages.Build));
                             }
@@ -117,9 +107,6 @@ public class Client implements Runnable {
                             ui.showMessage(obj.getMessage());
 
                         } else {
-                            if(obj.getTag().equals(Tags.end)) {
-                                System.out.println("end msg received");
-                            }
                             ui.showObj(obj);
                         }
 
@@ -128,7 +115,7 @@ public class Client implements Runnable {
                     }
                 }
             } catch (Exception e) {
-                System.out.println("exception reading thread");
+                //System.out.println("exception reading thread");
                 setActive(false);
             }
         });
@@ -137,26 +124,6 @@ public class Client implements Runnable {
         return t;
     }
 
-
-    public Thread cliWriteToSocket() {
-
-        Thread t = new Thread(() -> {
-
-            try {
-                while(isActive()) {
-                    String input = ui.getInput();
-                    sendInput(input);
-                }
-
-            } catch(Exception e) {
-                System.out.println("exception writing thread");
-                setActive(false);
-            }
-        });
-
-        t.start();
-        return t;
-    }
 
     public void setUi(Ui ui) {
         this.ui = ui;
@@ -164,7 +131,7 @@ public class Client implements Runnable {
 
 
 
-    public void sendInput(String input) {
+    public void writeToSocket(String input) {
 
         if(opReceived) {
 
@@ -225,6 +192,12 @@ public class Client implements Runnable {
 
     public synchronized void setActive(boolean active) {
         this.active = active;
+    }
+
+
+    @Override
+    public void update(Object message) {
+        writeToSocket((String)message);
     }
 
 }

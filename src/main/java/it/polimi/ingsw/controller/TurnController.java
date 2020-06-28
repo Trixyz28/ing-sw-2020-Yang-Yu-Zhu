@@ -33,7 +33,7 @@ public class TurnController {
         }else {
             //view.chooseWorker; -> richiedere scelta
             model.sendMessage(Tags.boardMsg,Messages.anotherWorker);
-            model.sendMessage(Tags.gMsg,Messages.Worker);
+            model.sendMessage(Tags.gMsg,Messages.worker);
         }
 
     }
@@ -119,7 +119,7 @@ public class TurnController {
         } else {
             model.sendMessage(Tags.boardMsg,Messages.yourTurn);
             /* inviare richiesta worker */
-            model.sendMessage(Tags.gMsg,Messages.Worker);
+            model.sendMessage(Tags.gMsg,Messages.worker);
             /* attesa scelta worker */
         }
     }

@@ -19,12 +19,6 @@ public class GUI extends Observable implements Ui {
 
 
     @Override
-    public String getInput() {
-        return scanner.nextLine();
-    }
-
-
-    @Override
     public void showObj(Obj message) {
         notify(message);
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.controllers;
 
 import it.polimi.ingsw.messages.Obj;
+import it.polimi.ingsw.view.Sender;
 import it.polimi.ingsw.view.gui.GuiLauncher;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -19,7 +20,7 @@ public class GodController {
     private boolean chosen = false;
     private int counter = 0;
 
-    private GuiLauncher guiLauncher;
+    private Sender sender;
 
     @FXML
     private HBox mainHBox;
@@ -95,7 +96,7 @@ public class GodController {
         }
 
         //System.out.println(imageView.getId());
-        guiLauncher.getClient().sendInput(imageView.getId().toUpperCase());
+        sender.sendInput(imageView.getId().toUpperCase());
     }
 
 
@@ -108,33 +109,19 @@ public class GodController {
                     Image image = switch (node.getId()) {
 
                         case "apollo" -> new Image("/godcards/chosen/ApolloChosen.png");
-
                         case "artemis" -> new Image("/godcards/chosen/ArtemisChosen.png");
-
                         case "athena" -> new Image("/godcards/chosen/AthenaChosen.png");
-
                         case "atlas" -> new Image("/godcards/chosen/AtlasChosen.png");
-
                         case "demeter" -> new Image("/godcards/chosen/DemeterChosen.png");
-
                         case "hephaestus" -> new Image("/godcards/chosen/HephaestusChosen.png");
-
                         case "hera" -> new Image("/godcards/chosen/HeraChosen.png");
-
                         case "hestia" -> new Image("/godcards/chosen/HestiaChosen.png");
-
                         case "limus" -> new Image("/godcards/chosen/LimusChosen.png");
-
                         case "minotaur" -> new Image("/godcards/chosen/MinotaurChosen.png");
-
                         case "pan" -> new Image("/godcards/chosen/PanChosen0.png");
-
                         case "poseidon" -> new Image("/godcards/chosen/PoseidonChosen.png");
-
                         case "prometheus" -> new Image("/godcards/chosen/PrometheusChosen.png");
-
                         case "triton" -> new Image("/godcards/chosen/TritonChosen.png");
-
                         case "zeus" -> new Image("/godcards/chosen/ZeusChosen.png");
 
                         default -> ((ImageView) node).getImage();
@@ -143,7 +130,6 @@ public class GodController {
                     ((ImageView) node).setImage(image);
                 }
             }
-
         }
 
     }
@@ -163,15 +149,15 @@ public class GodController {
         }
     }
 
-    public void select0() { guiLauncher.getClient().sendInput(playerName0.getText());
+    public void select0() { sender.sendInput(playerName0.getText());
     }
 
     public void select1() {
-        guiLauncher.getClient().sendInput(playerName1.getText());
+        sender.sendInput(playerName1.getText());
     }
 
     public void select2() {
-        guiLauncher.getClient().sendInput(playerName2.getText());
+        sender.sendInput(playerName2.getText());
     }
 
     public void setChosenGod(Obj message) {
@@ -217,33 +203,19 @@ public class GodController {
         Image image = switch (god.toLowerCase()) {
 
             case "apollo" -> new Image("/clouds/ApolloCloud.png");
-
             case "artemis" -> new Image("/clouds/ArtemisCloud.png");
-
             case "athena" -> new Image("/clouds/AthenaCloud.png");
-
             case "atlas" -> new Image("/clouds/AtlasCloud.png");
-
             case "demeter" -> new Image("/clouds/DemeterCloud.png");
-
             case "hephaestus" -> new Image("/clouds/HephaestusCloud.png");
-
             case "hera" -> new Image("/clouds/HeraCloud.png");
-
             case "hestia" -> new Image("/clouds/HestiaCloud.png");
-
             case "limus" -> new Image("/clouds/LimusCloud.png");
-
             case "minotaur" -> new Image("/clouds/MinotaurCloud.png");
-
             case "pan" -> new Image("/clouds/PanCloud.png");
-
             case "poseidon" -> new Image("/clouds/PoseidonCloud.png");
-
             case "prometheus" -> new Image("/clouds/PrometheusCloud.png");
-
             case "triton" -> new Image("/clouds/TritonCloud.png");
-
             case "zeus" -> new Image("/clouds/ZeusCloud.png");
 
             default -> imageView.getImage();
@@ -275,10 +247,6 @@ public class GodController {
 
     public void setCurrentPlayer(String str) {
         currentPlayer.setText(str);
-    }
-
-    public void setGuiLauncher(GuiLauncher guiLauncher) {
-        this.guiLauncher = guiLauncher;
     }
 
     public void setCommand(String str) {
@@ -315,6 +283,10 @@ public class GodController {
         rightArrow.setDisable(true);
         instructionPage.setImage(new Image("/components/Rules2.png"));
 
+    }
+
+    public void setSender(Sender sender) {
+        this.sender = sender;
     }
 
 }

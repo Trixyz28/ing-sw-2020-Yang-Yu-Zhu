@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.view.Sender;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -15,6 +16,7 @@ public class CliLauncher {
 
     private String ip;
     private String port;
+    private Sender sender;
 
 
     public void start() {
@@ -33,11 +35,32 @@ public class CliLauncher {
 
                 this.client = new Client();
                 client.setupClient("cli", socket);
-                client.run();
+
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
+
+        this.sender = new Sender();
+        sender.addObservers(client);
+
+        Thread read = new Thread(() -> {
+
+            try {
+                while(client.isActive()) {
+                    String input = scanner.nextLine();
+                    sender.sendInput(input);
+                }
+
+            } catch(Exception e) {
+                System.out.println("exception writing thread");
+                client.setActive(false);
+            }
+        });
+        read.start();
+
+        client.run();
+
     }
 
 }

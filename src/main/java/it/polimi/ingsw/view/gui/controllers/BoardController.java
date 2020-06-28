@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.controllers;
 
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.BoardView;
+import it.polimi.ingsw.view.Sender;
 import it.polimi.ingsw.view.WorkerView;
 import it.polimi.ingsw.view.gui.GuiLauncher;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ public class BoardController {
     private Image[] coins;
 
     private GuiLauncher guiLauncher;
+    private Sender sender;
 
 
     @FXML
@@ -94,13 +96,13 @@ public class BoardController {
                             for(WorkerView workerView : lastView.getWorkerList()) {
                                 if(workerView.getBelongToPlayer() == lastView.getCurrentID()) {
                                     if(workerView.getPosition().equals(lastView.getTile(GridPane.getRowIndex(node),GridPane.getColumnIndex(node)))) {
-                                        guiLauncher.getClient().sendInput(String.valueOf(workerView.getWorkerID()));
+                                        sender.sendInput(String.valueOf(workerView.getWorkerID()));
                                     }
                                 }
                             }
                         } else {
                             String command = GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node);
-                            guiLauncher.getClient().sendInput(command);
+                            sender.sendInput(command);
                         }
 
                     }
@@ -121,6 +123,11 @@ public class BoardController {
             cloud2.setDisable(true);
             cloud2.setVisible(false);
         }
+    }
+
+    public void initializeGods(String[] godList) {
+        setCoin(godList);
+        setGod(godList);
     }
 
 
@@ -319,12 +326,12 @@ public class BoardController {
 
 
     public void sendAnswer1() {
-        guiLauncher.getClient().sendInput(godPowerButton1.getText());
+        sender.sendInput(godPowerButton1.getText());
         resetButtons();
     }
 
     public void sendAnswer2() {
-        guiLauncher.getClient().sendInput(godPowerButton2.getText());
+        sender.sendInput(godPowerButton2.getText());
         resetButtons();
     }
 
@@ -395,7 +402,9 @@ public class BoardController {
         rightArrow.setDisable(true);
     }
 
-
+    public void setSender(Sender sender) {
+        this.sender = sender;
+    }
 
 
 

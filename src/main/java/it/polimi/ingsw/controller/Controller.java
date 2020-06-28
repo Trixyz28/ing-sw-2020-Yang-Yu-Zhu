@@ -61,7 +61,7 @@ public class Controller implements Observer {
                     stringUpdate(((Obj) arg).getReceiver(), gm.getAnswer());
                 } else {
                     if (model.checkAnswer(gm)) {
-                        if (gm.getMessage().equals(Messages.Worker)) {
+                        if (gm.getMessage().equals(Messages.worker)) {
                             turnController.setChosenWorker(Integer.parseInt(gm.getAnswer()));
                         } else {
                             /* GodPower answers */

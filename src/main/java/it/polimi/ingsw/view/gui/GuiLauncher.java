@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.view.BoardView;
+import it.polimi.ingsw.view.Sender;
 import it.polimi.ingsw.view.gui.controllers.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -30,7 +31,8 @@ public class GuiLauncher extends Application implements Observer {
 
     private Thread clientThread;
     private Client client;
-    private GUI gui;
+    private final Sender sender;
+    private final GUI gui;
 
     private boolean challengerSet;
     private boolean chooseWorker;
@@ -56,6 +58,7 @@ public class GuiLauncher extends Application implements Observer {
         allScenes.add(new FXMLLoader(getClass().getResource("/fxml/GodSelection.fxml")));
         allScenes.add(new FXMLLoader(getClass().getResource("/fxml/Board.fxml")));
         this.gui = new GUI();
+        this.sender = new Sender();
 
         this.challengerSet = false;
         this.chooseWorker = false;
@@ -71,8 +74,9 @@ public class GuiLauncher extends Application implements Observer {
         this.stage.setTitle("Santorini");
 
         Parent root = loadScene(0).load();
-        this.loadingController = loadScene(0).getController();
-        this.loadingController.setGuiLauncher(this);
+        StartController startController = loadScene(0).getController();
+        startController.setGuiLauncher(this);
+        startController.setGlow();
 
         Scene scene = new Scene(root);
         this.scene = scene;
@@ -103,12 +107,14 @@ public class GuiLauncher extends Application implements Observer {
                 if(index==1) {
                     loadingController = loadScene(1).getController();
                     loadingController.setGuiLauncher(this);
+                    loadingController.setSender(sender);
                     createClient();
                 }
 
                 if(index==2) {
                     loadingController = loadScene(2).getController();
                     loadingController.setGuiLauncher(this);
+                    loadingController.setSender(sender);
                     clientThread = new Thread(client);
                     clientThread.start();
                 }
@@ -116,12 +122,13 @@ public class GuiLauncher extends Application implements Observer {
                 if(index==3) {
                     loadingController = loadScene(3).getController();
                     loadingController.setGuiLauncher(this);
+                    loadingController.setSender(sender);
                     loadingController.setChoiceBox();
                 }
 
                 if(index==4) {
                     godController = loadScene(4).getController();
-                    godController.setGuiLauncher(this);
+                    godController.setSender(sender);
                     this.godList = new String[playerList.size()];
                     godController.setName(playerList);
                     godController.setChallenger(challengerName);
@@ -131,10 +138,10 @@ public class GuiLauncher extends Application implements Observer {
                 if(index==5) {
                     boardController = loadScene(5).getController();
                     boardController.setGuiLauncher(this);
-                    boardController.setCoin(godList);
+                    boardController.setSender(sender);
+                    boardController.initializeGods(godList);
                     boardController.setNickname(this.nickname);
                     boardController.setName(playerList);
-                    boardController.setGod(godList);
                     boardController.closeRule();
                     boardController.resetButtons();
                 }
@@ -153,9 +160,6 @@ public class GuiLauncher extends Application implements Observer {
         return allScenes.get(index);
     }
 
-    public GUI getGui() {
-        return gui;
-    }
 
     public void setIp(String ip) {
         this.ip = ip;
@@ -177,15 +181,12 @@ public class GuiLauncher extends Application implements Observer {
         try {
             Socket socket = new Socket(ip, Integer.parseInt(port));
             client.setupClient("gui",socket);
+            sender.addObservers(client);
             changeScene(2);
         } catch (Exception e) {
            loadingController.showMessage(e.getMessage());
         }
 
-    }
-
-    public Client getClient() {
-        return client;
     }
 
 
@@ -208,7 +209,6 @@ public class GuiLauncher extends Application implements Observer {
                 popup.show();
             });
         }
-
 
         if(message instanceof Obj) {
             Obj obj = (Obj)message;
@@ -273,7 +273,7 @@ public class GuiLauncher extends Application implements Observer {
                 }
 
             } else if(obj.getTag().equals(Tags.gMsg)) {
-                if(obj.getGameMessage().getMessage().equals(Messages.Worker)) {
+                if(obj.getGameMessage().getMessage().equals(Messages.worker)) {
                     this.chooseWorker = true;
                     showBoardMsg(obj.getGameMessage().getMessage());
                 } else {

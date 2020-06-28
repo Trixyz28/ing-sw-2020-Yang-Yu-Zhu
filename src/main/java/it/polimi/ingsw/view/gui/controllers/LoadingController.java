@@ -1,8 +1,9 @@
 package it.polimi.ingsw.view.gui.controllers;
 
 
-import it.polimi.ingsw.view.gui.GUI;
+import it.polimi.ingsw.view.Sender;
 import it.polimi.ingsw.view.gui.GuiLauncher;
+import javafx.animation.Transition;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
@@ -19,16 +22,10 @@ import java.util.ArrayList;
 public class LoadingController {
 
     private GuiLauncher guiLauncher;
+    private Sender sender;
 
-    //FXML Start
 
-    @FXML
-    private Pane startPane;
 
-    @FXML
-    public void loadingScene(MouseEvent event) {
-        guiLauncher.changeScene(1);
-    }
 
 
     //FXML Server
@@ -50,7 +47,6 @@ public class LoadingController {
         guiLauncher.setPort(portField.getCharacters().toString());
         System.out.println("Server set to " + ipField.getCharacters().toString() + ", port " + portField.getCharacters().toString());
         guiLauncher.setServer();
-
     }
 
     public void showMessage(String str) {
@@ -73,9 +69,9 @@ public class LoadingController {
     private String nickname;
 
 
-    public void sendName(ActionEvent event) {
+    public void sendName() {
         nickname = nameField.getCharacters().toString();
-        guiLauncher.getClient().sendInput(nickname);
+        sender.sendInput(nickname);
     }
 
     public void showNameMsg(String str) {
@@ -113,9 +109,9 @@ public class LoadingController {
 
     public void sendLobby(ActionEvent event) {
         if(playerNumberSelect.getValue().equals("3 players")) {
-            guiLauncher.getClient().sendInput("3");
+            sender.sendInput("3");
         } else {
-            guiLauncher.getClient().sendInput("2");
+            sender.sendInput("2");
         }
     }
 
@@ -134,6 +130,8 @@ public class LoadingController {
         this.guiLauncher = guiLauncher;
     }
 
-
+    public void setSender(Sender sender) {
+        this.sender = sender;
+    }
 
 }

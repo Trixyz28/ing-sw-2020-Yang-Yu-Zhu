@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.BoardView;
@@ -17,54 +18,15 @@ public class CLI implements Ui {
     private String nickname;
     private boolean current;
 
-    //Color indicators
-    private final String RESET = Colors.RESET;
 
-    private final String gridColor = Colors.BLACK_BRIGHT;
-    private final String gridNumberColor = Colors.YELLOW;
-
-    private final String domeColor = Colors.BLUE_BOLD;
-    private final String heightColor = Colors.WHITE;
-
-    private final String player0 = Colors.CYAN_BOLD;
-    private final String player1 = Colors.PURPLE_BOLD;
-    private final String player2 = Colors.GREEN_BOLD;
-
-    private String chosenColor = Colors.RED_UNDERLINED;
-    private String canOpColor = Colors.BLACK_BACKGROUND_BRIGHT;
-
-    private String horizontalBar = gridColor + "────║───────┼───────┼───────┼───────┼───────║" + RESET;
-    private String verticalBar = gridColor + "│" + RESET;
-    private final String supBoard = gridColor + "────╔═══════╤═══════╤═══════╤═══════╤═══════╗" + RESET;
-    private final String infBoard = gridColor + "────╚═══════╧═══════╧═══════╧═══════╧═══════╝" + RESET;
-    private String verticalBoard = gridColor + "║" + RESET;
-
-    private String extColor = Colors.WHITE;
-    private String upExt = extColor + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + RESET;
-    private String downExt = extColor + "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" + RESET;
-    private String leftExt = extColor + "┃   " + RESET;
-    private String rightExt = extColor + "   ┃" + RESET;
-    private String emptyExt = extColor + "┃                                                   ┃" + RESET;
 
     private ArrayList<String> playerList;
     private String[] godList;
 
 
-
     @Override
     public void showMessage(String message) {
-
-        if(message.equals(Messages.Place) || message.equals(Messages.Move) || message.equals(Messages.Build)) {
-            System.out.println(message + Messages.Operation);
-        } else {
-            System.out.println(message);
-        }
-
-    }
-
-    @Override
-    public String getInput() {
-        return in.nextLine();
+        System.out.println(message);
     }
 
 
@@ -113,6 +75,9 @@ public class CLI implements Ui {
             showBoard(obj.getBoardView(),obj.getBoardView().getCurrentName().equals(nickname));
         } else if(command.equals("gMsg")) {
             System.out.println(obj.getGameMessage().getMessage());
+            if(obj.getGameMessage().getMessage().equals(Messages.worker)) {
+                System.out.println(Messages.workerIndex);
+            }
 
         } else if(command.equals("end")) {
             if(obj.getMessage().equals("win")) {
@@ -128,6 +93,14 @@ public class CLI implements Ui {
                     System.out.println("The player " + obj.getPlayer() + " loses!");
                 }
             }
+        } else if(command.equals(Tags.boardMsg)) {
+            System.out.print(obj.getMessage());
+
+            if(obj.getMessage().equals(Messages.move) || obj.getMessage().equals(Messages.Build)) {
+                System.out.println(Messages.operation);
+            } else {
+                System.out.println("");
+            }
         } else {
             System.out.println(obj.getMessage());
         }
@@ -139,36 +112,36 @@ public class CLI implements Ui {
         this.boardView = boardView;
         this.current = command;
 
-        System.out.println(upExt);
+        System.out.println(CliPrinter.upExt);
 
-        System.out.print(emptyExt);
-        System.out.format("%1$52s",rightExt + "\n");
+        System.out.print(CliPrinter.emptyExt);
+        System.out.format("%1$52s",CliPrinter.rightExt + "\n");
 
-        System.out.print(leftExt + "    " + verticalBar);
+        System.out.print(CliPrinter.leftExt + "    " + CliPrinter.verticalBar);
 
         for(int i=0;i<5;i++){
-            System.out.print(gridNumberColor + "   " + i + "   " + verticalBar);
+            System.out.print(CliPrinter.gridNumberColor + "   " + i + "   " + CliPrinter.verticalBar);
         }
-        System.out.print(rightExt);
+        System.out.print(CliPrinter.rightExt);
         System.out.format("%1$-36s", "    Current Player:");
-        System.out.println(rightExt);
+        System.out.println(CliPrinter.rightExt);
 
-        System.out.print(leftExt + supBoard + rightExt);
-        System.out.format("%1$52s",rightExt + "\n");
+        System.out.print(CliPrinter.leftExt + CliPrinter.supBoard + CliPrinter.rightExt);
+        System.out.format("%1$52s",CliPrinter.rightExt + "\n");
 
 
         for(int i=0;i<9;i++) {
 
             if (i%2==0) {
-                System.out.print(leftExt + gridNumberColor + " " + i/2 + "  " + RESET);
+                System.out.print(CliPrinter.leftExt + CliPrinter.gridNumberColor + " " + i/2 + "  " + CliPrinter.RESET);
 
                 for (int j=0;j<5;j++) {
                     Tile t = boardView.getTile(i/2,j);
 
                     if(j==0) {
-                        System.out.print(verticalBoard + " ");
+                        System.out.print(CliPrinter.verticalBoard + " ");
                     } else {
-                        System.out.print(verticalBar + " ");
+                        System.out.print(CliPrinter.verticalBar + " ");
                     }
 
                     if (t.isOccupiedByWorker()) {
@@ -179,43 +152,43 @@ public class CLI implements Ui {
                         printBlock(t);
                     }
 
-                    System.out.print(RESET + " ");
+                    System.out.print(CliPrinter.RESET + " ");
                 }
 
-                System.out.print(verticalBoard + rightExt);
+                System.out.print(CliPrinter.verticalBoard + CliPrinter.rightExt);
 
 
             } else {
-                System.out.print(leftExt + horizontalBar + rightExt);
+                System.out.print(CliPrinter.leftExt + CliPrinter.horizontalBar + CliPrinter.rightExt);
             }
 
 
             if (i == 0) {
                 System.out.print(workerColor(boardView.getCurrentID()));
-                System.out.format("%1$-40s", "    " + boardView.getCurrentName() + RESET + " (" + boardView.getCurrentGod() + ")");
+                System.out.format("%1$-40s", "    " + boardView.getCurrentName() + CliPrinter.RESET + " (" + boardView.getCurrentGod() + ")");
 
             } else if (i==4) {
-                System.out.format("%1$-47s","  - " + player0 + playerList.get(0) + RESET + " (" + godList[0] + ")");
+                System.out.format("%1$-47s","  - " + CliPrinter.player0 + playerList.get(0) + CliPrinter.RESET + " (" + godList[0] + ")");
             } else if (i==6) {
-                System.out.format("%1$-47s","  - " + player1 + playerList.get(1) + RESET + " (" + godList[1] + ")");
+                System.out.format("%1$-47s","  - " + CliPrinter.player1 + playerList.get(1) + CliPrinter.RESET + " (" + godList[1] + ")");
 
             } else {
 
                 if (i==8 && playerList.size()==3) {
-                    System.out.format("%1$-47s", "  - " + player2 + playerList.get(2) + RESET + " (" + godList[2] + ")");
+                    System.out.format("%1$-47s", "  - " + CliPrinter.player2 + playerList.get(2) + CliPrinter.RESET + " (" + godList[2] + ")");
                 } else {
                     System.out.format("%1$-36s", "");
                 }
             }
 
-            System.out.println(rightExt);
+            System.out.println(CliPrinter.rightExt);
         }
 
-        System.out.print(leftExt + infBoard + rightExt);
-        System.out.format("%1$52s",rightExt + "\n");
-        System.out.print(emptyExt);
-        System.out.format("%1$52s",rightExt + "\n");
-        System.out.println(downExt);
+        System.out.print(CliPrinter.leftExt + CliPrinter.infBoard + CliPrinter.rightExt);
+        System.out.format("%1$52s",CliPrinter.rightExt + "\n");
+        System.out.print(CliPrinter.emptyExt);
+        System.out.format("%1$52s",CliPrinter.rightExt + "\n");
+        System.out.println(CliPrinter.downExt);
     }
 
 
@@ -230,7 +203,7 @@ public class CLI implements Ui {
                         printCanOp();
                     }
                     if (i == boardView.getChosenWorkerID()) {
-                        System.out.print(chosenColor);
+                        System.out.print(CliPrinter.chosenColor);
                     } else {
                         System.out.print(workerColor(boardView.getWorkerList()[i].getBelongToPlayer()));
                     }
@@ -240,23 +213,22 @@ public class CLI implements Ui {
                     if(checkCanOp(t)) {
                         printCanOp();
                     } else {
-                        System.out.print(heightColor);
+                        System.out.print(CliPrinter.heightColor);
                     }
                     System.out.print("(" + t.getBlockLevel() + ")");
                 }
             }
-
         }
     }
 
 
     public void printCanOp() {
-        System.out.print(canOpColor);
+        System.out.print(CliPrinter.canOpColor);
     }
 
 
     public void printDome() {
-        System.out.print(domeColor + "  ^  ");
+        System.out.print(CliPrinter.domeColor + "  ^  ");
     }
 
     public void printBlock(Tile t) {
@@ -288,11 +260,11 @@ public class CLI implements Ui {
     public String workerColor(int playerID) {
 
         if(playerID==0) {
-            return player0;
+            return CliPrinter.player0;
         } else if(playerID==1) {
-            return player1;
+            return CliPrinter.player1;
         } else {
-            return player2;
+            return CliPrinter.player2;
         }
     }
 

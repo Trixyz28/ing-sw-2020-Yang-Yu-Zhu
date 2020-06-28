@@ -5,24 +5,23 @@ public class Messages {
     //Communications
     public static String connectionClosed = "Connection closed";
     public static String gameOver = "Game over!";
-    public static String spectator = "Be a patient spectator, you can't send messages :D";
+    public static String spectator = "Be a patient spectator :D";
     public static String lose = "Hai perso!";
 
     //Requests
-    public static String Worker = "Scegli il worker con cui vuoi fare la mossa: indice 0 o 1";
-    public static String Operation = " (x,y)";
-    public static String Place = "Place : ";
-    public static String Move = "Move : ";
-    public static String Build = "Build : ";
+    public static String worker = "Choose a Worker to move";
+    public static String workerIndex = " (index 0 or 1)";
+    public static String operation = " (x,y)";
+    public static String place = "Place Worker ";
+    public static String move = "Move";
+    public static String Build = "Build";
 
 
     //Error messages
-    public static String tryAgain = "Riprova!";
-    public static String wrongTurn = "Non è il tuo turnoooooo!";
+    public static String tryAgain = "Try again!";
+    public static String wrongTurn = "It isn't your turn!";
     public static String wrongArgument = "Invalid argument!";
-    public static String wrongOperation = "Impossibile fare questa mossa!";
-
-
+    public static String wrongOperation = "Invalid operation";
 
 
     //Nickname
@@ -40,11 +39,10 @@ public class Messages {
     //Challenger
     public static String challenger = "You are the challenger!";
 
-
     //Godlist
-    public static String invalidChoice = "Scelta invalida";
-    public static String challengerChosen = "Il Challenger ha finito di scegliere i God!";
-    public static String godRequest = "Scegli la tua divinità";
+    public static String invalidChoice = "Invalid choice";
+    public static String challengerChosen = "The Challenger defined all God Powers!";
+    public static String godRequest = "Choose your God Power";
 
     //Match
     public static String chooseStartPlayer = "Choose the first player!";
@@ -58,8 +56,8 @@ public class Messages {
     public static String occupiedTile = "Tile occupied!";
 
 
-    public static String invalidWorker = "Invalid worker index!";
-    public static String anotherWorker = "Choose another worker!";
+    public static String invalidWorker = "Invalid Worker index!";
+    public static String anotherWorker = "Choose another Worker!";
 
 
 }

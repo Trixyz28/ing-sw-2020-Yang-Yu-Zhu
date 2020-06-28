@@ -168,7 +168,7 @@ public class ControllerTest extends TestCase {
     public void testChooseWorker() {
         testPlaceWorkers();
         Assert.assertEquals(0, model.getCurrentTurn().getState());
-        GameMessage gm = new GameMessage(Messages.Worker);
+        GameMessage gm = new GameMessage(Messages.worker);
         gm.setAnswer("0");
         Obj obj = new Obj(gm);
         obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
@@ -231,7 +231,7 @@ public class ControllerTest extends TestCase {
         player2.chooseWorker(1).setPosition(position2);
 
         Assert.assertEquals(0, model.getCurrentTurn().getState());
-        GameMessage gm = new GameMessage(Messages.Worker);
+        GameMessage gm = new GameMessage(Messages.worker);
         gm.setAnswer("0");
         Obj obj = new Obj(gm);
         obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
@@ -284,7 +284,7 @@ public class ControllerTest extends TestCase {
         player2.chooseWorker(0).setPosition(position1);
         player2.chooseWorker(1).setPosition(position2);
 
-        GameMessage gm = new GameMessage(Messages.Worker);
+        GameMessage gm = new GameMessage(Messages.worker);
         gm.setAnswer("0");
         Obj obj = new Obj(gm);
         obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
