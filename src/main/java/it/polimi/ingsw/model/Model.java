@@ -455,7 +455,9 @@ public class Model extends Observable {
 
     public void gameOver() {
         isGameOver = true;
-        broadcast(new Obj(Tags.end,"win",currentTurn.getCurrentPlayer().getPlayerNickname()));
+        Obj obj = new Obj(Tags.end,"win",currentTurn.getCurrentPlayer().getPlayerNickname());
+        obj.setReceiver(matchPlayersList.get(matchPlayersList.size()-1));
+        broadcast(obj);
     }
 
     public boolean isGameOver() {

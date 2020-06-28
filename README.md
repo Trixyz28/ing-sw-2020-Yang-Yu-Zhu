@@ -7,19 +7,19 @@ consists in the implementation of **Santorini**, a strategy board game.
 The distributed system includes a server and multiple clients which can join one match at a time.
 
 * Game description  
-  Play as a Greek God or Goddess!
-  You should compete to best aid the island's citizens in building a beautiful village in the middle of the Aegean Sea.
-  The game is designed by Gord Hamilton and published by Roxley Games.
+  Play as a Greek God or Goddess!  
+  You should compete to best aid the island's citizens in building a beautiful village in the middle of the Aegean Sea.  
+  The game is designed by Gord Hamilton and published by Roxley Games.  
   More information about Santorini: [Click here](https://roxley.com/products/santorini)
 
 * Game rules
 
 <p align="center">
-<img src="src/main/resources/components/Rules1.png" width="1280" height="800">
+<img src="src/main/resources/components/Rules1.png" width="800" height="500">
 </p>
 
 <p align="center">
-<img src="src/main/resources/components/Rules2.png" width="1280" height="800">
+<img src="src/main/resources/components/Rules2.png" width="800" height="500">
 </p>
 
 

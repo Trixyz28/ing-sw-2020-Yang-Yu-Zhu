@@ -73,7 +73,7 @@ public class CLI implements Ui {
 
         String command = obj.getTag();
 
-        if (command.equals("playerList")) {
+        if (command.equals(Tags.playerList)) {
             playerList = obj.getList();
             godList = new String[playerList.size()];
 
@@ -109,10 +109,11 @@ public class CLI implements Ui {
                     System.out.println(str);
                 }
             }
-        } else if(command.equals("board")) {
+        } else if(command.equals(Tags.board)) {
             showBoard(obj.getBoardView(),obj.getBoardView().getCurrentName().equals(nickname));
         } else if(command.equals("gMsg")) {
             System.out.println(obj.getGameMessage().getMessage());
+
         } else if(command.equals("end")) {
             if(obj.getMessage().equals("win")) {
                 if(obj.getPlayer().equals(nickname)) {
@@ -127,8 +128,7 @@ public class CLI implements Ui {
                     System.out.println("The player " + obj.getPlayer() + " loses!");
                 }
             }
-        }
-        else {
+        } else {
             System.out.println(obj.getMessage());
         }
     }

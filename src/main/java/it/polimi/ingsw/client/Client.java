@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.cli.CLI;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 
 
 public class Client implements Runnable {
@@ -68,8 +69,9 @@ public class Client implements Runnable {
                 }
             }
 
-        } catch (InterruptedException e) {
+        } catch (NoSuchElementException | InterruptedException e) {
             ui.showMessage(Messages.connectionClosed);
+            System.out.println("client run exception");
 
         } finally{
             try {
@@ -115,6 +117,9 @@ public class Client implements Runnable {
                             ui.showMessage(obj.getMessage());
 
                         } else {
+                            if(obj.getTag().equals(Tags.end)) {
+                                System.out.println("end msg received");
+                            }
                             ui.showObj(obj);
                         }
 
@@ -123,6 +128,7 @@ public class Client implements Runnable {
                     }
                 }
             } catch (Exception e) {
+                System.out.println("exception reading thread");
                 setActive(false);
             }
         });
@@ -143,6 +149,7 @@ public class Client implements Runnable {
                 }
 
             } catch(Exception e) {
+                System.out.println("exception writing thread");
                 setActive(false);
             }
         });
@@ -219,7 +226,6 @@ public class Client implements Runnable {
     public synchronized void setActive(boolean active) {
         this.active = active;
     }
-
 
 }
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.lobby.Lobby;
 import it.polimi.ingsw.lobby.LobbyController;
 import it.polimi.ingsw.lobby.LobbyHandler;
 import it.polimi.ingsw.messages.Obj;
@@ -71,7 +72,7 @@ public class Server {
         System.out.println("Lobby n." + lobbyID +": " + matchConnection.get(lobbyID).size() + " available players");
 
         //All players ready to start
-        if(matchConnection.get(lobbyID).size()==lobbyHandler.getLobbyList().get(lobbyID).getLobbyPlayersNumber()) {
+        if(matchConnection.get(lobbyID).size()==lobbyHandler.findLobby(lobbyID).getLobbyPlayersNumber()) {
 
             for(SocketConnection connection : matchConnection.get(lobbyID)) {
                 connection.setInMatch(true);
@@ -80,13 +81,13 @@ public class Server {
                 connection.getPlayer().setPlayerID(matchConnection.get(lobbyID).indexOf(connection));
 
                 //Display match players info
-                connection.asyncSend(new Obj("playerList",lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList()));
+                connection.asyncSend(new Obj("playerList",lobbyHandler.findLobby(lobbyID).getPlayersNameList()));
 
             }
 
             //Create and initialize Model
             Model model = new Model();
-            model.initialize(lobbyHandler.getLobbyList().get(lobbyID).getLobbyPlayersNumber());
+            model.initialize(lobbyHandler.findLobby(lobbyID).getLobbyPlayersNumber());
 
             //Set players in model
             model.addPlayer(matchConnection.get(lobbyID).get(0).getPlayer());
@@ -119,33 +120,38 @@ public class Server {
         }
     }
 
-    public void removeFromLobby(int lobbyID, SocketConnection connection,String nickname) {
+
+    public synchronized void removeFromLobby(int lobbyID, SocketConnection connection,String nickname) {
+        Lobby lobby = lobbyHandler.findLobby(lobbyID);
         matchConnection.get(lobbyID).remove(connection);
         lobbyHandler.removePlayer(nickname);
-        lobbyHandler.getLobbyList().get(lobbyID).removePlayer(nickname);
+        lobby.removePlayer(nickname);
         System.out.println("Removed lobby connection of " + connection.getPlayer().getPlayerNickname() + " in lobby n." + lobbyID);
-        System.out.println("Lobby n." + lobbyID + " actual size: " + lobbyHandler.getLobbyList().get(lobbyID).getAvailablePlayerNumber());
+        System.out.println("Lobby n." + lobbyID + " actual size: " + lobby.getAvailablePlayerNumber());
+        if(lobby.getAvailablePlayerNumber()==0) {
+            lobbyController.removeLobby(lobbyID);
+            System.out.println("Lobby n." + lobbyID + " deleted");
+        }
     }
 
 
-    public synchronized void lostPlayerQuit(SocketConnection c) {
+    public synchronized void deregisterPlayer(SocketConnection c) {
         lobbyHandler.removePlayer(c.getPlayer().getPlayerNickname());
         matchConnection.get(c.getLobbyID()).remove(c);
         c.closeConnection();
     }
+
 
     public synchronized void deregisterMatch(SocketConnection c) {
 
         int lobbyID = c.getLobbyID();
 
         if(matchConnection.containsKey(lobbyID)) {
-            for(SocketConnection connection : matchConnection.get(lobbyID)) {
-                lobbyHandler.removePlayer(connection.getPlayer().getPlayerNickname());
-                if(connection.getPlayer().getPlayerID()!=c.getPlayer().getPlayerID()) {
-                    connection.closeConnection();
-                }
+            while(matchConnection.get(lobbyID).size()!=0) {
+                deregisterPlayer(matchConnection.get(lobbyID).get(0));
             }
             matchConnection.remove(lobbyID);
+            lobbyController.removeLobby(lobbyID);
         }
     }
 

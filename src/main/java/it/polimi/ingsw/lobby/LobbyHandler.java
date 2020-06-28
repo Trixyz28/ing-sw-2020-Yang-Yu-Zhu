@@ -7,15 +7,16 @@ public class LobbyHandler {
 
 
     //List of all active lobbies
-    private ArrayList<Lobby> lobbyList;
+    private final ArrayList<Lobby> lobbyList;
 
     //List of all players
-    private ArrayList<String> playerList;
+    private final ArrayList<String> playerList;
 
+    private int counter = 0;
 
     public LobbyHandler() {
-        lobbyList = new ArrayList<Lobby>();
-        playerList = new ArrayList<String>();
+        this.lobbyList = new ArrayList<>();
+        this.playerList = new ArrayList<>();
     }
 
     //Add a new player in the waiting room
@@ -54,8 +55,10 @@ public class LobbyHandler {
     public int newLobby(String name,int playerNumber) {
 
         Lobby newLobby = new Lobby(playerNumber);
+
+        counter++;
         lobbyList.add(newLobby);
-        newLobby.setLobbyID(lobbyList.indexOf(newLobby));
+        newLobby.setLobbyID(counter-1);
 
         ArrayList<String> temporaryList = new ArrayList<>();
         temporaryList.add(name);
@@ -64,6 +67,16 @@ public class LobbyHandler {
         newLobby.setPlayersNameList(temporaryList);
 
         return newLobby.getLobbyID();
+    }
+
+
+    public Lobby findLobby(int index) {
+        for(Lobby lobby : getLobbyList()) {
+            if(lobby.getLobbyID() == index) {
+                return lobby;
+            }
+        }
+        return null;
     }
 
 }

@@ -3,7 +3,7 @@ package it.polimi.ingsw.lobby;
 
 public class LobbyController {
 
-    private LobbyHandler lobbyHandler;
+    private final LobbyHandler lobbyHandler;
 
     public LobbyController(LobbyHandler lobbyHandler) {
         this.lobbyHandler = lobbyHandler;
@@ -34,8 +34,13 @@ public class LobbyController {
                 break;
             }
         }
+
         assert canJoin != null;
         return canJoin.getLobbyID();
+    }
+
+    public void removeLobby(int lobbyID) {
+        lobbyHandler.getLobbyList().remove(lobbyHandler.findLobby(lobbyID));
     }
 
     //on server runs a method that checks if a lobby is full or not and then starts the game on the current lobby

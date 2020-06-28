@@ -7,6 +7,7 @@ public class Tags {
     public static final String generic = "generic";
 
     public static final String nameMsg = "nameMsg";
+    public static final String setName = "setName";
 
     public static final String lobbyOk = "lobbyOk";
     public static final String playerList = "playerList";

@@ -57,13 +57,16 @@ public class RemoteView extends View {
                 } else if (obj.getTag().equals(Tags.end)) {
                     connection.asyncSend(obj);
 
-                    if(player.getPlayerNickname().equals(obj.getPlayer())) {
-                        if(obj.getMessage().equals("lose")) {
+                    if(obj.getMessage().equals("lose")) {
+                        if (player.getPlayerNickname().equals(obj.getPlayer())) {
                             connection.setLost(true);
-                        } else {
+                        }
+                    } else {
+                        if(obj.getReceiver().equals(player.getPlayerNickname())) {
                             connection.closeMatch();
                         }
                     }
+
                 } else {
                     connection.asyncSend(message);
                 }
@@ -84,7 +87,6 @@ public class RemoteView extends View {
             }
 
         }
-
 
     }
 

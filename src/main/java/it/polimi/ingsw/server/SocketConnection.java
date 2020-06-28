@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.messages.GameMessage;
 import it.polimi.ingsw.messages.Messages;
 import it.polimi.ingsw.messages.Obj;
 import it.polimi.ingsw.messages.Tags;
@@ -63,41 +62,19 @@ public class SocketConnection extends Observable implements Runnable {
 
     }
 
-    public void deregisterPlayer() {
-        server.lostPlayerQuit(this);
+    public void deletePlayer() {
+        server.deregisterPlayer(this);
     }
 
 
     public void closeMatch()  {
-
-        Thread locker = new Thread(() -> {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        locker.start();
-
-        try {
-            locker.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        closeConnection();
         server.deregisterMatch(this);
     }
 
 
 
     public void asyncSend(final Object message) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                send(message);
-            }
-        }).start();
+        new Thread(() -> send(message)).start();
     }
 
 
@@ -136,7 +113,6 @@ public class SocketConnection extends Observable implements Runnable {
                 send(new Obj("lobbyOk","Successfully join the lobby n." + lobbyID));
             }
 
-
             //Add the connection to the connection list & setup match
             server.match(lobbyID,this);
 
@@ -154,17 +130,17 @@ public class SocketConnection extends Observable implements Runnable {
             }
 
 
-        } catch(IOException | NoSuchElementException e) {
+        } catch(Exception e) {
+            //System.out.println("Exception connection.run()");
             System.err.println("Error!" + e.getMessage());
         } finally {
+            //System.out.println("Disconnection from client side");
             if (!inMatch) {
                 server.removeFromLobby(lobbyID, this, player.getPlayerNickname());
             } else if(lost) {
                 active = false;
-                deregisterPlayer();
-            }
-
-            if(active && !lost) {
+                deletePlayer();
+            } else if(active) {
                 closeMatch();
             }
 
@@ -189,31 +165,32 @@ public class SocketConnection extends Observable implements Runnable {
 
     public void setNickname() {
         //Set nickname
-        send(new Obj("nameMsg",Messages.nicknameRequest));
+        send(new Obj(Tags.nameMsg,Messages.nicknameRequest));
         String readName;
         boolean check = false;
         do {
             readName = in.nextLine();
 
             if(readName.isBlank() || readName.length()>16) {
-                send(new Obj("nameMsg",Messages.invalidNickname));
+                send(new Obj(Tags.nameMsg,Messages.invalidNickname));
             } else {
                 check = server.getLobbyController().canUseNickname(readName);
                 if(!check) {
-                    send(new Obj("nameMsg",Messages.nicknameInUse));
+                    send(new Obj(Tags.nameMsg,Messages.nicknameInUse));
                 } else {
-                    send(new Obj("nameMsg",Messages.nicknameAvailable));
+                    send(new Obj(Tags.nameMsg,Messages.nicknameAvailable));
                 }
             }
 
         } while(!check);
 
         player = new Player(readName);
-        send(new Obj("setName",readName));
+        send(new Obj(Tags.setName,readName));
         server.getLobbyHandler().addPlayer(player.getPlayerNickname());
     }
 
     public void setInMatch(boolean inMatch) {
         this.inMatch = inMatch;
     }
+
 }

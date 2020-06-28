@@ -23,7 +23,6 @@ public abstract class View extends Observable implements Observer {
 
     public void setEndGame(){
         endGame = true;
-
     }
 
     @Override
