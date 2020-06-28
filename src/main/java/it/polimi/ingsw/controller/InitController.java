@@ -27,24 +27,34 @@ public class InitController {
         model.challengerStart();
     }
 
-    /* scelta God dal Player */
-    protected void chooseGod(String god){
-        god = god.toUpperCase();
-        if(model.chooseGod(god)){
-            model.nextChoiceGod();
-        }
-    }
-
-
-    /* scelta god per definire la GodList */
+    /* scelta god per definire la GodList -> challenger */
     protected void defineGodList(String god, GodList godList){
         //eseguire solo al challenger
         if(!godList.checkLength()) {
             if(model.defineGodList(god)){
-                /* true if end define */
+                /* true if end define -> start to choose god by other Players */
                 model.nextChoiceGod();
             }
         }
+    }
+
+    /* scelta God dal Player */
+    protected void chooseGod(String god){
+        god = god.toUpperCase();
+        if(model.chooseGod(god)){
+            /* end chose God -> next player have to choose god */
+            model.nextChoiceGod();
+        }
+    }
+
+    /* selezione StartingPlayer -> Inizializzazione Turno 0 */
+    protected void setStartingPlayer(String startingPlayerNickname){
+        /* sceglire il startingPlayer attraverso Nickname */
+        if(model.setStartingPlayer(startingPlayerNickname)) {
+            /* inizializzazione turno dopo scelta God e StartingPlayer */
+            model.startTurn();
+        }
+
     }
 
     /* posizionare Worker -> fine inizializzazione */
@@ -64,9 +74,10 @@ public class InitController {
                 indexWorker = 0;
                 Player nextPlayer = model.getMatchPlayersList().get(model.getNextPlayerIndex());
                 if(nextPlayer.getPlayerID() == model.getStartingPlayerID()){
-                    /* fine giro : inizio partita */
+                    /* all players placed their workers */
                     endInitialize = true;
                 }else {
+                    /* next player has to place workers */
                     model.getCurrentTurn().setCurrentPlayer(nextPlayer);
                 }
             }
@@ -76,17 +87,6 @@ public class InitController {
             model.placeWorker(indexWorker);
         }
     }
-
-    /* selezione StartingPlayer -> Inizializzazione Turno 0 */
-    protected void setStartingPlayer(String startingPlayerNickname){
-        /* sceglire il startingPlayer attraverso Nickname */
-        if(model.setStartingPlayer(startingPlayerNickname)) {
-            /* inizializzazione turno dopo scelta God e StartingPlayer */
-            model.startTurn();
-        }
-
-    }
-
 
 
 }

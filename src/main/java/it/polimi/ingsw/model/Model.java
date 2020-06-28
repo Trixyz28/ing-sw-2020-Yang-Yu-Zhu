@@ -92,14 +92,15 @@ public class Model extends Observable {
     //far scegliere Gods dal challenger
     public boolean defineGodList(String god){
         godsList.selectGod(god);
-        if(!godsList.addInGodList()){  /* se il God scelto non viene aggiunto nella currentList */
-            //views.get(challenger).showMessage("Scelta invalida");
+        if(!godsList.addInGodList()){
+            /* the input god can't be added in the currentGodList */
             sendMessage(Tags.godMsg,Messages.invalidChoice);
         } else {
+            /* the chosen god is added in the currentGodList */
             notify(new Obj(Tags.defineGod,god.toUpperCase()));
         }
         if(godsList.checkLength()){
-            //views.get(p).showMessage("Il Challenger ha finito di scegliere i God! La Lista dei God scelti è :");
+            /* end of defining currentGodList */
             broadcast(new Obj(Tags.generic,Messages.challengerChosen));
             return true;
         }
@@ -143,7 +144,7 @@ public class Model extends Observable {
     public boolean chooseGod(String god){
         godsList.selectGod(god);
         if(godsList.checkGod()){
-            //far printare alla view la conferma della scelta
+            /* the input god can be chosen */
             Player currentPlayer = currentTurn.getCurrentPlayer();
             String name = currentPlayer.getPlayerNickname();
             notify(new Obj(Tags.chooseGod,god,name));
@@ -154,10 +155,11 @@ public class Model extends Observable {
             currentPlayer.createWorker(god, getConditions(), getTotalWorkers());
             /* eliminare dalla currentGodList il god scelto */
             godsList.removeFromGodList(god);
+
             /* prossimo player */
             return true;
         }else{
-            //far printare alla view la richiesta di ripetere la scelta
+
             sendMessage(Tags.godMsg,Messages.tryAgain);
             return false;
         }
@@ -168,8 +170,10 @@ public class Model extends Observable {
     public boolean setStartingPlayer(String startingPlayerNickname){
 
         Player startingPlayer;
+
         for (Player p : matchPlayersList) {
             if (p.getPlayerNickname().equals(startingPlayerNickname)) {
+                /* if the input name is found -> set startPlayer */
                 startingPlayer = p;
                 //settare il startingPlayerID del model
                 setStartingPlayerID(startingPlayer.getPlayerID());
@@ -203,7 +207,13 @@ public class Model extends Observable {
 
         if(gMessage.getMessage().equals(Messages.Worker)){
             /* workerIndex */
-            return gMessage.getAnswer().equals("0") || gMessage.getAnswer().equals("1");
+            if(gMessage.getAnswer().equals("0") || gMessage.getAnswer().equals("1")){
+                return true;
+            }else {
+                sendMessage(Tags.boardMsg, Messages.tryAgain);
+                sendMessage(Tags.gMsg, Messages.Worker);
+                return false;
+            }
         }
 
         /* godPower */
@@ -213,11 +223,8 @@ public class Model extends Observable {
             sendMessage(Tags.gMsg,currentTurn.getCurrentPlayer().getGodCard());
             return false;
         }else {
-            if (god.checkAnswer(answer) == 1){
-                currentTurn.getChosenWorker().useGodPower(true);
-            }else {
-                currentTurn.getChosenWorker().useGodPower(false);
-            }
+            /* if check = true -> usePower(true) else usePower(false) */
+            currentTurn.getChosenWorker().useGodPower(god.checkAnswer(answer) == 1);
             return true;
         }
 
@@ -328,6 +335,7 @@ public class Model extends Observable {
 
 
     public void startTurn() {
+        /* set start player as current player and start first place */
         currentTurn.setCurrentPlayer(matchPlayersList.get(startingPlayerID));
         int indexWorker = 0;
         placeWorker(indexWorker);

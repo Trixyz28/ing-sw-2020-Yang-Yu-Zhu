@@ -180,9 +180,9 @@ public class Client implements Runnable {
         } else if (gmReceived) {  /* Risposta al messaggio */
 
             input = input.toUpperCase();
-
+            /*
             if (gMessage.getMessage().equals(Messages.Worker)) {
-                try {  /* indice worker o 0 o 1 */
+                try {  /* indice worker o 0 o 1
                     int index = Integer.parseInt(input);
                     if (index == 0 || index == 1) {
                         socketOut.println(input);
@@ -195,17 +195,21 @@ public class Client implements Runnable {
                 } catch (Exception e) {
                     ui.showMessage(Messages.wrongArgument);
                 }
-            } else {  /* problema yes or no */
+            } else {  /* problema yes or no
+
+             */
                 socketOut.println(input);
                 socketOut.flush();
                 gmReceived = false;
                 gMessage = null;
             }
 
-        } else {
+
+         else {
             socketOut.println(input);
             socketOut.flush();
         }
+
     }
 
     public synchronized boolean isActive() {

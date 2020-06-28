@@ -9,6 +9,6 @@ public class Zeus extends WorkerDecorator{
 
     @Override
     public boolean canBuildBlock(Tile t) {
-        return (getPosition() == t && t.getBlockLevel() < 3 || super.canBuildBlock(t));
+        return (getPosition() == t && getConditions().checkBuildCondition(t) && t.getBlockLevel() < 3 || super.canBuildBlock(t));
     }
 }
