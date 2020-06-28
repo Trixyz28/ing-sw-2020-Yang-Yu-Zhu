@@ -11,6 +11,7 @@ public class Messages {
     //Requests
     public static String worker = "Choose a Worker to move";
     public static String workerIndex = " (index 0 or 1)";
+    public static String confirmWorker = "Are you sure to choose this worker?";
     public static String operation = " (x,y)";
     public static String place = "Place Worker ";
     public static String move = "Move";
@@ -58,6 +59,7 @@ public class Messages {
 
     public static String invalidWorker = "Invalid Worker index!";
     public static String anotherWorker = "Choose another Worker!";
+
 
 
 }

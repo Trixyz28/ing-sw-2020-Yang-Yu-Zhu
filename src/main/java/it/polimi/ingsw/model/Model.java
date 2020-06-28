@@ -39,6 +39,12 @@ public class Model extends Observable {
 
     private boolean workerChosen;
 
+    public void setWorkerPending(boolean workerPending) {
+        this.workerPending = workerPending;
+    }
+
+    private boolean workerPending = false;
+
     private boolean isGameOver = false;
 
     private ArrayList<UndecoratedWorker> totalWorkerList;
@@ -210,8 +216,25 @@ public class Model extends Observable {
             if(gMessage.getAnswer().equals("0") || gMessage.getAnswer().equals("1")){
                 return true;
             }else {
-                sendMessage(Tags.boardMsg, Messages.tryAgain);
+                sendMessage(Tags.generic, Messages.invalidWorker);
                 sendMessage(Tags.gMsg, Messages.worker);
+                return false;
+            }
+        }
+
+        if(gMessage.getMessage().equals(Messages.confirmWorker)){
+            /* confirm chosen worker */
+            if(gMessage.getAnswer().equals("YES")) {
+                return true;
+            }else if (gMessage.getAnswer().equals("NO")){
+                setWorkerPending(false);
+                setWorkerChosen(false);
+                sendBoard();
+                sendMessage(Tags.gMsg, Messages.worker);
+                return false;
+            }else {
+                sendMessage(Tags.generic, Messages.tryAgain);
+                sendMessage(Tags.gMsg, Messages.confirmWorker);
                 return false;
             }
         }
@@ -219,7 +242,7 @@ public class Model extends Observable {
         /* godPower */
         GodPowerMessage god = GodPowerMessage.valueOf(currentTurn.getCurrentPlayer().getGodCard());
         if(god.checkAnswer(answer) == 0){
-            sendMessage(Tags.boardMsg,Messages.tryAgain);
+            sendMessage(Tags.generic,Messages.tryAgain);
             sendMessage(Tags.gMsg,currentTurn.getCurrentPlayer().getGodCard());
             return false;
         }else {
@@ -238,6 +261,8 @@ public class Model extends Observable {
 
 
     public void sendBoard() {
+        BoardView boardView = createBoardView();
+
         notify(new Obj(createBoardView()));
     }
 
@@ -259,26 +284,27 @@ public class Model extends Observable {
             }
         }
 
+
         if(chosenID != -1) {
             int op = currentTurn.getChosenWorker().getState();
             WorkerView chosen = totalWorkerView[chosenID];
 
-            if(op==1) {
+            if(op==1 || workerPending) {
+                op = 1;
                 chosen.setMovableList(currentTurn.movableList(currentTurn.getChosenWorker()));
             }
-            if(op==2) {
-                chosen.setBuildableList(currentTurn.buildableList(currentTurn.getChosenWorker()));
-            }
-            if(op==3) {
-                if(chosenID%2==0) {
-                    chosenID++;
-                } else {
-                    chosenID--;
+            if(op>=2) {
+                if(op==3) {
+                    if (chosenID % 2 == 0) {
+                        chosenID++;
+                    } else {
+                        chosenID--;
+                    }
+                    chosen = totalWorkerView[chosenID];
                 }
-                chosen = totalWorkerView[chosenID];
                 chosen.setBuildableList(currentTurn.buildableList(currentTurn.getChosenWorker()));
-                //System.out.println("buildable list size: " + chosen.getBuildableList().size());
             }
+
             chosen.setState(op);
         }
 

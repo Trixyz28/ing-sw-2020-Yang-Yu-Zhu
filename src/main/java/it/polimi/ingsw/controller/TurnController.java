@@ -28,8 +28,20 @@ public class TurnController {
         if (currentTurn.movableList(worker).size() != 0) {
             /* tile che può andarci != 0 */
             chosenWorker = worker;
-            choseWorker();
+            currentTurn.choseWorker(chosenWorker);
+            model.setWorkerChosen(true);
 
+            /* check if the other worker can move */
+            index = index==0 ? 1 : 0;
+            UndecoratedWorker unchosen = currentTurn.getCurrentPlayer().chooseWorker(index);
+
+            if(currentTurn.movableList(unchosen).size() != 0){
+                model.setWorkerPending(true);
+                model.sendBoard();
+                model.sendMessage(Tags.gMsg, Messages.confirmWorker);
+            }else {
+                choseWorker();
+            }
         }else {
             //view.chooseWorker; -> richiedere scelta
             model.sendMessage(Tags.boardMsg,Messages.anotherWorker);
@@ -41,8 +53,11 @@ public class TurnController {
     /* scelto Worker -> inizio move */
     protected void choseWorker(){
 
+        /*
         currentTurn.choseWorker(chosenWorker);
         model.setWorkerChosen(true);
+         */
+        model.setWorkerPending(false);
         model.sendMessage(Tags.boardMsg,Messages.workerChose);
         /* godPower prima di move -> Prometheus */
         if(chosenWorker.getGodPower()) {

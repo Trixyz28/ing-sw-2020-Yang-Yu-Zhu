@@ -42,13 +42,7 @@ public class Controller implements Observer {
             /* inizializzazione con decisioni Challenger */
             initController.initializeMatch();
 
-        }
-        /*else if (arg instanceof Integer) {  /* indice del Worker scelto 0 o 1
-            turnController.setChosenWorker((Integer) arg);
-
-        }
-        */
-        else if (checkTurn((Obj) arg)) {
+        } else if (checkTurn((Obj) arg)) {
 
             if (((Obj) arg).getTag().equals(Tags.operation)) {
                 opUpdate(((Obj) arg).getOperation());
@@ -63,7 +57,10 @@ public class Controller implements Observer {
                     if (model.checkAnswer(gm)) {
                         if (gm.getMessage().equals(Messages.worker)) {
                             turnController.setChosenWorker(Integer.parseInt(gm.getAnswer()));
-                        } else {
+                        }else if (gm.getMessage().equals(Messages.confirmWorker)){
+                            /* if answer is "YES" */
+                            turnController.choseWorker();
+                        }else {
                             /* GodPower answers */
                             gmUpdate();
                         }
