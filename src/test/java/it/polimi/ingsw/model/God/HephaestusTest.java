@@ -20,6 +20,7 @@ public class HephaestusTest extends TestCase {
         worker.setPosition(board.getTile(0,0));
         Tile build = board.getTile(0,1);
         Assert.assertTrue(worker.canBuildBlock(build));
+        Assert.assertFalse(worker.canBuildDome(build));
         worker.buildBlock(build);
         Assert.assertEquals(1,build.getBlockLevel());
         Assert.assertTrue(worker.getGodPower());
@@ -27,6 +28,10 @@ public class HephaestusTest extends TestCase {
         Assert.assertFalse(worker.canBuildBlock(board.getTile(0,2)));
         worker.useGodPower(true);
         Assert.assertEquals(2,build.getBlockLevel());
+
+        build.setBlockLevel(3);
+        /* Hepaestus has already built -> built counter > 0 */
+        Assert.assertFalse(worker.canBuildDome(build));
     }
 
     @Test

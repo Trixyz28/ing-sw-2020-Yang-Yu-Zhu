@@ -175,14 +175,50 @@ public class ControllerTest extends TestCase {
 
         observable.notify(obj);
         Assert.assertEquals(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0), model.getCurrentTurn().getChosenWorker());
+        Assert.assertEquals(0, model.getCurrentTurn().getState());
+    }
+
+    @Test
+    public void testConfirmWorkerChoice() {
+        testChooseWorker();
+
+        GameMessage gm = new GameMessage(Messages.confirmWorker);
+        gm.setAnswer("YES");
+        Obj obj = new Obj(gm);
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+
+        observable.notify(obj);
+
+        Assert.assertTrue(model.checkAnswer(gm));
+
+        /* the turn state became 1 -> confirmed worker choice */
+        Assert.assertEquals(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0), model.getCurrentTurn().getChosenWorker());
         Assert.assertEquals(1, model.getCurrentTurn().getState());
         Assert.assertEquals(model.getCurrentTurn().getInitialTile(), model.getCurrentTurn().getChosenWorker().getPosition());
         Assert.assertEquals(player2, model.getCurrentTurn().getCurrentPlayer());
     }
 
     @Test
-    public void testMove() {
+    public void testConfirmWorkerChoice2() {
         testChooseWorker();
+
+        GameMessage gm = new GameMessage(Messages.confirmWorker);
+        gm.setAnswer("NO");
+        Obj obj = new Obj(gm);
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+
+        observable.notify(obj);
+
+        Assert.assertFalse(model.checkAnswer(gm));
+
+        /* the turn state didn't become 1 -> didn't confirm worker choice */
+        Assert.assertEquals(0, model.getCurrentTurn().getState());
+        Assert.assertEquals(player2, model.getCurrentTurn().getCurrentPlayer());
+    }
+
+    @Test
+    public void testMove() {
+        testConfirmWorkerChoice();
 
         Obj obj = new Obj(new Operation( 1, 2,2));
         Operation move = obj.getOperation();
@@ -284,14 +320,26 @@ public class ControllerTest extends TestCase {
         player2.chooseWorker(0).setPosition(position1);
         player2.chooseWorker(1).setPosition(position2);
 
+        /* choosing the worker with index 0 */
         GameMessage gm = new GameMessage(Messages.worker);
         gm.setAnswer("0");
         Obj obj = new Obj(gm);
         obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
         observable.notify(obj);
+        /* current worker must be the chosen worker */
         Assert.assertEquals(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0), model.getCurrentTurn().getChosenWorker());
 
+        /* confirm the worker choice */
+        gm = new GameMessage(Messages.confirmWorker);
+        gm.setAnswer("YES");
+        obj = new Obj(gm);
+        obj.setReceiver(model.getCurrentTurn().getCurrentPlayer());
+        observable.notify(obj);
+        /* current worker must be the chosen worker */
+        Assert.assertEquals(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0), model.getCurrentTurn().getChosenWorker());
+        /* the state of the turn must be 1 -> end of choosing worker, start to move */
         Assert.assertEquals(1, model.getCurrentTurn().getState());
+
         Obj move = new Obj(new Operation( 1, 2,1));
         move.setReceiver(model.getCurrentTurn().getCurrentPlayer());
         observable.notify(move);

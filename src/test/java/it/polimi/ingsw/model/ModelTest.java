@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.messages.GameMessage;
-import it.polimi.ingsw.messages.GodPowerMessage;
-import it.polimi.ingsw.messages.Messages;
-import it.polimi.ingsw.messages.Obj;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.God.*;
 import it.polimi.ingsw.observers.Observer;
 import junit.framework.TestCase;
@@ -143,7 +140,7 @@ public class ModelTest extends TestCase {
     }
 
     @Test
-    public void testCheckAnswer() {
+    public void testCheckGodPowerAnswer() {
         testStartTurn();
         model.getCurrentTurn().choseWorker(player2.chooseWorker(0));
         GodPowerMessage god = GodPowerMessage.valueOf(player2.getGodCard());
@@ -155,11 +152,59 @@ public class ModelTest extends TestCase {
         if(model.getCurrentTurn().getChosenWorker() instanceof Hestia){
             gm.setAnswer("YES");
             Assert.assertTrue(model.checkAnswer(gm));
-        }else {
+        }else {  /* Hephaestus */
+            Assert.assertTrue(model.getCurrentTurn().getChosenWorker() instanceof Hephaestus);
             model.getCurrentTurn().getChosenWorker().buildBlock(model.getBoard().getTile(0,0));
             gm.setAnswer("YES");
             Assert.assertTrue(model.checkAnswer(gm));
+            Assert.assertEquals(2,model.getBoard().getTile(0,0).getBlockLevel());
         }
+    }
+
+    @Test
+    public void testCheckWorkerAnswer() {
+        testStartTurn();
+
+        GameMessage gm = new GameMessage(Messages.worker);
+        gm.setAnswer("ciao!");
+        Assert.assertFalse(model.checkAnswer(gm));
+        gm.setAnswer("0");
+        Assert.assertTrue(model.checkAnswer(gm));
+        gm.setAnswer("1");
+        Assert.assertTrue(model.checkAnswer(gm));
+
+        Observer observer;
+        observer = new Observer() {
+            @Override
+            public void update(Object message) {
+                Assert.assertTrue(message instanceof Obj);
+                if(((Obj) message).getTag().equals(Tags.generic)){
+                    Assert.assertEquals(Messages.tryAgain, ((Obj) message).getMessage());
+                }
+            }
+        };
+        model.addObservers(observer);
+
+        /* if the answer is not "YES" or "NO" -> try again */
+        gm = new GameMessage(Messages.confirmWorker);
+        gm.setAnswer("ciao!");
+
+        Assert.assertFalse(model.checkAnswer(gm));
+        observer = new Observer() {
+            @Override
+            public void update(Object message) {
+                Assert.assertTrue(message instanceof Obj);
+                if(((Obj) message).getTag().equals(Tags.gMsg)){
+                    Assert.assertEquals(Messages.worker, ((Obj) message).getGameMessage().getMessage());
+                }
+            }
+        };
+        /* if the answer is "NO" -> send message to choose new worker index */
+        model.addObservers(observer);
+        gm.setAnswer("NO");
+        Assert.assertFalse(model.checkAnswer(gm));
+        gm.setAnswer("YES");
+        Assert.assertTrue(model.checkAnswer(gm));
     }
 
     @Test

@@ -66,6 +66,10 @@ public class TurnControllerTest extends TestCase {
 
         Assert.assertEquals(0, model.getCurrentTurn().getState());
         turnController.setChosenWorker(1);
+
+        /* the worker 0 can't move -> not necessary to confirm the worker choice */
+        Assert.assertTrue(model.getCurrentTurn().movableList(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0)).size()==0);
+
         Assert.assertSame(player1.chooseWorker(1), model.getCurrentTurn().getChosenWorker());
         Assert.assertEquals(model.getCurrentTurn().getInitialTile(), player1.chooseWorker(1).getPosition());
         Assert.assertFalse(model.getCurrentTurn().getChosenWorker().getGodPower());
@@ -81,12 +85,16 @@ public class TurnControllerTest extends TestCase {
         Assert.assertTrue(player2.chooseWorker(1) instanceof Prometheus);
         Assert.assertEquals(0, model.getCurrentTurn().getState());
         turnController.setChosenWorker(0);
+        /* the worker 1 can move -> need to confirm the choice */
+        Assert.assertTrue(model.getCurrentTurn().movableList(model.getCurrentTurn().getCurrentPlayer().chooseWorker(1)).size()!=0);
+
+        /* confirm the choice */
+        turnController.choseWorker();
         Assert.assertSame(player2.chooseWorker(0), model.getCurrentTurn().getChosenWorker());
         Assert.assertEquals(model.getCurrentTurn().getInitialTile(), player2.chooseWorker(0).getPosition());
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker().getGodPower());
         Assert.assertEquals(0, model.getCurrentTurn().getState());
     }
-
 
 
     @Test
@@ -112,6 +120,13 @@ public class TurnControllerTest extends TestCase {
         Assert.assertTrue(player3.chooseWorker(0) instanceof Triton);
         Assert.assertTrue(player3.chooseWorker(1) instanceof Triton);
         turnController.setChosenWorker(1);
+        Assert.assertEquals(0, model.getCurrentTurn().getState());
+        /* the other worker can move -> the worker choice must be confirmed */
+        Assert.assertTrue(model.getCurrentTurn().movableList(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0)).size()!=0);
+
+        /* confirming the choice */
+        turnController.choseWorker();
+        Assert.assertEquals(1, model.getCurrentTurn().getState());
 
         Tile t = model.commandToTile(3,4);
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker().canMove(t));
