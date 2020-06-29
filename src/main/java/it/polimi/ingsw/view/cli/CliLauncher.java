@@ -12,7 +12,6 @@ public class CliLauncher {
 
     private Scanner scanner;
     private Client client;
-    private boolean set;
 
     private String ip;
     private String port;
@@ -21,17 +20,19 @@ public class CliLauncher {
 
     public void start() {
         this.scanner = new Scanner(System.in);
-        this.set = false;
+        boolean set = false;
+
+        printLogo();
 
         while (!set) {
-            System.out.println("Server IP: ");
-            ip = scanner.nextLine();
-            System.out.println("Server port: ");
+            System.out.print("Server IP: ");
+            String ip = scanner.nextLine();
+            System.out.print("Server port: ");
             port = scanner.nextLine();
 
             try {
                 Socket socket = new Socket(ip, Integer.parseInt(port));
-                this.set = true;
+                set = true;
 
                 this.client = new Client();
                 client.setupClient("cli", socket);
@@ -60,6 +61,17 @@ public class CliLauncher {
         read.start();
 
         client.run();
+    }
+
+    private void printLogo() {
+        System.out.println(CliPrinter.LOGO_COLOR + "      ____              _             _       _ ");
+        System.out.println(CliPrinter.LOGO_COLOR + "     / ___|  __ _ _ __ | |_ ___  _ __(_)_ __ (_)");
+        System.out.println(CliPrinter.LOGO_COLOR + "     \\___ \\ / _` | '_ \\| __/ _ \\| '__| | '_ \\| |");
+        System.out.println(CliPrinter.LOGO_COLOR + "      ___) | (_| | | | | || (_) | |  | | | | | |");
+        System.out.println(CliPrinter.LOGO_COLOR + "     |____/ \\__,_|_| |_|\\__\\___/|_|  |_|_| |_|_|");
+        System.out.println(CliPrinter.INDEX_COLOR + "  =================================================");
+        System.out.println(CliPrinter.INDEX_COLOR + "     =========================================== ");
+        System.out.println(CliPrinter.RESET);
     }
 
 }

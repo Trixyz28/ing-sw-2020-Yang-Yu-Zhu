@@ -14,6 +14,8 @@ public class CLI implements Ui {
     private BoardView boardView;
     private String nickname;
     private boolean current;
+    private boolean lostPlayer = false;
+    private String lostName = " ";
 
     private ArrayList<String> playerList;
     private String[] godList;
@@ -45,27 +47,22 @@ public class CLI implements Ui {
         this.current = boardView.getCurrentName().equals(nickname);
 
         System.out.println(CliPrinter.upExt);
-
-        System.out.print(CliPrinter.emptyExt);
-        System.out.format("%1$52s",CliPrinter.rightExt + "\n");
+        System.out.println(CliPrinter.emptyLeft + CliPrinter.emptyRight);
 
         System.out.print(CliPrinter.leftExt + "    " + CliPrinter.verticalBar);
-
         for(int i=0;i<5;i++){
-            System.out.print(CliPrinter.gridNumberColor + "   " + i + "   " + CliPrinter.verticalBar);
+            System.out.print(CliPrinter.INDEX_COLOR + "   " + i + "   " + CliPrinter.verticalBar);
         }
-        System.out.print(CliPrinter.rightExt);
+        System.out.print(CliPrinter.centerExt);
         System.out.format("%1$-36s", "    Current Player:");
-        System.out.println(CliPrinter.rightExt);
+        System.out.println(CliPrinter.centerExt);
 
-        System.out.print(CliPrinter.leftExt + CliPrinter.supBoard + CliPrinter.rightExt);
-        System.out.format("%1$52s",CliPrinter.rightExt + "\n");
-
+        System.out.println(CliPrinter.leftExt + CliPrinter.supBoard + CliPrinter.centerExt + CliPrinter.emptyRight);
 
         for(int i=0;i<9;i++) {
 
             if (i%2==0) {
-                System.out.print(CliPrinter.leftExt + CliPrinter.gridNumberColor + " " + i/2 + "  " + CliPrinter.RESET);
+                System.out.print(CliPrinter.leftExt + CliPrinter.INDEX_COLOR + " " + i/2 + "  " + CliPrinter.RESET);
 
                 for (int j=0;j<5;j++) {
                     Tile t = boardView.getTile(i/2,j);
@@ -86,46 +83,45 @@ public class CLI implements Ui {
 
                     System.out.print(CliPrinter.RESET + " ");
                 }
-
-                System.out.print(CliPrinter.verticalBoard + CliPrinter.rightExt);
+                System.out.print(CliPrinter.verticalBoard + CliPrinter.centerExt);
 
             } else {
-                System.out.print(CliPrinter.leftExt + CliPrinter.horizontalBar + CliPrinter.rightExt);
+                System.out.print(CliPrinter.leftExt + CliPrinter.horizontalBar + CliPrinter.centerExt);
             }
 
-
-            if (i == 0) {
+            if (i==0) {
                 System.out.print(workerColor(boardView.getCurrentID()));
                 System.out.format("%1$-40s", "    " + boardView.getCurrentName() + CliPrinter.RESET + " (" + boardView.getCurrentGod() + ")");
-
-            } else if (i==4) {
-                System.out.format("%1$-47s","  - " + CliPrinter.player0 + playerList.get(0) + CliPrinter.RESET + " (" + godList[0] + ")");
-            } else if (i==6) {
-                System.out.format("%1$-47s","  - " + CliPrinter.player1 + playerList.get(1) + CliPrinter.RESET + " (" + godList[1] + ")");
-
+            } else if (i==5 || i==7) {
+                int index = i==5 ? 0 : 1;
+                printPlayer(index);
             } else {
-
-                if (i==8 && playerList.size()==3) {
-                    System.out.format("%1$-47s", "  - " + CliPrinter.player2 + playerList.get(2) + CliPrinter.RESET + " (" + godList[2] + ")");
+                if(i==2) {
+                    System.out.format("%1$-47s",CliPrinter.LOGO_COLOR + "   * (`  _   _  _│_  _   _ .  _  o *" + CliPrinter.RESET);
+                } else if(i==3) {
+                    System.out.format("%1$-47s",CliPrinter.LOGO_COLOR + "   * _) (_│ | |  │  (_) |  │ | | │ *" + CliPrinter.RESET);
                 } else {
                     System.out.format("%1$-36s", "");
                 }
             }
-
-            System.out.println(CliPrinter.rightExt);
+            System.out.println(CliPrinter.centerExt);
         }
 
-        System.out.print(CliPrinter.leftExt + CliPrinter.infBoard + CliPrinter.rightExt);
-        System.out.format("%1$52s",CliPrinter.rightExt + "\n");
-        System.out.print(CliPrinter.emptyExt);
-        System.out.format("%1$52s",CliPrinter.rightExt + "\n");
+        System.out.print(CliPrinter.leftExt + CliPrinter.infBoard + CliPrinter.centerExt);
+        if(playerList.size()==3) {
+            printPlayer(2);
+            System.out.println(CliPrinter.centerExt);
+        } else {
+            System.out.println(CliPrinter.emptyRight);
+        }
+        System.out.println(CliPrinter.emptyLeft + CliPrinter.emptyRight);
         System.out.println(CliPrinter.downExt);
     }
 
 
-    public void printWorker(Tile t) {
+    private void printWorker(Tile t) {
 
-        for (int i = 0; i < boardView.getWorkerList().length; i++) {
+        for (int i=0; i < boardView.getWorkerList().length; i++) {
 
             if (boardView.getWorkerList()[i].isPositionSet()) {
                 if (t.equals(boardView.getWorkerList()[i].getPosition())) {
@@ -134,7 +130,7 @@ public class CLI implements Ui {
                         printCanOp();
                     }
                     if (i == boardView.getChosenWorkerID()) {
-                        System.out.print(CliPrinter.chosenColor);
+                        System.out.print(CliPrinter.CHOSEN_COLOR);
                     } else {
                         System.out.print(workerColor(boardView.getWorkerList()[i].getBelongToPlayer()));
                     }
@@ -144,7 +140,7 @@ public class CLI implements Ui {
                     if(checkCanOp(t)) {
                         printCanOp();
                     } else {
-                        System.out.print(CliPrinter.heightColor);
+                        System.out.print(CliPrinter.BLOCK_COLOR);
                     }
                     System.out.print("(" + t.getBlockLevel() + ")");
                 }
@@ -153,24 +149,39 @@ public class CLI implements Ui {
     }
 
 
-    public void printCanOp() {
-        System.out.print(CliPrinter.canOpColor);
+    private void printCanOp() {
+        System.out.print(CliPrinter.CAN_OP_COLOR);
     }
 
 
-    public void printDome() {
-        System.out.print(CliPrinter.domeColor + "  ^  ");
+    private void printDome() {
+        System.out.print(CliPrinter.DOME_COLOR + "  ^  ");
     }
 
-    public void printBlock(Tile t) {
+
+    private void printBlock(Tile t) {
         if(checkCanOp(t)) {
             printCanOp();
         }
         System.out.print("  " + t.getBlockLevel() + "  ");
     }
 
+    private void printPlayer(int index) {
+        if(playerList.get(index).equals(nickname)) {
+            System.out.print("  - ");
+        } else {
+            System.out.print("    ");
+        }
 
-    public boolean checkCanOp(Tile t) {
+        if(!playerList.get(index).equals(lostName)) {
+            System.out.format("%1$-43s", workerColor(index)+ playerList.get(index) + CliPrinter.RESET + " (" + godList[index] + ")");
+        } else {
+            System.out.format("%1$-43s", CliPrinter.GRID_COLOR + playerList.get(index) + " (" + godList[index] + ")" + CliPrinter.RESET);
+        }
+    }
+
+
+    private boolean checkCanOp(Tile t) {
 
         if(current) {
             if(boardView.getChosenWorkerID()!=-1) {
@@ -184,18 +195,17 @@ public class CLI implements Ui {
                 }
             }
         }
-
         return false;
     }
 
-    public String workerColor(int playerID) {
+    private String workerColor(int playerID) {
 
         if(playerID==0) {
-            return CliPrinter.player0;
+            return CliPrinter.PLAYER_0;
         } else if(playerID==1) {
-            return CliPrinter.player1;
+            return CliPrinter.PLAYER_1;
         } else {
-            return CliPrinter.player2;
+            return CliPrinter.PLAYER_2;
         }
     }
 
@@ -222,7 +232,7 @@ public class CLI implements Ui {
 
         System.out.println(Messages.matchStarting);
         for(String str : list) {
-            System.out.println(str);
+            System.out.println(workerColor(list.indexOf(str)) + str + CliPrinter.RESET);
         }
     }
 
@@ -278,10 +288,11 @@ public class CLI implements Ui {
                 System.out.println("The winner is " + obj.getPlayer() + "!");
             }
         } else {
-            if(obj.getPlayer().equals(nickname)) {
+            lostName = obj.getPlayer();
+            if(lostName.equals(nickname)) {
                 System.out.println("You lose!");
             } else {
-                System.out.println("The player " + obj.getPlayer() + " loses!");
+                System.out.println("The player " + lostName + " loses!");
             }
         }
     }

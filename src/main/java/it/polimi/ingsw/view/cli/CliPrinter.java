@@ -8,6 +8,7 @@ public class CliPrinter {
     // Regular Colors
     public static final String YELLOW = "\033[0;33m";  // YELLOW
     public static final String WHITE = "\033[0;37m";   // WHITE
+    public static final String BLUE = "\033[0;34m";    // BLUE
 
     // Bold Colors
     public static final String GREEN_BOLD = "\033[1;32m";  // GREEN
@@ -30,33 +31,35 @@ public class CliPrinter {
 
 
     // Color Indicators
-    public static final String gridColor = BLACK_BRIGHT;
-    public static final String gridNumberColor = YELLOW;
+    public static final String EXT_COLOR = WHITE;
+    public static final String GRID_COLOR = BLACK_BRIGHT;
+    public static final String INDEX_COLOR = YELLOW;
+    public static final String LOGO_COLOR = BLUE;
 
-    public static final String domeColor = BLUE_BOLD;
-    public static final String heightColor = WHITE;
+    public static final String DOME_COLOR = BLUE_BOLD;
+    public static final String BLOCK_COLOR = WHITE;
 
-    public static final String player0 = CYAN_BOLD;
-    public static final String player1 = PURPLE_BOLD;
-    public static final String player2 = GREEN_BOLD;
+    public static final String PLAYER_0 = CYAN_BOLD;
+    public static final String PLAYER_1 = PURPLE_BOLD;
+    public static final String PLAYER_2 = GREEN_BOLD;
 
-    public static final String chosenColor = RED_UNDERLINED;
-    public static final String canOpColor = BLACK_BACKGROUND_BRIGHT;
+    public static final String CHOSEN_COLOR = RED_UNDERLINED;
+    public static final String CAN_OP_COLOR = BLACK_BACKGROUND_BRIGHT;
 
 
     // Board Characters
-    public static final String horizontalBar = gridColor + "────║───────┼───────┼───────┼───────┼───────║" + RESET;
-    public static final String verticalBar = gridColor + "│" + RESET;
-    public static final String supBoard = gridColor + "────╔═══════╤═══════╤═══════╤═══════╤═══════╗" + RESET;
-    public static final String infBoard = gridColor + "────╚═══════╧═══════╧═══════╧═══════╧═══════╝" + RESET;
-    public static final String verticalBoard = gridColor + "║" + RESET;
+    public static final String horizontalBar = GRID_COLOR + "────║───────┼───────┼───────┼───────┼───────║" + RESET;
+    public static final String verticalBar = GRID_COLOR + "│" + RESET;
+    public static final String supBoard = GRID_COLOR + "────╔═══════╤═══════╤═══════╤═══════╤═══════╗" + RESET;
+    public static final String infBoard = GRID_COLOR + "────╚═══════╧═══════╧═══════╧═══════╧═══════╝" + RESET;
+    public static final String verticalBoard = GRID_COLOR + "║" + RESET;
 
     // Frame Characters
-    public static final String extColor = WHITE;
-    public static final String upExt = extColor + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + RESET;
-    public static final String downExt = extColor + "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" + RESET;
-    public static final String leftExt = extColor + "┃   " + RESET;
-    public static final String rightExt = extColor + "   ┃" + RESET;
-    public static final String emptyExt = extColor + "┃                                                   ┃" + RESET;
+    public static final String upExt = EXT_COLOR + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + RESET;
+    public static final String downExt = EXT_COLOR + "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" + RESET;
+    public static final String leftExt = EXT_COLOR + "┃   " + RESET;
+    public static final String centerExt = EXT_COLOR + "   ┃" + RESET;
+    public static final String emptyLeft = EXT_COLOR + "┃                                                   ┃" + RESET;
+    public static final String emptyRight = EXT_COLOR + "                                       ┃" + RESET;
 
 }

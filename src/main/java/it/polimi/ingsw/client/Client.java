@@ -155,7 +155,7 @@ public class Client implements Observer, Runnable {
                 socketOut.flush();
                 gmReceived = false;
                 gMessage = null;
-            }
+        }
 
 
          else {
