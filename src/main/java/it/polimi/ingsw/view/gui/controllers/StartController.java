@@ -10,8 +10,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
-import java.security.Key;
-import java.util.Timer;
 
 public class StartController {
 
@@ -24,8 +22,8 @@ public class StartController {
     @FXML
     private Label firstPageLabel;
     @FXML
-    public void loadingScene(MouseEvent event) {
-        guiLauncher.changeScene(1);
+    public void loadingScene() {
+        guiLauncher.appStarted();
     }
 
 

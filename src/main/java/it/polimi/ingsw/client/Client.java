@@ -48,7 +48,6 @@ public class Client implements Observer, Runnable {
             System.out.println(e.getMessage());
         }
 
-
     }
 
     @Override
@@ -88,27 +87,7 @@ public class Client implements Observer, Runnable {
 
                     } else if (inputObject instanceof Obj) {
                         Obj obj = (Obj)inputObject;
-
-                        if(obj.getTag().equals(Tags.operation)) {
-                            opReceived = true;  /* ricevuto un Operation */
-                            Operation operation = obj.getOperation();
-                            if(operation.getType() == 1){
-                                ui.showObj(new Obj(Tags.boardMsg,Messages.move));
-                            } else if(operation.getType() == 2) {
-                                ui.showObj(new Obj(Tags.boardMsg,Messages.Build));
-                            }
-
-                        } else if(obj.getTag().equals(Tags.gMsg)) {
-                            gmReceived = true;
-                            gMessage = obj.getGameMessage();
-                            ui.showObj(obj);
-
-                        } else if(obj.getTag().equals(Tags.generic)) {
-                            ui.showMessage(obj.getMessage());
-
-                        } else {
-                            ui.showObj(obj);
-                        }
+                        splitMessage(obj);
 
                     } else {
                         throw new IllegalArgumentException();
@@ -192,6 +171,35 @@ public class Client implements Observer, Runnable {
 
     public synchronized void setActive(boolean active) {
         this.active = active;
+    }
+
+
+    public void splitMessage(Obj obj) {
+        switch (obj.getTag()) {
+            case Tags.operation -> {
+                opReceived = true;  /* ricevuto un Operation */
+                Operation operation = obj.getOperation();
+                if (operation.getType() == 1) {
+                    ui.showObj(new Obj(Tags.boardMsg, Messages.move));
+                } else if (operation.getType() == 2) {
+                    ui.showObj(new Obj(Tags.boardMsg, Messages.Build));
+                }
+            }
+            case Tags.gMsg -> {
+                gmReceived = true;
+                gMessage = obj.getGameMessage();
+                ui.handleGameMsg(obj.getGameMessage().getMessage());
+            }
+            case Tags.playerList -> ui.handlePlayerList(obj.getList());
+            case Tags.turn -> ui.handleTurn(obj.getMessage());
+            case Tags.defineGod -> ui.handleDefineGod(obj.getMessage());
+            case Tags.chooseGod -> ui.handleChooseGod(obj);
+            case Tags.board -> ui.updateBoard(obj.getBoardView());
+            case Tags.boardMsg -> ui.handleBoardMsg(obj.getMessage());
+            case Tags.end -> ui.endGame(obj);
+            case Tags.generic -> ui.showMessage(obj.getMessage());
+            default -> ui.showObj(obj);
+        }
     }
 
 

@@ -1,16 +1,12 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.BoardView;
-import it.polimi.ingsw.view.Sender;
 import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.WorkerView;
-import javafx.application.Platform;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 public class CLI implements Ui {
@@ -18,8 +14,6 @@ public class CLI implements Ui {
     private BoardView boardView;
     private String nickname;
     private boolean current;
-
-
 
     private ArrayList<String> playerList;
     private String[] godList;
@@ -33,32 +27,22 @@ public class CLI implements Ui {
 
     @Override
     public void showObj(Obj obj) {
-
         String command = obj.getTag();
 
         switch (command) {
-            case Tags.playerList -> handlePlayerList(obj.getList());
             case Tags.setName -> nickname = obj.getMessage();
             case Tags.completeList -> printCompleteList(obj.getList());
-            case Tags.defineGod -> System.out.println("The challenger chooses: " + obj.getMessage());
-            case Tags.chooseGod -> {
-                System.out.println("The player " + obj.getPlayer() + " chooses " + obj.getMessage() + "!");
-                godList[playerList.indexOf(obj.getPlayer())] = obj.getMessage();
-            }
             case Tags.currentList -> printCurrentList(obj.getList());
-            case Tags.board -> showBoard(obj.getBoardView(), obj.getBoardView().getCurrentName().equals(nickname));
-            case Tags.gMsg -> handleGameMessage(obj);
-            case Tags.end -> endGame(obj);
-            case Tags.boardMsg -> handleBoardMessage(obj.getMessage());
             default -> System.out.println(obj.getMessage());
         }
     }
 
 
-    public void showBoard(BoardView boardView,boolean command) {
+    @Override
+    public void updateBoard(BoardView boardView) {
 
         this.boardView = boardView;
-        this.current = command;
+        this.current = boardView.getCurrentName().equals(nickname);
 
         System.out.println(CliPrinter.upExt);
 
@@ -104,7 +88,6 @@ public class CLI implements Ui {
                 }
 
                 System.out.print(CliPrinter.verticalBoard + CliPrinter.rightExt);
-
 
             } else {
                 System.out.print(CliPrinter.leftExt + CliPrinter.horizontalBar + CliPrinter.rightExt);
@@ -232,19 +215,35 @@ public class CLI implements Ui {
         }
     }
 
+    @Override
     public void handlePlayerList(ArrayList<String> list) {
         playerList = list;
         godList = new String[playerList.size()];
 
         System.out.println(Messages.matchStarting);
-
         for(String str : list) {
             System.out.println(str);
         }
     }
 
+    @Override
+    public void handleTurn(String message) {
+        System.out.println("Turn of " + message);
+    }
 
-    public void handleBoardMessage(String message) {
+    @Override
+    public void handleDefineGod(String message) {
+        System.out.println("The challenger chooses: " + message);
+    }
+
+    @Override
+    public void handleChooseGod(Obj obj) {
+        System.out.println("The player " + obj.getPlayer() + " chooses " + obj.getMessage() + "!");
+        godList[playerList.indexOf(obj.getPlayer())] = obj.getMessage();
+    }
+
+    @Override
+    public void handleBoardMsg(String message) {
         System.out.print(message);
         if(message.equals(Messages.move) || message.equals(Messages.Build)) {
             System.out.println(Messages.operation);
@@ -254,8 +253,8 @@ public class CLI implements Ui {
     }
 
 
-    public void handleGameMessage(Obj obj) {
-        String message = obj.getGameMessage().getMessage();
+    @Override
+    public void handleGameMsg(String message) {
 
         System.out.print(message);
         if(message.equals(Messages.worker)) {
@@ -269,6 +268,8 @@ public class CLI implements Ui {
         System.out.println("");
     }
 
+
+    @Override
     public void endGame(Obj obj) {
         if(obj.getMessage().equals("win")) {
             if(obj.getPlayer().equals(nickname)) {

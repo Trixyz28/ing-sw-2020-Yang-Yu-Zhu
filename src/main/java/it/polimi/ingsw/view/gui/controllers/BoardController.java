@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.Sender;
 import it.polimi.ingsw.view.WorkerView;
+import it.polimi.ingsw.view.gui.GUI;
 import it.polimi.ingsw.view.gui.GuiLauncher;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -25,7 +26,7 @@ public class BoardController {
     private BoardView lastView;
     private Image[] coins;
 
-    private GuiLauncher guiLauncher;
+    private GUI gui;
     private Sender sender;
 
 
@@ -92,7 +93,7 @@ public class BoardController {
 
                         System.out.println("Clicked at the pane at row " + GridPane.getRowIndex(node) + ", column " + GridPane.getColumnIndex(node));
 
-                        if(guiLauncher.isChooseWorker()) {
+                        if(gui.isChooseWorker()) {
                             for(WorkerView workerView : lastView.getWorkerList()) {
                                 if(workerView.getBelongToPlayer() == lastView.getCurrentID()) {
                                     if(workerView.getPosition().equals(lastView.getTile(GridPane.getRowIndex(node),GridPane.getColumnIndex(node)))) {
@@ -366,8 +367,8 @@ public class BoardController {
         this.nickname = str;
     }
 
-    public void setGuiLauncher(GuiLauncher guiLauncher) {
-        this.guiLauncher = guiLauncher;
+    public void setGuiLauncher(GUI gui) {
+        this.gui = gui;
     }
 
     public void openRule() {

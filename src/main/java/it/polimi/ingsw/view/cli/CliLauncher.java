@@ -60,7 +60,6 @@ public class CliLauncher {
         read.start();
 
         client.run();
-
     }
 
 }
