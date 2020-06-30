@@ -125,7 +125,6 @@ public class Model extends Observable {
             /* dare direttamente la god rimanente al Challenger */
             String god = godsList.getCurrentGodList().get(0);
 
-            sendMessage(Tags.generic,"Il god rimasto è " + god + "!");
             Player challenger = matchPlayersList.get(challengerID);
             notify(new Obj(Tags.chooseGod,god,challenger.getPlayerNickname()));
             challenger.setGodCard(god);
@@ -183,7 +182,7 @@ public class Model extends Observable {
                 startingPlayer = p;
                 //settare il startingPlayerID del model
                 setStartingPlayerID(startingPlayer.getPlayerID());
-                broadcast(new Obj(Tags.generic,"Il primo player che fa la mossa è " + startingPlayer.getPlayerNickname()));
+                broadcast(new Obj(Tags.generic,"The Start player chosen is : " + startingPlayer.getPlayerNickname()));
                 return true;
             }
         }
@@ -417,7 +416,6 @@ public class Model extends Observable {
         sendBoard();
         sendMessage(Tags.boardMsg,Messages.place + indexWorker);
         place();
-        //notify(new Operation(currentTurn.getCurrentPlayer(),0, -1, -1));
     }
 
     //metodi da implementare con il controller

@@ -39,8 +39,7 @@ public class GuiLauncher extends Application {
         startController.setGuiLauncher(this);
         startController.setGlow();
 
-        Scene scene = new Scene(root);
-        this.scene = scene;
+        this.scene = new Scene(root);
         gui.setStage(stage);
         scene.setCursor(new ImageCursor(new Image("components/Cursor.png")));
 

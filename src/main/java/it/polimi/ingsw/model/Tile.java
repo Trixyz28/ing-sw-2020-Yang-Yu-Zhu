@@ -97,22 +97,14 @@ public class Tile implements Cloneable, Serializable {
 
     //Return true if it is possible to move from the present tile to the tile destination
     public boolean availableToMove(Tile dest) {
-        if(isAdjacentTo(dest) && !dest.domePresence && !dest.occupiedByWorker
-                && dest.getBlockLevel()-this.getBlockLevel()<=1 ) {
-            return true;
-        }
-
-        return false;
+        return isAdjacentTo(dest) && !dest.domePresence && !dest.occupiedByWorker
+                && dest.getBlockLevel()-this.getBlockLevel()<=1;
     }
 
 
     //Return true if it is possible to build on the tile destination
     public boolean availableToBuild(Tile dest) {
-        if(isAdjacentTo(dest) && !dest.domePresence && !dest.occupiedByWorker) {
-            return true;
-        }
-
-        return false;
+        return isAdjacentTo(dest) && !dest.domePresence && !dest.occupiedByWorker;
     }
 
 

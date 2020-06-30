@@ -59,10 +59,8 @@ public class Conditions {
     }
 
     protected boolean checkWinCondition(Tile t){
-        if(heraRule && t.perimeterTile()){
-            return false;
-        }
-        return true;
+
+        return !(heraRule && t.perimeterTile());
     }
 
     public void update(int losePlayerID){

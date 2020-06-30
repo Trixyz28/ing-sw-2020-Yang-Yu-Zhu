@@ -149,14 +149,14 @@ public class Turn {
         if(getState() == 0){
             /* before choosing worker: se tutti i worker non hanno più tile da poter andare -> perde */
             for (UndecoratedWorker worker : currentPlayer.getWorkerList()) {
-                if (movableList(worker).size() != 0) {
+                if (!movableList(worker).isEmpty()) {
                     return false;
                 }
             }
             return true;
         }else if(getState() == 1){
             /* before move */
-            return (movableList(chosenWorker).size() == 0);
+            return (!movableList(chosenWorker).isEmpty());
         }else {
             /* se il worker non può né build Block né build Dome */
             for(Tile t : chosenWorker.getAdjacentTiles()){

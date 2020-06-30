@@ -2,8 +2,6 @@ package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
 
-import java.util.List;
-
 
 public class Pan extends WorkerDecorator {
 
@@ -19,12 +17,7 @@ public class Pan extends WorkerDecorator {
 
     //T was the destination, jumpedFrom was the original tile; if blocklevel jumpedFrom - t >= 2 pan win
     private boolean panCheck(Tile jumpedFrom){
-        if(jumpedFrom.getBlockLevel() - getPosition().getBlockLevel() >= 2) {
-            return true;
-        }
-        else{
-            return false;
-        }
+        return jumpedFrom.getBlockLevel() - getPosition().getBlockLevel() >= 2;
     }
 
 

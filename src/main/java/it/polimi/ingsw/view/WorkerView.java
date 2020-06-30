@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 
-public class WorkerView implements Serializable,Cloneable {
+public class WorkerView implements Serializable {
 
     private boolean positionSet = false;
 

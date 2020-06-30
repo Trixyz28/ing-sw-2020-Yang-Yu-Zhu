@@ -27,18 +27,7 @@ public class Athena extends WorkerDecorator {
         return super.canMove(t);
     }
 
-    /*
-    @Override
-    public List<Tile> canMove() {
-        getConditions().setAthenaRule(false);
-        return super.canMove();
-    }
 
-     */
-
-
-    //also in turnController if player has athena as god set athenaRule false every time the turn is passed to the player
-    //setAthenaRule(true);
 }
 
 

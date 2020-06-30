@@ -353,7 +353,7 @@ public class ModelTest extends TestCase {
             @Override
             public void update(Object message) {
                 Assert.assertTrue(message instanceof Obj);
-                Assert.assertEquals(((Obj) message).getMessage(), "ciao");
+                Assert.assertEquals("ciao", ((Obj) message).getMessage());
                 Assert.assertEquals(((Obj) message).getReceiver(), model.getCurrentTurn().getCurrentPlayer().getPlayerNickname());
             }
         };
@@ -413,7 +413,7 @@ public class ModelTest extends TestCase {
             @Override
             public void update(Object message) {
                 Assert.assertTrue(message instanceof Obj);
-                Assert.assertEquals(((Obj) message).getMessage(), "ciao");
+                Assert.assertEquals("ciao", ((Obj) message).getMessage());
             }
         };
         model.addObservers(observer);

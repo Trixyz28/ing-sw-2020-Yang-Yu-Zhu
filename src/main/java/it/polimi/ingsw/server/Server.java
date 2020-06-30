@@ -151,7 +151,7 @@ public class Server {
         int lobbyID = c.getLobbyID();
 
         if(matchConnection.containsKey(lobbyID)) {
-            while(matchConnection.get(lobbyID).size()!=0) {
+            while(!matchConnection.get(lobbyID).isEmpty()) {
                 deregisterPlayer(matchConnection.get(lobbyID).get(0));
             }
             matchConnection.remove(lobbyID);

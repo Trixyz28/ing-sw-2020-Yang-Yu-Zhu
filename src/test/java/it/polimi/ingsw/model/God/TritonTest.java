@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Board;
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
 

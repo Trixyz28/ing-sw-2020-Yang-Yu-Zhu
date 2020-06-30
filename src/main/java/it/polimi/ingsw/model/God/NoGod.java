@@ -11,7 +11,6 @@ public class NoGod implements UndecoratedWorker {
 
     private Tile position;
     private int belongToPlayer;
-    private int workerID;
     private boolean godPower;
     private Conditions condition;
     private int state;  /* 0 = Waiting   1 = Moving  2 = Building 3 = using other workers */
@@ -134,18 +133,5 @@ public class NoGod implements UndecoratedWorker {
       return position.getAdjacentTiles();
    }
 
-   /*all basic methods
-    void move(){
-        //metodo move() che lavora sulla lista dei worker
-    };
-    void canMove();
-    void buildBlock();
-    void canBuildBlock();
-    void buildDome();
-    void canBuildDome();
-    void conditionsCreator();
-
-
-  */
 
 }

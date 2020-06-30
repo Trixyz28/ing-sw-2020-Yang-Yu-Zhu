@@ -39,7 +39,7 @@ public class Controller implements Observer {
     public void update(Object arg) {
 
         if (arg.equals("setup")) {
-            /* inizializzazione con decisioni Challenger */
+            /* initialize match -> challenger */
             initController.initializeMatch();
 
         } else if (checkTurn((Obj) arg)) {
@@ -51,14 +51,16 @@ public class Controller implements Observer {
                 GameMessage gm = ((Obj) arg).getGameMessage();
 
                 if (gm.getMessage() == null) {
-                    /* Scelta god e StartingPlayerNickname */
+                    /* Choose god and StartingPlayerNickname */
                     stringUpdate(((Obj) arg).getReceiver(), gm.getAnswer());
                 } else {
                     if (model.checkAnswer(gm)) {
+                        /* Answers : WorkerIndex, ConfirmWorker, GodPower */
                         if (gm.getMessage().equals(Messages.worker)) {
+                            /* worker index */
                             turnController.setChosenWorker(Integer.parseInt(gm.getAnswer()));
                         }else if (gm.getMessage().equals(Messages.confirmWorker)){
-                            /* if answer is "YES" */
+                            /* if answer is "YES" -> confirm worker */
                             turnController.choseWorker();
                         }else {
                             /* GodPower answers */
@@ -101,7 +103,7 @@ public class Controller implements Observer {
     private void stringUpdate(String player, String answer){
         Player challenger = model.getMatchPlayersList().get(model.getChallengerID());
         if(player.equals(challenger.getPlayerNickname())){
-            /* se challenger -> definire currentList */
+            /* if the player is the challenger -> define currentList or set Start player*/
             if (!model.getGodsList().checkLength()) {
                 /* se non è finita parte scelta god arg = God */
                 initController.defineGodList(answer, model.getGodsList());
@@ -110,7 +112,7 @@ public class Controller implements Observer {
                 initController.setStartingPlayer(answer);
             }
         } else {
-            /* scelta God */
+            /* other players -> choose God */
             initController.chooseGod(answer);
         }
     }

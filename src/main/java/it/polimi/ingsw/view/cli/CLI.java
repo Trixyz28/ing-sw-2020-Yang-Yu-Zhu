@@ -14,7 +14,6 @@ public class CLI implements Ui {
     private BoardView boardView;
     private String nickname;
     private boolean current;
-    private boolean lostPlayer = false;
     private String lostName = " ";
 
     private ArrayList<String> playerList;

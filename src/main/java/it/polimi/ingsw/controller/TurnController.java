@@ -20,46 +20,44 @@ public class TurnController {
     private UndecoratedWorker chosenWorker;
 
 
-    /* scelta worker + controllo tipo worker */
+    /* choose worker + check possibility to change to the other worker */
     protected void setChosenWorker(int index) {
         UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(index);
 
-        //controllare se il Worker scelta possa fare la mossa o no
-        if (currentTurn.movableList(worker).size() != 0) {
-            /* tile che può andarci != 0 */
+        //check if the chosen worker can move or not
+        if (!currentTurn.movableList(worker).isEmpty()) {
+            /* can move -> worker can be chosen */
             chosenWorker = worker;
             currentTurn.choseWorker(chosenWorker);
             model.setWorkerChosen(true);
 
-            /* check if the other worker can move */
+            /* index of the other worker */
             index = index==0 ? 1 : 0;
             UndecoratedWorker unchosen = currentTurn.getCurrentPlayer().chooseWorker(index);
 
-            if(currentTurn.movableList(unchosen).size() != 0){
+            /* check if the other worker can move */
+            if(!currentTurn.movableList(unchosen).isEmpty()){
+                /* possibility to change worker */
                 model.setWorkerPending(true);
                 model.sendBoard();
                 model.sendMessage(Tags.gMsg, Messages.confirmWorker);
             }else {
+                /* choose the worker definitely */
                 choseWorker();
             }
         }else {
-            //view.chooseWorker; -> richiedere scelta
             model.sendMessage(Tags.boardMsg,Messages.anotherWorker);
             model.sendMessage(Tags.gMsg,Messages.worker);
         }
 
     }
 
-    /* scelto Worker -> inizio move */
+    /* Confirm Worker choice -> start move */
     protected void choseWorker(){
 
-        /*
-        currentTurn.choseWorker(chosenWorker);
-        model.setWorkerChosen(true);
-         */
         model.setWorkerPending(false);
         model.sendMessage(Tags.boardMsg,Messages.workerChose);
-        /* godPower prima di move -> Prometheus */
+        /* godPower before move -> Prometheus */
         if(chosenWorker.getGodPower()) {
             model.sendBoard();
             model.sendMessage(Tags.gMsg,currentTurn.getCurrentPlayer().getGodCard());
@@ -68,7 +66,7 @@ public class TurnController {
         }
     }
 
-    /* end generico operazioni */
+    /* end of an operation */
     protected void endOperation(){
         int type = currentTurn.getState();
         if(type == 1){
@@ -78,17 +76,17 @@ public class TurnController {
         }
     }
 
-    /* fine move -> aggiornare FinalTile + chackWin -> inizio Build */
+    /* end of move operation -> update FinalTile + checkWin -> start Build */
     private void endMove() {
         currentTurn.setFinalTile(chosenWorker.getPosition());
         /* check win dopo move */
         if(!model.checkWin()){
-            /* godPower prima di Build */
+            /* godPower before Build */
             if(chosenWorker.getGodPower()){
-                /* se il worker può fare un'altra mossa */
+                /* the worker can move again */
                 currentTurn.setInitialTile(currentTurn.getFinalTile());
                 model.sendBoard();
-                /* chiedere al Player se vuole fare move in più */
+                /* ask to the player to move again */
                 model.sendMessage(Tags.gMsg,currentTurn.getCurrentPlayer().getGodCard());
             }else {
                 nextState();
@@ -97,12 +95,12 @@ public class TurnController {
 
     }
 
-    /* fine build */
+    /* end of build operation */
     private void endBuild(){
-        /* godPower prima di end turn */
+        /* godPower before end turn */
         if(chosenWorker.getGodPower()){
             model.sendBoard();
-            /* chiedere al Player se vuole fare build in più */
+            /* the worker can build again -> ask to the player */
             model.sendMessage(Tags.gMsg,currentTurn.getCurrentPlayer().getGodCard());
         }else{
             nextState();
@@ -110,37 +108,35 @@ public class TurnController {
     }
 
 
-    /* fine Turn -> aggiornare board + nextTurn */
+    /* end Turn -> update board + nextTurn */
     private void endTurn() {
-        /* per stampa Board in Client */
+
         model.setWorkerChosen(false);
-        /* mostrare mappa dopo build */
+        /* board after build */
         model.sendBoard();
-        /* mandare solo al currentPlayer */
         model.sendMessage(Tags.boardMsg,Messages.endTurn);
         nextTurn();
     }
 
 
-    /* aggiornare Turn + ripristinare condizioni */
+    /* next Turn */
     protected void nextTurn() {
         ArrayList<Player> playerList = model.getMatchPlayersList();
-        //trovare indice del player successivo
         int index = model.getNextPlayerIndex();
         currentTurn.nextTurn(playerList.get(index));
         model.sendBoard();
+        /* check if the workers can move */
         if (model.checkLose()) {
             checkGameOver();
         } else {
             model.sendMessage(Tags.boardMsg,Messages.yourTurn);
-            /* inviare richiesta worker */
+            /* send message to choose worker */
             model.sendMessage(Tags.gMsg,Messages.worker);
-            /* attesa scelta worker */
         }
     }
 
 
-    /* passare stato prossimo */
+    /* next state + operation of the new state */
     private void nextState(){
         currentTurn.nextState();
         if (currentTurn.getState() == 0){
@@ -150,7 +146,7 @@ public class TurnController {
         }
     }
 
-    /* check dopo lose */
+    /* check after lose */
     private void checkGameOver(){
         if(!model.isGameOver()){
             nextTurn();
@@ -159,7 +155,7 @@ public class TurnController {
 
     protected void operation() {
         model.sendBoard();
-        /* checkLose prima dell'operazione */
+        /* checkLose before operation */
         if(model.checkLose()) {
             checkGameOver();
         }else {

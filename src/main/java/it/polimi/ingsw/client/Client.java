@@ -20,7 +20,6 @@ public class Client implements Observer, Runnable {
     private boolean active;
     private boolean opReceived;
     private boolean gmReceived;
-    private GameMessage gMessage;
 
     private Ui ui;
     private Thread t0;
@@ -35,7 +34,7 @@ public class Client implements Observer, Runnable {
     public void setupClient(String uiStyle, Socket socket) {
 
         //Create CLI
-        if(uiStyle.toUpperCase().equals("CLI")) {
+        if(uiStyle.equalsIgnoreCase("CLI")) {
             ui = new CLI();
         }
         this.socket = socket;
@@ -153,7 +152,6 @@ public class Client implements Observer, Runnable {
                 socketOut.println(input);
                 socketOut.flush();
                 gmReceived = false;
-                gMessage = null;
 
         } else {
             socketOut.println(input);
@@ -184,7 +182,6 @@ public class Client implements Observer, Runnable {
             }
             case Tags.gMsg -> {
                 gmReceived = true;
-                gMessage = obj.getGameMessage();
                 ui.handleGameMsg(obj.getGameMessage().getMessage());
             }
             case Tags.playerList -> ui.handlePlayerList(obj.getList());
