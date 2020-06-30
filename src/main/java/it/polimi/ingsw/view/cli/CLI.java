@@ -97,7 +97,7 @@ public class CLI implements Ui {
                 printPlayer(index);
             } else {
                 if(i==2) {
-                    System.out.format("%1$-47s",CliPrinter.LOGO_COLOR + "   * (`  _   _  _│_  _   _ .  _  o *" + CliPrinter.RESET);
+                    System.out.format("%1$-47s",CliPrinter.LOGO_COLOR + "     (`  _   _  _│_  _   _ .  _  o  " + CliPrinter.RESET);
                 } else if(i==3) {
                     System.out.format("%1$-47s",CliPrinter.LOGO_COLOR + "   * _) (_│ | |  │  (_) |  │ | | │ *" + CliPrinter.RESET);
                 } else {
@@ -273,7 +273,7 @@ public class CLI implements Ui {
             System.out.print(" (YES/NO)");
         } else {
             GodPowerMessage god = GodPowerMessage.valueOf(boardView.getCurrentGod());
-            System.out.print( "(" + god.getAnswer1() + "/" + god.getAnswer2() + ")");
+            System.out.print( " (" + god.getAnswer1() + "/" + god.getAnswer2() + ")");
         }
         System.out.println("");
     }

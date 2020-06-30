@@ -9,7 +9,6 @@ import it.polimi.ingsw.observers.Observable;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 
@@ -21,7 +20,7 @@ public class SocketConnection extends Observable implements Runnable {
     private Scanner in;
     private ObjectOutputStream out;
 
-    private int lobbyID;
+    private int lobbyID = -1;
     private Player player;
 
     private boolean inMatch = false;
@@ -44,7 +43,7 @@ public class SocketConnection extends Observable implements Runnable {
             out.writeObject(message);
             out.flush();
         } catch(IOException e) {
-            System.err.println(e.getMessage());
+            System.out.println("SocketConnection stopped");
         }
     }
 
@@ -116,7 +115,6 @@ public class SocketConnection extends Observable implements Runnable {
             //Add the connection to the connection list & setup match
             server.match(lobbyID,this);
 
-
             //Read commands
             while(isActive()) {
                 String read = in.nextLine();
@@ -129,21 +127,27 @@ public class SocketConnection extends Observable implements Runnable {
                 }
             }
 
-
         } catch(Exception e) {
-            //System.out.println("Exception connection.run()");
-            System.err.println("Error!" + e.getMessage());
+            if(player!=null) {
+                System.out.print(player.getPlayerNickname());
+            }
+            System.out.println(": Connection.run() stopped");
         } finally {
-            //System.out.println("Disconnection from client side");
             if (!inMatch) {
-                server.removeFromLobby(lobbyID, this, player.getPlayerNickname());
+                if(player!=null) {
+                    if(lobbyID==-1) {
+                        server.removePlayerName(player.getPlayerNickname());
+                    } else {
+                        server.removeFromLobby(lobbyID, this, player.getPlayerNickname());
+                    }
+                }
             } else if(lost) {
                 active = false;
                 deletePlayer();
             } else if(active) {
+                System.out.println("closematch " + player.getPlayerNickname());
                 closeMatch();
             }
-
         }
     }
 

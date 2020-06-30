@@ -59,16 +59,15 @@ public class Client implements Observer, Runnable {
 
         } catch (NoSuchElementException | InterruptedException e) {
             ui.showMessage(Messages.connectionClosed);
-            System.out.println("client.run() exception");
+            System.out.println("Client.run() stopped");
 
         } finally{
             try {
-                // System.out.println("Closing sockets");
                 socketOut.close();
                 socketIn.close();
                 socket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Error when closing socket");
             }
         }
     }
@@ -94,7 +93,7 @@ public class Client implements Observer, Runnable {
                     }
                 }
             } catch (Exception e) {
-                //System.out.println("exception reading thread");
+                System.out.println("Reading thread stopped");
                 setActive(false);
             }
         });
@@ -155,10 +154,8 @@ public class Client implements Observer, Runnable {
                 socketOut.flush();
                 gmReceived = false;
                 gMessage = null;
-        }
 
-
-         else {
+        } else {
             socketOut.println(input);
             socketOut.flush();
         }
@@ -180,9 +177,9 @@ public class Client implements Observer, Runnable {
                 opReceived = true;  /* ricevuto un Operation */
                 Operation operation = obj.getOperation();
                 if (operation.getType() == 1) {
-                    ui.showObj(new Obj(Tags.boardMsg, Messages.move));
+                    ui.handleBoardMsg(Messages.move);
                 } else if (operation.getType() == 2) {
-                    ui.showObj(new Obj(Tags.boardMsg, Messages.Build));
+                    ui.handleBoardMsg(Messages.Build);
                 }
             }
             case Tags.gMsg -> {

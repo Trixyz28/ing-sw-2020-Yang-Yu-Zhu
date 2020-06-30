@@ -132,7 +132,6 @@ public class GUI implements Ui {
 
     }
 
-
     @Override
     public void showObj(Obj obj) {
 
@@ -182,7 +181,10 @@ public class GUI implements Ui {
                 godList[playerList.indexOf(name)] = obj.getMessage();
             }
         }
-        Platform.runLater(() -> godController.setChosenGod(obj));
+        Platform.runLater(() -> {
+            godController.setChosenGod(obj);
+
+        });
     }
 
     @Override

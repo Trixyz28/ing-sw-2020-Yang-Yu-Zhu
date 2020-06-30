@@ -3,9 +3,7 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.view.Sender;
 
-import java.io.IOException;
 import java.net.Socket;
-import java.util.IllegalFormatException;
 import java.util.Scanner;
 
 public class CliLauncher {
@@ -38,7 +36,7 @@ public class CliLauncher {
                 client.setupClient("cli", socket);
 
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.err.println(e.getMessage());
             }
         }
 
@@ -54,13 +52,14 @@ public class CliLauncher {
                 }
 
             } catch(Exception e) {
-                System.out.println("exception writing thread");
+                System.out.println("Writing thread stopped");
                 client.setActive(false);
             }
         });
         read.start();
 
         client.run();
+        read.interrupt();
     }
 
     private void printLogo() {

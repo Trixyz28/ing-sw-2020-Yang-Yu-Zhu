@@ -91,7 +91,7 @@ public class BoardController {
                 if(node instanceof Pane) {
                     if (node.getBoundsInParent().contains(event.getX(), event.getY())) {
 
-                        System.out.println("Clicked at the pane at row " + GridPane.getRowIndex(node) + ", column " + GridPane.getColumnIndex(node));
+                        // System.out.println("Clicked at the pane at row " + GridPane.getRowIndex(node) + ", column " + GridPane.getColumnIndex(node));
 
                         if(gui.isChooseWorker()) {
                             for(WorkerView workerView : lastView.getWorkerList()) {

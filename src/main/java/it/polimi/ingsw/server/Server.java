@@ -107,7 +107,6 @@ public class Server {
             view0.addObservers(controller);
             view1.addObservers(controller);
 
-
             //3 players case
             if(model.getPlayersNumber()==3) {
                 model.addPlayer(matchConnection.get(lobbyID).get(2).getPlayer());
@@ -133,6 +132,10 @@ public class Server {
             lobbyController.removeLobby(lobbyID);
             System.out.println("Lobby n." + lobbyID + " deleted");
         }
+    }
+
+    public synchronized void removePlayerName(String nickname) {
+        lobbyHandler.removePlayer(nickname);
     }
 
 
