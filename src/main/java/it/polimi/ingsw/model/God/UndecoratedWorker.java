@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.God;
 
+//interfaccia estesa da tutte le divinità decoratrici
+
 import it.polimi.ingsw.model.Tile;
 
 import java.util.List;
