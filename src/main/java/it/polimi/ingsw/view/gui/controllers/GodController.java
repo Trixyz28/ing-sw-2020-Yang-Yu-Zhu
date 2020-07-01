@@ -36,6 +36,8 @@ public class GodController {
     @FXML
     private Pane cloud0;
     @FXML
+    private ImageView backCloud0;
+    @FXML
     private ImageView godCloud0;
     @FXML
     private Label playerName0;
@@ -46,6 +48,8 @@ public class GodController {
     @FXML
     private Pane cloud1;
     @FXML
+    private ImageView backCloud1;
+    @FXML
     private ImageView godCloud1;
     @FXML
     private Label playerName1;
@@ -55,6 +59,8 @@ public class GodController {
 
     @FXML
     private Pane cloud2;
+    @FXML
+    private ImageView backCloud2;
     @FXML
     private ImageView godCloud2;
     @FXML
@@ -133,16 +139,27 @@ public class GodController {
         }
 
     }
+    
 
 
 
 
-
-    public void setName(ArrayList<String> nameList) {
+    public void setName(ArrayList<String> nameList,String nickname) {
         playerName0.setText(nameList.get(0));
+        if(nickname.equals(playerName0.getText())) {
+            backCloud0.setImage(new Image("/clouds/CloudMe.png"));
+        }
+
         playerName1.setText(nameList.get(1));
+        if(nickname.equals(playerName1.getText())) {
+            backCloud1.setImage(new Image("/clouds/CloudMe.png"));
+        }
+
         if(nameList.size()==3) {
             playerName2.setText(nameList.get(2));
+            if(nickname.equals(playerName2.getText())) {
+                backCloud2.setImage(new Image("/clouds/CloudMe.png"));
+            }
         } else {
             cloud2.setDisable(true);
             cloud2.setVisible(false);

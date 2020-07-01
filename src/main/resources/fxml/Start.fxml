@@ -2,17 +2,24 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="startPane" maxHeight="800.0" maxWidth="1280.0" minHeight="400.0" minWidth="640.0" onMouseClicked="#loadingScene" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-image: url(/background/BgStart.png); -fx-background-repeat: no-repeat" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.controllers.StartController">
+<Pane fx:id="startPane" maxHeight="800.0" maxWidth="1280.0" minHeight="800.0" minWidth="1280.0" onMouseClicked="#loadingScene" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-image: url(/background/BgIsle.png); -fx-background-repeat: no-repeat;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.controllers.StartController">
    <children>
+      <ImageView fx:id="startLogo" fitHeight="800.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../components/startLogo.png" />
+         </image>
+      </ImageView>
       <Label fx:id="firstPageLabel" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="452.0" layoutY="660.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="53.0" prefWidth="376.0" text="&gt; Click anywhere to start &lt;" textAlignment="CENTER" textFill="#fffef5">
          <font>
             <Font name="Papyrus" size="26.0" />
          </font>
          <effect>
-            <Bloom threshold="0.75" />
+            <Bloom threshold="0.65" />
          </effect>
       </Label>
    </children>

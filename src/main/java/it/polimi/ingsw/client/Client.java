@@ -171,7 +171,7 @@ public class Client implements Observer, Runnable {
 
     public void splitMessage(Obj obj) {
         switch (obj.getTag()) {
-            case Tags.operation -> {
+            case Tags.OPERATION -> {
                 opReceived = true;  /* ricevuto un Operation */
                 Operation operation = obj.getOperation();
                 if (operation.getType() == 1) {
@@ -180,18 +180,18 @@ public class Client implements Observer, Runnable {
                     ui.handleBoardMsg(Messages.Build);
                 }
             }
-            case Tags.gMsg -> {
+            case Tags.G_MSG -> {
                 gmReceived = true;
                 ui.handleGameMsg(obj.getGameMessage().getMessage());
             }
-            case Tags.playerList -> ui.handlePlayerList(obj.getList());
-            case Tags.turn -> ui.handleTurn(obj.getMessage());
-            case Tags.defineGod -> ui.handleDefineGod(obj.getMessage());
-            case Tags.chooseGod -> ui.handleChooseGod(obj);
-            case Tags.board -> ui.updateBoard(obj.getBoardView());
-            case Tags.boardMsg -> ui.handleBoardMsg(obj.getMessage());
-            case Tags.end -> ui.endGame(obj);
-            case Tags.generic -> ui.showMessage(obj.getMessage());
+            case Tags.PLAYER_LIST -> ui.handlePlayerList(obj.getList());
+            case Tags.TURN -> ui.handleTurn(obj.getMessage());
+            case Tags.DEFINE_GOD -> ui.handleDefineGod(obj.getMessage());
+            case Tags.CHOOSE_GOD -> ui.handleChooseGod(obj);
+            case Tags.BOARD -> ui.updateBoard(obj.getBoardView());
+            case Tags.BOARD_MSG -> ui.handleBoardMsg(obj.getMessage());
+            case Tags.END -> ui.endGame(obj);
+            case Tags.GENERIC -> ui.showMessage(obj.getMessage());
             default -> ui.showObj(obj);
         }
     }

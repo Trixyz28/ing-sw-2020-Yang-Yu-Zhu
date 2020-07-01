@@ -156,7 +156,7 @@ public class Turn {
             return true;
         }else if(getState() == 1){
             /* before move */
-            return (!movableList(chosenWorker).isEmpty());
+            return movableList(chosenWorker).isEmpty();
         }else {
             /* se il worker non può né build Block né build Dome */
             for(Tile t : chosenWorker.getAdjacentTiles()){

@@ -44,10 +44,10 @@ public class Controller implements Observer {
 
         } else if (checkTurn((Obj) arg)) {
 
-            if (((Obj) arg).getTag().equals(Tags.operation)) {
+            if (((Obj) arg).getTag().equals(Tags.OPERATION)) {
                 opUpdate(((Obj) arg).getOperation());
 
-            } else if (((Obj) arg).getTag().equals(Tags.gMsg)) {
+            } else if (((Obj) arg).getTag().equals(Tags.G_MSG)) {
                 GameMessage gm = ((Obj) arg).getGameMessage();
 
                 if (gm.getMessage() == null) {
@@ -93,7 +93,7 @@ public class Controller implements Observer {
                 turnController.endOperation();
             } else {
                 //mostrare messaggio di posizione errata e ripetere mossa
-                model.sendMessage(Tags.boardMsg,Messages.wrongOperation);
+                model.sendMessage(Tags.BOARD_MSG,Messages.wrongOperation);
                 model.operation();
             }
         }

@@ -178,7 +178,7 @@ public class ModelTest extends TestCase {
             @Override
             public void update(Object message) {
                 Assert.assertTrue(message instanceof Obj);
-                if(((Obj) message).getTag().equals(Tags.generic)){
+                if(((Obj) message).getTag().equals(Tags.GENERIC)){
                     Assert.assertEquals(Messages.tryAgain, ((Obj) message).getMessage());
                 }
             }
@@ -194,7 +194,7 @@ public class ModelTest extends TestCase {
             @Override
             public void update(Object message) {
                 Assert.assertTrue(message instanceof Obj);
-                if(((Obj) message).getTag().equals(Tags.gMsg)){
+                if(((Obj) message).getTag().equals(Tags.G_MSG)){
                     Assert.assertEquals(Messages.worker, ((Obj) message).getGameMessage().getMessage());
                 }
             }

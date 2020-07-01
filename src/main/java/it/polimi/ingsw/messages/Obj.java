@@ -41,17 +41,17 @@ public class Obj implements Serializable {
     }
 
     public Obj(BoardView boardView) {
-        this.tag = Tags.board;
+        this.tag = Tags.BOARD;
         this.boardView = boardView;
     }
 
     public Obj(Operation operation) {
-        this.tag = Tags.operation;
+        this.tag = Tags.OPERATION;
         this.operation = operation;
     }
 
     public Obj(GameMessage gameMessage) {
-        this.tag = Tags.gMsg;
+        this.tag = Tags.G_MSG;
         this.gameMessage = gameMessage;
     }
 

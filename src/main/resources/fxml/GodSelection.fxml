@@ -164,7 +164,7 @@
                            </children></Pane>
                         <Pane fx:id="cloud0" onMouseClicked="#select0" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="backCloud0" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../clouds/Cloud.png" />
                                  </image>
@@ -186,7 +186,7 @@
                            </children></Pane>
                         <Pane fx:id="cloud1" onMouseClicked="#select1" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="backCloud1" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../clouds/Cloud.png" />
                                  </image>
@@ -208,7 +208,7 @@
                            </children></Pane>
                         <Pane fx:id="cloud2" onMouseClicked="#select2" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="backCloud2" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../clouds/Cloud.png" />
                                  </image>
@@ -240,17 +240,17 @@
                   <Image url="@../components/Rules1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="instructionCross" fitHeight="64.0" fitWidth="73.0" layoutX="1178.0" layoutY="14.0" onMouseClicked="#closeInstruction" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="instructionCross" fitHeight="60.0" fitWidth="53.0" layoutX="1182.0" layoutY="14.0" onMouseClicked="#closeInstruction" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../components/Cross.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="leftArrow" fitHeight="77.0" fitWidth="116.0" layoutX="14.0" layoutY="687.0" onMouseClicked="#loadFirstPage" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="leftArrow" fitHeight="77.0" fitWidth="116.0" layoutX="14.0" layoutY="693.0" onMouseClicked="#loadFirstPage" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../components/ArrowLeft.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="rightArrow" fitHeight="77.0" fitWidth="116.0" layoutX="1166.0" layoutY="687.0" onMouseClicked="#loadSecondPage" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="rightArrow" fitHeight="77.0" fitWidth="116.0" layoutX="1150.0" layoutY="693.0" onMouseClicked="#loadSecondPage" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../components/ArrowRight.png" />
                </image>

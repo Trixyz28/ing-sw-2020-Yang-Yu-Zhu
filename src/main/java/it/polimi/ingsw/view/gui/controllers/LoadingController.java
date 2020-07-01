@@ -30,13 +30,13 @@ public class LoadingController {
 
 
     //FXML Nickname
-    
+
+    @FXML
+    private Label welcomeLabel;
     @FXML
     private Label nameRecv;
-
     @FXML
     private TextField nameField;
-
     @FXML
     private Button nameButton;
 
@@ -46,6 +46,9 @@ public class LoadingController {
     public void sendName() {
         nickname = nameField.getCharacters().toString();
         sender.sendInput(nickname);
+    }
+
+    public void setEffects() {
     }
 
     public void showNameMsg(String str) {

@@ -73,8 +73,8 @@ public class Model extends Observable {
     public void challengerStart(){
         randomChooseChallenger();
         currentTurn = new Turn(matchPlayersList.get(challengerID));
-        notify(new Obj(Tags.turn,currentTurn.getCurrentPlayer().getPlayerNickname()));
-        sendMessage(Tags.generic,Messages.challenger);
+        notify(new Obj(Tags.TURN,currentTurn.getCurrentPlayer().getPlayerNickname()));
+        sendMessage(Tags.GENERIC,Messages.challenger);
         /* mandare al Challenger la lista completa dei God */
         showCompleteGodList();
     }
@@ -85,13 +85,13 @@ public class Model extends Observable {
         Random r = new Random();
         challengerID = (r.nextInt(playersNumber));
         matchPlayersList.get(challengerID).setChallenger(true);
-        broadcast(new Obj(Tags.generic,"The chosen challenger is: " + matchPlayersList.get(challengerID).getPlayerNickname()));
+        broadcast(new Obj(Tags.GENERIC,"The chosen challenger is: " + matchPlayersList.get(challengerID).getPlayerNickname()));
     }
 
 
     //print completeList
     public void showCompleteGodList(){
-        notify(new Obj(Tags.completeList,godsList.getCompleteGodList()));
+        notify(new Obj(Tags.COMPLETE_LIST,godsList.getCompleteGodList()));
     }
 
 
@@ -100,14 +100,14 @@ public class Model extends Observable {
         godsList.selectGod(god);
         if(!godsList.addInGodList()){
             /* the input god can't be added in the currentGodList */
-            sendMessage(Tags.godMsg,Messages.invalidChoice);
+            sendMessage(Tags.GOD_MSG,Messages.invalidChoice);
         } else {
             /* the chosen god is added in the currentGodList */
-            notify(new Obj(Tags.defineGod,god.toUpperCase()));
+            notify(new Obj(Tags.DEFINE_GOD,god.toUpperCase()));
         }
         if(godsList.checkLength()){
             /* end of defining currentGodList */
-            broadcast(new Obj(Tags.generic,Messages.challengerChosen));
+            broadcast(new Obj(Tags.GENERIC,Messages.challengerChosen));
             return true;
         }
 
@@ -120,28 +120,28 @@ public class Model extends Observable {
 
         int index = getNextPlayerIndex();
         currentTurn.setCurrentPlayer(matchPlayersList.get(index));
-        notify(new Obj(Tags.turn,currentTurn.getCurrentPlayer().getPlayerNickname()));
+        notify(new Obj(Tags.TURN,currentTurn.getCurrentPlayer().getPlayerNickname()));
         if(index == challengerID){
             /* dare direttamente la god rimanente al Challenger */
             String god = godsList.getCurrentGodList().get(0);
 
             Player challenger = matchPlayersList.get(challengerID);
-            notify(new Obj(Tags.chooseGod,god,challenger.getPlayerNickname()));
+            notify(new Obj(Tags.CHOOSE_GOD,god,challenger.getPlayerNickname()));
             challenger.setGodCard(god);
             challenger.createWorker(god, getConditions(),getTotalWorkers());
             /* creare lista di tutti i workers */
             createTotalWorkerList();
-            sendMessage(Tags.godMsg,Messages.chooseStartPlayer);
+            sendMessage(Tags.GOD_MSG,Messages.chooseStartPlayer);
         }else {
             /* show currentList */
             showGodList();
-            sendMessage(Tags.godMsg,Messages.godRequest);
+            sendMessage(Tags.GOD_MSG,Messages.godRequest);
         }
     }
 
 
     public void showGodList(){
-        notify(new Obj(Tags.currentList,godsList.getCurrentGodList()));
+        notify(new Obj(Tags.CURRENT_LIST,godsList.getCurrentGodList()));
     }
 
 
@@ -152,7 +152,7 @@ public class Model extends Observable {
             /* the input god can be chosen */
             Player currentPlayer = currentTurn.getCurrentPlayer();
             String name = currentPlayer.getPlayerNickname();
-            notify(new Obj(Tags.chooseGod,god,name));
+            notify(new Obj(Tags.CHOOSE_GOD,god,name));
 
             /* assegnare al Player il God scelto */
             currentPlayer.setGodCard(god);
@@ -165,7 +165,7 @@ public class Model extends Observable {
             return true;
         }else{
 
-            sendMessage(Tags.godMsg,Messages.tryAgain);
+            sendMessage(Tags.GOD_MSG,Messages.tryAgain);
             return false;
         }
     }
@@ -182,12 +182,12 @@ public class Model extends Observable {
                 startingPlayer = p;
                 //settare il startingPlayerID del model
                 setStartingPlayerID(startingPlayer.getPlayerID());
-                broadcast(new Obj(Tags.generic,"The Start player chosen is : " + startingPlayer.getPlayerNickname()));
+                broadcast(new Obj(Tags.GENERIC,"The Start player chosen is : " + startingPlayer.getPlayerNickname()));
                 return true;
             }
         }
         /* se esce dal for -> Nickname non trovato riprovare a chiedere */
-        sendMessage(Tags.generic,Messages.wrongArgument+ "\n" + Messages.tryAgain);
+        sendMessage(Tags.GENERIC,Messages.wrongArgument+ "\n" + Messages.tryAgain);
         return false;
     }
 
@@ -197,7 +197,7 @@ public class Model extends Observable {
         if(playerNickname.equals(currentTurn.getCurrentPlayer().getPlayerNickname())) {
             return true;
         }else {
-            Obj obj = new Obj(Tags.generic,Messages.wrongTurn);
+            Obj obj = new Obj(Tags.GENERIC,Messages.wrongTurn);
             obj.setBroadcast(false);
             obj.setReceiver(new Player(playerNickname));
             notify(obj);
@@ -215,8 +215,8 @@ public class Model extends Observable {
             if(gMessage.getAnswer().equals("0") || gMessage.getAnswer().equals("1")){
                 return true;
             }else {
-                sendMessage(Tags.generic, Messages.invalidWorker);
-                sendMessage(Tags.gMsg, Messages.worker);
+                sendMessage(Tags.GENERIC, Messages.invalidWorker);
+                sendMessage(Tags.G_MSG, Messages.worker);
                 return false;
             }
         }
@@ -229,11 +229,11 @@ public class Model extends Observable {
                 setWorkerPending(false);
                 setWorkerChosen(false);
                 sendBoard();
-                sendMessage(Tags.gMsg, Messages.worker);
+                sendMessage(Tags.G_MSG, Messages.worker);
                 return false;
             }else {
-                sendMessage(Tags.generic, Messages.tryAgain);
-                sendMessage(Tags.gMsg, Messages.confirmWorker);
+                sendMessage(Tags.GENERIC, Messages.tryAgain);
+                sendMessage(Tags.G_MSG, Messages.confirmWorker);
                 return false;
             }
         }
@@ -241,8 +241,8 @@ public class Model extends Observable {
         /* godPower */
         GodPowerMessage god = GodPowerMessage.valueOf(currentTurn.getCurrentPlayer().getGodCard());
         if(god.checkAnswer(answer) == 0){
-            sendMessage(Tags.generic,Messages.tryAgain);
-            sendMessage(Tags.gMsg,currentTurn.getCurrentPlayer().getGodCard());
+            sendMessage(Tags.GENERIC,Messages.tryAgain);
+            sendMessage(Tags.G_MSG,currentTurn.getCurrentPlayer().getGodCard());
             return false;
         }else {
             /* if check = true -> usePower(true) else usePower(false) */
@@ -373,7 +373,7 @@ public class Model extends Observable {
 
     //Messages
     public void sendMessage(String tag,String arg) {
-        if(tag.equals(Tags.gMsg)) {
+        if(tag.equals(Tags.G_MSG)) {
 
             String message = null;
             try{
@@ -414,7 +414,7 @@ public class Model extends Observable {
 
     public void placeWorker(int indexWorker){
         sendBoard();
-        sendMessage(Tags.boardMsg,Messages.place + indexWorker);
+        sendMessage(Tags.BOARD_MSG,Messages.place + indexWorker);
         place();
     }
 
@@ -453,7 +453,7 @@ public class Model extends Observable {
             totalWorkerList.remove(player.chooseWorker(1));
             conditions.update(player.getPlayerID());
             matchPlayersList.remove(player);
-            broadcast(new Obj(Tags.end,"lose",player.getPlayerNickname()));
+            broadcast(new Obj(Tags.END,"lose",player.getPlayerNickname()));
         } else {
             currentTurn.nextTurn(matchPlayersList.get(getNextPlayerIndex()));
             gameOver();
@@ -470,7 +470,7 @@ public class Model extends Observable {
 
     public void gameOver() {
         isGameOver = true;
-        Obj obj = new Obj(Tags.end,"win",currentTurn.getCurrentPlayer().getPlayerNickname());
+        Obj obj = new Obj(Tags.END,"win",currentTurn.getCurrentPlayer().getPlayerNickname());
         obj.setReceiver(matchPlayersList.get(matchPlayersList.size()-1));
         broadcast(obj);
     }

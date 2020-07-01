@@ -37,7 +37,7 @@ public class GuiLauncher extends Application {
         Parent root = loader.load();
         StartController startController = loader.getController();
         startController.setGuiLauncher(this);
-        startController.setGlow();
+        startController.setEffects();
 
         this.scene = new Scene(root);
         gui.setStage(stage);
@@ -55,6 +55,7 @@ public class GuiLauncher extends Application {
             e.printStackTrace();
         }
         LoginController loginController = loader.getController();
+        loginController.setEffects();
         gui.setLoginController(loginController);
         loginController.setGui(this.gui);
         setupGUI();

@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.Sender;
 import it.polimi.ingsw.view.Ui;
@@ -107,7 +106,7 @@ public class GUI implements Ui {
                     godController = loadScene(2).getController();
                     godController.setSender(sender);
                     this.godList = new String[playerList.size()];
-                    godController.setName(playerList);
+                    godController.setName(playerList,nickname);
                     godController.setChallenger(challengerName);
                     godController.closeInstruction();
                 }
@@ -136,9 +135,9 @@ public class GUI implements Ui {
     public void showObj(Obj obj) {
 
         switch (obj.getTag()) {
-            case Tags.nameMsg -> handleNameMsg(obj.getMessage());
-            case Tags.lobbyOk -> Platform.runLater(() -> loadingController.inLobby(obj.getMessage()));
-            case Tags.godMsg -> showGodMsg(obj.getMessage());
+            case Tags.NAME_MSG -> handleNameMsg(obj.getMessage());
+            case Tags.LOBBY_OK -> Platform.runLater(() -> loadingController.inLobby(obj.getMessage()));
+            case Tags.GOD_MSG -> showGodMsg(obj.getMessage());
         }
     }
 

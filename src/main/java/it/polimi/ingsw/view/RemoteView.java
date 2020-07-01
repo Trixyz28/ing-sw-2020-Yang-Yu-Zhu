@@ -50,11 +50,11 @@ public class RemoteView extends View {
 
             if(obj.isBroadcast()) {
 
-                if(obj.getTag().equals(Tags.completeList)) {
+                if(obj.getTag().equals(Tags.COMPLETE_LIST)) {
                     if(connection.getPlayer().isChallenger()) {
                         connection.asyncSend(message);
                     }
-                } else if (obj.getTag().equals(Tags.end)) {
+                } else if (obj.getTag().equals(Tags.END)) {
                     connection.asyncSend(obj);
 
                     if(obj.getMessage().equals("lose")) {
@@ -74,10 +74,10 @@ public class RemoteView extends View {
             } else {
                 if(connection.getPlayer().getPlayerNickname().equals(obj.getReceiver())) {
 
-                    if(obj.getTag().equals(Tags.operation)) {
+                    if(obj.getTag().equals(Tags.OPERATION)) {
                         this.obj = obj;  /* salvare l'op nella view e notify */
                         opSend = true;
-                    } else if (obj.getTag().equals(Tags.gMsg)) {
+                    } else if (obj.getTag().equals(Tags.G_MSG)) {
                         /* salvare prima di notify */
                         this.obj = obj;
                         gmSend = true;

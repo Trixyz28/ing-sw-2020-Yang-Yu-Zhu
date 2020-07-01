@@ -31,9 +31,9 @@ public class CLI implements Ui {
         String command = obj.getTag();
 
         switch (command) {
-            case Tags.setName -> nickname = obj.getMessage();
-            case Tags.completeList -> printCompleteList(obj.getList());
-            case Tags.currentList -> printCurrentList(obj.getList());
+            case Tags.SET_NAME -> nickname = obj.getMessage();
+            case Tags.COMPLETE_LIST -> printCompleteList(obj.getList());
+            case Tags.CURRENT_LIST -> printCurrentList(obj.getList());
             default -> System.out.println(obj.getMessage());
         }
     }

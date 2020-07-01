@@ -169,27 +169,27 @@ public class SocketConnection extends Observable implements Runnable {
 
     public void setNickname() {
         //Set nickname
-        send(new Obj(Tags.nameMsg,Messages.nicknameRequest));
+        send(new Obj(Tags.NAME_MSG,Messages.nicknameRequest));
         String readName;
         boolean check = false;
         do {
             readName = in.nextLine();
 
             if(readName.isBlank() || readName.length()>16) {
-                send(new Obj(Tags.nameMsg,Messages.invalidNickname));
+                send(new Obj(Tags.NAME_MSG,Messages.invalidNickname));
             } else {
                 check = server.getLobbyController().canUseNickname(readName);
                 if(!check) {
-                    send(new Obj(Tags.nameMsg,Messages.nicknameInUse));
+                    send(new Obj(Tags.NAME_MSG,Messages.nicknameInUse));
                 } else {
-                    send(new Obj(Tags.nameMsg,Messages.nicknameAvailable));
+                    send(new Obj(Tags.NAME_MSG,Messages.nicknameAvailable));
                 }
             }
 
         } while(!check);
 
         player = new Player(readName);
-        send(new Obj(Tags.setName,readName));
+        send(new Obj(Tags.SET_NAME,readName));
         server.getLobbyHandler().addPlayer(player.getPlayerNickname());
     }
 

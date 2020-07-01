@@ -40,14 +40,14 @@ public class TurnController {
                 /* possibility to change worker */
                 model.setWorkerPending(true);
                 model.sendBoard();
-                model.sendMessage(Tags.gMsg, Messages.confirmWorker);
+                model.sendMessage(Tags.G_MSG, Messages.confirmWorker);
             }else {
                 /* choose the worker definitely */
                 choseWorker();
             }
         }else {
-            model.sendMessage(Tags.boardMsg,Messages.anotherWorker);
-            model.sendMessage(Tags.gMsg,Messages.worker);
+            model.sendMessage(Tags.BOARD_MSG,Messages.anotherWorker);
+            model.sendMessage(Tags.G_MSG,Messages.worker);
         }
 
     }
@@ -56,11 +56,11 @@ public class TurnController {
     protected void choseWorker(){
 
         model.setWorkerPending(false);
-        model.sendMessage(Tags.boardMsg,Messages.workerChose);
+        model.sendMessage(Tags.BOARD_MSG,Messages.workerChose);
         /* godPower before move -> Prometheus */
         if(chosenWorker.getGodPower()) {
             model.sendBoard();
-            model.sendMessage(Tags.gMsg,currentTurn.getCurrentPlayer().getGodCard());
+            model.sendMessage(Tags.G_MSG,currentTurn.getCurrentPlayer().getGodCard());
         }else {
             nextState();
         }
@@ -87,7 +87,7 @@ public class TurnController {
                 currentTurn.setInitialTile(currentTurn.getFinalTile());
                 model.sendBoard();
                 /* ask to the player to move again */
-                model.sendMessage(Tags.gMsg,currentTurn.getCurrentPlayer().getGodCard());
+                model.sendMessage(Tags.G_MSG,currentTurn.getCurrentPlayer().getGodCard());
             }else {
                 nextState();
             }
@@ -101,7 +101,7 @@ public class TurnController {
         if(chosenWorker.getGodPower()){
             model.sendBoard();
             /* the worker can build again -> ask to the player */
-            model.sendMessage(Tags.gMsg,currentTurn.getCurrentPlayer().getGodCard());
+            model.sendMessage(Tags.G_MSG,currentTurn.getCurrentPlayer().getGodCard());
         }else{
             nextState();
         }
@@ -114,7 +114,7 @@ public class TurnController {
         model.setWorkerChosen(false);
         /* board after build */
         model.sendBoard();
-        model.sendMessage(Tags.boardMsg,Messages.endTurn);
+        model.sendMessage(Tags.BOARD_MSG,Messages.endTurn);
         nextTurn();
     }
 
@@ -129,9 +129,9 @@ public class TurnController {
         if (model.checkLose()) {
             checkGameOver();
         } else {
-            model.sendMessage(Tags.boardMsg,Messages.yourTurn);
+            model.sendMessage(Tags.BOARD_MSG,Messages.yourTurn);
             /* send message to choose worker */
-            model.sendMessage(Tags.gMsg,Messages.worker);
+            model.sendMessage(Tags.G_MSG,Messages.worker);
         }
     }
 
