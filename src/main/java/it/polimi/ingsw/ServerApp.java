@@ -4,9 +4,18 @@ import it.polimi.ingsw.server.Server;
 
 import java.io.IOException;
 
-
+/**
+ * Main class for the server application
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class ServerApp {
 
+    /**
+     *Main class that starts the server on the designated port.
+     * @param args Variable from command line that indicates the port of the server.
+     */
     public static void main(String[] args) {
 
         Server server = new Server();

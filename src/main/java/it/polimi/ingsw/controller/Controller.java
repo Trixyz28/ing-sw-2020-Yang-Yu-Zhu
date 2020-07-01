@@ -8,7 +8,12 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.God.UndecoratedWorker;
 import it.polimi.ingsw.observers.Observer;
 
-
+/**
+ * Controller that handles all the other minorControllers for the flow of the game.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class Controller implements Observer {
 
     private final Model model;
@@ -18,23 +23,37 @@ public class Controller implements Observer {
     private MoveController moveController;
     private BuildController buildController;
 
-
+    /**
+     *Creates a <code>Controller</code> with the specified attributes.
+     * @param model Variable that represents the match. Also represents the Model in the MVC pattern.
+     */
     public Controller(Model model) {
         this.model = model;
         initController = new InitController(model);
     }
 
+    /**
+     * Creates the minorControllers associated with the main <code>Controller</code>.
+     * @param model Variable that represents the match. Also represents the Model in the MVC pattern.
+     */
     private void minorControllers(Model model) {
         turnController = new TurnController(model);
         moveController = new MoveController(model);
         buildController = new BuildController(model);
     }
 
+    /**
+     * Checks the if the turn and the user are aligned.
+     * @param arg Object that is used on client-server communication.
+     * @return A boolean: <code>True</code> if it's the user's turn, otherwise<code>False</code>.
+     */
     private boolean checkTurn(Obj arg) {
         return model.checkTurn(arg.getReceiver());
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(Object arg) {
 
@@ -72,6 +91,10 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * Sets the game and controls the flow of the turns for <code>operation</code> messages.
+     * @param operation The type of message between clients-server used for <code>move</code> and <code>build</code>.
+     */
     private void opUpdate(Operation operation){
         if (operation.getType() == 0) {  //type 0 -> posizione default
             initController.placeWorker(operation);
@@ -99,7 +122,11 @@ public class Controller implements Observer {
         }
     }
 
-
+    /**
+     * Updates the game state based on the <code>answer</code> sent by a particular player.
+     * @param player
+     * @param answer
+     */
     private void stringUpdate(String player, String answer){
         Player challenger = model.getMatchPlayersList().get(model.getChallengerID());
         if(player.equals(challenger.getPlayerNickname())){
@@ -117,6 +144,9 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     *Handles the activation of GodPowers of the <code>workers</code> of the players
+     */
     private void gmUpdate() {
         UndecoratedWorker worker = model.getCurrentTurn().getChosenWorker();
         /* if godPower = true -> use Power (another operation)  false -> end operation */

@@ -1,7 +1,12 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
-
+/**
+ * Class that is used to handle the GodList used to initialize the match in the lobby.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class GodList {
 
     //List of all Gods
@@ -19,7 +24,10 @@ public class GodList {
     //Number of players in match
     private int playerNumber;
 
-
+    /**
+     * Creates a new <code>GodList</code> with the specified attributes.
+     * @param playerNumber Variable that indicates the number of the players of the lobby.
+     */
     public GodList (int playerNumber){
         completeGodList = new ArrayList<>();
         setComplete();
@@ -30,6 +38,10 @@ public class GodList {
 
 
     //Initializing completeGodList
+
+    /**
+     *Create a complete GodList with all the Gods.
+     */
     private void setComplete(){
         completeGodList.add("APOLLO");
         completeGodList.add("ARTEMIS");
@@ -50,24 +62,44 @@ public class GodList {
 
 
     //CurrentGodList getter
+
+    /**
+     *Gets the current GodList available.
+     * @return An arraylist of strings which are the Gods' names.
+     */
     public ArrayList<String> getCurrentGodList() {
         return currentGodList;
     }
 
 
     //CompleteGodList getter
+
+    /**
+     *Gets the complete GodList available.
+     * @return An arraylist of strings which are the Gods' name.
+     */
     public ArrayList<String> getCompleteGodList() {
         return completeGodList;
     }
 
 
     //Select a god to add to currentGodList (manca ancora il check per la decisione)
+
+    /**
+     *Sets the parameter in selectedGod after changing it to upperCase.
+     * @param selectedGod Variable which is a string of the God's name.
+     */
     public void selectGod(String selectedGod) {
         this.selectedGod = selectedGod.toUpperCase();
     }
 
 
     //Add selectedGod to currentGodList & listLength+1
+
+    /**
+     *Adds the selectedGod to the GodList in the making.
+     * @return A boolean: <code>true</code> if successful, otherwise <code>false</code>.
+     */
     public boolean addInGodList() {  /* true: andato a buon fine   false: non aggiunto */
         if(!checkGod()) {
             /* controllare se il selectedGod sia un God */
@@ -82,7 +114,10 @@ public class GodList {
         return false;
     }
 
-
+    /**
+     *Checks if the selectedGod is already in the GodList
+     * @return A boolean: <code>true</code>  if it exists already, otherwise <code>false</code>.
+     */
     //controllare se il god scelto sia già presente in currentGodList -> true se esiste già
     public boolean checkGod(){
         for(String s : currentGodList){
@@ -95,6 +130,11 @@ public class GodList {
 
 
     //Remove a God from currentGodList & listLength-1
+
+    /**
+     *Removes the parameter from the GodList after it's use.
+     * @param selectedGod Variable which is a string of the God's name.
+     */
     public void removeFromGodList(String selectedGod) {
         for(String s : currentGodList){
             if(s.equals(selectedGod)) {
@@ -106,6 +146,11 @@ public class GodList {
 
 
     //Check the dimension of currentGodList == playerNumber
+
+    /**
+     *Check if the dimension of the list is equal to the number of players.
+     * @return A boolean: <code>true</code> if the lenght of the list is the same as players' number, otherwise <code>false</code>.
+     */
     public boolean checkLength(){
         return currentLength == playerNumber;
     }

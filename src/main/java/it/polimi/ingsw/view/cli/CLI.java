@@ -8,9 +8,13 @@ import it.polimi.ingsw.view.WorkerView;
 
 import java.util.ArrayList;
 
-
+/**
+ * Descrizione
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class CLI implements Ui {
-
     private BoardView boardView;
     private String nickname;
     private boolean current;
@@ -19,13 +23,19 @@ public class CLI implements Ui {
     private ArrayList<String> playerList;
     private String[] godList;
 
-
+    /**
+     *
+     * @param message
+     */
     @Override
     public void showMessage(String message) {
         System.out.println(message);
     }
 
-
+    /**
+     *
+     * @param obj
+     */
     @Override
     public void showObj(Obj obj) {
         String command = obj.getTag();
@@ -38,7 +48,10 @@ public class CLI implements Ui {
         }
     }
 
-
+    /**
+     *
+     * @param boardView
+     */
     @Override
     public void updateBoard(BoardView boardView) {
 
@@ -117,7 +130,10 @@ public class CLI implements Ui {
         System.out.println(CliPrinter.downExt);
     }
 
-
+    /**
+     *
+     * @param t
+     */
     private void printWorker(Tile t) {
 
         for (int i=0; i < boardView.getWorkerList().length; i++) {
@@ -147,17 +163,24 @@ public class CLI implements Ui {
         }
     }
 
-
+    /**
+     *
+     */
     private void printCanOp() {
         System.out.print(CliPrinter.CAN_OP_COLOR);
     }
 
-
+    /**
+     *
+     */
     private void printDome() {
         System.out.print(CliPrinter.DOME_COLOR + "  ^  ");
     }
 
-
+    /**
+     *
+     * @param t
+     */
     private void printBlock(Tile t) {
         if(checkCanOp(t)) {
             printCanOp();
@@ -165,6 +188,10 @@ public class CLI implements Ui {
         System.out.print("  " + t.getBlockLevel() + "  ");
     }
 
+    /**
+     *
+     * @param index
+     */
     private void printPlayer(int index) {
         if(playerList.get(index).equals(nickname)) {
             System.out.print("  - ");
@@ -179,7 +206,11 @@ public class CLI implements Ui {
         }
     }
 
-
+    /**
+     *
+     * @param t
+     * @return
+     */
     private boolean checkCanOp(Tile t) {
 
         if(current) {
@@ -197,6 +228,11 @@ public class CLI implements Ui {
         return false;
     }
 
+    /**
+     *
+     * @param playerID
+     * @return
+     */
     private String workerColor(int playerID) {
 
         if(playerID==0) {
@@ -208,6 +244,10 @@ public class CLI implements Ui {
         }
     }
 
+    /**
+     *
+     * @param list
+     */
     public void printCompleteList(ArrayList<String> list) {
         System.out.println("You can choose godcards from this list:");
         for(String str : list) {
@@ -215,6 +255,10 @@ public class CLI implements Ui {
         }
     }
 
+    /**
+     *
+     * @param list
+     */
     public void printCurrentList(ArrayList<String> list) {
         if(list.size()!=0) {
             System.out.println("Actual cards:");
@@ -224,6 +268,10 @@ public class CLI implements Ui {
         }
     }
 
+    /**
+     *
+     * @param list
+     */
     @Override
     public void handlePlayerList(ArrayList<String> list) {
         playerList = list;
@@ -235,6 +283,10 @@ public class CLI implements Ui {
         }
     }
 
+    /**
+     *
+     * @param message
+     */
     @Override
     public void handleTurn(String message) {
         System.out.println("Turn of " + message);

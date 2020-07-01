@@ -7,10 +7,14 @@ import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.WorkerView;
 
-
 import java.util.ArrayList;
 import java.util.Random;
-
+/**
+ * Class that represents the match as the Model in the MVC pattern.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 
 public class Model extends Observable {
 

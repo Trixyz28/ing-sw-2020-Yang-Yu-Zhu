@@ -4,7 +4,12 @@ import it.polimi.ingsw.model.God.UndecoratedWorker;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Class that is used to represent the turn.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class Turn {
 
     //Current player

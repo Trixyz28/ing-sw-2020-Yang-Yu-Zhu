@@ -10,7 +10,12 @@ import java.io.*;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 
-
+/**
+ * Sets up the client of the game.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class Client implements Observer, Runnable {
 
     private Socket socket;
@@ -24,13 +29,22 @@ public class Client implements Observer, Runnable {
     private Ui ui;
     private Thread t0;
 
+    /**
+     *Creates a <code>Client</code> with the specified attributes.
+     */
     public Client() {
         this.opReceived = false;
         this.gmReceived = false;
         this.active = true;
     }
 
-
+    /**
+     * Sets up the <code>Client</code>.
+     * <p>
+     * If there's any IOException prints out the subsequent error.
+     * @param uiStyle Variable for the choice of the style of the <code>ui</code>.
+     * @param socket Variable for the socket functionality.
+     */
     public void setupClient(String uiStyle, Socket socket) {
 
         //Create CLI
@@ -48,7 +62,9 @@ public class Client implements Observer, Runnable {
         }
 
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void run() {
 
@@ -71,6 +87,12 @@ public class Client implements Observer, Runnable {
         }
     }
 
+    /**
+     * Starts a thread connected to a socket with the server.
+     * @param socketIn The socket which is used to connect with the server.
+     * @return The thread that was created and used with the socket.
+     * @throws IllegalArgumentException Is thrown if the input is not correct.
+     */
     public Thread asyncReadFromSocket(ObjectInputStream socketIn) {
 
         Thread t = new Thread(() -> {
@@ -101,13 +123,19 @@ public class Client implements Observer, Runnable {
         return t;
     }
 
-
+    /**
+     * Set of the <code>ui</code> variable.
+     * @param ui Variable that is used for the user interface.
+     */
     public void setUi(Ui ui) {
         this.ui = ui;
     }
 
 
-
+    /**
+     * Method that is used to send the choices of the user to the server.
+     * @param input A string that represents the input from the user.
+     */
     public void writeToSocket(String input) {
 
         if(opReceived) {
@@ -160,15 +188,26 @@ public class Client implements Observer, Runnable {
 
     }
 
+    /**
+     * Gets the status of the client's <code>active</code> attribute.
+     * @return The value of the attribute active.
+     */
     public synchronized boolean isActive() {
         return active;
     }
 
+    /**
+     * Sets the client's <code>active</code> attribute.
+     * @param active Indicates if the client at issue is in his turn or not.
+     */
     public synchronized void setActive(boolean active) {
         this.active = active;
     }
 
-
+    /**
+     *Splits the object,interprets it and updates the game state.
+     * @param obj Comes from the socket stream encapsulating game updates.
+     */
     public void splitMessage(Obj obj) {
         switch (obj.getTag()) {
             case Tags.OPERATION -> {
@@ -196,7 +235,9 @@ public class Client implements Observer, Runnable {
         }
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(Object message) {
         writeToSocket((String)message);

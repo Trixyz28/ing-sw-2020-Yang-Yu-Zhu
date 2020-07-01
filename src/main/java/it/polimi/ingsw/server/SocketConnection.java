@@ -11,7 +11,12 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
-
+/**
+ * Class that is used to handle the sockets' connections.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class SocketConnection extends Observable implements Runnable {
 
     private Socket socket;

@@ -17,7 +17,12 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
+/**
+ * Class that is used to setup and handle the Server.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class Server {
 
     private int port;

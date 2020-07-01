@@ -6,11 +6,20 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.God.*;
 
 import java.util.ArrayList;
-
+/**
+ * Controller that handles the turns of the game.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class TurnController {
 
     private Model model;
 
+    /**
+     *Creates a <code>TurnController</code> with the specified attributes.
+     * @param model
+     */
     public TurnController(Model model) {
         this.model = model;
         currentTurn = model.getCurrentTurn();
@@ -21,6 +30,11 @@ public class TurnController {
 
 
     /* choose worker + check possibility to change to the other worker */
+    /**
+     *Handles which <code>worker</code> is chosen for the turn.
+     * @param index Variable that represents which worker is at issue.
+     */
+    /* scelta worker + controllo tipo worker */
     protected void setChosenWorker(int index) {
         UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(index);
 
@@ -52,6 +66,9 @@ public class TurnController {
 
     }
 
+    /**
+     *Handles the choice of the worker until the next state.
+     */
     /* Confirm Worker choice -> start move */
     protected void choseWorker(){
 
@@ -66,6 +83,9 @@ public class TurnController {
         }
     }
 
+    /**
+     *Differentiates the end of the different types of actions.
+     */
     /* end of an operation */
     protected void endOperation(){
         int type = currentTurn.getState();
@@ -96,6 +116,10 @@ public class TurnController {
     }
 
     /* end of build operation */
+    /**
+     *Handles the end of the <worker>move</worker> action.
+     */
+    /* fine build */
     private void endBuild(){
         /* godPower before end turn */
         if(chosenWorker.getGodPower()){
@@ -109,6 +133,10 @@ public class TurnController {
 
 
     /* end Turn -> update board + nextTurn */
+    /**
+     *Handles the end of the current turn.
+     */
+    /* fine Turn -> aggiornare board + nextTurn */
     private void endTurn() {
 
         model.setWorkerChosen(false);
@@ -120,6 +148,10 @@ public class TurnController {
 
 
     /* next Turn */
+    /**
+     *Handles the start of the next turn restoring the board methods.
+     */
+    /* aggiornare Turn + ripristinare condizioni */
     protected void nextTurn() {
         ArrayList<Player> playerList = model.getMatchPlayersList();
         int index = model.getNextPlayerIndex();
@@ -135,6 +167,10 @@ public class TurnController {
         }
     }
 
+    /**
+     *Brings the state to the next one in the turn.
+     */
+    /* passare stato prossimo */
 
     /* next state + operation of the new state */
     private void nextState(){
@@ -147,12 +183,19 @@ public class TurnController {
     }
 
     /* check after lose */
+    /**
+     *Checks if the game is over.If not brings the game to the next turn.
+     */
+    /* check dopo lose */
     private void checkGameOver(){
         if(!model.isGameOver()){
             nextTurn();
         }
     }
 
+    /**
+     *Applies the operation checking the game state for losing/winning conditions.
+     */
     protected void operation() {
         model.sendBoard();
         /* checkLose before operation */

@@ -11,6 +11,12 @@ import org.junit.Test;
 
 
 
+/**
+ * Cosa fa iltest
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class BuildControllerTest extends TestCase {
 
     Model model = new Model();
@@ -18,6 +24,9 @@ public class BuildControllerTest extends TestCase {
     Player player1 = new Player("A");
     Player player2 = new Player("B");
 
+    /**
+     * This test
+     */
     @Before
     public void initialize(){
 

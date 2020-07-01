@@ -4,7 +4,12 @@ import it.polimi.ingsw.model.God.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Class that is used to represent the PLayer.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class Player {
 
     // da sistemare implementazione dei workers: prima c'era una classe astratta worker estesa dai vari gods(worker)
@@ -20,38 +25,75 @@ public class Player {
     //Workers owned by this player
     private List<UndecoratedWorker> workerList;
 
+    /**
+     *
+     * @param playerName
+     */
     public Player(String playerName) {
         this.playerNickname = playerName;
     }
 
-
+    /**
+     *
+     * @return
+     */
     public String getPlayerNickname() {
         return playerNickname;
     }
 
 
     //PlayerID getter&setter
+
+    /**
+     *
+     * @return
+     */
     public int getPlayerID() {
         return playerID;
     }
+
+    /**
+     *
+     * @param playerID
+     */
     public void setPlayerID(int playerID) {
         this.playerID = playerID;
     }
 
 
     //Challenger getter&setter
+
+    /**
+     *
+     * @return
+     */
     public boolean isChallenger() {
         return challenger;
     }
+
+    /**
+     *
+     * @param challenger
+     */
     public void setChallenger(boolean challenger){
         this.challenger = challenger;
     }
 
 
     //Choose a God from the list
+
+    /**
+     *
+     * @param god
+     */
     public void setGodCard(String god) {
         godCard = god;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getGodCard() {
         return godCard;
     }
@@ -60,6 +102,13 @@ public class Player {
 
 
     //Create 2 specific worker classes as indicated in godCard ( da sistemare)
+
+    /**
+     *
+     * @param godCard
+     * @param condition
+     * @param totalWorkerList
+     */
     public void createWorker(String godCard, Conditions condition, List<UndecoratedWorker> totalWorkerList) {
 
         workerList = new ArrayList<>();
@@ -143,18 +192,32 @@ public class Player {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public List<UndecoratedWorker> getWorkerList() {
         return workerList;
     }
 
 
     //Select the worker to move/build
+
+    /**
+     *
+     * @param index
+     * @return
+     */
     public UndecoratedWorker chooseWorker(int index) {
         return workerList.get(index);
     }
 
 
     //Lost in 3-players game, delete workers
+
+    /**
+     *
+     */
     public void deleteWorker() {
         for (UndecoratedWorker w : workerList){
             w.getPosition().setOccupiedByWorker(false);
