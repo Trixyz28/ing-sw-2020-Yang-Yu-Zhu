@@ -22,6 +22,11 @@
                         <Image url="@../components/MapPainted.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="title" fitHeight="94.0" fitWidth="359.0" layoutX="520.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../components/defineGod.png" />
+                     </image>
+                  </ImageView>
                   <ImageView fx:id="bookIcon" fitHeight="80.0" fitWidth="90.0" layoutX="5.0" layoutY="722.0" onMouseClicked="#openInstruction" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../components/BookIcon.png" />
@@ -148,15 +153,10 @@
                               </ImageView>
                               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="43.0" prefHeight="51.0" prefWidth="230.0" text="Current player:" textAlignment="CENTER" textFill="#ffe3dd">
                                  <font>
-                                    <Font name="Papyrus" size="24.0" />
+                                    <Font name="Papyrus" size="27.0" />
                                  </font>
                               </Label>
                               <Label fx:id="currentPlayer" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="100.0" prefHeight="51.0" prefWidth="230.0" textAlignment="CENTER" textFill="#ffe3dd">
-                                 <font>
-                                    <Font name="Papyrus" size="22.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="commandRecv" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="143.0" prefHeight="51.0" prefWidth="230.0" textAlignment="CENTER" textFill="#ffe3dd">
                                  <font>
                                     <Font name="Papyrus" size="22.0" />
                                  </font>
@@ -174,9 +174,9 @@
                                     <Image url="@../clouds/UnknownCloud.png" />
                                  </image>
                               </ImageView>
-                              <Label fx:id="playerName0" alignment="CENTER" contentDisplay="CENTER" layoutX="72.0" layoutY="106.0" prefHeight="31.0" prefWidth="140.0" text="Player 0" textFill="#5368b0f0">
+                              <Label fx:id="playerName0" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="106.0" prefHeight="31.0" prefWidth="190.0" text="Player 0" textFill="#5368b0f0">
                                  <font>
-                                    <Font name="Book Antiqua" size="20.0" />
+                                    <Font name="Lucida Sans Unicode" size="20.0" />
                                  </font></Label>
                               <Label fx:id="challenger0" alignment="CENTER" contentDisplay="CENTER" layoutX="102.0" layoutY="77.0" prefHeight="23.0" prefWidth="110.0" textFill="#ac7d61">
                                  <font>
@@ -196,9 +196,9 @@
                                     <Image url="@../clouds/UnknownCloud.png" />
                                  </image>
                               </ImageView>
-                              <Label fx:id="playerName1" alignment="CENTER" contentDisplay="CENTER" layoutX="72.0" layoutY="106.0" prefHeight="31.0" prefWidth="140.0" text="Player 1 " textFill="#5368b0f0">
+                              <Label fx:id="playerName1" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="106.0" prefHeight="31.0" prefWidth="190.0" text="Player 1 " textFill="#5368b0f0">
                                  <font>
-                                    <Font name="Book Antiqua" size="20.0" />
+                                    <Font name="Lucida Sans Unicode" size="20.0" />
                                  </font></Label>
                               <Label fx:id="challenger1" alignment="CENTER" contentDisplay="CENTER" layoutX="102.0" layoutY="77.0" prefHeight="23.0" prefWidth="110.0" textFill="#ac7d61">
                                  <font>
@@ -218,9 +218,9 @@
                                     <Image url="@../clouds/UnknownCloud.png" />
                                  </image>
                               </ImageView>
-                              <Label fx:id="playerName2" alignment="CENTER" contentDisplay="CENTER" layoutX="72.0" layoutY="106.0" prefHeight="31.0" prefWidth="140.0" text="Player 2" textFill="#5368b0f0">
+                              <Label fx:id="playerName2" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="106.0" prefHeight="31.0" prefWidth="190.0" text="Player 2" textFill="#5368b0f0">
                                  <font>
-                                    <Font name="Book Antiqua" size="20.0" />
+                                    <Font name="Lucida Sans Unicode" size="20.0" />
                                  </font></Label>
                               <Label fx:id="challenger2" alignment="CENTER" contentDisplay="CENTER" layoutX="102.0" layoutY="77.0" prefHeight="23.0" prefWidth="110.0" textFill="#ac7d61">
                                  <font>

@@ -5,10 +5,7 @@ import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.Sender;
 import it.polimi.ingsw.view.Ui;
-import it.polimi.ingsw.view.gui.controllers.BoardController;
-import it.polimi.ingsw.view.gui.controllers.GodController;
-import it.polimi.ingsw.view.gui.controllers.LoadingController;
-import it.polimi.ingsw.view.gui.controllers.LoginController;
+import it.polimi.ingsw.view.gui.controllers.*;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,6 +20,7 @@ import java.util.ArrayList;
 public class GUI implements Ui {
 
     private Stage stage;
+    private Stage popup;
 
     private String ip;
     private String port;
@@ -30,7 +28,6 @@ public class GUI implements Ui {
     private Thread clientThread;
     private Client client;
     private Sender sender;
-
 
     private boolean challengerSet;
     private boolean chooseWorker;
@@ -54,7 +51,6 @@ public class GUI implements Ui {
         this.challengerSet = false;
         this.chooseWorker = false;
         this.boardReceived = false;
-
     }
 
     public void initialize() {
@@ -74,6 +70,7 @@ public class GUI implements Ui {
                     clientThread.interrupt();
                 }
             }
+
             Platform.exit();
             System.exit(0);
         });
@@ -106,20 +103,14 @@ public class GUI implements Ui {
                     godController = loadScene(2).getController();
                     godController.setSender(sender);
                     this.godList = new String[playerList.size()];
-                    godController.setName(playerList,nickname);
-                    godController.setChallenger(challengerName);
-                    godController.closeInstruction();
+                    godController.initialize(playerList,nickname,challengerName);
                 }
 
                 if(index==3) {
                     boardController = loadScene(3).getController();
                     boardController.setGuiLauncher(this);
                     boardController.setSender(sender);
-                    boardController.initializeGods(godList);
-                    boardController.setNickname(this.nickname);
-                    boardController.setName(playerList);
-                    boardController.closeRule();
-                    boardController.resetButtons();
+                    boardController.initialize(playerList,nickname,godList);
                 }
 
             } catch (Exception e) {
@@ -137,7 +128,7 @@ public class GUI implements Ui {
         switch (obj.getTag()) {
             case Tags.NAME_MSG -> handleNameMsg(obj.getMessage());
             case Tags.LOBBY_OK -> Platform.runLater(() -> loadingController.inLobby(obj.getMessage()));
-            case Tags.GOD_MSG -> showGodMsg(obj.getMessage());
+            case Tags.GOD_MSG -> handleGodMsg(obj.getMessage());
         }
     }
 
@@ -162,6 +153,15 @@ public class GUI implements Ui {
         }
     }
 
+    public void handleGodMsg(String message) {
+
+        if(message.equals(Messages.chooseStartPlayer)) {
+            Platform.runLater(() -> godController.chooseStartPlayer(playerList.size()));
+        }
+
+    }
+
+
     @Override
     public void handlePlayerList(ArrayList<String> list) {
         playerList = list;
@@ -170,7 +170,7 @@ public class GUI implements Ui {
 
     @Override
     public void handleDefineGod(String message) {
-        Platform.runLater(() -> godController.changeImage(message));
+        Platform.runLater(() -> godController.setDefinedGod(message));
     }
 
     @Override
@@ -180,10 +180,7 @@ public class GUI implements Ui {
                 godList[playerList.indexOf(name)] = obj.getMessage();
             }
         }
-        Platform.runLater(() -> {
-            godController.setChosenGod(obj);
-
-        });
+        Platform.runLater(() -> godController.setChosenGod(obj));
     }
 
     @Override
@@ -236,19 +233,7 @@ public class GUI implements Ui {
 
     @Override
     public void endGame(Obj obj) {
-        if(obj.getMessage().equals("win")) {
-            if(obj.getPlayer().equals(nickname)) {
-                showBoardMsg("You win!");
-            } else {
-                showBoardMsg("The winner is " + obj.getPlayer() + "!");
-            }
-        } else {
-            if(obj.getPlayer().equals(nickname)) {
-                showBoardMsg("You lose!");
-            } else {
-                showBoardMsg("The player " + obj.getPlayer() + " loses!");
-            }
-        }
+        showEndMsg(obj);
     }
 
     @Override
@@ -261,11 +246,14 @@ public class GUI implements Ui {
 
     public void finalWindow() {
         Platform.runLater(() -> {
-            Stage popup = new Stage();
+            this.popup = new Stage();
             popup.setResizable(false);
             popup.setTitle("Game over");
             try {
-                Parent root = new FXMLLoader(getClass().getResource("/fxml/Popup.fxml")).load();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Popup.fxml"));
+                Parent root = loader.load();
+                ReloadController reload = loader.getController();
+                reload.setGui(this);
                 Scene scene = new Scene(root);
                 popup.setScene(scene);
 
@@ -282,15 +270,27 @@ public class GUI implements Ui {
         Platform.runLater(() -> loadingController.showNameMsg(str));
     }
 
-    public void showGodMsg(String str) {
-        Platform.runLater(() -> godController.setCommand(str));
-    }
 
     public void showBoardMsg(String str) {
         Platform.runLater(() -> boardController.setRecvMsg(str));
     }
 
 
+    public void showEndMsg(Obj obj) {
+        Platform.runLater( () -> boardController.setEndMsg(obj));
+    }
+
+    public void restart() {
+        popup.close();
+
+        this.sender = new Sender();
+        this.challengerSet = false;
+        this.chooseWorker = false;
+        this.boardReceived = false;
+        initialize();
+
+        setServer();
+    }
 
 
     public FXMLLoader loadScene(int index) {

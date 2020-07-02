@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.gui.controllers;
 
 import it.polimi.ingsw.messages.Obj;
 import it.polimi.ingsw.view.Sender;
-import it.polimi.ingsw.view.gui.GuiLauncher;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -12,15 +12,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GodController {
 
-    private boolean chosen = false;
+    private boolean canChoosePlayer = false;
     private int counter = 0;
 
     private Sender sender;
+    private List<String> definedGods = new ArrayList<>();
 
     @FXML
     private HBox mainHBox;
@@ -30,8 +33,10 @@ public class GodController {
 
     @FXML
     private Label currentPlayer;
+
     @FXML
-    private Label commandRecv;
+    private ImageView title;
+
 
     @FXML
     private Pane cloud0;
@@ -82,32 +87,41 @@ public class GodController {
     private ImageView rightArrow;
 
 
+    public void initialize(ArrayList<String>playerList, String nickname, String challengerName) {
+        setName(playerList,nickname);
+        setChallenger(challengerName);
+        closeInstruction();
+    }
+
 
     public void gridClicked(MouseEvent event) {
 
-        int row = 0;
-        int column = 0;
+        // int row;
+        // int column;
         ImageView imageView = null;
 
         if(event.getSource().equals(cardGrid)) {
             for(Node node : cardGrid.getChildren()) {
                 if (node.getBoundsInParent().contains(event.getX(), event.getY())) {
-                    row = GridPane.getRowIndex(node);
-                    column = GridPane.getColumnIndex(node);
-                    System.out.println("Clicked at row " + row + ", column " + column);
+                    // row = GridPane.getRowIndex(node);
+                    // column = GridPane.getColumnIndex(node);
+                    // System.out.println("Clicked at row " + row + ", column " + column);
                     imageView = (ImageView) node;
                     break;
                 }
             }
         }
 
-        //System.out.println(imageView.getId());
-        sender.sendInput(imageView.getId().toUpperCase());
+        if(imageView!=null && !imageView.isDisable()) {
+            sender.sendInput(imageView.getId());
+        }
     }
 
 
 
-    public void changeImage(String god) {
+    public void setDefinedGod(String god) {
+
+        definedGods.add(god);
 
         for(Node node : cardGrid.getChildren()) {
             if(node instanceof ImageView) {
@@ -138,13 +152,19 @@ public class GodController {
             }
         }
 
+        if(checkIfDefined()) {
+            hideUnchosenGods();
+            setChooseTitle();
+
+        }
+    }
+
+    private boolean checkIfDefined() {
+        return (definedGods.size() == 2 && cloud2.isDisable()) || (definedGods.size() == 3);
     }
     
 
-
-
-
-    public void setName(ArrayList<String> nameList,String nickname) {
+    private void setName(ArrayList<String> nameList,String nickname) {
         playerName0.setText(nameList.get(0));
         if(nickname.equals(playerName0.getText())) {
             backCloud0.setImage(new Image("/clouds/CloudMe.png"));
@@ -166,25 +186,43 @@ public class GodController {
         }
     }
 
-    public void select0() { sender.sendInput(playerName0.getText());
+    private void setChallenger(String challenger) {
+        if(challenger.equals(playerName0.getText())) {
+            challenger0.setText("Challenger");
+        }
+        if(challenger.equals(playerName1.getText())) {
+            challenger1.setText("Challenger");
+        }
+        if(challenger.equals(playerName2.getText())) {
+            challenger2.setText("Challenger");
+        }
+    }
+
+    public void select0() {
+        if(canChoosePlayer) {
+            sender.sendInput(playerName0.getText());
+        }
     }
 
     public void select1() {
-        sender.sendInput(playerName1.getText());
+        if(canChoosePlayer) {
+            sender.sendInput(playerName1.getText());
+        }
     }
 
     public void select2() {
-        sender.sendInput(playerName2.getText());
+        if(canChoosePlayer) {
+            sender.sendInput(playerName2.getText());
+        }
     }
 
     public void setChosenGod(Obj message) {
 
         for(Node node : cardGrid.getChildren()) {
-            if (node instanceof ImageView) {
-                if (node.getId().toUpperCase().equals(message.getMessage())) {
-                    node.setOpacity(0.5);
-                    break;
-                }
+            if (node.getId().equalsIgnoreCase(message.getMessage())) {
+                node.setOpacity(0.7);
+                node.setDisable(true);
+                break;
             }
         }
 
@@ -199,20 +237,13 @@ public class GodController {
                setCloud(godCloud2,message.getMessage());
            }
         }
-    }
 
-    public void setChallenger(String challenger) {
-        if(challenger.equals(playerName0.getText())) {
-            challenger0.setText("Challenger");
-        }
-        if(challenger.equals(playerName1.getText())) {
-            challenger1.setText("Challenger");
-        }
-        if(challenger.equals(playerName2.getText())) {
-            challenger2.setText("Challenger");
+        counter++;
+
+        if((counter==2 && cloud2.isDisable()) || counter==3) {
+            title.setImage(new Image("/components/startPlayer.png"));
         }
     }
-
 
 
     public void setCloud(ImageView imageView,String god) {
@@ -266,9 +297,6 @@ public class GodController {
         currentPlayer.setText(str);
     }
 
-    public void setCommand(String str) {
-        commandRecv.setText(str);
-    }
 
     public void openInstruction() {
         mainHBox.setDisable(true);
@@ -278,7 +306,6 @@ public class GodController {
     }
 
     public void closeInstruction() {
-        System.out.println("closed");
         mainHBox.setDisable(false);
         instructionPane.setDisable(true);
         instructionPane.setVisible(false);
@@ -300,6 +327,66 @@ public class GodController {
         rightArrow.setDisable(true);
         instructionPage.setImage(new Image("/components/Rules2.png"));
 
+    }
+
+
+    private void hideUnchosenGods() {
+
+        for(Node node : cardGrid.getChildren()) {
+            if(node instanceof ImageView) {
+                boolean checked = false;
+                for(String name : definedGods) {
+                    if(node.getId().equalsIgnoreCase(name)) {
+                        checked = true;
+                    }
+                }
+                if(!checked) {
+                    disappearGod(node);
+                    node.setDisable(true);
+                }
+            }
+        }
+    }
+
+    private void setChooseTitle() {
+        title.setImage(new Image("/components/choosingGod.png"));
+    }
+
+
+
+    public void chooseStartPlayer(int size) {
+        this.canChoosePlayer = true;
+
+        cloud0.setOpacity(1);
+        setCloudEffects(cloud0);
+
+        cloud1.setOpacity(1);
+        setCloudEffects(cloud1);
+        if(size==3) {
+            cloud2.setOpacity(1);
+            setCloudEffects(cloud2);
+        }
+    }
+
+    private void setCloudEffects(Node node) {
+        FadeTransition fade = new FadeTransition();
+        fade.setDuration(Duration.millis(1000));
+        fade.setFromValue(0.3);
+        fade.setToValue(1);
+        fade.setCycleCount(-1);
+        fade.setAutoReverse(true);
+        fade.setNode(node);
+        fade.play();
+    }
+
+    private void disappearGod(Node node) {
+        FadeTransition fade = new FadeTransition();
+        fade.setDuration(Duration.millis(600));
+        fade.setToValue(0);
+        fade.setCycleCount(1);
+        fade.setAutoReverse(false);
+        fade.setNode(node);
+        fade.play();
     }
 
     public void setSender(Sender sender) {

@@ -47,9 +47,7 @@ public class BuildControllerTest extends TestCase {
         model.getCurrentTurn().choseWorker(player1.chooseWorker(0));
     }
 
-    /**
-     *
-     */
+
     @Test
     public void testBuild () {
         initialize();

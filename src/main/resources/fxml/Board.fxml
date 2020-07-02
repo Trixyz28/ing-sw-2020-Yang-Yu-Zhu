@@ -20,29 +20,44 @@
       </ImageView>
       <VBox fx:id="leftVBox" prefHeight="800.0" prefWidth="250.0">
          <children>
-            <Pane>
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="250.0">
                <children>
                   <ImageView fitHeight="200.0" fitWidth="250.0" layoutX="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../components/msgBoard.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="51.0" prefHeight="46.0" prefWidth="206.0" text="Current player:" textFill="WHITE">
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="48.0" prefHeight="46.0" prefWidth="206.0" text="Current player:" textFill="WHITE">
                      <font>
-                        <Font name="Papyrus" size="24.0" />
+                        <Font name="Papyrus" size="26.0" />
                      </font>
                   </Label>
-                  <Label fx:id="turnMsg" alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="106.0" prefHeight="46.0" prefWidth="206.0" text="aaa" textFill="WHITE">
+                  <Label fx:id="turnMsg" alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="106.0" prefHeight="46.0" prefWidth="224.0" text="aaa" textFill="WHITE">
                      <font>
                         <Font name="Papyrus" size="22.0" />
                      </font></Label>
                </children>
             </Pane>
-            <Label fx:id="commandRecv" alignment="CENTER" contentDisplay="CENTER" prefHeight="200.0" prefWidth="250.0" textFill="#e7edd4">
+            <Label fx:id="endMsg" alignment="CENTER" contentDisplay="CENTER" prefHeight="112.0" prefWidth="250.0" textFill="#f8ffd8">
                <font>
-                  <Font name="Papyrus" size="16.0" />
-               </font></Label>
-            <Pane fx:id="godButtonPane" prefHeight="200.0" prefWidth="200.0">
+                  <Font name="Tahoma" size="16.0" />
+               </font>
+            </Label>
+            <Pane prefHeight="139.0" prefWidth="250.0">
+               <children>
+                  <ImageView fx:id="mailImg" fitHeight="139.0" fitWidth="250.0" layoutX="2.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../components/Mail.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="commandRecv" alignment="CENTER" contentDisplay="CENTER" prefHeight="135.0" prefWidth="250.0" textFill="#91977c">
+                     <font>
+                        <Font name="Tw Cen MT" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="godButtonPane" prefHeight="214.0" prefWidth="250.0">
                <children>
                   <Button fx:id="godPowerButton2" alignment="CENTER" contentDisplay="CENTER" layoutX="61.0" layoutY="124.0" mnemonicParsing="false" onAction="#sendAnswer2" prefHeight="40.0" prefWidth="130.0" text="Button" textFill="#a63850dd">
                      <font>
@@ -54,9 +69,9 @@
                      </font></Button>
                </children>
             </Pane>
-            <Pane prefHeight="200.0" prefWidth="250.0">
+            <Pane prefHeight="150.0" prefWidth="250.0">
                <children>
-                  <ImageView fx:id="bookIcon" fitHeight="72.0" fitWidth="86.0" layoutX="14.0" layoutY="118.0" onMouseClicked="#openRule" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="bookIcon" fitHeight="72.0" fitWidth="86.0" layoutX="14.0" layoutY="70.0" onMouseClicked="#openRule" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../components/BookIcon.png" />
                      </image>
@@ -291,45 +306,45 @@
             <Pane prefHeight="100.0" prefWidth="250.0" />
             <Pane fx:id="cloud0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="250.0">
                <children>
-                  <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="base0" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../clouds/Cloud.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="god0" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="playerName0" alignment="CENTER" contentDisplay="CENTER" layoutX="72.0" layoutY="106.0" prefHeight="31.0" prefWidth="140.0" text="Player 0" textFill="#3e1b84">
+                  <Label fx:id="playerName0" alignment="CENTER" contentDisplay="CENTER" layoutX="48.0" layoutY="106.0" prefHeight="33.0" prefWidth="181.0" text="Player 0" textFill="#3e1b84">
                      <font>
-                        <Font name="Book Antiqua" size="20.0" />
+                        <Font name="Lucida Sans Unicode" size="20.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
             <Pane fx:id="cloud1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="250.0">
                <children>
-                  <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="base1" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../clouds/Cloud.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="god1" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="playerName1" alignment="CENTER" contentDisplay="CENTER" layoutX="72.0" layoutY="106.0" prefHeight="31.0" prefWidth="140.0" text="Player 1" textFill="#3e1b84">
+                  <Label fx:id="playerName1" alignment="CENTER" contentDisplay="CENTER" layoutX="48.0" layoutY="106.0" prefHeight="33.0" prefWidth="181.0" text="Player 1" textFill="#3e1b84">
                      <font>
-                        <Font name="Book Antiqua" size="20.0" />
+                        <Font name="Lucida Sans Unicode" size="20.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
             <Pane fx:id="cloud2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="250.0">
                <children>
-                  <ImageView fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="base2" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../clouds/Cloud.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="god2" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="playerName2" alignment="CENTER" contentDisplay="CENTER" layoutX="72.0" layoutY="106.0" prefHeight="31.0" prefWidth="140.0" text="Player 2" textFill="#3e1b84">
+                  <Label fx:id="playerName2" alignment="CENTER" contentDisplay="CENTER" layoutX="48.0" layoutY="106.0" prefHeight="33.0" prefWidth="181.0" text="Player 2" textFill="#3e1b84">
                      <font>
-                        <Font name="Book Antiqua" size="20.0" />
+                        <Font name="Lucida Sans Unicode" size="20.0" />
                      </font>
                   </Label>
                </children>
@@ -337,24 +352,24 @@
             <Pane prefHeight="100.0" prefWidth="250.0" />
          </children>
       </VBox>
-      <Pane fx:id="rulePane" prefHeight="800.0" prefWidth="1280.0">
+      <Pane fx:id="rulePane" disable="true" prefHeight="800.0" prefWidth="1280.0">
          <children>
-            <ImageView fx:id="ruleImage" fitHeight="800.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="ruleImage" disable="true" fitHeight="800.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../components/Rules1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="ruleCross" fitHeight="83.0" fitWidth="74.0" layoutX="1174.0" layoutY="14.0" onMouseClicked="#closeRule" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="ruleCross" fitHeight="67.0" fitWidth="64.0" layoutX="1174.0" layoutY="14.0" onMouseClicked="#closeRule" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../components/Cross.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="rightArrow" fitHeight="79.0" fitWidth="97.0" layoutX="1163.0" layoutY="686.0" onMouseClicked="#loadSecondPage" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="rightArrow" fitHeight="79.0" fitWidth="97.0" layoutX="1163.0" layoutY="700.0" onMouseClicked="#loadSecondPage" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../components/ArrowRight.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="leftArrow" fitHeight="79.0" fitWidth="97.0" layoutX="31.0" layoutY="686.0" onMouseClicked="#loadFirstPage" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="leftArrow" fitHeight="79.0" fitWidth="97.0" layoutX="22.0" layoutY="700.0" onMouseClicked="#loadFirstPage" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../components/ArrowLeft.png" />
                </image>

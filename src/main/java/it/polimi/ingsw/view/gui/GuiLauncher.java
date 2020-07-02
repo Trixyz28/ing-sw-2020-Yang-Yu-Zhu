@@ -47,6 +47,7 @@ public class GuiLauncher extends Application {
         stage.show();
     }
 
+
     public void appStarted() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ServerSetting.fxml"));
         try {

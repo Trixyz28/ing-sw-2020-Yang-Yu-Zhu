@@ -1,11 +1,13 @@
 package it.polimi.ingsw.view.gui.controllers;
 
+import it.polimi.ingsw.messages.Obj;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.Sender;
 import it.polimi.ingsw.view.WorkerView;
 import it.polimi.ingsw.view.gui.GUI;
-import it.polimi.ingsw.view.gui.GuiLauncher;
+import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -16,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 
@@ -28,15 +31,22 @@ public class BoardController {
 
     private GUI gui;
     private Sender sender;
+    private boolean lost = false;
 
 
     @FXML
     private VBox leftVBox;
 
     @FXML
-    private Label commandRecv;
-    @FXML
     private Label turnMsg;
+
+    @FXML
+    private ImageView mailImg;
+    @FXML
+    private Label commandRecv;
+
+    @FXML
+    private Label endMsg;
     @FXML
     private Pane godButtonPane;
     @FXML
@@ -48,6 +58,8 @@ public class BoardController {
     @FXML
     private Pane cloud0;
     @FXML
+    private ImageView base0;
+    @FXML
     private ImageView god0;
     @FXML
     private Label playerName0;
@@ -55,12 +67,16 @@ public class BoardController {
     @FXML
     private Pane cloud1;
     @FXML
+    private ImageView base1;
+    @FXML
     private ImageView god1;
     @FXML
     private Label playerName1;
 
     @FXML
     private Pane cloud2;
+    @FXML
+    private ImageView base2;
     @FXML
     private ImageView god2;
     @FXML
@@ -92,7 +108,6 @@ public class BoardController {
                     if (node.getBoundsInParent().contains(event.getX(), event.getY())) {
 
                         // System.out.println("Clicked at the pane at row " + GridPane.getRowIndex(node) + ", column " + GridPane.getColumnIndex(node));
-
                         if(gui.isChooseWorker()) {
                             for(WorkerView workerView : lastView.getWorkerList()) {
                                 if(workerView.getBelongToPlayer() == lastView.getCurrentID()) {
@@ -113,13 +128,33 @@ public class BoardController {
 
     }
 
+    public void initialize(ArrayList<String> playerList,String nickname,String[] godList) {
+        initializeGods(godList);
+        setNickname(nickname);
+        setName(playerList);
+        closeRule();
+        hideRecvMsg();
+        resetButtons();
+    }
+
+
 
     public void setName(ArrayList<String> nameList) {
 
         playerName0.setText(nameList.get(0));
+        if(nickname.equals(playerName0.getText())) {
+            base0.setImage(new Image("/clouds/CloudMe.png"));
+        }
         playerName1.setText(nameList.get(1));
+        if(nickname.equals(playerName1.getText())) {
+            base1.setImage(new Image("/clouds/CloudMe.png"));
+        }
+
         if(nameList.size()==3) {
             playerName2.setText(nameList.get(2));
+            if(nickname.equals(playerName2.getText())) {
+                base2.setImage(new Image("/clouds/CloudMe.png"));
+            }
         } else {
             cloud2.setDisable(true);
             cloud2.setVisible(false);
@@ -132,7 +167,7 @@ public class BoardController {
     }
 
 
-    public void setGod(String[] godList) {
+    private void setGod(String[] godList) {
 
         setCloud(god0,godList[0]);
         setCloud(god1,godList[1]);
@@ -143,7 +178,7 @@ public class BoardController {
     }
 
 
-    public void setCloud(ImageView cloud,String god) {
+    private void setCloud(ImageView cloud,String god) {
         Image image = switch (god) {
 
             case "APOLLO" -> new Image("/clouds/ApolloCloud.png");
@@ -194,7 +229,7 @@ public class BoardController {
     }
 
 
-    public void printWorker(ImageView imageView,BoardView boardView,Tile t) {
+    private void printWorker(ImageView imageView,BoardView boardView,Tile t) {
 
         for (int i = 0; i < boardView.getWorkerList().length; i++) {
 
@@ -209,7 +244,7 @@ public class BoardController {
     }
 
 
-    public void printCanOp(ImageView imageView,int number) {
+    private void printCanOp(ImageView imageView,int number) {
 
         if(!(nickname.equals(lastView.getCurrentName())) || number==0) {
             printEmpty(imageView);
@@ -224,13 +259,13 @@ public class BoardController {
         }
     }
 
-    public void printEmpty(ImageView imageView) {
+    private void printEmpty(ImageView imageView) {
         Image image = new Image("/buildings/empty.png");
         imageView.setImage(image);
     }
 
 
-    public int checkCanOp(BoardView boardView,Tile t) {
+    private int checkCanOp(BoardView boardView,Tile t) {
         if(boardView.getChosenWorkerID()!=-1) {
             WorkerView chosen = boardView.getWorkerList()[boardView.getChosenWorkerID()];
 
@@ -244,19 +279,18 @@ public class BoardController {
                     return 2;
                 }
             }
-
         }
         return 0;
     }
 
 
-    public void printDome(ImageView dome) {
+    private void printDome(ImageView dome) {
         Image image = new Image("/buildings/dome.png");
         dome.setImage(image);
     }
 
 
-    public void printBlock(ImageView block,int level) {
+    private void printBlock(ImageView block,int level) {
         Image image = switch (level) {
             case 1 -> new Image("/buildings/level1.png");
             case 2 -> new Image("/buildings/level2.png");
@@ -268,12 +302,8 @@ public class BoardController {
     }
 
 
-    public void setTurn(String player) {
-        if(player.equals(nickname)) {
-            boardGrid.setDisable(false);
-        } else {
-            boardGrid.setDisable(true);
-        }
+    private void setTurn(String player) {
+        boardGrid.setDisable(!player.equals(nickname));
 
         if(player.equals(playerName0.getText())) {
             cloud0.setOpacity(1);
@@ -317,11 +347,13 @@ public class BoardController {
 
 
     public void hideRecvMsg() {
+        mailImg.setVisible(false);
         commandRecv.setText("");
     }
 
 
     public void setRecvMsg(String str) {
+        mailImg.setVisible(true);
         commandRecv.setText(str);
     }
 
@@ -337,7 +369,7 @@ public class BoardController {
     }
 
 
-    public void setCoin(String[] godList) {
+    private void setCoin(String[] godList) {
 
         coins = new Image[godList.length];
 
@@ -407,6 +439,35 @@ public class BoardController {
         this.sender = sender;
     }
 
+    public void setEndMsg(Obj obj) {
+        if(obj.getMessage().equals("win")) {
+            if(obj.getPlayer().equals(nickname)) {
+                endMsg.setText("You win!");
+            } else {
+                endMsg.setText("The winner is " + obj.getPlayer() + "!");
+            }
+        } else {
+            if(obj.getPlayer().equals(nickname)) {
+                endMsg.setText("You lose!");
+                this.lost = true;
+            } else {
+                endMsg.setText("The player " + obj.getPlayer() + " loses!");
+            }
 
+            if(obj.getPlayer().equals(playerName0.getText())) {
+                base0.setImage(new Image("/clouds/CloudLose.png"));
+            }
+            if(obj.getPlayer().equals(playerName1.getText())) {
+                base1.setImage(new Image("/clouds/CloudLose.png"));
+            }
+            if(obj.getPlayer().equals(playerName2.getText())) {
+                base2.setImage(new Image("/clouds/CloudLose.png"));
+            }
+        }
+    }
+
+    public void resetEndMsg() {
+        endMsg.setText("");
+    }
 
 }
