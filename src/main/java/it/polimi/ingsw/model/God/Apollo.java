@@ -16,7 +16,7 @@ import java.util.List;
 public class Apollo extends WorkerDecorator {
 
     //List of all the workers in the game
-    private List<UndecoratedWorker> totalWorkers;
+    private final List<UndecoratedWorker> totalWorkers;
 
     /**
      * Creates a worker with Apollo's God Power with the specified attributes.

@@ -23,7 +23,8 @@ public class GodController {
     private int counter = 0;
 
     private Sender sender;
-    private List<String> definedGods = new ArrayList<>();
+    private int playerNumber;
+    private final List<String> definedGods = new ArrayList<>();
 
     @FXML
     private HBox mainHBox;
@@ -87,7 +88,8 @@ public class GodController {
     private ImageView rightArrow;
 
 
-    public void initialize(ArrayList<String>playerList, String nickname, String challengerName) {
+    public void initialize(List<String>playerList, String nickname, String challengerName) {
+        this.playerNumber = playerList.size();
         setName(playerList,nickname);
         setChallenger(challengerName);
         closeInstruction();
@@ -155,16 +157,15 @@ public class GodController {
         if(checkIfDefined()) {
             hideUnchosenGods();
             setChooseTitle();
-
         }
     }
 
     private boolean checkIfDefined() {
-        return (definedGods.size() == 2 && cloud2.isDisable()) || (definedGods.size() == 3);
+        return (definedGods.size() == playerNumber);
     }
     
 
-    private void setName(ArrayList<String> nameList,String nickname) {
+    private void setName(List<String> nameList,String nickname) {
         playerName0.setText(nameList.get(0));
         if(nickname.equals(playerName0.getText())) {
             backCloud0.setImage(new Image("/clouds/CloudMe.png"));
@@ -220,7 +221,7 @@ public class GodController {
 
         for(Node node : cardGrid.getChildren()) {
             if (node.getId().equalsIgnoreCase(message.getMessage())) {
-                node.setOpacity(0.7);
+                node.setOpacity(0.6);
                 node.setDisable(true);
                 break;
             }
@@ -240,7 +241,7 @@ public class GodController {
 
         counter++;
 
-        if((counter==2 && cloud2.isDisable()) || counter==3) {
+        if(counter==playerNumber) {
             title.setImage(new Image("/components/startPlayer.png"));
         }
     }

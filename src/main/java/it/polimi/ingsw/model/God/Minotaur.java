@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class Minotaur extends WorkerDecorator {
 
-    private List<UndecoratedWorker> totalWorkers;
+    private final List<UndecoratedWorker> totalWorkers;
     /**
      * Creates a worker with Minotaur's God Power with the specified attributes.
      * @param worker Variable that implements the interface of the decorator pattern.

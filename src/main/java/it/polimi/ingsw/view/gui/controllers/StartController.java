@@ -10,7 +10,6 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 
-
 public class StartController {
 
     // Start.fxml

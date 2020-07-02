@@ -8,27 +8,25 @@ import it.polimi.ingsw.server.SocketConnection;
 
 public class RemoteView extends View {
 
-    private SocketConnection connection;
+    private final SocketConnection connection;
     protected boolean opSend;
     protected boolean gmSend;
 
 
-    private class MessageReceiver implements Observer {
+    private class MessageReceiver implements Observer<String> {
 
         @Override
-        public void update(Object message) {  /* ricevere messaggi dal Client: Nickname o God */
-            if(message instanceof String) {
-                if(opSend){  /* se precedentemente è stata inviata una Operation */
-                    opSend = false;
-                    handleOp((String)message);
-                }else if(gmSend){  /* se precedentemente è stata inviata una Operation */
-                    gmSend = false;
-                    handleGm((String)message);
-                }else{
-                    String input = (String) message;
-                    System.out.println("Received: " + input);
-                    messageString(input);
-                }
+        public void update(String message) {  /* ricevere messaggi dal Client: Nickname o God */
+            if(opSend){  /* se precedentemente è stata inviata una Operation */
+                opSend = false;
+                handleOp(message);
+            }else if(gmSend){  /* se precedentemente è stata inviata una Operation */
+                gmSend = false;
+                handleGm(message);
+            }else{
+                String input = message;
+                System.out.println("Received: " + input);
+                messageString(input);
             }
         }
     }
@@ -42,50 +40,46 @@ public class RemoteView extends View {
     }
 
     @Override
-    public void update(Object message) {
-
-        Obj obj = (Obj)message;
+    public void update(Obj message) {
 
         if(connection.isActive()) {
 
-            if(obj.isBroadcast()) {
+            if(message.isBroadcast()) {
 
-                if(obj.getTag().equals(Tags.COMPLETE_LIST)) {
+                if(message.getTag().equals(Tags.COMPLETE_LIST)) {
                     if(connection.getPlayer().isChallenger()) {
-                        connection.asyncSend(message);
+                        connection.send(message);
                     }
-                } else if (obj.getTag().equals(Tags.END)) {
-                    connection.asyncSend(obj);
+                } else if (message.getTag().equals(Tags.END)) {
+                    connection.send(message);
 
-                    if(obj.getMessage().equals("lose")) {
-                        if (player.getPlayerNickname().equals(obj.getPlayer())) {
+                    if(message.getMessage().equals("lose")) {
+                        if (player.getPlayerNickname().equals(message.getPlayer())) {
                             connection.setLost(true);
                         }
                     } else {
-                        if(obj.getReceiver().equals(player.getPlayerNickname())) {
+                        if(message.getReceiver().equals(player.getPlayerNickname())) {
                             connection.closeMatch();
                         }
                     }
-
                 } else {
-                    connection.asyncSend(message);
+                    connection.send(message);
                 }
 
             } else {
-                if(connection.getPlayer().getPlayerNickname().equals(obj.getReceiver())) {
+                if(connection.getPlayer().getPlayerNickname().equals(message.getReceiver())) {
 
-                    if(obj.getTag().equals(Tags.OPERATION)) {
-                        this.obj = obj;  /* salvare l'op nella view e notify */
+                    if(message.getTag().equals(Tags.OPERATION)) {
+                        this.obj = message;  /* salvare l'op nella view e notify */
                         opSend = true;
-                    } else if (obj.getTag().equals(Tags.G_MSG)) {
+                    } else if (message.getTag().equals(Tags.G_MSG)) {
                         /* salvare prima di notify */
-                        this.obj = obj;
+                        this.obj = message;
                         gmSend = true;
                     }
-                    connection.asyncSend(message);
+                    connection.send(message);
                 }
             }
-
         }
 
     }

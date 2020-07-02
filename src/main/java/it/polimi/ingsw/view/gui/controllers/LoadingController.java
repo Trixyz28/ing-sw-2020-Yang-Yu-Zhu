@@ -2,10 +2,6 @@ package it.polimi.ingsw.view.gui.controllers;
 
 
 import it.polimi.ingsw.view.Sender;
-import it.polimi.ingsw.view.gui.GUI;
-import it.polimi.ingsw.view.gui.GuiLauncher;
-import javafx.animation.Transition;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,12 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Glow;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -26,9 +16,6 @@ public class LoadingController {
 
 
     private Sender sender;
-
-    private GUI gui;
-
 
     //FXML Nickname
 
@@ -49,9 +36,6 @@ public class LoadingController {
         sender.sendInput(nickname);
     }
 
-    public void setEffects() {
-    }
-
     public void showNameMsg(String str) {
         nameRecv.setText(str);
     }
@@ -66,13 +50,10 @@ public class LoadingController {
 
     @FXML
     private Label lobbyRecv;
-
     @FXML
     private Label waiting;
-
     @FXML
     private ChoiceBox<String> playerNumberSelect;
-
     @FXML
     private Button lobbyButton;
 
@@ -94,7 +75,6 @@ public class LoadingController {
     }
 
 
-
     public void inLobby(String str) {
         lobbyRecv.setText(str);
         playerNumberSelect.setDisable(true);
@@ -105,15 +85,9 @@ public class LoadingController {
     }
 
 
-
     public void setSender(Sender sender) {
         this.sender = sender;
     }
-
-    public void setGui(GUI gui) {
-        this.gui = gui;
-    }
-
 
 
 }

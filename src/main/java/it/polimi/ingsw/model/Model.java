@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.WorkerView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 /**
  * Class that represents the match as the Model in the MVC pattern.
@@ -16,7 +17,7 @@ import java.util.Random;
  * @since 1.0
  */
 
-public class Model extends Observable {
+public class Model extends Observable<Obj> {
 
     //ID of the challenger
     private int challengerID;
@@ -25,7 +26,7 @@ public class Model extends Observable {
     private int startingPlayerID;
 
     //ArrayList of the players
-    private ArrayList<Player> matchPlayersList;
+    private List<Player> matchPlayersList;
 
     //Map: 5x5 tiles
     private Board board;
@@ -330,7 +331,7 @@ public class Model extends Observable {
     }
 
     //get() of the arraylist made by Players
-    public ArrayList<Player> getMatchPlayersList() {
+    public List<Player> getMatchPlayersList() {
         return matchPlayersList;
     }
 
@@ -492,7 +493,7 @@ public class Model extends Observable {
     }
 
 
-    public ArrayList<UndecoratedWorker> getTotalWorkers() {
+    public List<UndecoratedWorker> getTotalWorkers() {
         return totalWorkerList;
     }
 

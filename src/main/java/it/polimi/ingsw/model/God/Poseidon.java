@@ -12,9 +12,9 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-public class Poseidon extends WorkerDecorator{
+public class Poseidon extends WorkerDecorator {
 
-    private List<UndecoratedWorker> totalWorkers;
+    private final List<UndecoratedWorker> totalWorkers;
     /**
      * Creates a worker with Poseidon's God Power with the specified attributes.
      * @param worker Variable that implements the interface of the decorator pattern.
@@ -32,9 +32,9 @@ public class Poseidon extends WorkerDecorator{
      * <p></p>
      * Additionally:
      * <p>
-     * the worker bestowed with Poseidon's God Powers can choose to build a block 3 times if unmoved and on ground level
-     * at the end of the turn.
-     * If not it builds like a normal worker.
+     * At the end of the turn, the player can choose to build a block up to 3 times with the worker bestowed with Poseidon's God Powers,
+     * if it is unmoved and on ground level.
+     * In other cases it operates normally.
      */
     @Override
     public boolean canBuildBlock(Tile t) {

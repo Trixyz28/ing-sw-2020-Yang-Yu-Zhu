@@ -13,8 +13,8 @@ import java.io.IOException;
 public class ServerApp {
 
     /**
-     *Main class that starts the server on the designated port.
-     * @param args Variable from command line that indicates the port of the server.
+     * Main class which starts the server on the designated port.
+     * @param args Variable from command line indicating the port number of the server.
      */
     public static void main(String[] args) {
 

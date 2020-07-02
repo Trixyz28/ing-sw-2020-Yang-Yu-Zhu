@@ -7,7 +7,7 @@ import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.observers.Observer;
 
 
-public abstract class View extends Observable implements Observer {
+public abstract class View extends Observable<Obj> implements Observer<Obj> {
 
     protected Player player;
     protected Operation operation;
@@ -20,8 +20,7 @@ public abstract class View extends Observable implements Observer {
     }
 
 
-
-    protected void handleOp(String input){  /* modificare l'Op precedentemente salvata con l'input dal Client */
+    protected void handleOp(String input){  /* Update the saved Operation with Client input */
         try {
             String[] inputs = input.split(",");
             int row = Integer.parseInt(inputs[0]);
@@ -33,12 +32,12 @@ public abstract class View extends Observable implements Observer {
             notify(obj);
 
         }catch (IllegalArgumentException e){
-            System.out.println("Inserimento invalido");
+            System.out.println("Invalid input");
         }
     }
 
 
-    protected void handleGm(String input){  /* modificare Gm precedentemente salvata con l'input dal Client */
+    protected void handleGm(String input){  /* Update the saved GameMessage with Client input */
         gameMessage = obj.getGameMessage();
 
         gameMessage.setAnswer(input);

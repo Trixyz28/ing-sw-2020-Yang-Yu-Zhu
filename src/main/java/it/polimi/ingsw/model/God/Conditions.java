@@ -20,7 +20,7 @@ public class Conditions {
 
     private int heraPlayerID;
 
-    private List<UndecoratedWorker> limusWorkers = new ArrayList<>();
+    private final List<UndecoratedWorker> limusWorkers = new ArrayList<>();
 
 
 

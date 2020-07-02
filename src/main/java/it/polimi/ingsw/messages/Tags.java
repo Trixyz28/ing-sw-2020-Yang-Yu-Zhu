@@ -2,7 +2,7 @@ package it.polimi.ingsw.messages;
 
 public class Tags {
 
-    //Tags of Obj
+
     /**
      *Tag for a generic obj.
      */
@@ -82,5 +82,11 @@ public class Tags {
      *Tag for an end obj.
      */
     public static final String END = "end";
+
+
+    /**
+     *Tag for match initialization.
+     */
+    public static final String SETUP = "setup";
 
 }

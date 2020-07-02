@@ -6,6 +6,7 @@ import it.polimi.ingsw.view.BoardView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class Obj used in the communication between clients-server.
@@ -15,12 +16,11 @@ import java.util.ArrayList;
  */
 public class Obj implements Serializable {
 
-
     private final String tag;
 
     private String player;
     private String message;
-    private ArrayList<String> list;
+    private List<String> list;
 
     private BoardView boardView;
     private Operation operation;
@@ -56,7 +56,7 @@ public class Obj implements Serializable {
      * @param tag Variable that indicates the tag attribute that must be encapsulated.
      * @param list Variable that indicates the list attribute that must be encapsulated.
      */
-    public Obj(String tag, ArrayList<String> list) {
+    public Obj(String tag, List<String> list) {
         this.tag = tag;
         this.list = list;
     }
@@ -116,7 +116,7 @@ public class Obj implements Serializable {
      * Gets a list encapsulated in the obj.
      * @return THe value of the list attribute.
      */
-    public ArrayList<String> getList() {
+    public List<String> getList() {
         return list;
     }
 

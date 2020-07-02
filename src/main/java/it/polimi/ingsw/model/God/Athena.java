@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.God;
 
 import it.polimi.ingsw.model.Tile;
 
-import java.util.List;
 
 /**
  * This is the worker for the God Athena, decorated under WorkerDecorator abstract class.

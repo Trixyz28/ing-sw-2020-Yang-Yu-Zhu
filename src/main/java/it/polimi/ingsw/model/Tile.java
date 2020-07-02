@@ -27,7 +27,7 @@ public class Tile implements Cloneable, Serializable {
     private boolean domePresence;
 
     //List of all tiles adjacent to the present one on the map
-    private List<Tile> adjacentTiles;
+    private final List<Tile> adjacentTiles;
 
     /**
      *

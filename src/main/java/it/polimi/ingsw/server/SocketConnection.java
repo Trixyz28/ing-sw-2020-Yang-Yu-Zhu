@@ -17,10 +17,10 @@ import java.util.Scanner;
  * @version 1.0
  * @since 1.0
  */
-public class SocketConnection extends Observable implements Runnable {
+public class SocketConnection extends Observable<String> implements Runnable {
 
-    private Socket socket;
-    private Server server;
+    private final Socket socket;
+    private final Server server;
 
     private Scanner in;
     private ObjectOutputStream out;
@@ -42,7 +42,8 @@ public class SocketConnection extends Observable implements Runnable {
         return active;
     }
 
-    private synchronized void send(Object message) {
+
+    public synchronized void send(Object message) {
         try {
             out.reset();
             out.writeObject(message);
@@ -56,9 +57,10 @@ public class SocketConnection extends Observable implements Runnable {
     public void closeConnection() {
         active = false;
         try {
-            send(Messages.connectionClosed);
             System.out.println("Deregistering player " + player.getPlayerNickname() + " of lobby n." + lobbyID);
             socket.close();
+            in.close();
+            out.close();
 
         } catch(IOException e) {
             System.err.println("Error when closing socket!");
@@ -74,7 +76,6 @@ public class SocketConnection extends Observable implements Runnable {
     public void closeMatch()  {
         server.deregisterMatch(this);
     }
-
 
 
     public void asyncSend(final Object message) {
@@ -93,22 +94,7 @@ public class SocketConnection extends Observable implements Runnable {
 
             //Create a lobby
             if(!server.getLobbyHandler().checkAvailableLobby()) {
-                int number;
-
-                send(new Obj("lobbyMsg",Messages.canCreateLobby));
-
-                do {
-                    try {
-                        String str = in.nextLine();
-                        number = Integer.parseInt(str);
-                    } catch (NumberFormatException e) {
-                        send(new Obj("lobbyMsg",Messages.lobbyPlayerNumber));
-                        number = 0;
-                    }
-                } while(number!=2 && number!=3);
-
-                lobbyID = server.getLobbyController().createLobby(player.getPlayerNickname(),number);
-                send(new Obj("lobbyOk","Create the lobby n." + lobbyID));
+                noAvailableLobby();
             }
 
             //Join a lobby
@@ -128,7 +114,7 @@ public class SocketConnection extends Observable implements Runnable {
                 if(!lost) {
                     notify(read);
                 } else {
-                    asyncSend(Messages.spectator);
+                    send(new Obj(Tags.GENERIC,Messages.spectator));
                 }
             }
 
@@ -138,6 +124,7 @@ public class SocketConnection extends Observable implements Runnable {
             }
             System.out.println(": Connection.run() stopped");
         } finally {
+
             if (!inMatch) {
                 if(player!=null) {
                     if(lobbyID==-1) {
@@ -156,23 +143,26 @@ public class SocketConnection extends Observable implements Runnable {
         }
     }
 
+    private void noAvailableLobby() {
+        int number;
+        send(new Obj("lobbyMsg",Messages.canCreateLobby));
 
-    public int getLobbyID() {
-        return lobbyID;
+        do {
+            try {
+                String str = in.nextLine();
+                number = Integer.parseInt(str);
+            } catch (NumberFormatException e) {
+                send(new Obj("lobbyMsg",Messages.lobbyPlayerNumber));
+                number = 0;
+            }
+        } while(number!=2 && number!=3);
+
+        lobbyID = server.getLobbyController().createLobby(player.getPlayerNickname(),number);
+        send(new Obj("lobbyOk","Create the lobby n." + lobbyID));
     }
 
 
-    public Player getPlayer() {
-        return player;
-    }
-
-
-    public void setLost(boolean lost) {
-        this.lost = lost;
-    }
-
-
-    public void setNickname() {
+    private void setNickname() {
         //Set nickname
         send(new Obj(Tags.NAME_MSG,Messages.nicknameRequest));
         String readName;
@@ -197,6 +187,25 @@ public class SocketConnection extends Observable implements Runnable {
         send(new Obj(Tags.SET_NAME,readName));
         server.getLobbyHandler().addPlayer(player.getPlayerNickname());
     }
+
+
+    public int getLobbyID() {
+        return lobbyID;
+    }
+
+
+    public Player getPlayer() {
+        return player;
+    }
+
+
+    public void setLost(boolean lost) {
+        this.lost = lost;
+    }
+
+
+
+
 
     public void setInMatch(boolean inMatch) {
         this.inMatch = inMatch;

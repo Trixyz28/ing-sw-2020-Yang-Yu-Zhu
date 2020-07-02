@@ -6,13 +6,12 @@ package it.polimi.ingsw.observers;
  * @version 1.0
  * @since 1.0
  */
-public interface Observer {
+public interface Observer<T> {
 
     /**
      * Updates the Observers based on the message.
      * @param message Variable that indicates the changes of the Observable.
      */
-    void update(Object message);
-
+    void update(T message);
 
 }

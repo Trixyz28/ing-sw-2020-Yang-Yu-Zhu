@@ -1,8 +1,7 @@
 package it.polimi.ingsw.lobby;
 
-import it.polimi.ingsw.observers.Observable;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Lobby handles the singular lobby associated to one game.
@@ -10,13 +9,13 @@ import java.util.ArrayList;
  * @version 1.0
  * @since 1.0
  */
-public class Lobby extends Observable {
+public class Lobby {
 
     //Value of the id of the Lobby
     private int lobbyID;
 
     //Names of players in this Lobby
-    private ArrayList<String> playersNameList;
+    private List<String> playersNameList;
 
     //Number of players the Lobby was made for
     private final int lobbyPlayersNumber;
@@ -82,7 +81,7 @@ public class Lobby extends Observable {
      * Gets the list of the players of the lobby.
      * @return A list of the nicknames of the players currently in the lobby.
      */
-    public ArrayList<String> getPlayersNameList() {
+    public List<String> getPlayersNameList() {
         return playersNameList;
     }
 
@@ -91,19 +90,17 @@ public class Lobby extends Observable {
      * @param parameterList A list created with the first player that created the lobby.
      */
     //Set() of the playersNameList from Lobbies at creation of Lobby
-    public void setPlayersNameList(ArrayList<String> parameterList){
-        playersNameList = (ArrayList<String>) parameterList.clone();
+    public void setPlayersNameList(List<String> parameterList){
+        playersNameList = parameterList;
     }
 
     /**
      * Adds a player to the list of the players of the lobby.
      * @param playerName Variable that represents the name of the player.
      */
-    //Adds a player name to the List: if value is "0000" it is changed to the player name then return
     public void addPlayer(String playerName) {
 
         playersNameList.add(playerName);
-
         if (getAvailablePlayerNumber()==lobbyPlayersNumber) {
             setFull(true);
         }

@@ -6,8 +6,6 @@ import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.Sender;
 import it.polimi.ingsw.view.WorkerView;
 import it.polimi.ingsw.view.gui.GUI;
-import javafx.animation.FadeTransition;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -18,9 +16,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
+
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class BoardController {
@@ -29,9 +28,7 @@ public class BoardController {
     private BoardView lastView;
     private Image[] coins;
 
-    private GUI gui;
     private Sender sender;
-    private boolean lost = false;
 
 
     @FXML
@@ -108,7 +105,7 @@ public class BoardController {
                     if (node.getBoundsInParent().contains(event.getX(), event.getY())) {
 
                         // System.out.println("Clicked at the pane at row " + GridPane.getRowIndex(node) + ", column " + GridPane.getColumnIndex(node));
-                        if(gui.isChooseWorker()) {
+                        if(sender.isChooseWorker()) {
                             for(WorkerView workerView : lastView.getWorkerList()) {
                                 if(workerView.getBelongToPlayer() == lastView.getCurrentID()) {
                                     if(workerView.getPosition().equals(lastView.getTile(GridPane.getRowIndex(node),GridPane.getColumnIndex(node)))) {
@@ -120,7 +117,6 @@ public class BoardController {
                             String command = GridPane.getRowIndex(node) + "," + GridPane.getColumnIndex(node);
                             sender.sendInput(command);
                         }
-
                     }
                 }
             }
@@ -128,7 +124,7 @@ public class BoardController {
 
     }
 
-    public void initialize(ArrayList<String> playerList,String nickname,String[] godList) {
+    public void initialize(List<String> playerList, String nickname, String[] godList) {
         initializeGods(godList);
         setNickname(nickname);
         setName(playerList);
@@ -138,21 +134,24 @@ public class BoardController {
     }
 
 
-
-    public void setName(ArrayList<String> nameList) {
+    /**
+     * Sets the players' names on clouds and underline the own player by a sailing boat image in the corner.
+     * @param nameList Variable that contains the players' names.
+     */
+    public void setName(List<String> nameList) {
 
         playerName0.setText(nameList.get(0));
-        if(nickname.equals(playerName0.getText())) {
+        if(nickname.equals(nameList.get(0))) {
             base0.setImage(new Image("/clouds/CloudMe.png"));
         }
         playerName1.setText(nameList.get(1));
-        if(nickname.equals(playerName1.getText())) {
+        if(nickname.equals(nameList.get(1))) {
             base1.setImage(new Image("/clouds/CloudMe.png"));
         }
 
         if(nameList.size()==3) {
             playerName2.setText(nameList.get(2));
-            if(nickname.equals(playerName2.getText())) {
+            if(nickname.equals(nameList.get(2))) {
                 base2.setImage(new Image("/clouds/CloudMe.png"));
             }
         } else {
@@ -224,7 +223,6 @@ public class BoardController {
                 printCanOp((ImageView) ((Pane) node).getChildren().get(2),checkCanOp(boardView,tile));
             }
         }
-
         setTurn(boardView.getCurrentName());
     }
 
@@ -235,9 +233,7 @@ public class BoardController {
 
             if (boardView.getWorkerList()[i].isPositionSet()) {
                 if (t.equals(boardView.getWorkerList()[i].getPosition())) {
-
                     imageView.setImage(coins[boardView.getWorkerList()[i].getBelongToPlayer()]);
-
                 }
             }
         }
@@ -260,8 +256,7 @@ public class BoardController {
     }
 
     private void printEmpty(ImageView imageView) {
-        Image image = new Image("/buildings/empty.png");
-        imageView.setImage(image);
+        imageView.setImage(new Image("/buildings/empty.png"));
     }
 
 
@@ -399,9 +394,6 @@ public class BoardController {
         this.nickname = str;
     }
 
-    public void setGuiLauncher(GUI gui) {
-        this.gui = gui;
-    }
 
     public void openRule() {
         leftVBox.setDisable(true);
@@ -449,7 +441,6 @@ public class BoardController {
         } else {
             if(obj.getPlayer().equals(nickname)) {
                 endMsg.setText("You lose!");
-                this.lost = true;
             } else {
                 endMsg.setText("The player " + obj.getPlayer() + " loses!");
             }

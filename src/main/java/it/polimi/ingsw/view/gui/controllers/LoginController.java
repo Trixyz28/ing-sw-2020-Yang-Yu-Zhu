@@ -26,10 +26,14 @@ public class LoginController {
     @FXML
     private Button serverButton;
 
+
     public void serverInfo() {
+        serverMsg.setText("Connecting...");
+
         gui.setIp(ipField.getCharacters().toString());
         gui.setPort(portField.getCharacters().toString());
-        System.out.println("Server set to " + ipField.getCharacters().toString() + ", port " + portField.getCharacters().toString());
+
+        // System.out.println("Server set to " + ipField.getCharacters().toString() + ", port " + portField.getCharacters().toString());
         gui.setServer();
     }
 
@@ -44,10 +48,17 @@ public class LoginController {
         transition.play();
     }
 
+    //Reset server
+    public void resetServer(String ip,String port) {
+        ipField.setText(ip);
+        portField.setText(port);
+    }
+
 
     public void showMessage(String str) {
         serverMsg.setText(str);
     }
+
 
     public void setGui(GUI gui) {
         this.gui = gui;

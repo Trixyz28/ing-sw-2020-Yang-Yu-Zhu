@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GodListTest extends TestCase{
 
@@ -11,7 +12,7 @@ public class GodListTest extends TestCase{
 
     @Test
     public void testSetComplete() {
-        ArrayList<String> completeGodList = godList.getCompleteGodList();
+        List<String> completeGodList = godList.getCompleteGodList();
 
         assertEquals("APOLLO",completeGodList.get(0));
         assertEquals("ARTEMIS",completeGodList.get(1));

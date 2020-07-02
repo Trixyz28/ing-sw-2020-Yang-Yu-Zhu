@@ -15,52 +15,40 @@ public class CliLauncher {
     private String port;
     private Sender sender;
 
+    private boolean set;
+    private String playAgain;
+
 
     public void start() {
-        this.scanner = new Scanner(System.in);
-        boolean set = false;
 
-        printLogo();
+        do {
+            this.scanner = new Scanner(System.in);
+            set = false;
 
-        while (!set) {
-            System.out.print("Server IP: ");
-            String ip = scanner.nextLine();
-            System.out.print("Server port: ");
-            port = scanner.nextLine();
+            printLogo();
 
-            try {
-                Socket socket = new Socket(ip, Integer.parseInt(port));
-                set = true;
-
-                this.client = new Client();
-                client.setupClient("cli", socket);
-
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
+            while (!set) {
+                setIPAndPort();
             }
-        }
 
-        this.sender = new Sender();
-        sender.addObservers(client);
+            this.sender = new Sender();
+            sender.addObservers(client);
 
-        Thread read = new Thread(() -> {
-
-            try {
+            Thread read = new Thread(() -> {
                 while(client.isActive()) {
                     String input = scanner.nextLine();
                     sender.sendInput(input);
                 }
+            });
+            read.start();
 
-            } catch(Exception e) {
-                System.out.println("Writing thread stopped");
-                client.setActive(false);
-            }
-        });
-        read.start();
+            client.run();
+            read.interrupt();
+            finalRequest();
 
-        client.run();
-        read.interrupt();
+        } while (playAgain.equalsIgnoreCase("yes"));
     }
+
 
     private void printLogo() {
         System.out.println(CliPrinter.LOGO_COLOR + "      ____              _             _       _ ");
@@ -71,6 +59,37 @@ public class CliLauncher {
         System.out.println(CliPrinter.INDEX_COLOR + "  =================================================");
         System.out.println(CliPrinter.INDEX_COLOR + "     =========================================== ");
         System.out.println(CliPrinter.RESET);
+    }
+
+
+    private void finalRequest() {
+        scanner = new Scanner(System.in);
+        System.out.println("Press ENTER first to close the match");
+        System.out.println("Do you want to play again? (YES/NO)");
+        playAgain = scanner.nextLine();
+
+        if(playAgain.equalsIgnoreCase("yes")) {
+            System.out.println("\n" + "Previous IP Address: " + ip);
+            System.out.println("Previous Port Number: " + port + "\n");
+        }
+    }
+
+
+    private void setIPAndPort() {
+        System.out.print("Server IP: ");
+        ip = scanner.nextLine();
+        System.out.print("Server port: ");
+        port = scanner.nextLine();
+        System.out.println("Connecting...");
+
+        try {
+            Socket socket = new Socket(ip, Integer.parseInt(port));
+            set = true;
+            this.client = new Client();
+            client.setupClient("cli", socket);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
 }
