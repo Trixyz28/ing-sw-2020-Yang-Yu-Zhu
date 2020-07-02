@@ -13,11 +13,14 @@ public class ZeusTest extends TestCase {
 
     @Test
     public void testCanBuildBlock() {
+        /* worker (0,0) */
         worker.setPosition(board.getTile(0,0));
+        /* worker can Op on his position */
+        Assert.assertTrue(worker.getAdjacentTiles().contains(worker.getPosition()));
+        /* build on (0,0) */
         Assert.assertTrue(worker.canBuildBlock(worker.getPosition()));
         worker.buildBlock(worker.getPosition());
         Assert.assertEquals(1, board.getTile(0,0).getBlockLevel());
-
 
     }
 }

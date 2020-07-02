@@ -19,6 +19,7 @@ public class ModelTest extends TestCase {
     public void testInitialize() {
 
 
+        /* create match of 2 players */
         model.initialize(2);
         player1.setPlayerID(0);
         player2.setPlayerID(1);
@@ -35,39 +36,53 @@ public class ModelTest extends TestCase {
     public void testChallenger() {
         testInitialize();
         model.challengerStart();
+        /* challenger chosen randomly */
         Assert.assertTrue(model.getChallengerID()==0 || model.getChallengerID()==1);
         Assert.assertTrue((model.getMatchPlayersList().get(0).isChallenger() && !model.getMatchPlayersList().get(1).isChallenger())
         || (!model.getMatchPlayersList().get(0).isChallenger() && model.getMatchPlayersList().get(1).isChallenger()));
+        /* challenger must be the current player */
         Assert.assertSame(model.getCurrentTurn().getCurrentPlayer(), model.getMatchPlayersList().get(model.getChallengerID()));
     }
 
     @Test
     public void testDefineGodList() {
         testChallenger();
+        /* wrong input can't be added in the currentGodList */
         Assert.assertFalse(model.defineGodList("aaa"));
         Assert.assertFalse(model.defineGodList("bbb"));
         Assert.assertEquals(0, model.getGodsList().getCurrentGodList().size());
+
+        /* add Hephaestus */
         Assert.assertFalse(model.defineGodList("HEPHAESTUS"));
         Assert.assertEquals(1, model.getGodsList().getCurrentGodList().size());
+        /* add Hestia */
         Assert.assertTrue(model.defineGodList("HESTIA"));
+        /* end to define currentGodList -> 2 players 2 Gods */
         Assert.assertTrue(model.getGodsList().checkLength());
     }
 
     @Test
     public void testChoiceGod() {
         testDefineGodList();
+        /* CurrentGodList: "HEPHAESTUS", "HESTIA" */
         Assert.assertEquals(model.getChallengerID(), model.getCurrentTurn().getCurrentPlayer().getPlayerID());
+        /* end define -> start choosing god */
         model.nextChoiceGod();
+        /* current player must be the player next to the challenger */
         Assert.assertNotEquals(model.getChallengerID(), model.getCurrentTurn().getCurrentPlayer().getPlayerID());
 
+        /* invalid choice */
         Assert.assertFalse(model.chooseGod("PAN"));
 
+        /* choose Hephaestus : set player god card, create workers, remove Hephaestus */
         Assert.assertTrue(model.chooseGod("HEPHAESTUS"));
         Assert.assertFalse(model.getGodsList().getCurrentGodList().contains("HEPHAESTUS"));
         Assert.assertEquals("HEPHAESTUS", model.getCurrentTurn().getCurrentPlayer().getGodCard());
         Assert.assertTrue(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0) instanceof Hephaestus);
 
+        /* end choice -> next choice */
         model.nextChoiceGod();
+        /* the remaining god "HESTIA" is given automatically to the challenger, create workers */
         Assert.assertEquals(model.getChallengerID(), model.getCurrentTurn().getCurrentPlayer().getPlayerID());
         Assert.assertEquals("HESTIA", model.getCurrentTurn().getCurrentPlayer().getGodCard());
         Assert.assertTrue(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0) instanceof Hestia);
@@ -86,7 +101,9 @@ public class ModelTest extends TestCase {
     @Test
     public void testStartingPlayer() {
         testChoiceGod();
+        /* "C" -> invalid input */
         Assert.assertFalse(model.setStartingPlayer("C"));
+        /* start player = "B" */
         Assert.assertTrue(model.setStartingPlayer("B"));
         Assert.assertEquals(player2.getPlayerID(),model.getStartingPlayerID());
         Assert.assertEquals("B",model.getMatchPlayersList().get(model.getStartingPlayerID()).getPlayerNickname());
@@ -96,6 +113,9 @@ public class ModelTest extends TestCase {
     @Test
     public void testStartTurn() {
         testStartingPlayer();
+        /* the current player is the challenger */
+        Assert.assertEquals(model.getMatchPlayersList().get(model.getChallengerID()), model.getCurrentTurn().getCurrentPlayer());
+        /* the start player start the turn */
         model.startTurn();
         Assert.assertEquals(model.getMatchPlayersList().get(model.getStartingPlayerID()), model.getCurrentTurn().getCurrentPlayer());
     }
@@ -104,7 +124,7 @@ public class ModelTest extends TestCase {
     public void testingNextPlayer() {
         testStartingPlayer();
         model.getCurrentTurn().nextTurn(model.getMatchPlayersList().get(model.getStartingPlayerID()));
-
+        /* next player = player next to the current player "B" -> "A" "A" -> "B"  */
         Assert.assertEquals(player1.getPlayerID(), model.getNextPlayerIndex());
         model.getCurrentTurn().nextTurn(model.getMatchPlayersList().get(model.getNextPlayerIndex()));
         Assert.assertSame(player1, model.getCurrentTurn().getCurrentPlayer());
@@ -125,6 +145,7 @@ public class ModelTest extends TestCase {
         testStartTurn();
         Assert.assertEquals(player2, model.getCurrentTurn().getCurrentPlayer());
 
+        /* observer to check notify */
         Observer observer = new Observer() {
             @Override
             public void update(Object message) {
@@ -135,6 +156,7 @@ public class ModelTest extends TestCase {
         };
         model.addObservers(observer);
 
+        /* send wrongTurn message to players "A" -> not the current player */
         Assert.assertFalse(model.checkTurn(player1.getPlayerNickname()));
         Assert.assertTrue(model.checkTurn(player2.getPlayerNickname()));
     }
@@ -142,21 +164,31 @@ public class ModelTest extends TestCase {
     @Test
     public void testCheckGodPowerAnswer() {
         testStartTurn();
+        /* check the answer of GodPowerMessages */
         model.getCurrentTurn().choseWorker(player2.chooseWorker(0));
         GodPowerMessage god = GodPowerMessage.valueOf(player2.getGodCard());
         GameMessage gm = new GameMessage(god.getMessage());
+        /* invalid answer */
         gm.setAnswer("ciao!");
         Assert.assertFalse(model.checkAnswer(gm));
+
+        /* valid answer */
         gm.setAnswer("NO");
         Assert.assertTrue(model.checkAnswer(gm));
+        Assert.assertEquals(god.getAnswer2(), gm.getAnswer());
+
+        /* GodPower */
         if(model.getCurrentTurn().getChosenWorker() instanceof Hestia){
             gm.setAnswer("YES");
             Assert.assertTrue(model.checkAnswer(gm));
+            Assert.assertEquals(god.getAnswer1(), gm.getAnswer());
         }else {  /* Hephaestus */
             Assert.assertTrue(model.getCurrentTurn().getChosenWorker() instanceof Hephaestus);
             model.getCurrentTurn().getChosenWorker().buildBlock(model.getBoard().getTile(0,0));
             gm.setAnswer("YES");
+            /* another block on the built tile */
             Assert.assertTrue(model.checkAnswer(gm));
+            Assert.assertEquals(god.getAnswer1(), gm.getAnswer());
             Assert.assertEquals(2,model.getBoard().getTile(0,0).getBlockLevel());
         }
     }
@@ -165,14 +197,19 @@ public class ModelTest extends TestCase {
     public void testCheckWorkerAnswer() {
         testStartTurn();
 
+        /* check answer of Worker messages */
         GameMessage gm = new GameMessage(Messages.worker);
+        /* invalid answer */
         gm.setAnswer("ciao!");
+
+        /* valid answers: "0" / "1" */
         Assert.assertFalse(model.checkAnswer(gm));
         gm.setAnswer("0");
         Assert.assertTrue(model.checkAnswer(gm));
         gm.setAnswer("1");
         Assert.assertTrue(model.checkAnswer(gm));
 
+        /* observer to check notify */
         Observer observer;
         observer = new Observer() {
             @Override
@@ -189,6 +226,7 @@ public class ModelTest extends TestCase {
         gm = new GameMessage(Messages.confirmWorker);
         gm.setAnswer("ciao!");
 
+        /* observer to check notify of answer "NO" */
         Assert.assertFalse(model.checkAnswer(gm));
         observer = new Observer() {
             @Override
@@ -199,7 +237,7 @@ public class ModelTest extends TestCase {
                 }
             }
         };
-        /* if the answer is "NO" -> send message to choose new worker index */
+        /* if the answer is "NO" return false -> send message to choose new worker index */
         model.addObservers(observer);
         gm.setAnswer("NO");
         Assert.assertFalse(model.checkAnswer(gm));
@@ -210,26 +248,33 @@ public class ModelTest extends TestCase {
     @Test
     public void testBeforeOperation(){
         testStartTurn();
+        /* choose worker state */
         Assert.assertEquals(0, model.getCurrentTurn().getState());
         model.getCurrentTurn().choseWorker(model.getCurrentTurn().getCurrentPlayer().chooseWorker(0));
         model.getCurrentTurn().nextState();
+        /* move state */
         Assert.assertEquals(1, model.getCurrentTurn().getState());
 
     }
 
+    @Test
     public void testOperation(){
         testBeforeOperation();
+
+        /* check notify */
         Observer observer = new Observer() {
             @Override
             public void update(Object message) {
                 Operation op = ((Obj) message).getOperation();
                 Assert.assertEquals(model.getCurrentTurn().getState(), op.getType());
+                /* move operation */
                 Assert.assertEquals(1, op.getType());
                 Assert.assertEquals(-1, op.getRow());
                 Assert.assertEquals(-1, op.getColumn());
             }
         };
         model.addObservers(observer);
+        /* notify operation */
         model.operation();
     }
 
@@ -237,6 +282,7 @@ public class ModelTest extends TestCase {
     @Test
     public void testCheckWin() {
         testBeforeOperation();
+        /* set win conditions */
         Tile position = new Tile();
         position.setBlockLevel(2);
         Tile destination = new Tile();
@@ -244,13 +290,16 @@ public class ModelTest extends TestCase {
 
         model.getCurrentTurn().setInitialTile(position);
         model.getCurrentTurn().getChosenWorker().setPosition(destination);
+        /* win -> game over */
         Assert.assertTrue(model.getCurrentTurn().getChosenWorker().checkWin(position));
         Assert.assertTrue(model.checkWin());
         Assert.assertTrue(model.isGameOver());
 
+        /* not win -> level 2 to 2 */
         destination.setBlockLevel(2);
         assertFalse(model.checkWin());
 
+        /* Pan win conditions: 2 -> 0 */
         Conditions conditions = new Conditions();
         UndecoratedWorker pan = new Pan(new NoGod(0, conditions));
         pan.setPosition(position);
@@ -264,8 +313,6 @@ public class ModelTest extends TestCase {
 
 
 
-
-
     @Test
     public void testWorkerChosen() {
         model.setWorkerChosen(true);
@@ -275,17 +322,21 @@ public class ModelTest extends TestCase {
     @Test
     public void testLose() {
         testBeforeOperation();
+        /* worker (0,0) */
         model.getCurrentTurn().getChosenWorker().setPosition(model.commandToTile(0,0));
         Assert.assertFalse(model.checkLose());;
 
+        /* set losing condition */
         model.getMatchPlayersList().get(0).chooseWorker(0).setPosition(model.commandToTile(0,1));
         model.getMatchPlayersList().get(0).chooseWorker(1).setPosition(model.commandToTile(1,1));
         model.getMatchPlayersList().get(1).chooseWorker(1).setPosition(model.commandToTile(1,0));
         Assert.assertEquals(1, model.getCurrentTurn().getState());
 
+        /* worker can't move -> lose -> game over */
         Assert.assertEquals(player2, model.getCurrentTurn().getCurrentPlayer());
         Assert.assertTrue(model.checkLose());
         Assert.assertEquals(2, model.getMatchPlayersList().size());
+        /* current player = winner */
         Assert.assertEquals(player1, model.getCurrentTurn().getCurrentPlayer());
         Assert.assertTrue(model.isGameOver());
     }
@@ -293,6 +344,7 @@ public class ModelTest extends TestCase {
     @Test
     public void testLose2() {
         testStartTurn();
+        /* test of lose without game over */
         Player player3 = new Player("C");
         player3.setPlayerID(2);
         model.addPlayer(player3);
@@ -301,7 +353,19 @@ public class ModelTest extends TestCase {
         Assert.assertSame(player3.chooseWorker(0).getClass(), player3.chooseWorker(1).getClass());
         model.getTotalWorkers().addAll(player3.getWorkerList());
 
+        /* check notify lose */
+        Observer observer = new Observer() {
+            @Override
+            public void update(Object message) {
+                Assert.assertTrue(message instanceof Obj);
+                Assert.assertEquals(Tags.END, ((Obj) message).getTag());
+                Assert.assertEquals("lose", ((Obj) message).getMessage());
+                Assert.assertEquals(player1.getPlayerNickname(), ((Obj) message).getPlayer());
+            }
+        };
+        model.addObservers(observer);
 
+        /* set current player = "A" + place workers */
         model.getCurrentTurn().nextTurn(player1);
         model.getCurrentTurn().choseWorker(player1.chooseWorker(0));
         model.getCurrentTurn().getChosenWorker().setPosition(model.commandToTile(0,0));
@@ -309,12 +373,14 @@ public class ModelTest extends TestCase {
         model.getMatchPlayersList().get(0).chooseWorker(1).setPosition(model.commandToTile(1,1));
         model.getMatchPlayersList().get(1).chooseWorker(1).setPosition(model.commandToTile(1,0));
 
+        /* worker can't move -> lose, remove player, workers, no game over */
         model.getCurrentTurn().nextState();
         Assert.assertEquals(1, model.getCurrentTurn().getState());
         Assert.assertEquals(player1, model.getCurrentTurn().getCurrentPlayer());
         Assert.assertEquals(3, model.getMatchPlayersList().size());
         Assert.assertEquals(6, model.getTotalWorkers().size());
         Assert.assertTrue(model.checkLose());
+        /* change current player */
         model.getCurrentTurn().nextTurn(model.getMatchPlayersList().get(model.getNextPlayerIndex()));
         Assert.assertEquals(player2, model.getCurrentTurn().getCurrentPlayer());
         Assert.assertEquals(2, model.getMatchPlayersList().size());
@@ -334,6 +400,7 @@ public class ModelTest extends TestCase {
     @Test
     public void testTotalWorkerList() {
         testInitialize();
+        /* test creation list of all workers in match */
         Conditions conditions = new Conditions();
         model.getMatchPlayersList().get(0).createWorker("DEMETER",conditions,model.getTotalWorkers());
         model.getMatchPlayersList().get(1).createWorker("PROMETHEUS",conditions,model.getTotalWorkers());
@@ -349,62 +416,72 @@ public class ModelTest extends TestCase {
     @Test
     public void testSendMessage() {
         testBeforeOperation();
+
+        /* obbeserver to check notify message */
         Observer observer = new Observer() {
             @Override
             public void update(Object message) {
                 Assert.assertTrue(message instanceof Obj);
+                Assert.assertEquals(Tags.GENERIC, ((Obj) message).getTag());
                 Assert.assertEquals("ciao", ((Obj) message).getMessage());
                 Assert.assertEquals(((Obj) message).getReceiver(), model.getCurrentTurn().getCurrentPlayer().getPlayerNickname());
             }
         };
         model.addObservers(observer);
-        model.sendMessage("generic","ciao");
+        model.sendMessage(Tags.GENERIC,"ciao");
 
     }
 
     @Test
     public void testSendGodPowerMessage() {
         testBeforeOperation();
+        /* check notify send godPower message */
         Observer observer = new Observer() {
             @Override
             public void update(Object message) {
                 Assert.assertTrue(message instanceof Obj);
+                Assert.assertEquals(Tags.G_MSG, ((Obj) message).getTag());
                 GameMessage gm = ((Obj) message).getGameMessage();
+                /* message = message of the god card */
                 GodPowerMessage god = GodPowerMessage.valueOf(model.getCurrentTurn().getCurrentPlayer().getGodCard());
                 Assert.assertEquals(gm.getMessage(), god.getMessage());
                 Assert.assertEquals(((Obj) message).getReceiver(), model.getCurrentTurn().getCurrentPlayer().getPlayerNickname());
             }
         };
         model.addObservers(observer);
-        model.sendMessage("gMsg",model.getCurrentTurn().getCurrentPlayer().getGodCard());
+        model.sendMessage(Tags.G_MSG,model.getCurrentTurn().getCurrentPlayer().getGodCard());
 
     }
 
     @Test
     public void testShowComplete() {
         testBeforeOperation();
+        /* check notify showComplete */
         Observer observer = new Observer() {
             @Override
             public void update(Object message) {
-                Assert.assertTrue(message instanceof ArrayList);
-                Assert.assertEquals(message, model.getGodsList().getCompleteGodList());
+                Assert.assertTrue(message instanceof Obj);
+                Assert.assertEquals(((Obj) message).getList(), model.getGodsList().getCompleteGodList());
             }
         };
         model.addObservers(observer);
+        model.showCompleteGodList();
     }
 
     @Test
     public void testShowGodList(){
         testDefineGodList();
+        /* check notify showGodList */
         Observer observer = new Observer() {
             @Override
             public void update(Object message) {
-                Assert.assertTrue(message instanceof ArrayList);
-                Assert.assertEquals(message, model.getGodsList().getCurrentGodList());
+                Assert.assertTrue(message instanceof Obj);
+                Assert.assertEquals(((Obj) message).getList(), model.getGodsList().getCurrentGodList());
             }
         };
         model.addObservers(observer);
         Assert.assertEquals(2, model.getGodsList().getCurrentGodList().size());
+        model.showGodList();
     }
 
     @Test
@@ -413,11 +490,12 @@ public class ModelTest extends TestCase {
             @Override
             public void update(Object message) {
                 Assert.assertTrue(message instanceof Obj);
+                Assert.assertTrue(((Obj) message).isBroadcast());
                 Assert.assertEquals("ciao", ((Obj) message).getMessage());
             }
         };
         model.addObservers(observer);
-        model.broadcast(new Obj("generic","ciao"));
+        model.broadcast(new Obj(Tags.GENERIC,"ciao"));
 
     }
 }
