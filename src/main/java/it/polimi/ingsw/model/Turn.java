@@ -133,10 +133,6 @@ public class Turn {
                 buildable.add(tile);
             }
         }
-        Tile tile = worker.getPosition();
-        if(worker.canBuildBlock(tile) || worker.canBuildDome(tile)){  /* Zeus */
-            buildable.add(tile);
-        }
         return buildable;
     }
 

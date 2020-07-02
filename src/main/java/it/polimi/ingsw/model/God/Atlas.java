@@ -91,6 +91,10 @@ public class Atlas extends WorkerDecorator {
 
     /**
      * {@inheritDoc}
+     * <p></p>
+     * Additionally:
+     * <p>
+     * if the parameter "use" is <code>True</code>, the worker builds a Dome, otherwise a Block.
      */
     @Override
     public void useGodPower(boolean use) {

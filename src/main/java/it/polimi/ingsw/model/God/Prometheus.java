@@ -38,6 +38,17 @@ public class Prometheus extends WorkerDecorator {
         if(buildCounter == 0){
             if(!used && !getGodPower() && moveCounter == 0 && canBuild(t) && super.canMove(t)){
                 setGodPower(true);
+            }else if(getGodPower()){
+                boolean flag = false;
+                for(Tile tile : getAdjacentTiles()){
+                    if (canBuild(tile)){
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag){
+                    setGodPower(false);
+                }
             }
             return super.canMove(t);
         }else {

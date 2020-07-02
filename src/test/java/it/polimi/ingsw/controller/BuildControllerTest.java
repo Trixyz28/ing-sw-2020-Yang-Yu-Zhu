@@ -12,7 +12,7 @@ import org.junit.Test;
 
 
 /**
- * Cosa fa iltest
+ * Tests of the <code>BuildController</code>
  * @author GC44
  * @version 1.0
  * @since 1.0
@@ -25,7 +25,12 @@ public class BuildControllerTest extends TestCase {
     Player player2 = new Player("B");
 
     /**
-     * This test
+     * Initialize the match : (before testing)
+     * <p>
+     *     &nbsp - create match of 2 players, workers
+     *     <br>
+     *     &nbsp - set current player and chosen worker: Hera0 (0,0)
+     * </p>
      */
     @Before
     public void initialize(){
@@ -47,7 +52,18 @@ public class BuildControllerTest extends TestCase {
         model.getCurrentTurn().choseWorker(player1.chooseWorker(0));
     }
 
-
+    /**
+     * Test of <code>build()</code>:
+     * build blocks
+     * <p>
+     *     results:
+     *     <br>
+     *     &nbsp - The worker must build a block to the chosen <code>Tile</code>
+     *      (if it is available to build a block, otherwise, nothing changes):
+     *     <br>
+     *     (4,4).level = 0;  (1,0).level = 1;
+     * </p>
+     */
     @Test
     public void testBuild () {
         initialize();
@@ -65,12 +81,27 @@ public class BuildControllerTest extends TestCase {
         Assert.assertEquals(1, model.commandToTile(1,0).getBlockLevel());
     }
 
+    /**
+     * Test of <code>build()</code>:
+     * build dome
+     * <p>
+     *     results:
+     *     <br>
+     *     &nbsp - The worker must build a dome to the chosen <code>Tile</code>
+     *      (if it is available to build a dome):
+     *     <br>
+     *     (1,1).level = 3;  (1,1).domePresence = true;
+     * </p>
+     */
     @Test
     public void testBuildDome () {
         initialize();
+        /* make the block available to build a dome */
         model.commandToTile(1,1).setBlockLevel(3);
 
+        /* the worker can build dome on (1,1) */
         Assert.assertTrue(buildController.build(new Operation( 2, 1,1)));
+        /* there must be a dome on (1,1) */
         Assert.assertTrue(model.commandToTile(1,1).isDomePresence());
     }
 }

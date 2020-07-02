@@ -110,7 +110,7 @@ public class Poseidon extends WorkerDecorator{
      * <p></p>
      *Additionaly:
      * <p></p>
-     * If the player want to build with the worker that didn't move and on ground floor he can only build on the adjacent tiles.
+     * If the player wants to build with the worker that didn't move and on ground floor he can only build on the adjacent tiles.
      */
     @Override
     public List<Tile> getAdjacentTiles() {
@@ -143,7 +143,7 @@ public class Poseidon extends WorkerDecorator{
     }
 
     /**
-     *Checks if the Poseidon's worker is using his God Power or not.
+     * Checks if the Poseidon's worker is using his God Power or not.
      * @return A boolean: <code>true</code> if the worker is the chosen one, otherwise <code>false</code>.
      */
     private boolean poseidonCheck(){
