@@ -46,7 +46,7 @@ public abstract class View extends Observable<Obj> implements Observer<Obj> {
     }
 
 
-    void messageString(String input) {
+    protected void messageString(String input) {
         GameMessage gm = new GameMessage(null);
         gm.setAnswer(input);
         Obj obj1 = new Obj(gm);

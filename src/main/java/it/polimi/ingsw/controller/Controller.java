@@ -43,7 +43,7 @@ public class Controller implements Observer<Obj> {
     }
 
     /**
-     * Checks the if the turn and the user are aligned.
+     * Checks if the turn and the user are aligned.
      * @param arg Object that is used on client-server communication.
      * @return A boolean: <code>True</code> if it's the user's turn, otherwise<code>False</code>.
      */
@@ -93,15 +93,15 @@ public class Controller implements Observer<Obj> {
 
     /**
      * Sets the game and controls the flow of the turns for <code>operation</code> messages.
-     * @param operation The type of message between clients-server used for <code>move</code> and <code>build</code>.
+     * @param operation The type of message between clients-server used for <code>place</code>, <code>move</code> and <code>build</code>.
      */
     private void opUpdate(Operation operation){
-        if (operation.getType() == 0) {  //type 0 -> posizione default
+        if (operation.getType() == 0) {  //type 0 -> place
             initController.placeWorker(operation);
             if(initController.isEndInitialize()){
-                /* creazione controller minori */
+                /* create minor controller */
                 minorControllers(model);
-                /* inizio partita con Turn 1 */
+                /* start Turn 1 */
                 turnController.nextTurn();
             }
         } else {
@@ -111,11 +111,11 @@ public class Controller implements Observer<Obj> {
             }else if (operation.getType() == 2){
                 flag = buildController.build(operation);
             }
-            /* flag : true = move/build riuscita; false = richiedere move */
+            /* flag : true = move/build end successfully; false = try again */
             if (flag) {
                 turnController.endOperation();
             } else {
-                //mostrare messaggio di posizione errata e ripetere mossa
+                //send invalid operation message
                 model.sendMessage(Tags.BOARD_MSG,Messages.wrongOperation);
                 model.operation();
             }
@@ -132,10 +132,10 @@ public class Controller implements Observer<Obj> {
         if(player.equals(challenger.getPlayerNickname())){
             /* if the player is the challenger -> define currentList or set Start player*/
             if (!model.getGodsList().checkLength()) {
-                /* se non è finita parte scelta god arg = God */
+                /* arg = God */
                 initController.defineGodList(answer, model.getGodsList());
             } else {
-                /* finita parte God arg = StartingPlayerNickname */
+                /* arg = StartingPlayerNickname */
                 initController.setStartingPlayer(answer);
             }
         } else {
@@ -151,7 +151,7 @@ public class Controller implements Observer<Obj> {
         UndecoratedWorker worker = model.getCurrentTurn().getChosenWorker();
         /* if godPower = true -> use Power (another operation)  false -> end operation */
         if(worker.getGodPower()){
-            /* se il power è attivato implica che la mossa è possibile -> no ulteriore check */
+            /* godPower active -> another operation */
             worker.setGodPower(false);
             model.sendBoard();
             model.operation();

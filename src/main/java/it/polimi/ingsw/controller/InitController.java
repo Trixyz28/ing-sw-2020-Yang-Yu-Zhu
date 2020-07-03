@@ -37,7 +37,7 @@ public class InitController {
     /**
      * Starts after setup notification to set up the challenger players.
      */
-    /* subito dopo la notifica setup */
+    /* after setup message */
     public void initializeMatch(){
         /* inizia il Challenger */
         model.challengerStart();
@@ -48,9 +48,8 @@ public class InitController {
      * @param god Variable that indicates the God chosen by the player at issue.
      * @param godList Variable that is the list of all the <code>Gods</code>
      */
-    /* scelta god per definire la GodList -> challenger */
+    /* choose god to define the godList -> challenger */
     protected void defineGodList(String god, GodList godList){
-        //eseguire solo al challenger
         if(!godList.checkLength()) {
             if(model.defineGodList(god)){
                 /* true if end define -> start to choose god by other Players */
@@ -63,7 +62,7 @@ public class InitController {
      *Checks if the player's chosen God is correct and assigns it to the player at issue.
      * @param god Variable that indicates the God chosen by the player at issue.
      */
-    /* scelta God dal Player */
+    /* choose God card by other Player */
     protected void chooseGod(String god){
         god = god.toUpperCase();
         if(model.chooseGod(god)){
@@ -76,11 +75,9 @@ public class InitController {
      * Handles the selection of the starting player.
      * @param startingPlayerNickname Variable which represents the players who is the first to start.
      */
-    /* selezione StartingPlayer -> Inizializzazione Turno 0 */
+    /* set StartingPlayer -> start Turn 0 */
     protected void setStartingPlayer(String startingPlayerNickname){
-        /* sceglire il startingPlayer attraverso Nickname */
         if(model.setStartingPlayer(startingPlayerNickname)) {
-            /* inizializzazione turno dopo scelta God e StartingPlayer */
             model.startTurn();
         }
 
@@ -91,20 +88,20 @@ public class InitController {
      * @param position Variable that indicates the position of the <code>Tile</code> where the <code>worker</code>
      *                 is put.
      */
-    /* posizionare Worker -> fine inizializzazione */
+    /* place Worker -> end initialization */
     protected void placeWorker(Operation position){
         Tile currentPosition = model.commandToTile(position.getRow(), position.getColumn());
         if(currentPosition.isOccupiedByWorker()){
             model.sendMessage(Tags.BOARD_MSG,Messages.occupiedTile);
         }else {
             Player currentPlayer = model.getCurrentTurn().getCurrentPlayer();
-            /* posizionare il worker */
+            /* place the worker */
             currentPlayer.chooseWorker(indexWorker).setPosition(currentPosition);
             indexWorker++;
 
             if(indexWorker > 1){
                 model.sendMessage(Tags.BOARD_MSG,Messages.endTurn);
-                /* passare al nextPlayer */
+                /*  next Player */
                 indexWorker = 0;
                 Player nextPlayer = model.getMatchPlayersList().get(model.getNextPlayerIndex());
                 if(nextPlayer.getPlayerID() == model.getStartingPlayerID()){
@@ -117,7 +114,7 @@ public class InitController {
             }
         }
         if(!endInitialize) {
-            /* continuare con posizionare i worker */
+            /* continue to place worker */
             model.placeWorker(indexWorker);
         }
     }

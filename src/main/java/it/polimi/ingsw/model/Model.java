@@ -171,7 +171,7 @@ public class Model extends Observable<Obj> {
             notify(new Obj(Tags.CHOOSE_GOD,god,challenger.getPlayerNickname()));
             challenger.setGodCard(god);
             challenger.createWorker(god, getConditions(),getTotalWorkers());
-            /*create the list of all the workers */
+            /* create the list of all the workers */
             createTotalWorkerList();
             sendMessage(Tags.GOD_MSG,Messages.chooseStartPlayer);
         }else {

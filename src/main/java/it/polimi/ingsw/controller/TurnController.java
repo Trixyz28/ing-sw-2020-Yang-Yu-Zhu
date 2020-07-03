@@ -31,12 +31,12 @@ public class TurnController {
     private UndecoratedWorker chosenWorker;
 
 
-    /* choose worker + check possibility to change to the other worker */
+
     /**
      *Handles which <code>worker</code> is chosen for the turn.
      * @param index Variable that represents which worker is at issue.
      */
-    /* scelta worker + controllo tipo worker */
+    /* choose worker + check possibility to change to the other worker */
     protected void setChosenWorker(int index) {
         UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(index);
 
@@ -98,6 +98,9 @@ public class TurnController {
         }
     }
 
+    /**
+     *Handles the end of the "move" operation.
+     */
     /* end of move operation -> update FinalTile + checkWin -> start Build */
     private void endMove() {
         currentTurn.setFinalTile(chosenWorker.getPosition());
@@ -117,11 +120,11 @@ public class TurnController {
 
     }
 
-    /* end of build operation */
+
     /**
-     *Handles the end of the "move" operation.
+     *Handles the end of the "build" operation.
      */
-    /* fine build */
+    /* end of build operation */
     private void endBuild(){
         /* godPower before end turn */
         if(chosenWorker.getGodPower()){
@@ -134,11 +137,11 @@ public class TurnController {
     }
 
 
-    /* end Turn -> update board + nextTurn */
+
     /**
      *Handles the end of the current turn.
      */
-    /* fine Turn -> aggiornare board + nextTurn */
+    /* end Turn -> update board + nextTurn */
     private void endTurn() {
 
         model.setWorkerChosen(false);
@@ -149,11 +152,11 @@ public class TurnController {
     }
 
 
-    /* next Turn */
+
     /**
      *Handles the start of the next turn restoring the board methods.
      */
-    /* aggiornare Turn + ripristinare condizioni */
+    /* next Turn */
     protected void nextTurn() {
         List<Player> playerList = model.getMatchPlayersList();
         int index = model.getNextPlayerIndex();
@@ -172,8 +175,6 @@ public class TurnController {
     /**
      *Brings the state to the next one in the turn.
      */
-    /* passare stato prossimo */
-
     /* next state + operation of the new state */
     private void nextState(){
         currentTurn.nextState();
@@ -184,11 +185,11 @@ public class TurnController {
         }
     }
 
-    /* check after lose */
+
     /**
      *Checks if the game is over.If not,brings the game to the next turn.
      */
-    /* check dopo lose */
+    /* check after lose */
     private void checkGameOver(){
         if(!model.isGameOver()){
             nextTurn();

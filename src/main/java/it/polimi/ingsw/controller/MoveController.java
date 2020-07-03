@@ -37,11 +37,11 @@ public class MoveController {
         position = model.commandToTile(move.getRow(), move.getColumn());
 
         if(checkPosition()) {
-            /* move andato a buon fine */
+            /* successful move */
             worker.move(position);
             return true;
         }
-        /* da ripetere move */
+        /* invalid move -> try again */
         return false;
     }
 

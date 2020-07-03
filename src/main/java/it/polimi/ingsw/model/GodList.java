@@ -135,7 +135,7 @@ public class GodList {
     }
 
 
-    //Removes a God from currentGodList & listLength-1
+    //Removes a God from currentGodList
 
     /**
      *Removes the parameter from the GodList after it's use.
