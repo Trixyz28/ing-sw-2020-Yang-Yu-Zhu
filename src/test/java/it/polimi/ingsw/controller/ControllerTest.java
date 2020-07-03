@@ -24,7 +24,7 @@ import javax.swing.text.TabableView;
  */
 
 
-public class ControllerTest {
+public class ControllerTest extends TestCase{
 
     Model model = new Model();
     Controller controller = new Controller(model);

@@ -108,7 +108,7 @@ public class Poseidon extends WorkerDecorator {
     /**
      * {@inheritDoc}
      * <p></p>
-     *Additionaly:
+     *Additionally:
      * <p></p>
      * If the player wants to build with the worker that didn't move and on ground floor he can only build on the adjacent tiles.
      */
@@ -130,7 +130,7 @@ public class Poseidon extends WorkerDecorator {
     }
 
     /**
-     *Checks which workers didn't move during the turn.
+     * Checks which workers didn't move during the turn.
      * @return The worker who didn't move, otherwise <code>Null</code>.
      */
     private UndecoratedWorker getUnmovedWorker(){
@@ -152,7 +152,7 @@ public class Poseidon extends WorkerDecorator {
     }
 
     /**
-     * Checks which workers and how many times they can build with Poseidon's power.
+     * Checks if the worker can active Poseidon's power.
      */
     private void powerCheck(){  /* getState() == 0  -> unmoved worker */
         if(getState() != 0 && buildCounter < 4) {

@@ -27,9 +27,6 @@ public class Turn {
     //Final tile of the move
     private Tile finalTile;
 
-    //Tile where there it was built
-    private Tile builtTile;
-
     //return state of Turn : 0 -> choosing worker, 1 -> moving, 2 -> building
     private int state;
 
@@ -104,15 +101,6 @@ public class Turn {
         this.finalTile = finalTile;
     }
 
-   //get() of the built tile
-    public Tile getBuiltTile() {
-        return builtTile;
-    }
-
-    //set() of the built tile
-    public void setBuiltTile(Tile builtTile) {
-        this.builtTile = builtTile;
-    }
 
     //get() worker movableTile
     public List<Tile> movableList(UndecoratedWorker worker){
@@ -142,7 +130,6 @@ public class Turn {
         /* aggiornare i tile */
         initialTile = chosenWorker.getPosition();
         finalTile = null;
-        builtTile = null;
     }
 
     //check lose conditions

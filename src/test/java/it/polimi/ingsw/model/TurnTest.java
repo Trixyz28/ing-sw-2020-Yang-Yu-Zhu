@@ -31,11 +31,13 @@ public class TurnTest extends TestCase {
     @Test
     public void testNextTurn() {
         testChoseWorker();
+
         Assert.assertEquals(0,turn.getTurnNumber());
         Assert.assertSame(player, turn.getCurrentPlayer());
         Assert.assertEquals(2, turn.getState());
         Assert.assertNotEquals(null, turn.getChosenWorker());
 
+        /* new turn -> current player = player2 */
         turn.nextTurn(player2);
         Assert.assertEquals(1,turn.getTurnNumber());
         Assert.assertSame(player2, turn.getCurrentPlayer());
@@ -59,16 +61,11 @@ public class TurnTest extends TestCase {
         assertEquals(t,turn.getFinalTile());
     }
 
-    @Test
-    public void testBuiltTile() {
-        Tile t = new Tile();
-        turn.setBuiltTile(t);
-        assertEquals(t,turn.getBuiltTile());
-    }
 
     @Test
     public void testChoseWorker() {
         initialize();
+        /* choose worker0 (0,0) */
         turn.choseWorker(player.chooseWorker(0));
         Assert.assertEquals(player.chooseWorker(0),turn.getChosenWorker());
         Assert.assertEquals(turn.getInitialTile(), turn.getChosenWorker().getPosition());
@@ -76,18 +73,26 @@ public class TurnTest extends TestCase {
         Assert.assertEquals(null, turn.getFinalTile());
         Assert.assertEquals(0, turn.getState());
         Assert.assertFalse(turn.checkLose());
+
+        /* move state */
         turn.nextState();
         Assert.assertEquals(1, turn.getChosenWorker().getState());
         Assert.assertEquals(1, turn.getState());
+
+        /* state with godPower active */
         turn.getChosenWorker().setGodPower(true);
         Assert.assertEquals(0, turn.getChosenWorker().getState());
+        /* turn state doesn't change */
         Assert.assertEquals(1, turn.getState());
         Assert.assertFalse(turn.checkLose());
         turn.getChosenWorker().useGodPower(false);
+
+        /* build state */
         turn.nextState();
         Assert.assertEquals(2, turn.getState());
         Assert.assertFalse(turn.checkLose());
 
+        /* buildableList */
         Assert.assertEquals(3, turn.buildableList(turn.getChosenWorker()).size());
         Assert.assertEquals(5, turn.buildableList(player2.chooseWorker(1)).size());
     }
@@ -95,24 +100,38 @@ public class TurnTest extends TestCase {
     @Test
     public void testCheckLose(){
         initialize();
+        /* worker0 (0,0) worker1(1,0) */
         Assert.assertEquals(0, turn.getState());
+
+        /* set lose (before move) conditions */
         board.getTile(0,1).setDomePresence(true);
         board.getTile(1,1).setDomePresence(true);
         board.getTile(2,1).setDomePresence(true);
+        /* player loses */
         Assert.assertTrue(turn.checkLose());
     }
 
     @Test
     public void testCheckLose2(){
         initialize();
+        /* player2: worker1(1,4) */
+        turn.nextTurn(player2);
+        Assert.assertEquals(player2, turn.getCurrentPlayer());
         turn.choseWorker(player2.chooseWorker(1));
+        Assert.assertEquals(player2.chooseWorker(1), turn.getChosenWorker());
+
+        /* build state */
         turn.getChosenWorker().setState(2);
         Assert.assertEquals(2,turn.getState());
+
+        /* set can't build conditions */
         board.getTile(0,3).setDomePresence(true);
         board.getTile(0,4).setDomePresence(true);
         board.getTile(1,3).setDomePresence(true);
         board.getTile(2,3).setDomePresence(true);
         board.getTile(2,4).setDomePresence(true);
+
+        /* player2 loses */
         Assert.assertTrue(turn.checkLose());
     }
 
