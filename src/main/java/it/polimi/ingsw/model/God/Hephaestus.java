@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.Tile;
  * This is the worker for the God Hephaestus, decorated under WorkerDecorator abstract class.
  * <p></p>
  * Hephaestus' Worker may build one additional block (not dome) on top of his first block.
- * <p</p>
+ * <p></p>
  * @author GC44
  * @version 1.0
  * @since 1.0
