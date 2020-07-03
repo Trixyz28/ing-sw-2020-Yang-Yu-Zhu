@@ -235,7 +235,8 @@ public class SocketConnection extends Observable<String> implements Runnable {
     }
 
     /**
-     * Sets the attribute that represents if the player connected has lost or not.
+     * Sets the attribute that represents if the player connected has lost or not
+     * @param lost - boolean lost
      */
     public void setLost(boolean lost) {
         this.lost = lost;
