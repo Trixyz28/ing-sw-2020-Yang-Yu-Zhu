@@ -8,6 +8,12 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+/**
+ * Tests of the <code>Player</code>
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class PlayerTest extends TestCase {
 
     Player player = new Player("Abc");

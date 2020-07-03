@@ -2,7 +2,12 @@ package it.polimi.ingsw.model;
 
 import junit.framework.TestCase;
 import org.junit.Test;
-
+/**
+ * Tests of the <code>Operation</code>
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class OperationTest extends TestCase {
 
 
