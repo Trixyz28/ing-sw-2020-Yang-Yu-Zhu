@@ -49,7 +49,7 @@ public class GUI implements Ui {
     private GodController godController;
     private BoardController boardController;
 
-    private ArrayList<FXMLLoader> allScenes;
+    private List<FXMLLoader> allScenes;
 
     /**
      *Creates a <code>GUI</code> with the specified attributes.
@@ -86,7 +86,7 @@ public class GUI implements Ui {
     }
 
     /**
-     *Updates the scene for the GUI.
+     * Updates the scene for the GUI.
      * @param index Variable that represents which type of scene needs to be updated to.
      */
     public void changeScene(int index)  {
@@ -175,7 +175,6 @@ public class GUI implements Ui {
      * @param message Variable that represents the message that was shown to the user in the God Selection phase.
      */
     public void handleGodMsg(String message) {
-
         if(message.equals(Messages.chooseStartPlayer)) {
             Platform.runLater(() -> godController.chooseStartPlayer(playerList.size()));
         }
@@ -199,6 +198,7 @@ public class GUI implements Ui {
     }
 
     /**
+     * Handle GameMessages and eventually set the answer buttons for the player.
      * {@inheritDoc}
      */
     @Override
@@ -286,7 +286,7 @@ public class GUI implements Ui {
     }
 
     /**
-     *Prints for the GUI the final window as the game has terminated.
+     * Prints for the GUI the final window as the game has terminated.
      */
     public void finalWindow() {
         Platform.runLater(() -> {
@@ -318,7 +318,7 @@ public class GUI implements Ui {
     }
 
     /**
-     *Show on the GUI a message from the board.
+     * Show on the GUI a message from the board.
      * @param str Variable that is the message from the board.
      */
     public void showBoardMsg(String str) {
@@ -326,7 +326,7 @@ public class GUI implements Ui {
     }
 
     /**
-     *Shows on the GUI a message when the game ends.
+     * Shows on the GUI a message when the game ends.
      * @param obj Variable that is encapsulating the messages that needs to be shown.
      */
     public void showEndMsg(Obj obj) {
@@ -356,7 +356,7 @@ public class GUI implements Ui {
     }
 
     /**
-     *Loads the scene for the GUI based on JavaFX.
+     * Loads the scene for the GUI based on JavaFX.
      * @param index Variable that indicates which scene needs to be shown
      * @return A FXMLLoader of JavaFX of the scene at issue.
      */
@@ -365,7 +365,7 @@ public class GUI implements Ui {
     }
 
     /**
-     *Sets the IP for the client that hosts the GUI.
+     * Sets the IP for the client that hosts the GUI.
      * @param ip Variable that represents the IP at issue.
      */
     public void setIp(String ip) {
@@ -373,7 +373,7 @@ public class GUI implements Ui {
     }
 
     /**
-     *Sets the Port for the client that hosts the GUI.
+     * Sets the Port for the client that hosts the GUI.
      * @param port Variable that represents the Port at issue.
      */
     public void setPort(String port) {
@@ -381,13 +381,13 @@ public class GUI implements Ui {
     }
 
     /**
-     *Sets the stage for the client that hosts the GUI.
+     * Sets the stage for the client that hosts the GUI.
      * @param stage Variable that represents the stage at issue.
      */
     public void setStage(Stage stage) { this.stage = stage; }
 
     /**
-     *Sets the sender for the client that hosts the GUI.
+     * Sets the sender for the client that hosts the GUI.
      * @param sender Variable that represents the sender at issue.
      */
     public void setSender(Sender sender) {
@@ -395,7 +395,7 @@ public class GUI implements Ui {
     }
 
     /**
-     *Sets the LoginController for the client that hosts the GUI.
+     * Sets the LoginController for the client that hosts the GUI.
      * @param loginController Variable that represents the LoginController at issue.
      */
     public void setLoginController(LoginController loginController) {

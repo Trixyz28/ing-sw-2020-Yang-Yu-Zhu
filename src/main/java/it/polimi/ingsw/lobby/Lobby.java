@@ -33,7 +33,7 @@ public class Lobby {
     }
 
     /**
-     *Gets the ID of the lobby.
+     * Gets the ID of the lobby.
      * @return The attribute <code>lobbyID</code> of the lobby at issue.
      */
     //Get() of the LobbyID
@@ -108,7 +108,7 @@ public class Lobby {
     }
 
     /**
-     *Gets the number of available players of the lobby.
+     * Gets the number of available players of the lobby.
      * @return An integer that is the size of the players list.
      */
     //Get() of the value of the available Players : for every player not "0000" availablePlayers +1
@@ -117,7 +117,7 @@ public class Lobby {
     }
 
     /**
-     * Removes a player form the list of players of the lobby.
+     * Removes a player from the list of players of the lobby.
      * @param playerName Variable that that represents the name of the player at issue.
      */
     public void removePlayer(String playerName) {

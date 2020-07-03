@@ -11,7 +11,7 @@ public class LobbyTest {
     Lobby lobby = new Lobby(3);
 
     /**
-     *
+     * Test: lobbyID
      */
     @Test
     public void testLobbyID() {
@@ -19,11 +19,17 @@ public class LobbyTest {
         Assert.assertEquals(1, lobby.getLobbyID());
     }
 
+    /**
+     * Test: lobbyPlayersNumber
+     */
     @Test
     public void testLobbyPlayersNumber() {
         Assert.assertEquals(3, lobby.getLobbyPlayersNumber());
     }
 
+    /**
+     * Test: function isFull/setFull
+     */
     @Test
     public void testFull() {
         lobby.setFull(true);
@@ -32,7 +38,9 @@ public class LobbyTest {
         Assert.assertFalse(lobby.isFull());
     }
 
-
+    /**
+     * Test: initializing playerNameList
+     */
     @Test
     public void testPlayersNameList() {
         ArrayList<String> parameterList = new ArrayList<>();
@@ -44,6 +52,9 @@ public class LobbyTest {
         Assert.assertEquals("B", lobby.getPlayersNameList().get(1));
     }
 
+    /**
+     * Test: add players in lobby -> check availability
+     */
     @Test
     public void testAddPlayer() {
 
@@ -60,6 +71,9 @@ public class LobbyTest {
 
     }
 
+    /**
+     * Test: remove players from lobby
+     */
     @Test
     public void testRemovePlayer() {
         testAddPlayer();

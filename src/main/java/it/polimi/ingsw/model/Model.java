@@ -275,7 +275,7 @@ public class Model extends Observable<Obj> {
 
     /**
      * Handles the choice between two of the workers and the usage of the GodPower.
-     * @param gMessage Variable that indicates which choice is to be made : worker selection or GodPower usage.
+     * @param gMessage Variable that indicates which choice is to be made: worker selection or GodPower usage.
      * @return A boolean: <code>true</code> if:
      * <p>
      * -the worker is chosen.
@@ -431,7 +431,7 @@ public class Model extends Observable<Obj> {
     //get() of the arraylist made by Players
     /**
      * Gets a List of the players of the game.
-     * @return An arrayList of <code>Players</code> objects which represents the Players currently in the game.
+     * @return A List of <code>Players</code> objects which represents the Players currently in the game.
      */
     public List<Player> getMatchPlayersList() {
         return matchPlayersList;
@@ -479,7 +479,7 @@ public class Model extends Observable<Obj> {
     }
 
     /**
-     * Starts the defined starting player as the current player and start the flow of the turns.
+     * Sets the defined starting player as the current player and starts the flow of the turns.
      */
     public void startTurn() {
         /* set start player as current player and start first place */
@@ -535,7 +535,7 @@ public class Model extends Observable<Obj> {
 
     /**
      * Sends an unicast Message to the client of the current player.
-     * @param obj Variable that represents the message that needs to be casted.
+     * @param obj Variable that represents the message that needs to be cast.
      */
     public void unicastMsg(Obj obj) {
         obj.setBroadcast(false);
@@ -545,7 +545,7 @@ public class Model extends Observable<Obj> {
 
     /**
      * Sends a broadcast to all the players currently in the game.
-     * @param obj Variable that represents the message that needs to be broadcasted.
+     * @param obj Variable that represents the message that needs to be broadcast.
      */
     public void broadcast(Obj obj){
         notify(obj);
@@ -668,7 +668,7 @@ public class Model extends Observable<Obj> {
     }
 
     /**
-     * Creats the total list of workers in the game for each player.
+     * Creates the total list of workers in the game.
      */
     public void createTotalWorkerList() {
 
@@ -679,10 +679,10 @@ public class Model extends Observable<Obj> {
 
     /**
      * Gets the total list of workers in the game.
-     * @return An arrayList of workers.
+     * @return A List of workers.
      */
-
     public List<UndecoratedWorker> getTotalWorkers() {
         return totalWorkerList;
     }
+
 }

@@ -38,7 +38,7 @@ public class BoardView implements Serializable {
     }
 
     /**
-     *Gets a <code>Tile</code> of the BoardView.
+     * Gets a <code>Tile</code> of the BoardView.
      * @param row Variable that indicates the row of the <code>Tile</code> at issue.
      * @param column Variable that indicates the column of the <code>Tile</code> at issue.
      * @return A <code>Tile</code> of the BoardView with the parameters as coordinates.

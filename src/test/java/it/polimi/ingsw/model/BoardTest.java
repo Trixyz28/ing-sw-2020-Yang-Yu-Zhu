@@ -10,6 +10,12 @@ public class BoardTest extends TestCase {
 
     Board board = new Board();
 
+    /**
+     * Test: tiles initialization
+     * <p></p>
+     * It should configure tiles correctly.
+     * <p></p>
+     */
     @Test
     public void testInitializeTiles() {
         board.initializeTiles();
@@ -24,7 +30,12 @@ public class BoardTest extends TestCase {
         assertFalse(t.isDomePresence());
     }
 
-
+    /**
+     * Test: adjacentTiles check
+     * <p></p>
+     * It should configure the adjacentTileList for every single tile.
+     * <p></p>
+     */
     @Test
     public void testAdjacent() {
         board.initializeTiles();

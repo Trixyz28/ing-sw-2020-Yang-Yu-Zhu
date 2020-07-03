@@ -38,6 +38,7 @@ public class TurnController {
      * If the selected worker can't move, the player will be asked to reconsider the choice.
      * @param index Variable that represents which worker is at issue.
      */
+    /* choose worker + check possibility to change to the other worker */
     protected void setChosenWorker(int index) {
         UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(index);
 
@@ -70,7 +71,7 @@ public class TurnController {
     }
 
     /**
-     *Handles the choice of the worker until the next state.
+     * Handles the choice of the worker until the next state.
      */
     /* Confirm Worker choice -> start move */
     protected void choseWorker(){
@@ -141,13 +142,11 @@ public class TurnController {
     }
 
 
-
     /**
      *Handles the end of the current turn.
      */
     /* end Turn -> update board + nextTurn */
     private void endTurn() {
-
         model.setWorkerChosen(false);
         /* board after build */
         model.sendBoard();
@@ -176,7 +175,7 @@ public class TurnController {
     }
 
     /**
-     *Brings the state to the next one in the turn.
+     * Brings the state to the next one in the turn.
      */
     /* next state + operation of the new state */
     private void nextState(){
@@ -190,7 +189,7 @@ public class TurnController {
 
 
     /**
-     *Checks if the game is over.If not, brings the game to the next turn.
+     * Checks if the game is over. If not, brings the game to the next turn.
      */
     /* check after lose */
     private void checkGameOver(){

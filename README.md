@@ -73,6 +73,7 @@ java -jar Server.jar [port]
 If there is no port number specified, the server will automatically use the default one (45000).
 
 ### Client
+The Client should know the IP/Port of the Server to connect.
 Double-click on Client.jar will launch the GUI.
 As an alternative, it is possible running the client through
 ```sh
@@ -88,15 +89,18 @@ If the parameter is null, the GUI will be launched. Otherwise, it will active th
 
 
 ## Test Coverage
-
-
+<p align="center">
+<img src="Deliverables/Coverage/Coverage.PNG">
+</p>
 
 
 ## Tools
-* Java 14
+* JDK 14
 * Maven
 * JavaFX
 * JUnit
+* IntelliJ IDEA
+* SceneBuilder
 
 
 

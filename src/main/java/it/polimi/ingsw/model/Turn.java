@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.God.UndecoratedWorker;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Class that is used to represent the turn.
+ * Class that represents the turn.
  * <p></p>
  * In each turn a player have to do a "move" operation and a "build" operation at least once with one of his 2 workers.
  * <p></p>
@@ -39,7 +39,7 @@ public class Turn {
 
     /**
      *  Creates a <code>Turn</code> with the specified attributes.
-     * @param currentPlayer Variable that indicates the current player.
+     *  @param currentPlayer Variable that indicates the current player.
      */
     public Turn(Player currentPlayer) {
         this.turnNumber = 0;
@@ -49,7 +49,7 @@ public class Turn {
     //get() of the currentPlayer
 
     /**
-     *Gets the player of the current turn.
+     * Gets the player of the current turn.
      * @return A <code>Player</code> object associated to the relative player of the game.
      */
     public Player getCurrentPlayer() {
@@ -57,6 +57,11 @@ public class Turn {
     }
 
     //set() of the currentPlayer
+
+    /**
+     * Sets the player of the current turn.
+     * @param currentPlayer indicates the player to be set as current.
+     */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
@@ -64,7 +69,7 @@ public class Turn {
     //get() of the turn number
 
     /**
-     *Gets the turn number.
+     * Gets the turn number.
      * @return An integer that represents the turn number.
      */
     public int getTurnNumber() {
@@ -72,7 +77,7 @@ public class Turn {
     }
 
     /**
-     *Gets the state for particular Gods.
+     * Gets the state for particular Gods.
      * @return An integer used for special operation of particular God Powers.
      */
     public int getState(){
@@ -84,7 +89,7 @@ public class Turn {
     }
 
     /**
-     *Updates the turn to the next state.
+     * Updates the turn to the next state.
      */
     public void nextState(){
         chosenWorker.nextState();
@@ -92,7 +97,7 @@ public class Turn {
     }
 
     /**
-     *Advances to the next turn
+     * Advances to the next turn
      * @param player Variable that represents the player of the next turn.
      */
     public void nextTurn(Player player){
@@ -106,7 +111,7 @@ public class Turn {
     //get() of the chosenWorker
 
     /**
-     *Gets the chosen worker of the state.
+     * Gets the chosen worker of the state.
      * @return The worker that was chosen by the current player.
      */
     public UndecoratedWorker getChosenWorker() {
@@ -126,7 +131,7 @@ public class Turn {
     //set() of the initial tile
 
     /**
-     *Sets the initial tile of the state.
+     * Sets the initial tile of the state.
      * @param initialTile Variable that represents the initial tile of eventual operations.
      */
     public void setInitialTile(Tile initialTile) {
@@ -137,7 +142,7 @@ public class Turn {
     //get() of the final tile
 
     /**
-     *Gets the final tile of the state.
+     * Gets the final tile of the state.
      * @return A <code>Tile</code> object that represents the final tile of eventual operations.
      */
     public Tile getFinalTile() {
@@ -147,7 +152,7 @@ public class Turn {
     //set() of the final tile
 
     /**
-     *Sets the final tile of the state.
+     * Sets the final tile of the state.
      * @param finalTile Variable that represents the final tile of eventual operations.
      */
     public void setFinalTile(Tile finalTile) {
@@ -157,7 +162,7 @@ public class Turn {
     //get() worker movableTile
 
     /**
-     *Gets a list of the tiles in which a worker can move to.
+     * Gets a list of the tiles in which a worker can move to.
      * @param worker Variable that indicates the worker chosen for the "move" operation.
      * @return A list of tiles that indicates which tiles are possible for the worker to "move" to.
      */
@@ -174,7 +179,7 @@ public class Turn {
     //get() worker buildableTile
 
     /**
-     *Gets a list of the tiles in which a worker can build on.
+     * Gets a list of the tiles in which a worker can build on.
      * @param worker Variable that indicates the worker chosen for the "build" operation.
      * @return A list of tiles that indicates which tiles are possible for the worker to "build" on.
      */
@@ -229,13 +234,6 @@ public class Turn {
             return true;
         }
     }
-
-
-
-    // methods that interacts with the turn controller for the turn succession
-    //validity checks of moves are called from moveController and buildController with Tile class logic
-    //!!method to reset to 0 every counter of every workers at the start of a new turn
-
 
 
 }

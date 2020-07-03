@@ -134,7 +134,7 @@ public class GodController {
 
 
     /**
-     * Sets the JavaFX GUI of the gos that are chosen.
+     * Sets the JavaFX GUI of the gods that are chosen.
      * @param god Variable that represents the god at issue.
      */
     public void setDefinedGod(String god) {
@@ -177,7 +177,7 @@ public class GodController {
     }
 
     /**
-     * Checks if the God List has been finished by the Challenger-
+     * Checks if the God List has been defined by the Challenger.
      * @return A boolean: <code>true</code> if the choice is made, otherwise <code>false</code>.
      */
     private boolean checkIfDefined() {
@@ -185,7 +185,7 @@ public class GodController {
     }
 
     /**
-     *Sets the bubble with the name of the players in the GUI.
+     * Sets the bubble with the name of the players in the GUI.
      * @param nameList Variable that represents the list of the names of the players in the game.
      * @param nickname Variable that represents the nickname of the current player of the client with the GUI.
      */
@@ -212,7 +212,7 @@ public class GodController {
     }
 
     /**
-     *Sets the challenger in the GUI of the client of the current player.
+     * Sets the challenger in the GUI of the client of the current player.
      * @param challenger Variable that represents the nickname of the challenger.
      */
     private void setChallenger(String challenger) {
@@ -255,7 +255,7 @@ public class GodController {
     }
 
     /**
-     *Sets the chosen God in the GUI.
+     * Sets the chosen God in the GUI.
      * @param message Variable that encapsulate the information about the God at issue.
      */
     public void setChosenGod(Obj message) {
@@ -288,7 +288,7 @@ public class GodController {
     }
 
     /**
-     *Sets the bubble of the God in the GUI of the current client.
+     * Sets the bubble of the God in the GUI of the current client.
      * @param imageView Variable that represents the assigned image of the God in JavaFX.
      * @param god Variable that represents the name of the God.
      */
@@ -319,7 +319,7 @@ public class GodController {
     }
 
     /**
-     *Sets the bubble of the player to indicate who is the current player in the GUI.
+     * Sets the bubble of the player to indicate who is the current player in the GUI.
      * @param player Variable that represents the current player of the turn.
      */
     public void setTurn(String player) {
@@ -351,7 +351,7 @@ public class GodController {
     }
 
     /**
-     *Opens the instructions of the Gods in the GUI.
+     * Opens the instructions of the Gods in the GUI.
      */
     public void openInstruction() {
         mainHBox.setDisable(true);
@@ -361,7 +361,7 @@ public class GodController {
     }
 
     /**
-     *Closes the instruction of the Gods in the GUI.
+     * Closes the instruction of the Gods in the GUI.
      */
     public void closeInstruction() {
         mainHBox.setDisable(false);
@@ -370,7 +370,7 @@ public class GodController {
     }
 
     /**
-     *Loads the first page of the instruction of the Gods in the GUI.
+     * Loads the first page of the instruction of the Gods in the GUI.
      */
     public void loadFirstPage() {
         leftArrow.setVisible(false);
@@ -381,7 +381,7 @@ public class GodController {
     }
 
     /**
-     *Loads the second page of the instruction of the Gods in the GUI.
+     * Loads the second page of the instruction of the Gods in the GUI.
      */
     public void loadSecondPage() {
         leftArrow.setDisable(false);
@@ -393,7 +393,7 @@ public class GodController {
     }
 
     /**
-     *Hides the Unchosen Gods in the GUI during the God Choice for the players.
+     * Hides the Unchosen Gods in the GUI during the God Choice for the players.
      */
     private void hideUnchosenGods() {
 
@@ -422,7 +422,7 @@ public class GodController {
 
 
     /**
-     *Handles the choice of the starting player in the GUI.
+     * Handles the choice of the starting player in the GUI.
      * @param size Variable that changes the JavaFX of the starting player in the GUI.
      */
     public void chooseStartPlayer(int size) {
@@ -455,7 +455,7 @@ public class GodController {
     }
 
     /**
-     *Handles the fade-out transition for unchosen Gods.
+     * Handles the fade-out transition for unchosen Gods.
      * @param node Variable that is used by JavaFX.
      */
     private void disappearGod(Node node) {
@@ -467,6 +467,7 @@ public class GodController {
         fade.setNode(node);
         fade.play();
     }
+
     /**
      * Sets the Sender of the GUI messages.
      * @param sender Variable that is an <code>Sender</code> used for the client-GUI interactions.

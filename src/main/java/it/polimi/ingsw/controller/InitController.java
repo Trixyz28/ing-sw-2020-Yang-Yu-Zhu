@@ -60,7 +60,7 @@ public class InitController {
     }
 
     /**
-     *Checks if the player's chosen God is correct and assigns it to the player at issue.
+     * Checks if the player's chosen God is correct and assigns it to the player at issue.
      * @param god Variable that indicates the God chosen by the player at issue.
      */
     /* choose God card by other Player */
@@ -81,7 +81,6 @@ public class InitController {
         if(model.setStartingPlayer(startingPlayerNickname)) {
             model.startTurn();
         }
-
     }
 
     /**

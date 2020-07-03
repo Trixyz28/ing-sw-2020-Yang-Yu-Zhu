@@ -20,7 +20,7 @@ public abstract class View extends Observable<Obj> implements Observer<Obj> {
     protected Obj obj;
 
     /**
-     *Creates a <code>View</code> with the specified attributes.
+     * Creates a <code>View</code> with the specified attributes.
      * @param player Variable that represents the player at issue.
      */
     public View(Player player){
@@ -60,7 +60,7 @@ public abstract class View extends Observable<Obj> implements Observer<Obj> {
     }
 
     /**
-     *Handles the Messages that are sent in input by a client.
+     * Handles the Messages that are sent in input by a client.
      * @param input Variable that describes the messages sent by the client at issue.
      */
     protected void messageString(String input) {

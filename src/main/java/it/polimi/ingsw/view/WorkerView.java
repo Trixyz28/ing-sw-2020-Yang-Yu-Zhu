@@ -25,7 +25,7 @@ public class WorkerView implements Serializable {
     private List<Tile> buildableList;
 
     /**
-     *Creates a <code>WorkerView</code> with the specified attributes.
+     * Creates a <code>WorkerView</code> with the specified attributes.
      * @param worker Variable that represents the current worker with the WorkerView.
      */
     public WorkerView(UndecoratedWorker worker) {
@@ -38,7 +38,7 @@ public class WorkerView implements Serializable {
     }
 
     /**
-     *Checks the position of the worker with the WorkerView.
+     * Checks the position of the worker with the WorkerView.
      * @return A boolean: <code>true</code> if the position is set, otherwise <code>false</code>.
      */
     public boolean isPositionSet() {
@@ -46,7 +46,7 @@ public class WorkerView implements Serializable {
     }
 
     /**
-     *Gets the <code>Tile</code> of the worker with the WorkerView.
+     * Gets the <code>Tile</code> of the worker with the WorkerView.
      * @return The <code>Tile</code> where the worker at issue is positioned.
      */
     public Tile getPosition() {
@@ -54,7 +54,7 @@ public class WorkerView implements Serializable {
     }
 
     /**
-     *Gets the state of the turn of the worker with the WorkerView.
+     * Gets the state of the turn of the worker with the WorkerView.
      * @return The state of the turn of the worker at issue.
      */
     public int getState() {
@@ -62,7 +62,7 @@ public class WorkerView implements Serializable {
     }
 
     /**
-     *Sets the state of the turn of the worker with the WorkerView.
+     * Sets the state of the turn of the worker with the WorkerView.
      * @param state The state that needs to be set for the worker at issue.
      */
     public void setState(int state) {
@@ -70,7 +70,7 @@ public class WorkerView implements Serializable {
     }
 
     /**
-     *Gets the list of tiles where the worker with the WorkerView can move to.
+     * Gets the list of tiles where the worker with the WorkerView can move to.
      * @return The current list of <code>Tile</code> objects where the worker at issue can be moved to.
      */
     public List<Tile> getMovableList() {
@@ -78,7 +78,7 @@ public class WorkerView implements Serializable {
     }
 
     /**
-     *Sets the list of tiles where the worker with the WorkerView can move to.
+     * Sets the list of tiles where the worker with the WorkerView can move to.
      * @param movableList A list of <code>Tile</code> objects where the worker at issue can be moved to.
      */
     public void setMovableList(List<Tile> movableList) {
@@ -86,7 +86,7 @@ public class WorkerView implements Serializable {
     }
 
     /**
-     *Gets the list of tiles where the worker with the WorkerView can build on.
+     * Gets the list of tiles where the worker with the WorkerView can build on.
      * @return The current list of <code>Tile</code> objects where the worker at issue can build on.
      */
     public List<Tile> getBuildableList() {
@@ -94,7 +94,7 @@ public class WorkerView implements Serializable {
     }
 
     /**
-     *Sets the list of tiles where the worker with the WorkerView can build on.
+     * Sets the list of tiles where the worker with the WorkerView can build on.
      * @param buildableList A list of <code>Tile</code> objects where the worker at issue can build on.
      */
     public void setBuildableList(List<Tile> buildableList) {
@@ -102,7 +102,7 @@ public class WorkerView implements Serializable {
     }
 
     /**
-     *Gets the player which the worker with the WorkerView belongs to.
+     * Gets the player which the worker with the WorkerView belongs to.
      * @return An integer that indicates the ID of the player at issue.
      */
     public int getBelongToPlayer() {
@@ -110,7 +110,7 @@ public class WorkerView implements Serializable {
     }
 
     /**
-     *Gets the ID of the worker with the WorkerView.
+     * Gets the ID of the worker with the WorkerView.
      * @return An integer that indicates the ID of the worker at issue.
      */
     public int getWorkerID() {
@@ -118,7 +118,7 @@ public class WorkerView implements Serializable {
     }
 
     /**
-     *Sets the ID of the worker with the WorkerView.
+     * Sets the ID of the worker with the WorkerView.
      * @param workerID variable that represents the integer that equals the ID of the worker at issue.
      */
     public void setWorkerID(int workerID) {

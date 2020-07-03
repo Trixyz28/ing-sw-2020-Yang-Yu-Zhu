@@ -10,6 +10,9 @@ public class LobbyHandlerTest {
     LobbyHandler lobbyHandler = new LobbyHandler();
     LobbyController lobbyController = new LobbyController(lobbyHandler);
 
+    /**
+     * Test: add player in lobby
+     */
     @Test
     public void testAddPlayer() {
         lobbyHandler.addPlayer("A");
@@ -21,6 +24,9 @@ public class LobbyHandlerTest {
 
     }
 
+    /**
+     * Test: remove player from lobby & check the new list condition
+     */
     @Test
     public void testRemovePlayer() {
         lobbyHandler.addPlayer("A");
@@ -30,6 +36,9 @@ public class LobbyHandlerTest {
     }
 
 
+    /**
+     * Test: check the conditions when 2 players join a 2-player game and there are no lobbies available
+     */
     @Test
     public void testCheckAvailableLobbyFalse() {
         lobbyHandler.newLobby("A",2);
@@ -39,6 +48,9 @@ public class LobbyHandlerTest {
 
     }
 
+    /**
+     * Test: check lobby availability after a new lobby creation
+     */
     @Test
     public void testCheckAvailableLobbyTrue() {
         lobbyHandler.newLobby("A",2);
@@ -46,7 +58,9 @@ public class LobbyHandlerTest {
         Assert.assertTrue(lobbyHandler.checkAvailableLobby());
     }
 
-
+    /**
+     * Test: create the first lobby
+     */
     @Test
     public void testCreateLobby() {
         int lobbyID = lobbyController.createLobby("A",3);
@@ -55,6 +69,9 @@ public class LobbyHandlerTest {
         Assert.assertEquals("A", lobbyHandler.getLobbyList().get(lobbyID).getPlayersNameList().get(0));
     }
 
+    /**
+     * Test: join a 3-player lobby
+     */
     @Test
     public void testJoinLobby() {
 
@@ -71,6 +88,9 @@ public class LobbyHandlerTest {
         Assert.assertEquals(lobby0, lobbyID);
     }
 
+    /**
+     * Test: find a lobby based on its lobbyID (not necessarily equals to its index in the lobbyList)
+     */
     @Test
     public void testFindLobby() {
         int lobby0 = lobbyHandler.newLobby("A",3);
@@ -81,6 +101,9 @@ public class LobbyHandlerTest {
 
     }
 
+    /**
+     * Test: remove a lobby and assert that the other lobbies aren't influenced by this
+     */
     @Test
     public void testRemoveLobby() {
 

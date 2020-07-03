@@ -26,7 +26,7 @@ public class GameMessage implements Serializable {
     }
 
     /**
-     *Gets the message encapsulated in the GameMessage object.
+     * Gets the message encapsulated in the GameMessage object.
      * @return The message that was sent.
      */
     //Message getter
@@ -35,7 +35,7 @@ public class GameMessage implements Serializable {
     }
 
     /**
-     *Gets the answer to the message encapsulated in the GameMessage object.
+     * Gets the answer to the message encapsulated in the GameMessage object.
      * @return The answer that was sent.
      */
     //Answer getter&setter

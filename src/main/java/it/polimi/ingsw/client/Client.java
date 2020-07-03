@@ -45,7 +45,6 @@ public class Client implements Observer<String>, Runnable {
      * @param uiStyle Variable for the choice of the style of the <code>ui</code>.
      * @param socket Variable indicating the created socket.
      */
-
     public void setupClient(String uiStyle, Socket socket) {
 
         //Create CLI
@@ -94,9 +93,8 @@ public class Client implements Observer<String>, Runnable {
 
      /**
      * Starts a thread connected to a socket with the server.
-     * @param socketIn The input stream which lets the client to obtain messages from the server.
+     * @param socketIn The socket which is used to connect with the server.
      * @return The thread that was created and used with the socket.
-     * @throws IllegalArgumentException Is thrown if the input is not correct.
      */
     public Thread asyncReadFromSocket(ObjectInputStream socketIn) {
 
@@ -138,7 +136,7 @@ public class Client implements Observer<String>, Runnable {
      * <p></p>
      * If the client received an Operation immediately before this input,
      * the message will be processed as tile coordinates and the counter will be refreshed.
-     *<p>
+     * <p>
      * If the client received a GameMessage, the input will be considered an answer.
      * @param input A string that represents the input from the user.
      */
@@ -165,7 +163,6 @@ public class Client implements Observer<String>, Runnable {
         } else if (gmReceived) {  /* Answer to message*/
 
             input = input.toUpperCase();
-
             socketOut.println(input);
             socketOut.flush();
             gmReceived = false;
@@ -193,7 +190,7 @@ public class Client implements Observer<String>, Runnable {
     }
 
     /**
-     *Splits the obj,interprets it and updates the game state.
+     * Splits the obj,interprets it and updates the game state.
      * @param obj Comes from the socket stream encapsulating game updates.
      */
     public void splitMessage(Obj obj) {

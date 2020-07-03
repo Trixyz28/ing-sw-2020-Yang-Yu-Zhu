@@ -14,7 +14,7 @@ public enum GodPowerMessage {
     HEPHAESTUS ("Build another block?"),
     PROMETHEUS ("Move or Build?", "BUILD", "MOVE"),
     HESTIA ("Build again?"),
-    POSEIDON ("Build with the unmoved worker?"),
+    POSEIDON ("Build with unmoved worker?"),
     TRITON ("Move again?");
 
     private String message;
@@ -69,7 +69,7 @@ public enum GodPowerMessage {
     }
 
     /**
-     *Gets the <code>answer1</code> in the <code>GodPowerMessage</code>.
+     * Gets the <code>answer1</code> in the <code>GodPowerMessage</code>.
      * @return The string in <code>answer1</code> encapsulated in the message.
      */
     public String getAnswer1() {
@@ -77,7 +77,7 @@ public enum GodPowerMessage {
     }
 
     /**
-     *Gets the <code>answer2</code> in the <code>GodPowerMessage</code>.
+     * Gets the <code>answer2</code> in the <code>GodPowerMessage</code>.
      * @return The string in <code>answer2</code> encapsulated in the message.
      */
     public String getAnswer2() {

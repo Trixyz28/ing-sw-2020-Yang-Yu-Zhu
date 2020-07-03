@@ -14,7 +14,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.swing.text.TabableView;
 
 /**
  * Tests of the <code>Controller</code>

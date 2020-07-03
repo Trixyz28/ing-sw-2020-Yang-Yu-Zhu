@@ -44,7 +44,7 @@ public class LoadingController {
     }
 
     /**
-     *Shows the name message received from the server.
+     * Shows the name message received from the server.
      * @param str Variable that represents the message form the server.
      */
     public void showNameMsg(String str) {
@@ -52,7 +52,7 @@ public class LoadingController {
     }
 
     /**
-     *Gets the current nickname set for the player with the GUI.
+     * Gets the current nickname set for the player with the GUI.
      * @return Variable that represents the player's nickname.
      */
     public String getNickname() {
@@ -73,7 +73,7 @@ public class LoadingController {
     private Button lobbyButton;
 
     /**
-     *Creates a clickable choice box for the player who has the GUI.
+     * Creates a clickable choice box for the player who has the GUI.
      */
     public void setChoiceBox() {
         ArrayList<String> list = new ArrayList<>();
@@ -86,7 +86,7 @@ public class LoadingController {
     /**
      * Sends the choice of the type of lobby to the server.
      */
-    public void sendLobby(ActionEvent event) {
+    public void sendLobby() {
         if(playerNumberSelect.getValue().equals("3 players")) {
             sender.sendInput("3");
         } else {
@@ -95,7 +95,7 @@ public class LoadingController {
     }
 
     /**
-     *Shows the player that he is in a lobby and is waiting for the other players to join.
+     * Shows the player that he is in a lobby and is waiting for the other players to join.
      * @param str Variable that is the string that needs to be shown.
      */
     public void inLobby(String str) {

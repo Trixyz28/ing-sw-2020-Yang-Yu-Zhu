@@ -2,9 +2,9 @@ package it.polimi.ingsw.model;
 
 
 /**
- * Board of the game where the game is played.
+ * Represeents the board of the game.
  * <p></p>
- * Matrix 5 x 5 made of <code>Tile</code> objects.
+ * It's a Matrix 5 x 5 made of <code>Tile</code> objects.
  * "Worker" to "Tile" ratio is 1-to-1.
  * In every <code>Tile</code> a "block" or "dome" can be built.
  * @author GC44

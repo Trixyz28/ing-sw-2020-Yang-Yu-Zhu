@@ -10,12 +10,17 @@ public class GameMessageTest extends TestCase {
     GameMessage gameMessage = new GameMessage("hello");
 
 
-
+    /**
+     * Test: simple gameMessage getting
+     */
     @Test
     public void testMessage() {
         Assert.assertEquals("hello",gameMessage.getMessage());
     }
 
+    /**
+     * Test: simple answer setting
+     */
     @Test
     public void testAnswer() {
         gameMessage.setAnswer("hellooo");

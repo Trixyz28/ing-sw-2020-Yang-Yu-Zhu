@@ -13,29 +13,44 @@ public class PlayerTest extends TestCase {
     Player player = new Player("Abc");
 
 
+    /**
+     * Test: simple player name testing
+     */
     @Test
     public void testPlayerNickname() {
         assertEquals("Abc",player.getPlayerNickname());
     }
 
+    /**
+     * Test: simple playerID testing
+     */
     @Test
     public void testPlayerID() {
         player.setPlayerID(1);
         assertEquals(1,player.getPlayerID());
     }
 
+    /**
+     * Test: setting challenger
+     */
     @Test
     public void testChallenger() {
         player.setChallenger(true);
         assertTrue(player.isChallenger());
     }
 
+    /**
+     * Test: god choice
+     */
     @Test
     public void testGodChoice() {
         player.setGodCard("APOLLO");
         assertEquals("APOLLO",player.getGodCard());
     }
 
+    /**
+     * Test: create workers and setup workerList
+     */
     @Test
     public void testCreateApollo() {
         /* create 2 workers Apollo */
@@ -47,6 +62,9 @@ public class PlayerTest extends TestCase {
         assertTrue(player.chooseWorker(1) instanceof Apollo);
     }
 
+    /**
+     * Test: create a single worker
+     */
     @Test
     public void testCreateArtemis() {
         ArrayList<UndecoratedWorker> totalWorkerList = new ArrayList<>();
@@ -54,7 +72,9 @@ public class PlayerTest extends TestCase {
         assertTrue(player.getWorkerList().get(0) instanceof Artemis);
     }
 
-
+    /**
+     * Test: simulating a worker delete process
+     */
     @Test
     public void testDeleteWorker() {
         testCreateApollo();

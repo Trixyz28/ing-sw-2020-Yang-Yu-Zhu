@@ -24,7 +24,7 @@ public class Controller implements Observer<Obj> {
     private BuildController buildController;
 
     /**
-     *Creates a <code>Controller</code> with the specified attributes.
+     * Creates a <code>Controller</code> with the specified attributes.
      * @param model Variable that represents the match. Also represents the Model in the MVC pattern.
      */
     public Controller(Model model) {
@@ -148,7 +148,7 @@ public class Controller implements Observer<Obj> {
     }
 
     /**
-     *Handles the activation of GodPowers of the <code>workers</code> of the players
+     * Handles the activation of GodPowers of the <code>workers</code> of the players
      */
     private void gmUpdate() {
         UndecoratedWorker worker = model.getCurrentTurn().getChosenWorker();

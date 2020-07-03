@@ -15,7 +15,7 @@ import java.util.List;
 public interface Ui {
 
     /**
-     *Displays a parameter encapsulated in an <code>Obj</code> object.
+     * Displays a parameter encapsulated in an <code>Obj</code> object.
      * @param message Variable that was is encapsulated in the obj and needs to be show.
      */
     void showObj(Obj message);
@@ -23,19 +23,19 @@ public interface Ui {
     //Display a message
 
     /**
-     *Displays a message on the user interface.
+     * Displays a message on the user interface.
      * @param str Variable that needs to be shown to the user.
      */
     void showMessage(String str);
 
     /**
-     *Handles the list of the players.
+     * Handles the list of the players.
      * @param list Variables that is made by a list of many <code>Player</code> objects.
      */
     void handlePlayerList(List<String> list);
 
     /**
-     *Handles the turns flow.
+     * Handles the turns flow.
      * @param message Variable that represents nickname of the player that owns the incoming turn.
      */
     void handleTurn(String message);
@@ -47,7 +47,7 @@ public interface Ui {
     void handleDefineGod(String message);
 
     /**
-     *Handles the choice of a God by a player.
+     * Handles the choice of a God by a player.
      * @param obj Variable that represents both the name of the player and the name of the God at issue.
      */
     void handleChooseGod(Obj obj);

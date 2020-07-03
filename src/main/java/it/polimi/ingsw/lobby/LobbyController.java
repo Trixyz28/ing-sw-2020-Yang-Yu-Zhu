@@ -12,9 +12,8 @@ public class LobbyController {
 
     /**
      *Creates a <code>LobbyController</code> with the specified attributes.
-     * @param lobbyHandler represents the waiting room handling all lobbies.
+     * @param lobbyHandler represents the room handling all lobbies.
      */
-
     public LobbyController(LobbyHandler lobbyHandler) {
         this.lobbyHandler = lobbyHandler;
     }
@@ -61,7 +60,6 @@ public class LobbyController {
                 break;
             }
         }
-
         assert canJoin != null;
         return canJoin.getLobbyID();
     }

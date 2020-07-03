@@ -10,6 +10,9 @@ public class GodListTest extends TestCase{
 
     GodList godList = new GodList(3);
 
+    /**
+     * Test: setup complete GodList
+     */
     @Test
     public void testSetComplete() {
         List<String> completeGodList = godList.getCompleteGodList();
@@ -24,7 +27,9 @@ public class GodListTest extends TestCase{
         assertEquals(15, completeGodList.size());
     }
 
-
+    /**
+     * Test: simulating the godlist define process
+     */
     @Test
     public void testAddInGodList() {
         godList.selectGod("APOLLO");
@@ -48,6 +53,9 @@ public class GodListTest extends TestCase{
 
     }
 
+    /**
+     * Test: simulating the currentList update process
+     */
     @Test
     public void testRemoveFromGodList() {
         testAddInGodList();
@@ -59,6 +67,9 @@ public class GodListTest extends TestCase{
         assertEquals("MINOTAUR",godList.getCurrentGodList().get(1));
     }
 
+    /**
+     * Test: assert all gods added correctly
+     */
     @Test
     public void testLength() {
         testAddInGodList();

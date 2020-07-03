@@ -32,7 +32,7 @@ public class SocketConnection extends Observable<String> implements Runnable {
     private boolean lost = false;
 
     /**
-     *  Creates a <code>SocketConnection</code> with the specified attributes.
+     * Creates a <code>SocketConnection</code> with the specified attributes.
      * @param socket Variable that indicates the socket used.
      * @param server Variable that indicates the server used.
      */
@@ -106,7 +106,7 @@ public class SocketConnection extends Observable<String> implements Runnable {
      * {@inheritDoc}
      *<p></p>
      * Handles the connection between the server and a new client.
-     * <p></p>
+     *<p></p>
      */
     @Override
     public void run() {
@@ -190,7 +190,7 @@ public class SocketConnection extends Observable<String> implements Runnable {
     }
 
     /**
-     * Sets the nickname of the player connect
+     * Sets the nickname of the player connected.
      */
     private void setNickname() {
         //Set nickname

@@ -33,11 +33,11 @@ public class CliPrinter {
      */
     public static final String GREEN_BOLD = "\033[1;32m";  // GREEN
     /**
-     * Prints the blue purple color for the CLI.
+     * Prints the bold blue color for the CLI.
      */
     public static final String BLUE_BOLD = "\033[1;34m";   // BLUE
     /**
-     * Prints the bold purpole color for the CLI.
+     * Prints the bold purple color for the CLI.
      */
     public static final String PURPLE_BOLD = "\033[1;35m"; // PURPLE
     /**

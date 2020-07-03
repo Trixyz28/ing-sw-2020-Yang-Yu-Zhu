@@ -6,7 +6,6 @@ import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.WorkerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -129,7 +128,7 @@ public class CLI implements Ui {
     }
 
     /**
-     *Prints the worker for the CLI.
+     * Prints the worker for the CLI.
      * @param t Variable that indicates the <code>Tile</code> where the worker is.
      */
     private void printWorker(Tile t) {
@@ -162,7 +161,7 @@ public class CLI implements Ui {
     }
 
     /**
-     *Prints the "move" and "build" operation possibility for the CLI.
+     * Prints the "move" and "build" operation possibility for the CLI.
      */
     private void printCanOp() {
         System.out.print(CliPrinter.CAN_OP_COLOR);
@@ -229,7 +228,7 @@ public class CLI implements Ui {
     }
 
     /**
-     *Prints different colors for the different players.
+     * Prints different colors for the different players.
      * @param playerID Variable that represents the ID of the player at issue.
      * @return A string of a particular color that is shown on the CLI of the client.
      */
@@ -245,7 +244,7 @@ public class CLI implements Ui {
     }
 
     /**
-     *Prints the complete GodList for the CLI for the player at issue.
+     * Prints the complete GodList for the CLI for the player at issue.
      * @param list Variables that is a list of strings that represents all the God Cards.
      */
     public void printCompleteList(List<String> list) {
@@ -256,7 +255,7 @@ public class CLI implements Ui {
     }
 
     /**
-     *Prints the current GodList for the CLI for the player at issue.
+     * Prints the current GodList for the CLI for the player at issue.
      * @param list Variables that is a list of strings that represents all the available God Cards.
      */
     public void printCurrentList(List<String> list) {

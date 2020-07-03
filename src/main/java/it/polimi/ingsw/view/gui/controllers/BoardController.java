@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.view.BoardView;
 import it.polimi.ingsw.view.Sender;
 import it.polimi.ingsw.view.WorkerView;
-import it.polimi.ingsw.view.gui.GUI;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -18,7 +17,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -198,7 +196,7 @@ public class BoardController {
     }
 
     /**
-     *Sets a JavaFX associated bubble for the Gods in the GUI.
+     * Sets a JavaFX associated bubble for the Gods in the GUI.
      * @param cloud Variable that is a custom ImageView of the JavaFX library.
      * @param god Variable that represents the name of the God at issue.
      */
@@ -228,7 +226,7 @@ public class BoardController {
     }
 
     /**
-     *Shows the board in the GUI.
+     * Shows the board in the GUI.
      * @param boardView Variable that is a BoardView for the GUI.
      */
     public void showBoard(BoardView boardView) {
@@ -255,7 +253,7 @@ public class BoardController {
     }
 
     /**
-     *Prints a custom image of a worker on the board of the GUI.
+     * Prints a custom image of a worker on the board of the GUI.
      * @param imageView Variable that is a custom ImageView for the GUI.
      * @param boardView Variable that is a BoardView for the GUI.
      * @param t Variable that represents the tile which the worker is put on.
@@ -274,7 +272,7 @@ public class BoardController {
 
     /**
      *Prints the type of operation the worker is able to do in the board of the GUI.
-     * @param imageView  Variable that is a custom ImageView for the GUI.
+     * @param imageView Variable that is a custom ImageView for the GUI.
      * @param number Variable that represents the type of operation: 1-"Move", 2-"Build".
      */
     private void printCanOp(ImageView imageView,int number) {
@@ -293,7 +291,7 @@ public class BoardController {
     }
 
     /**
-     *Prints an empty tile on the board of the GUI:
+     * Prints an empty tile on the board of the GUI:
      * @param imageView Variable that is a custom ImageView for the GUI.
      */
     private void printEmpty(ImageView imageView) {
@@ -301,7 +299,7 @@ public class BoardController {
     }
 
     /**
-     *Checks the board of the GUI for the available tiles to do an operation.
+     * Checks the board of the GUI for the available tiles to do an operation.
      * @param boardView  Variable that is a BoardView for the GUI.
      * @param t Variable that represents the tile which the worker is put on.
      * @return An integer value: 1-movable to, 2-buildable, otherwise 0.
@@ -325,7 +323,7 @@ public class BoardController {
     }
 
     /**
-     *Prints a dome on the board of the GUI.
+     * Prints a dome on the board of the GUI.
      * @param dome Variable that is a custom ImageView for a dome for the GUI.
      */
     private void printDome(ImageView dome) {
@@ -334,7 +332,7 @@ public class BoardController {
     }
 
     /**
-     *Prints a block on the board of the GUI.
+     * Prints a block on the board of the GUI.
      * @param block Variable that is a custom ImageView for a block for the GUI.
      * @param level Variable that indicates the level of the block that is being built.
      */
@@ -350,7 +348,7 @@ public class BoardController {
     }
 
     /**
-     *Updates the players icons on the GUI based upon the current player.
+     * Updates the players icons on the GUI based upon the current player.
      * @param player Variable that represents the current player of the turn.
      */
     private void setTurn(String player) {
@@ -378,7 +376,7 @@ public class BoardController {
     }
 
     /**
-     *Shows the messages about the current turn.
+     * Shows the messages about the current turn.
      * @param str Variable that represents the string containing the message to be shown.
      */
     public void showTurnMsg(String str) {
@@ -386,7 +384,7 @@ public class BoardController {
     }
 
     /**
-     *Resets the buttons visibility of the GUI.
+     * Resets the buttons visibility of the GUI.
      */
     public void resetButtons() {
         godButtonPane.setVisible(false);
@@ -394,7 +392,7 @@ public class BoardController {
     }
 
     /**
-     *Sets the buttons visibility of the GUI.
+     * Sets the buttons visibility of the GUI.
      * @param str1  Variable that represents the string containing the message to be shown.
      * @param str2 Variable that represents the string containing the message to be shown.
      */
@@ -406,7 +404,7 @@ public class BoardController {
     }
 
     /**
-     *Hides the receiving messages on the GUI.
+     * Hides the receiving messages on the GUI.
      */
     public void hideRecvMsg() {
         mailImg.setVisible(false);
@@ -414,7 +412,7 @@ public class BoardController {
     }
 
     /**
-     *Sets to visible the receiving messages on the GUI.
+     * Sets to visible the receiving messages on the GUI.
      * @param str Variable that represents the string containing the message to be shown.
      */
     public void setRecvMsg(String str) {
@@ -476,7 +474,7 @@ public class BoardController {
     }
 
     /**
-     *Opens the rulebook on the GUI.
+     * Opens the rulebook on the GUI.
      */
     public void openRule() {
         leftVBox.setDisable(true);
@@ -487,7 +485,7 @@ public class BoardController {
     }
 
     /**
-     *Close the rulebook on the GUI.
+     * Close the rulebook on the GUI.
      */
     public void closeRule() {
         rulePane.setVisible(false);
@@ -497,7 +495,7 @@ public class BoardController {
     }
 
     /**
-     *Load the first page of the rulebook on the GUI.
+     * Load the first page of the rulebook on the GUI.
      */
     public void loadFirstPage() {
         ruleImage.setImage(new Image("/components/Rules1.png"));
@@ -508,7 +506,7 @@ public class BoardController {
     }
 
     /**
-     *Load the second page of the rulebook on the GUI.
+     * Load the second page of the rulebook on the GUI.
      */
     public void loadSecondPage() {
         ruleImage.setImage(new Image("/components/Rules2.png"));
@@ -517,6 +515,7 @@ public class BoardController {
         rightArrow.setVisible(false);
         rightArrow.setDisable(true);
     }
+
     /**
      * Sets the Sender of the GUI messages.
      * @param sender Variable that is an <code>Sender</code> used for the client-GUI interactions.
@@ -526,7 +525,7 @@ public class BoardController {
     }
 
     /**
-     *Shows on the GUI the ending message after the game has ended.
+     * Shows on the GUI the ending message after the game has ended.
      * @param obj Variable that encapsulates the messages sent by the server after the game ended.
      */
     public void setEndMsg(Obj obj) {
@@ -556,7 +555,7 @@ public class BoardController {
     }
 
     /**
-     *Resets the ending message.Easter Egg.
+     * Resets the ending message.Easter Egg.
      */
     public void resetEndMsg() {
         endMsg.setText("");

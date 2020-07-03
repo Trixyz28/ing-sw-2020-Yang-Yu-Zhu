@@ -5,6 +5,7 @@ import it.polimi.ingsw.view.Sender;
 
 import java.net.Socket;
 import java.util.Scanner;
+
 /**
  * Class that helps the start and implementation of the CLI of the game.
  * @author GC44
@@ -87,7 +88,7 @@ public class CliLauncher {
     }
 
     /**
-     *Sets up the IP and the Port of the client of the CLI.
+     * Sets up the IP and the Port of the client of the CLI.
      */
     private void setIPAndPort() {
         System.out.print("Server IP: ");

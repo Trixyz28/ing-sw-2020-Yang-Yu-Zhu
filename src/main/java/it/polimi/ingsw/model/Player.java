@@ -34,7 +34,7 @@ public class Player {
     private List<UndecoratedWorker> workerList;
 
     /**
-     *Sets the player's nickname.
+     * Sets the player's nickname.
      * @param playerName Variable that represents the player's nickname as a string.
      */
     public Player(String playerName) {
@@ -42,8 +42,8 @@ public class Player {
     }
 
     /**
-     *Gets the player's nickname.
-     * @return A string which represents the players's nickname.
+     * Gets the player's nickname.
+     * @return A string which represents the player's nickname.
      */
     public String getPlayerNickname() {
         return playerNickname;
@@ -53,7 +53,7 @@ public class Player {
     //PlayerID getter&setter
 
     /**
-     *Gets the player's ID in the lobby.
+     * Gets the player's ID in the lobby.
      * @return An integer that represents the ID of the player in the current lobby.
      */
     public int getPlayerID() {
@@ -61,7 +61,7 @@ public class Player {
     }
 
     /**
-     *Sets the player's ID in the lobby.
+     * Sets the player's ID in the lobby.
      * @param playerID Variable that represents the ID of the player in the current lobby.
      */
     public void setPlayerID(int playerID) {
@@ -72,7 +72,7 @@ public class Player {
     //Challenger getter&setter
 
     /**
-     *Checks if the player is the challenger.
+     * Checks if the player is the challenger.
      * @return A boolean: <code>true</code> if the player at issue is the challenger, otherwise <code>false</code>.
      */
     public boolean isChallenger() {
@@ -80,7 +80,7 @@ public class Player {
     }
 
     /**
-     *Sets the player at issue as the challenger.
+     * Sets the player at issue as the challenger.
      * @param challenger Variable that represents a boolean that indicates if the player at issue is the challenger.
      */
     public void setChallenger(boolean challenger){
@@ -91,7 +91,7 @@ public class Player {
     //When the player chooses a God from the list
 
     /**
-     *Sets a God Card to the player at issue.
+     * Sets a God Card to the player at issue.
      * @param god Variable that represents which GodCard is at issue.
      */
     public void setGodCard(String god) {
@@ -99,7 +99,7 @@ public class Player {
     }
 
     /**
-     *Gets the specific God Card of the player at issue.
+     * Gets the specific God Card of the player at issue.
      * @return A string that represents the God Card at issue.
      */
     public String getGodCard() {
@@ -111,7 +111,7 @@ public class Player {
 
     //Create 2 specific worker classes as indicated in godCard
     /**
-     *Creats 2 specific <code>worker</code> classes as indicate in the GodCard.
+     *Creats 2 specific <code>worker</code> classes as indicated by the GodCard.
      * @param godCard Variable that represents which GodCard is at issue.
      * @param condition Variable that represents the <code>condition</code> as some specific Gods need.
      * @param totalWorkerList Variable that is a list of strings that represents all the workers in the game.
@@ -200,7 +200,7 @@ public class Player {
     }
 
     /**
-     *Gets the current worker list of the game.
+     * Gets the current worker list of the game.
      * @return A list of strings that represents all the workers in the game.
      */
     public List<UndecoratedWorker> getWorkerList() {
@@ -211,7 +211,7 @@ public class Player {
     //Select the worker to move/build
 
     /**
-     *Selects a particular worker which is the one the player choose to do a "move" or "build" operation.
+     * Selects a particular worker which is the one the player choose to do a "move" or "build" operation.
      * @param index Variable that indicates the index of the worker in question.
      * @return The worker that was chosen by the player at issue.
      */

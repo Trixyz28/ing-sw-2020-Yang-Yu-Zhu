@@ -15,10 +15,14 @@ public class ModelTest extends TestCase {
     Player player1 = new Player("A");
     Player player2 = new Player("B");
 
+    /**
+     * Simulate the initialization of a 2-player match
+     * <p></p>
+     * workers added: A,B
+     * <p></p>
+     */
     @Test
     public void testInitialize() {
-
-
         /* create match of 2 players */
         model.initialize(2);
         player1.setPlayerID(0);
@@ -32,6 +36,10 @@ public class ModelTest extends TestCase {
     }
 
 
+    /**
+     * Challenger selecting process
+     * Should test if the challenger is correctly chosen and set as the current player.
+     */
     @Test
     public void testChallenger() {
         testInitialize();
@@ -44,6 +52,10 @@ public class ModelTest extends TestCase {
         Assert.assertSame(model.getCurrentTurn().getCurrentPlayer(), model.getMatchPlayersList().get(model.getChallengerID()));
     }
 
+    /**
+     * Simulation: The chosen Challenger define the currentGodList.
+     * Checks if the defineGodList function recognizes wrong or repeated god name input.
+     */
     @Test
     public void testDefineGodList() {
         testChallenger();
@@ -61,6 +73,11 @@ public class ModelTest extends TestCase {
         Assert.assertTrue(model.getGodsList().checkLength());
     }
 
+    /**
+     * Simulation: The currentGodList is defined and other players can choose their God Powers.
+     * Checks if choiceGod can pick the correct God Powers.
+     * Already picked ones should not be assigned again to other players.
+     */
     @Test
     public void testChoiceGod() {
         testDefineGodList();
@@ -90,6 +107,9 @@ public class ModelTest extends TestCase {
 
     }
 
+    /**
+     * Simulation: Create the totalWorkerList after the God Selection process
+     */
     @Test
     public void testCreateTotalWorkerList() {
         testChoiceGod();
@@ -97,7 +117,9 @@ public class ModelTest extends TestCase {
         Assert.assertTrue(model.getTotalWorkers().containsAll(player2.getWorkerList()));
     }
 
-
+    /**
+     * Simulation: The Challenger chooses a Start Player
+     */
     @Test
     public void testStartingPlayer() {
         testChoiceGod();
@@ -107,9 +129,12 @@ public class ModelTest extends TestCase {
         Assert.assertTrue(model.setStartingPlayer("B"));
         Assert.assertEquals(player2.getPlayerID(),model.getStartingPlayerID());
         Assert.assertEquals("B",model.getMatchPlayersList().get(model.getStartingPlayerID()).getPlayerNickname());
-
     }
 
+    /**
+     * Simulation: The first turn starts with the Start Player
+     * Should check the proper handling of turns.
+     */
     @Test
     public void testStartTurn() {
         testStartingPlayer();
@@ -120,6 +145,10 @@ public class ModelTest extends TestCase {
         Assert.assertEquals(model.getMatchPlayersList().get(model.getStartingPlayerID()), model.getCurrentTurn().getCurrentPlayer());
     }
 
+    /**
+     * Simulation: nextTurn function
+     * Should select correctly the next player and update the turn.
+     */
     @Test
     public void testingNextPlayer() {
         testStartingPlayer();
@@ -132,14 +161,19 @@ public class ModelTest extends TestCase {
         Assert.assertSame(player2, model.getCurrentTurn().getCurrentPlayer());
     }
 
-
+    /**
+     * Test: Check if the commandToTile function returns the right tile
+     */
     @Test
     public void testCommandToTile() {
         testInitialize();
         assertSame(model.getBoard().getMap()[2][3],model.commandToTile(2,3));
     }
 
-
+    /**
+     * Simulation: players different than the current one should be notified with wrongTurn.
+     * CheckTurn should return the right current player.
+     */
     @Test
     public void testCheckTurn() {
         testStartTurn();
@@ -161,6 +195,10 @@ public class ModelTest extends TestCase {
         Assert.assertTrue(model.checkTurn(player2.getPlayerNickname()));
     }
 
+    /**
+     * Simulation: functionality of GodPowerMessage
+     * The answer of the player should be correctly set and interpreted by the model.
+     */
     @Test
     public void testCheckGodPowerAnswer() {
         testStartTurn();
@@ -193,6 +231,9 @@ public class ModelTest extends TestCase {
         }
     }
 
+    /**
+     * Simulation: worker choice
+     */
     @Test
     public void testCheckWorkerAnswer() {
         testStartTurn();
@@ -245,6 +286,9 @@ public class ModelTest extends TestCase {
         Assert.assertTrue(model.checkAnswer(gm));
     }
 
+    /**
+     * Simulation: sending operation at the beginning of the turn & choose worker
+     */
     @Test
     public void testBeforeOperation(){
         testStartTurn();
@@ -257,6 +301,9 @@ public class ModelTest extends TestCase {
 
     }
 
+    /**
+     * Simulation: send the right Operation message to client
+     */
     @Test
     public void testOperation(){
         testBeforeOperation();
@@ -279,6 +326,9 @@ public class ModelTest extends TestCase {
     }
 
 
+    /**
+     * Simulation: check win conditions
+     */
     @Test
     public void testCheckWin() {
         testBeforeOperation();
@@ -311,14 +361,18 @@ public class ModelTest extends TestCase {
 
     }
 
-
-
+    /**
+     * Test: workerChosen
+     */
     @Test
     public void testWorkerChosen() {
         model.setWorkerChosen(true);
         assertTrue(model.isWorkerChosen());
     }
 
+    /**
+     * Simulation: check lose conditions
+     */
     @Test
     public void testLose() {
         testBeforeOperation();
@@ -341,6 +395,9 @@ public class ModelTest extends TestCase {
         Assert.assertTrue(model.isGameOver());
     }
 
+    /**
+     * Simulation: check other lost conditions
+     */
     @Test
     public void testLose2() {
         testStartTurn();
@@ -388,7 +445,9 @@ public class ModelTest extends TestCase {
     }
 
 
-
+    /**
+     * Simulation: set Game Over
+     */
     @Test
     public void testGameOver() {
         testStartTurn();
@@ -397,6 +456,9 @@ public class ModelTest extends TestCase {
     }
 
 
+    /**
+     * Test: creation of totalWorkerList
+     */
     @Test
     public void testTotalWorkerList() {
         testInitialize();
@@ -413,6 +475,9 @@ public class ModelTest extends TestCase {
 
     }
 
+    /**
+     * Test: functionality of sendMessage
+     */
     @Test
     public void testSendMessage() {
         testBeforeOperation();
@@ -432,6 +497,9 @@ public class ModelTest extends TestCase {
 
     }
 
+    /**
+     * Simulation: God Power Active -> send GodPowerMessage
+     */
     @Test
     public void testSendGodPowerMessage() {
         testBeforeOperation();
@@ -453,6 +521,9 @@ public class ModelTest extends TestCase {
 
     }
 
+    /**
+     * Simulation: show CompleteList only to the Challenger
+     */
     @Test
     public void testShowComplete() {
         testBeforeOperation();
@@ -468,6 +539,9 @@ public class ModelTest extends TestCase {
         model.showCompleteGodList();
     }
 
+    /**
+     * Test: set and show the currentGodList
+     */
     @Test
     public void testShowGodList(){
         testDefineGodList();
@@ -484,6 +558,10 @@ public class ModelTest extends TestCase {
         model.showGodList();
     }
 
+
+    /**
+     * Test: send broadcast messages
+     */
     @Test
     public void testBroadcast() {
         Observer observer = new Observer() {

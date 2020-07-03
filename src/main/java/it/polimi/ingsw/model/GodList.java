@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class that is used to handle the GodList used to initialize the match in the lobby.
- *<p></p>
+ * Class that is used to handle the GodList for initializing the match in the lobby.
+ * <p></p>
  * This class is used to create a GodList object which is fundamental to initialize the match itself to sort the God Powers
  * throughout the players.
  * <p></p>
@@ -71,7 +71,7 @@ public class GodList {
     //CurrentGodList getter
 
     /**
-     *Gets the current GodList available.
+     * Gets the current GodList available.
      * @return An arraylist of strings which are the Gods' names.
      */
     public List<String> getCurrentGodList() {
@@ -82,7 +82,7 @@ public class GodList {
     //CompleteGodList getter
 
     /**
-     *Gets the complete GodList available.
+     * Gets the complete GodList available.
      * @return An arraylist of strings which are the Gods' name.
      */
     public List<String> getCompleteGodList() {
@@ -93,7 +93,7 @@ public class GodList {
     //Select a god to add to currentGodList
 
     /**
-     *Sets the parameter in selectedGod after changing it to upperCase.
+     * Sets the parameter in selectedGod after changing it to upperCase.
      * @param selectedGod Variable which is a string of the God's name.
      */
     public void selectGod(String selectedGod) {
@@ -104,7 +104,7 @@ public class GodList {
     //Add selectedGod to currentGodList & listLength+1
 
     /**
-     *Adds the selectedGod to the GodList in the making.
+     * Adds the selectedGod to the GodList in the making.
      * @return A boolean: <code>true</code> if successful, otherwise <code>false</code>.
      */
     public boolean addInGodList() {
@@ -122,8 +122,8 @@ public class GodList {
     }
 
     /**
-     *Checks if the selectedGod is already in the GodList.
-     * @return A boolean: <code>true</code>  if it exists already, otherwise <code>false</code>.
+     * Checks if the selectedGod is already in the GodList.
+     * @return A boolean: <code>true</code> if it exists already, otherwise <code>false</code>.
      */
     public boolean checkGod(){
         for(String s : currentGodList){
@@ -138,7 +138,7 @@ public class GodList {
     //Removes a God from currentGodList
 
     /**
-     *Removes the parameter from the GodList after it's use.
+     * Removes the parameter from the GodList after its use.
      * @param selectedGod Variable which is a string of the God's name.
      */
     public void removeFromGodList(String selectedGod) {
@@ -154,8 +154,8 @@ public class GodList {
     //Check the dimension of currentGodList == playerNumber
 
     /**
-     *Checks if the dimension of the list is equal to the number of players.
-     * @return A boolean: <code>true</code> if the lenght of the list is the same as players' number, otherwise <code>false</code>.
+     * Checks if the dimension of the list is equal to the number of players.
+     * @return A boolean: <code>true</code> if the length of the list is the same as players' number, otherwise <code>false</code>.
      */
     public boolean checkLength(){
         return currentLength == playerNumber;

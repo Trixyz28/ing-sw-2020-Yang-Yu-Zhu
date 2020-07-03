@@ -22,7 +22,7 @@ public class Operation implements Serializable {
     private int column;
 
     /**
-     *  Creates a <code>operation</code> with the specified attributes.
+     * Creates a <code>operation</code> with the specified attributes.
      * @param type Variable that indicates the type of the operation.
      * @param row Variable that indicates the row of the destination <code>Tile</code>.
      * @param column Variable that indicates the column of the destination <code>Tile</code>.

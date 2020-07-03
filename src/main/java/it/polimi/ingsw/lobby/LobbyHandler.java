@@ -79,7 +79,7 @@ public class LobbyHandler {
     }
 
     /**
-     *Handles the creation of a new <code>lobby</code>.
+     * Handles the creation of a new <code>lobby</code>.
      * @param name Variable that represents the nickname of the first player of the lobby at issue.
      * @param playerNumber Variable that represents the number of players of the lobby at issue.
      * @return The ID of the newly created lobby.
@@ -103,7 +103,7 @@ public class LobbyHandler {
     }
 
     /**
-     *Finds a lobby in the server.
+     * Finds a lobby in the server.
      * @param index Variable that represents the ID of the wanted lobby.
      * @return The <code>lobby</code> at issue, if not found returns <code>null</code>.
      */
