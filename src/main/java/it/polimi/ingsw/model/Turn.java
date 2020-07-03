@@ -154,26 +154,6 @@ public class Turn {
         this.finalTile = finalTile;
     }
 
-   //get() of the built tile
-
-    /**
-     *Gets the built tile of the turn.
-     * @return A <code>Tile</code> object that represents the tile where it was built on.
-     */
-    public Tile getBuiltTile() {
-        return builtTile;
-    }
-
-    //set() of the built tile
-
-    /**
-     *Sets the built tile of the turn.
-     * @param builtTile Variable that represents the tile where it was built on.
-     */
-    public void setBuiltTile(Tile builtTile) {
-        this.builtTile = builtTile;
-    }
-
     //get() worker movableTile
 
     /**
