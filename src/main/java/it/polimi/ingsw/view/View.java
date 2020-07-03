@@ -28,8 +28,8 @@ public abstract class View extends Observable<Obj> implements Observer<Obj> {
     }
 
     /**
-     *Handles the operations that are sent in input by a client.
-     * @param input Variable that describes the operation sent by the client at issue.
+     * Modifies the previously saved operation based on client input.
+     * @param input Variable that describes the input at issue.
      */
     protected void handleOp(String input){  /* Update the saved Operation with Client input */
         try {
@@ -48,8 +48,8 @@ public abstract class View extends Observable<Obj> implements Observer<Obj> {
     }
 
     /**
-     *Handles the GameMessages that are sent in input by a client.
-     * @param input Variable that describes the GameMessage sent by the client at issue.
+     * Modifies the previously saved GameMessage based on client input.
+     * @param input Variable that describes the input at issue.
      */
     protected void handleGm(String input){  /* Update the saved GameMessage with Client input */
         gameMessage = obj.getGameMessage();

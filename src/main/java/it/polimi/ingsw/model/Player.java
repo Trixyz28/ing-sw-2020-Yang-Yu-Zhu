@@ -5,17 +5,17 @@ import it.polimi.ingsw.model.God.*;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Class that is used to represent the PLayer.
+ * Class used to represent the PLayer.
  * <p></p>
- * Each player has his own client.
+ * Each user has his own Player.
  * <p>
- * In the game each player possess 2 workers and a GodPower.
+ * In the game each player has got 2 workers and a GodPower card.
  * <p>
  * One player is the Challenger: he selects the available GodPowers in the game and he chooses the starting player.
  * <p>
- * A player wins is his worker does the "move" operation from a level 2 "Block" <code>Tile</code> to a level 3 "Block" <code>Tile</code>.
+ * A player wins if his worker does the "move" operation from a level 2 "Block" <code>Tile</code> to a level 3 "Block" <code>Tile</code>.
  * <p>
- * If a player cannot make both his workers do the "move" operation he loses.
+ * If a player cannot complete a "move" operation and a "build" operation in his turn, he loses.
  * <p></p>
  * @author GC44
  * @version 1.0

@@ -43,9 +43,10 @@ public class Server {
     }
 
     /**
-     * Starts the server with the chosen port.
+     * Starts the server with the chosen port. It will be ready to receive client connections.
      * @param inputPort Variable that represents the port of the server.
      * @throws IOException If no connection is established.
+     * At any Exception caught, the server should be disconnected.
      */
     public void startServer(String inputPort) throws IOException {
 
@@ -75,12 +76,12 @@ public class Server {
      * Handles the connections and eventually starts a new match of a full lobby handling all steps to set it up,
      * thus setting up the remoteViews, the Model and the Controller for the match of the lobby.
      * <p></p>
-     * This method is started as the player connects. If he doesn't join an existing lobby, a new lobby is created. Otherwise
-     * it maps the player connection to an existing yet-to-be filled lobby.
+     * This method is started as the player connects and enters a lobby. It maps the player connection to
+     * the correspondent lobby.
      * When a lobby is full the original <code>match</code> method sets up the "waterfall" of steps to initialize the match.
      * <p></p>
      * @param lobbyID Variable that indicates the lobby at issue.
-     * @param c Variable that represents the socket used for the connection by each player.
+     * @param c Variable that represents the server-side connection of each player.
      */
     public synchronized void match(int lobbyID, SocketConnection c) {
 
@@ -180,7 +181,8 @@ public class Server {
     }
 
     /**
-     * Deregisters the match from the server and deletes the associated lobby after the game has finished.
+     * Deregisters the match of the connection owner from server and deletes the associated lobby after the game has finished.
+     * All players in the match are deregistered.
      * @param c Variable that is the connection used by the client at issue.
      */
     public synchronized void deregisterMatch(SocketConnection c) {

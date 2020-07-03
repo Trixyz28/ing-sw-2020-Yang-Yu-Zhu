@@ -4,6 +4,8 @@ import java.io.Serializable;
 /**
  * Class that is used to represent the operations "move" or "build" actions.
  * <p></p>
+ * If the variable type equale to the integer 0, the action is a "place".
+ * <p>
  * If the variable type equals to the integer 1, the action is a "move".
  * <p>
  * If the variable type equals to the integer 2, the action is a "build".

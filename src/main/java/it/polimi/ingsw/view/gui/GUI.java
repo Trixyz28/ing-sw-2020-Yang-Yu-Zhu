@@ -143,7 +143,7 @@ public class GUI implements Ui {
     }
 
     /**
-     *Sets the server for the GUI.
+     * Sets the server connection for the GUI.
      */
     public void setServer() {
         try {
@@ -158,8 +158,8 @@ public class GUI implements Ui {
 
 
     /**
-     *Shows a parameter that is used for Model updating the nickname of the player at issue.
-     * @param message Variable that represents the nickname chosen.
+     * Communicates the result of the nickname choice to the player at issue.
+     * @param message Variable that represents the message concerning the nickname choice.
      */
     public void handleNameMsg(String message) {
         if(message.equals(Messages.nicknameAvailable)) {
@@ -170,10 +170,9 @@ public class GUI implements Ui {
             showNameMsg(message);
         }
     }
-
     /**
-     *Shows a parameter that is used for Model updating after the first player has been chosen.
-     * @param message Variable that represents the message that was shown to the user.
+     * Shows a message to the GodSelection interface.
+     * @param message Variable that represents the message that was shown to the user in the God Selection phase.
      */
     public void handleGodMsg(String message) {
 
@@ -224,6 +223,7 @@ public class GUI implements Ui {
     }
 
     /**
+     * Handle GameMessages and eventually set the answer buttons for the player.
      * {@inheritDoc}
      */
     @Override
@@ -310,8 +310,8 @@ public class GUI implements Ui {
 
 
     /**
-     *Shows on the GUI a name of a player.
-     * @param str Variable that is the name of the player at issue.
+     * Shows a message on the Name Selecting interface.
+     * @param str Variable that is the message.
      */
     public void showNameMsg(String str) {
         Platform.runLater(() -> loadingController.showNameMsg(str));

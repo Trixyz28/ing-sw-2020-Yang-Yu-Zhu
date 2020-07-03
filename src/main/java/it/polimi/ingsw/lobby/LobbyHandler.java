@@ -47,8 +47,8 @@ public class LobbyHandler {
     }
 
     /**
-     *Gets the list of the lobbies of the server.
-     * @return A list made of the IDs of the lobbies.
+     * Gets the list of lobbies of the server.
+     * @return A list made of all present lobbies.
      */
     //Get() of lobbyList
     public List<Lobby> getLobbyList() {
@@ -65,8 +65,8 @@ public class LobbyHandler {
     }
 
     /**
-     *Checks a lobby's availability.
-     * @return A boolean: <code>true</code> if the lobby is available, otherwise <code>false</code>.
+     * Checks if there are lobbies available to join.
+     * @return A boolean: <code>true</code> if there are lobbies waiting for players, otherwise <code>false</code>.
      */
     //Check the presence of a lobby available to join
     public boolean checkAvailableLobby() {

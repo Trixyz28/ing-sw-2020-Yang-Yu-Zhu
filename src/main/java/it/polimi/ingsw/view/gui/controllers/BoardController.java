@@ -102,7 +102,8 @@ public class BoardController {
     private ImageView leftArrow;
 
     /**
-     * Checks if the board of the GUI has been clicked or not.
+     * Handles GUI board clicking.
+     * Selects a worker or a tile according to the game state.
      * @param event Variable that represents the mouse clicked that happened.
      */
     public void boardClicked(MouseEvent event) {
@@ -133,7 +134,7 @@ public class BoardController {
     }
 
     /**
-     * Sets up the board of the GUI for the God Choice process.
+     * Sets up the board of the GUI for the Board interface.
      * @param playerList Variable that represents a list of all the players in the game.
      * @param nickname Variable that represents the nickname of the current player of the client at issue.
      * @param godList Variable that represents a list of all the Gods.
@@ -175,17 +176,16 @@ public class BoardController {
     }
 
     /**
-     *Updates the Gods after the choice of teh Challenger.
-     * @param godList Variable that represents a list of the available Gods.
+     * Updates the corresponding God images.
+     * @param godList Variable that represents the selected gods.
      */
     public void initializeGods(String[] godList) {
         setCoin(godList);
         setGod(godList);
     }
-
     /**
-     *Updates the GUI during the selection of Gods.
-     * @param godList Variable that represents a list of the available Gods.
+     * Updates the God Clouds.
+     * @param godList Variable that represents the selected gods.
      */
     private void setGod(String[] godList) {
 
@@ -518,8 +518,8 @@ public class BoardController {
         rightArrow.setDisable(true);
     }
     /**
-     *Sets the Sender of the GUI messages.
-     * @param sender Variable that is an <code>Sender</code> used for the client-GUI and server interactions.
+     * Sets the Sender of the GUI messages.
+     * @param sender Variable that is an <code>Sender</code> used for the client-GUI interactions.
      */
     public void setSender(Sender sender) {
         this.sender = sender;

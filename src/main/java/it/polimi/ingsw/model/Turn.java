@@ -191,7 +191,7 @@ public class Turn {
     //After chose worker
 
     /**
-     *Handles the new choice of a worker by the player.
+     * Handles the new choice of a worker by the player, initializing the turn.
      * @param chosenWorker Variable that indicates the worker chosen by the current player.
      */
     public void choseWorker(UndecoratedWorker chosenWorker){
@@ -204,7 +204,7 @@ public class Turn {
     //check lose conditions
 
     /**
-     *Checks if a player cannot move both of his workers so he loses.
+     * Checks if a player cannot move both of his workers or build with the moved one so he loses.
      * @return A boolean: <code>true</code> if the losing condition is fulfilled, otherwise <code>false</code>.
      */
     public boolean checkLose(){

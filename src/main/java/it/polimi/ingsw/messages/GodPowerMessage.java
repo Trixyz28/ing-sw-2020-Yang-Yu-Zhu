@@ -22,9 +22,9 @@ public enum GodPowerMessage {
     private String answer2;
 
     /**
-     *Creates a <code>GodPowerMessage</code> with the specified attributes.
+     * Creates a <code>GodPowerMessage</code> with the specified attributes.
      * @param message Variable that represents a message sent to the player.
-     *                The message can only be answered by "YES" or "NO".
+     *                The message only accepts answers equals to answer1 or answer2.
      */
     GodPowerMessage(String message){
         this.message = message;
@@ -35,8 +35,8 @@ public enum GodPowerMessage {
     /**
      *Creates a <code>GodPowerMessage</code> with the specified attributes.
      * @param message Variable that represents a message sent to the player.
-     * @param answer1 Variable that represents one answer from the player.
-     * @param answer2 Variable that represents another answer from the player.
+     * @param answer1 Variable that represents one answer accepted from the player.
+     * @param answer2 Variable that represents another answer accepted from the player.
      */
     GodPowerMessage(String message, String answer1, String answer2){
         this.message = message;

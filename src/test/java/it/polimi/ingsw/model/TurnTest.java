@@ -8,6 +8,12 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+/**
+ * Tests of the <code>Turn</code>
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class TurnTest extends TestCase {
 
     Player player = new Player("A");
@@ -17,6 +23,18 @@ public class TurnTest extends TestCase {
     Board board = new Board();
     ArrayList<UndecoratedWorker> totalWorkerList = new ArrayList<>();
 
+    /**
+     * Initialize the match : (before testing)
+     * <p>
+     *     &nbsp - create workers of player
+     *     <br>
+     *     &nbsp - set the workers: Zeus0 (0,0), Zeus1(1,0)
+     *     <p>
+     *     &nbsp - create workers of player2
+     *     <br>
+     *     &nbsp - set the workers: Pan0 (2,0), Pan1(1,4)
+     * </p>
+     */
     @Before
     public void initialize(){
         player.createWorker("ZEUS", condition, totalWorkerList);
@@ -27,7 +45,17 @@ public class TurnTest extends TestCase {
         player2.chooseWorker(1).setPosition(board.getTile(1,4));
     }
 
-
+    /**
+     * Test of <code>nextTurn</code>:
+     * new turn into change of the current player
+     * <p>
+     *     results:
+     *     <br>
+     *     &nbsp - After nextTurn() is resolved the current player of the turn must be player2
+     *     <br>
+     *     It's now Turn 1 and the currentPlayer is player2
+     * </p>
+     */
     @Test
     public void testNextTurn() {
         testChoseWorker();
@@ -47,6 +75,17 @@ public class TurnTest extends TestCase {
     }
 
 
+    /**
+     * Test of <code>InitialTile</code>:
+     * set of the initial tile of the state
+     * <p>
+     *     results:
+     *     <br>
+     *     &nbsp - The initial Tile is correctly set
+     *     <br>
+     *
+     * </p>
+     */
     @Test
     public void testInitialTile() {
         Tile t = new Tile();
@@ -54,6 +93,17 @@ public class TurnTest extends TestCase {
         assertEquals(t,turn.getInitialTile());
     }
 
+    /**
+     * Test of <code>FinalTile</code>:
+     * set of the final tile of the state
+     * <p>
+     *     results:
+     *     <br>
+     *     &nbsp - The final Tile is correctly set
+     *     <br>
+     *
+     * </p>
+     */
     @Test
     public void testFinalTile() {
         Tile t = new Tile();
@@ -62,6 +112,17 @@ public class TurnTest extends TestCase {
     }
 
 
+    /**
+     * Test of <code>ChoseWorker</code>:
+     * a worker is chosen by the player
+     * <p>
+     *     results:
+     *     <br>
+     *     &nbsp - Player choose the worker Zeus0 in (0,0): checkLose false, is able to do "move","build" operations, can useGodPower.
+     *     <br>
+     *
+     * </p>
+     */
     @Test
     public void testChoseWorker() {
         initialize();
@@ -97,6 +158,17 @@ public class TurnTest extends TestCase {
         Assert.assertEquals(5, turn.buildableList(player2.chooseWorker(1)).size());
     }
 
+    /**
+     * Test of <code>checkLose</code>:
+     * losing condition check: if both workers can't move
+     * <p>
+     *     results:
+     *     <br>
+     *     &nbsp - Player loses as both his workers cannot move
+     *     <br>
+     *     Dome Presence in (0,1),(1,1),(2,1)
+     * </p>
+     */
     @Test
     public void testCheckLose(){
         initialize();
@@ -111,6 +183,17 @@ public class TurnTest extends TestCase {
         Assert.assertTrue(turn.checkLose());
     }
 
+    /**
+     * Test of <code>checkLose</code>:
+     * losing condition check: if a worker can't build
+     * <p>
+     *     results:
+     *     <br>
+     *     &nbsp - Player2 loses as his worker1 cannot build
+     *     <br>
+     *     Dome Presence in (0,3),(0,4),(1,3),(2,3),(2,4)
+     * </p>
+     */
     @Test
     public void testCheckLose2(){
         initialize();

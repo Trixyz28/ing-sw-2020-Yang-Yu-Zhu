@@ -174,7 +174,7 @@ public class Tile implements Cloneable, Serializable {
     //Return true if it is possible to move from the present tile to the tile destination
 
     /**
-     *Checks if it's possible for a worker of a player to "move" to the parameter <code>Tile</code>.
+     *Checks if it's possible to "move" from the current Tile to the parameter <code>Tile</code>.
      * @param dest Variable that represents the destination <code>Tile</code>.
      * @return A boolean: <code>true</code> if the "move" operation is possible, otherwise <code>false</code>.
      */
@@ -187,7 +187,7 @@ public class Tile implements Cloneable, Serializable {
     //Return true if it is possible to build on the tile destination
 
     /**
-     *Checks if it's possible for a worker of a player to "build" in the parameter <code>Tile</code>.
+     * Checks if it's possible to "build" in the parameter <code>Tile</code>, standing on the current one.
      * @param dest Variable that represents the destination <code>Tile</code>.
      * @return A boolean: <code>true</code> if the "build" operation is possible, otherwise <code>false</code>.
      */
@@ -247,7 +247,7 @@ public class Tile implements Cloneable, Serializable {
     //Return woker on this Tile
 
     /**
-     *Checks the worker that is currently situated on the current <code>Tile</code>.
+     * Takes the worker that is currently situated on the current <code>Tile</code>.
      * @param totalWorkers Variable that represents a list of all the workers in the game.
      * @return The worker that is situated in the current <code>Tile</code>, otherwise <code>Null</code>.
      */

@@ -31,12 +31,13 @@ public class TurnController {
     private UndecoratedWorker chosenWorker;
 
 
-
+    /* choose worker + check possibility to change to the other worker */
     /**
-     *Handles which <code>worker</code> is chosen for the turn.
+     * Handles which <code>worker</code> is chosen for the turn.
+     * If both workers can move, the player will be asked to confirm the choice.
+     * If the selected worker can't move, the player will be asked to reconsider the choice.
      * @param index Variable that represents which worker is at issue.
      */
-    /* choose worker + check possibility to change to the other worker */
     protected void setChosenWorker(int index) {
         UndecoratedWorker worker = currentTurn.getCurrentPlayer().chooseWorker(index);
 
@@ -85,10 +86,10 @@ public class TurnController {
         }
     }
 
-    /**
-     *Differentiates the end of the different types of actions.
-     */
     /* end of an operation */
+    /**
+     *Differentiates the end of different types of actions.
+     */
     protected void endOperation(){
         int type = currentTurn.getState();
         if(type == 1){
@@ -98,10 +99,12 @@ public class TurnController {
         }
     }
 
-    /**
-     *Handles the end of the "move" operation.
-     */
     /* end of move operation -> update FinalTile + checkWin -> start Build */
+    /**
+     * Handles the end of the "move" operation.
+     * It updates the final tile of a turn and checks if the player wins with this move.
+     * It will eventually send GameMessages to the player considering the specific God Power.
+     */
     private void endMove() {
         currentTurn.setFinalTile(chosenWorker.getPosition());
         /* check win dopo move */
@@ -121,10 +124,11 @@ public class TurnController {
     }
 
 
-    /**
-     *Handles the end of the "build" operation.
-     */
     /* end of build operation */
+    /**
+     * Handles the end of the "build" operation.
+     * It will eventually send GameMessages to the player considering the specific God Power.
+     */
     private void endBuild(){
         /* godPower before end turn */
         if(chosenWorker.getGodPower()){
@@ -151,12 +155,11 @@ public class TurnController {
         nextTurn();
     }
 
-
-
-    /**
-     *Handles the start of the next turn restoring the board methods.
-     */
     /* next Turn */
+    /**
+     * Handles the start of the next turn restoring the board methods.
+     * It also checks if the player at issue loses.
+     */
     protected void nextTurn() {
         List<Player> playerList = model.getMatchPlayersList();
         int index = model.getNextPlayerIndex();
@@ -187,7 +190,7 @@ public class TurnController {
 
 
     /**
-     *Checks if the game is over.If not,brings the game to the next turn.
+     *Checks if the game is over.If not, brings the game to the next turn.
      */
     /* check after lose */
     private void checkGameOver(){
@@ -197,7 +200,7 @@ public class TurnController {
     }
 
     /**
-     *Applies the operation checking the game state for losing or winning conditions.
+     * Applies the operation checking the game state for losing conditions.
      */
     protected void operation() {
         model.sendBoard();

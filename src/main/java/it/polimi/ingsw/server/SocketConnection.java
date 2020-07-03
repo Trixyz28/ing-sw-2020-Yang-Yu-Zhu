@@ -10,9 +10,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
-
 /**
- * Class that is used to handle the sockets' connections.
+ * Class used to handle a client connection.
  * @author GC44
  * @version 1.0
  * @since 1.0
@@ -43,7 +42,7 @@ public class SocketConnection extends Observable<String> implements Runnable {
     }
 
     /**
-     * Checks if the socket is active or not.
+     * Checks if the connection is active or not.
      * @return A boolean: <code>true</code> if the connection is active, otherwise <code>false</code>.
      */
     public synchronized boolean isActive() {
@@ -228,8 +227,8 @@ public class SocketConnection extends Observable<String> implements Runnable {
     }
 
     /**
-     * Gets the player at issue in the connection.
-     * @return A <code>Player</code> object that was selected.
+     * Gets the player of the actual connection.
+     * @return A <code>Player</code> object.
      */
     public Player getPlayer() {
         return player;

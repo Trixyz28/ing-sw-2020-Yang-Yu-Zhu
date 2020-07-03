@@ -34,21 +34,22 @@ public class InitController {
         return endInitialize;
     }
 
-    /**
-     * Starts after setup notification to set up the challenger players.
-     */
+
     /* after setup message */
+    /**
+     * Starts after setup notification to choose a Challenger player randomly and activate the turns.
+     */
     public void initializeMatch(){
         /* inizia il Challenger */
         model.challengerStart();
     }
-
+    /* choose god to define the godList -> challenger */
     /**
      * Handles the choices of Gods from the challenger and the players.
+     * If the right amount of God Power cards is defined by the challenger, other players will take their turn.
      * @param god Variable that indicates the God chosen by the player at issue.
      * @param godList Variable that is the list of all the <code>Gods</code>
      */
-    /* choose god to define the godList -> challenger */
     protected void defineGodList(String god, GodList godList){
         if(!godList.checkLength()) {
             if(model.defineGodList(god)){

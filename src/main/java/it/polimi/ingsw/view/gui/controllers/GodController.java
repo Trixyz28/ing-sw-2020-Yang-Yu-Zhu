@@ -414,7 +414,7 @@ public class GodController {
     }
 
     /**
-     *Sets a player as "choosing god" in the GUI.
+     * Shows the "choosing god" phase in the GUI.
      */
     private void setChooseTitle() {
         title.setImage(new Image("/components/choosingGod.png"));
@@ -440,7 +440,7 @@ public class GodController {
     }
 
     /**
-     *Sets a cloud effect in the GUI of the current client.
+     * Sets a blinking cloud effect in the GUI of the player bubble.
      * @param node Variable that is used by JavaFX.
      */
     private void setCloudEffects(Node node) {
@@ -468,8 +468,8 @@ public class GodController {
         fade.play();
     }
     /**
-     *Sets the Sender of the GUI messages.
-     * @param sender Variable that is an <code>Sender</code> used for the client-GUI and server interactions.
+     * Sets the Sender of the GUI messages.
+     * @param sender Variable that is an <code>Sender</code> used for the client-GUI interactions.
      */
     public void setSender(Sender sender) {
         this.sender = sender;

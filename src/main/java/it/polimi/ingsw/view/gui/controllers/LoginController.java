@@ -71,8 +71,8 @@ public class LoginController {
     }
 
     /**
-     * Shows a message sent by the server on the GUI.
-     * @param str Variable that represents the message sent by the server.
+     * Shows a connection message on the GUI during the login phase.
+     * @param str Variable that represents the message received.
      */
     public void showMessage(String str) {
         serverMsg.setText(str);

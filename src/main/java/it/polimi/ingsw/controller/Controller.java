@@ -53,6 +53,8 @@ public class Controller implements Observer<Obj> {
 
     /**
      * {@inheritDoc}
+     * Notified by a View, the controller handles the received Obj.
+     * If the Tag is "SETUP", initialize the match. Otherwise checks the turn and updates the game state.
      */
     @Override
     public void update(Obj arg) {
@@ -124,6 +126,7 @@ public class Controller implements Observer<Obj> {
 
     /**
      * Updates the game state based on the <code>answer</code> sent by a particular player.
+     * Used in the first phases of the game: defining God Lists, choosing God Powers, choosing Start Player.
      * @param player Variable that indicates the player at issue.
      * @param answer Variable that indicates the answer sent by the player at issue.
      */

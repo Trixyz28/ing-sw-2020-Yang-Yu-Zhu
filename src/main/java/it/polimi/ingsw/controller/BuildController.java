@@ -37,7 +37,7 @@ public class BuildController {
     /**
      *Checks if the worker can <code>build</code> and returns a boolean depending on the success or not of the action.
      * @param position Variable that indicates the position on the board of the selected <code>Tile</code>.
-     * @return A boolean: <code>True</code> if the block or dome is built, otherwise <code>False</code>.
+     * @return A boolean: <code>True</code> if the block or dome can be built, otherwise <code>False</code>.
      */
     /* check buildBlock/Dome if true -> Build */
     private boolean checkPosition(Tile position){

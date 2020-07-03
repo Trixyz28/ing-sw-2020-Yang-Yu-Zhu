@@ -27,9 +27,9 @@ public class MoveController {
     }
 
     /**
-     *Moves the <code>worker</codeZ>in the <code>Tile</code> chosen by the player.
+     *Moves the <code>worker</code> in the <code>Tile</code> chosen by the player.
      * @param move Variable that could encapsulate a <code>move</code> action.
-     * @return A boolean that indicates if the action was successful or not in the selected <code>Tile</code>.
+     * @return A boolean indicating the success of the action in the selected <code>Tile</code>.
      */
     public boolean moveWorker(Operation move){
 

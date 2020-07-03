@@ -34,6 +34,7 @@ public class GuiLauncher extends Application {
     }
 
     /**
+     * Creates and sets the start window.
      * {@inheritDoc}
      */
     @Override

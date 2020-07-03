@@ -41,10 +41,11 @@ public class Client implements Observer<String>, Runnable {
     /**
      * Sets up the <code>Client</code>.
      * <p>
-     * If there's any IOException prints out the subsequent error.
+     * If there are any IOExceptions prints out the subsequent error.
      * @param uiStyle Variable for the choice of the style of the <code>ui</code>.
-     * @param socket Variable for the socket functionality.
+     * @param socket Variable indicating the created socket.
      */
+
     public void setupClient(String uiStyle, Socket socket) {
 
         //Create CLI
@@ -63,9 +64,9 @@ public class Client implements Observer<String>, Runnable {
 
     }
 
-
     /**
      * {@inheritDoc}
+     * The Client starts running and the thread t0 gets ready to receive messages from Server through the socket.
      */
     @Override
     public void run() {
@@ -90,9 +91,10 @@ public class Client implements Observer<String>, Runnable {
         }
     }
 
-    /**
+
+     /**
      * Starts a thread connected to a socket with the server.
-     * @param socketIn The socket which is used to connect with the server.
+     * @param socketIn The input stream which lets the client to obtain messages from the server.
      * @return The thread that was created and used with the socket.
      * @throws IllegalArgumentException Is thrown if the input is not correct.
      */
@@ -133,6 +135,11 @@ public class Client implements Observer<String>, Runnable {
 
     /**
      * Method that is used to send the choices of the user to the server.
+     * <p></p>
+     * If the client received an Operation immediately before this input,
+     * the message will be processed as tile coordinates and the counter will be refreshed.
+     *<p>
+     * If the client received a GameMessage, the input will be considered an answer.
      * @param input A string that represents the input from the user.
      */
     public void writeToSocket(String input) {
@@ -179,7 +186,7 @@ public class Client implements Observer<String>, Runnable {
 
     /**
      * Sets the client's <code>active</code> attribute.
-     * @param active Indicates if the client at issue is in his turn or not.
+     * @param active Indicates if the client at issue is still connected or not.
      */
     public synchronized void setActive(boolean active) {
         this.active = active;
@@ -218,6 +225,7 @@ public class Client implements Observer<String>, Runnable {
 
     /**
      * {@inheritDoc}
+     * Notified by a Sender, it is going to send its message to the socket.
      */
     @Override
     public void update(String message) {

@@ -84,8 +84,7 @@ public class LoadingController {
     }
 
     /**
-     *Sends the choice of the type of lobby to the server.
-     * @param event Variable that represents the event the player did: click on the choice button of the lobby.
+     * Sends the choice of the type of lobby to the server.
      */
     public void sendLobby(ActionEvent event) {
         if(playerNumberSelect.getValue().equals("3 players")) {
@@ -109,8 +108,8 @@ public class LoadingController {
     }
 
     /**
-     *Sets the Sender of the GUI messages.
-     * @param sender Variable that is an <code>Sender</code> used for the client-GUI and server interactions.
+     * Sets the Sender of the GUI messages.
+     * @param sender Variable that is an <code>Sender</code> used for the client-GUI interactions.
      */
     public void setSender(Sender sender) {
         this.sender = sender;

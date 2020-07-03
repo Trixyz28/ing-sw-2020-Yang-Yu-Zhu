@@ -71,7 +71,8 @@ public class CliLauncher {
     }
 
     /**
-     *Prints a message at the end of the game for the CLI of the client.
+     * Prints a message at the end of the game for the CLI of the client.
+     * Asks if the player wants to play again.
      */
     private void finalRequest() {
         scanner = new Scanner(System.in);

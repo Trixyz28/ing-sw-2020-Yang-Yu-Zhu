@@ -12,14 +12,16 @@ public class LobbyController {
 
     /**
      *Creates a <code>LobbyController</code> with the specified attributes.
-     * @param lobbyHandler
+     * @param lobbyHandler represents the waiting room handling all lobbies.
      */
+
     public LobbyController(LobbyHandler lobbyHandler) {
         this.lobbyHandler = lobbyHandler;
     }
 
     /**
-     *Checks if the nickname can be used or not.
+     * Checks if the nickname can be used or not.
+     * A nickname can't be used if it is already taken by a player in game in this moment.
      * @param s Variable that is the nickname at issue.
      * @return A boolean: <code>true</code> if the nickname can be used, otherwise <code>false</code>.
      */
@@ -65,7 +67,7 @@ public class LobbyController {
     }
 
     /**
-     *Removes the lobby from the server.
+     * Removes the lobby from the lobbyHandler.
      * @param lobbyID Variable that represents the ID of the lobby at issue.
      */
     public void removeLobby(int lobbyID) {

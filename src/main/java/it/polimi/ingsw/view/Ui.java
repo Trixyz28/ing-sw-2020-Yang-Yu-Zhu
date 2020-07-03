@@ -41,7 +41,7 @@ public interface Ui {
     void handleTurn(String message);
 
     /**
-     *Handles the Gods chosen.
+     * Handles the Gods chosen by the Challenger.
      * @param message Variable that represents the name of the God chosen.
      */
     void handleDefineGod(String message);
@@ -53,13 +53,13 @@ public interface Ui {
     void handleChooseGod(Obj obj);
 
     /**
-     *Updates the board.
-     * @param boardView Variable that represents the last updated boardView and needs to be used as blueprints for all the boards of the UIs.
+     * Updates the board.
+     * @param boardView Variable that represents the last updated boardView.
      */
     void updateBoard(BoardView boardView);
 
     /**
-     *Shows a parameter that is used for Model updating.
+     * Handle a message from the board game phase.
      * @param message Variable that represents the message that needs to be shown to the user.
      */
     void handleBoardMsg(String message);

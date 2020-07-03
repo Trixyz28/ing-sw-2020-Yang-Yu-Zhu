@@ -131,7 +131,7 @@ public class Model extends Observable<Obj> {
     /**
      * Handles the choice of a God Card by the Challenger and adds it the the current God List.
      * @param god Variable that represents which particular God was chosen by the Challenger.
-     * @return A boolean: <code>true</code> if the choice was correct and the God was added to the current God List,
+     * @return A boolean: <code>true</code> if the choice was correct and all God Powers are defined by the Challenger,
      * otherwise <code>false</code>.
      */
     public boolean defineGodList(String god){
@@ -472,7 +472,7 @@ public class Model extends Observable<Obj> {
 
     /**
      * Gets the GodList of the current game.
-     * @return An object <code>GodList</code> that encapsulates a list with all the current Gods in the game.
+     * @return An object <code>GodList</code> that encapsulates information about God Power choices in the game.
      */
     public GodList getGodsList() {
         return godsList;
@@ -510,7 +510,7 @@ public class Model extends Observable<Obj> {
     //Messages
 
     /**
-     * Sends a message to the client at issue.
+     * Sends a message to the current player at issue.
      * @param tag Variable that gives more information about the type and use of the message sent.
      * @param arg Variable that represents the message to be sent.
      */
@@ -560,7 +560,7 @@ public class Model extends Observable<Obj> {
     }
 
     /**
-     * Place a worker and casts it to the current player.
+     * Sending a place worker request to the current player.
      */
     public void place(){  /* type 0 = place */
         unicastMsg(new Obj(new Operation(0, -1, -1)));
@@ -606,6 +606,9 @@ public class Model extends Observable<Obj> {
 
     /**
      * Handles the loss of a player.
+     * If current players in game are more than 2, the lost player will have the workers removed and continue to
+     * watch the match as a spectator.
+     * If there are only 2 remaining players, the player who doesn't lose automatically win and the game ends.
      * @param player Variable that indicates the player that lost.
      */
     public void lose(Player player){
@@ -630,16 +633,16 @@ public class Model extends Observable<Obj> {
     }
 
     /**
-     * Checks if the worker is chosen.
-     * @return A boolean: <code>true</code> if the worker is chosen, otherwise <code>false</code>.
+     * Checks if in the current state of game there is any worker chosen.
+     * @return A boolean: <code>true</code> if there is a chosen worker, otherwise <code>false</code>.
      */
     public boolean isWorkerChosen() {
         return workerChosen;
     }
 
     /**
-     * Sets the worker at issue as chosen.
-     * @param workerChosen Variable that represents the worker chosen by the player.
+     * Sets the <code>workerChosen</code> variable.
+     * @param workerChosen Variable that represents a worker is chosen by the player.
      */
     public void setWorkerChosen(boolean workerChosen) {
         this.workerChosen = workerChosen;
@@ -647,6 +650,7 @@ public class Model extends Observable<Obj> {
 
     /**
      * Broadcasts a message that the game ended.
+     * The receiver of this message is the last one of the players' list, it should handle the match disconnection.
      */
     public void gameOver() {
         isGameOver = true;

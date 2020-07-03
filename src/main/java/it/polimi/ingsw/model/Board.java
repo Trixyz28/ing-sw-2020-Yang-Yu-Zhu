@@ -63,11 +63,12 @@ public class Board {
 
     //get() of a specific tile in the map
 
+
     /**
      * Gets a single <code>Tile</code> of the board.
      * @param i Row Value of the chosen <code>Tile</code>.
      * @param j Column Value of the chosen <code>Tile</code>.
-     * @return A single <code>Tile</code> of the current <code>Board</code>.
+     * @return A single <code>Tile</code> of the current <code>Board</code> with the right row/column index.
      */
     public Tile getTile(int i, int j) {
         return map[i][j];
@@ -75,9 +76,8 @@ public class Board {
 
 
     //Fill the adjacent tiles list for a tile
-
     /**
-     * Creates a list of all the adjacent tiles near the chosen <code>Tile</code>.
+     * Initializes the list of all the tiles adjacent to a chosen <code>Tile</code>.
      * @param t The chosen <code>Tile</code>
      */
     public void setAdjacentList(Tile t) {

@@ -21,6 +21,7 @@ public class RemoteView extends View {
     private class MessageReceiver implements Observer<String> {
 
         /**
+         * Handles the messages received by the connection from the client.
          * {@inheritDoc}
          */
         @Override
@@ -53,6 +54,8 @@ public class RemoteView extends View {
     }
 
     /**
+     * Prepare to send messages to the client.
+     * If the game ends, it will help closing the connections.
      * {@inheritDoc}
      */
     @Override

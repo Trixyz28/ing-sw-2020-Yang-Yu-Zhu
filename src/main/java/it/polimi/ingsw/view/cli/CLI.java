@@ -169,7 +169,7 @@ public class CLI implements Ui {
     }
 
     /**
-     *Prints the Block for the CLI.
+     * Prints the Dome for the CLI.
      */
     private void printDome() {
         System.out.print(CliPrinter.DOME_COLOR + "  ^  ");
@@ -187,8 +187,10 @@ public class CLI implements Ui {
     }
 
     /**
-     *Prints the workers of the players for the CLI.
-     * @param index Variable that indicates which worker is being printed.
+     * Prints the player names for the CLI.
+     * All users should see their own name marked with "-".
+     * If there is a lost player, the corresponding name will be printed differently.
+     * @param index Variable representing the player index.
      */
     private void printPlayer(int index) {
         if(playerList.get(index).equals(nickname)) {
@@ -205,7 +207,7 @@ public class CLI implements Ui {
     }
 
     /**
-     *Checks if on the <code>Tile</code> selected can be done a "move" or "build" operation.
+     * Checks if on the <code>Tile</code> selected can be shown a "move" or "build" possibility.
      * @param t Variable that indicates the <code>Tile</code> at issue.
      * @return A boolean: <code>true</code> if a "move" or "build" operation can be done, otherwise <code>false</code>.
      */

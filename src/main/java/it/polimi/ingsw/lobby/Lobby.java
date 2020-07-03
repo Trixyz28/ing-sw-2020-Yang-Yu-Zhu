@@ -60,8 +60,9 @@ public class Lobby {
     }
 
     /**
-     * Sets the lobby to a different capacity of players
-     * @param full The attribute is a boolean used to change to full or no the lobby
+     * Modify the lobby's filling state. If the joined players are equals to the decided number, it will set <code>full</code>
+     * to true.
+     * @param full The attribute is a boolean used to declare the lobby is full or not.
      */
     //Set() of full
     public void setFull(boolean full) {

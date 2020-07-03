@@ -28,16 +28,16 @@ public class Sender extends Observable<String> {
     }
 
     /**
-     *Checks if the worker at issue is chosen with a condition.
-     * @return A boolean: <code>true</code> if the worker at issue is chosen, otherwise <code>false</code>.
+     *Checks if it is in the choose worker phase.
+     * @return A boolean: <code>true</code> if the input required is a worker index, otherwise <code>false</code>.
      */
     public boolean isChooseWorker() {
         return chooseWorker;
     }
 
     /**
-     *Sets the worker at issue as chosen with a condition.
-     * @param condition Variable that represents the condition that is afflicted to the worker.
+     * Sets the choose worker phase.
+     * @param condition Variable that updates the choose worker phase.
      */
     public void setChooseWorker(boolean condition) {
         this.chooseWorker = condition;
