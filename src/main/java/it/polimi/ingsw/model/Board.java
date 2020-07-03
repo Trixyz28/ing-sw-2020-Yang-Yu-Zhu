@@ -3,15 +3,17 @@ package it.polimi.ingsw.model;
 
 /**
  * Board of the game where the game is played.
- * <p>
+ * <p></p>
  * Matrix 5 x 5 made of <code>Tile</code> objects.
+ * "Worker" to "Tile" ratio is 1-to-1.
+ * In every <code>Tile</code> a "block" or "dome" can be built.
  * @author GC44
  * @version 1.0
  * @since 1.0
  */
 public class Board {
 
-    //map creation 5x5 blocks
+    //map 5x5 blocks
     private final Tile[][] map;
 
     //Constructor for the map
@@ -75,7 +77,7 @@ public class Board {
     //Fill the adjacent tiles list for a tile
 
     /**
-     * Creates a list of all the adjacent tiles near the chosen tile.
+     * Creates a list of all the adjacent tiles near the chosen <code>Tile</code>.
      * @param t The chosen <code>Tile</code>
      */
     public void setAdjacentList(Tile t) {

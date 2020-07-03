@@ -3,6 +3,10 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 /**
  * Class that is used to handle the GodList used to initialize the match in the lobby.
+ *<p></p>
+ * This class is used to create a GodList object which is fundamental to initialize the match itself to sort the God Powers
+ * throughout the players.
+ * <p></p>
  * @author GC44
  * @version 1.0
  * @since 1.0
@@ -83,7 +87,7 @@ public class GodList {
     }
 
 
-    //Select a god to add to currentGodList (manca ancora il check per la decisione)
+    //Select a god to add to currentGodList
 
     /**
      *Sets the parameter in selectedGod after changing it to upperCase.
@@ -100,9 +104,9 @@ public class GodList {
      *Adds the selectedGod to the GodList in the making.
      * @return A boolean: <code>true</code> if successful, otherwise <code>false</code>.
      */
-    public boolean addInGodList() {  /* true: andato a buon fine   false: non aggiunto */
+    public boolean addInGodList() {
         if(!checkGod()) {
-            /* controllare se il selectedGod sia un God */
+            /* check if selectedGod is a God*/
             for(String god : completeGodList){
                 if(selectedGod.equals(god)){
                     currentGodList.add(selectedGod);
@@ -115,10 +119,9 @@ public class GodList {
     }
 
     /**
-     *Checks if the selectedGod is already in the GodList
+     *Checks if the selectedGod is already in the GodList.
      * @return A boolean: <code>true</code>  if it exists already, otherwise <code>false</code>.
      */
-    //controllare se il god scelto sia già presente in currentGodList -> true se esiste già
     public boolean checkGod(){
         for(String s : currentGodList){
             if(s.equals(selectedGod)){
@@ -129,7 +132,7 @@ public class GodList {
     }
 
 
-    //Remove a God from currentGodList & listLength-1
+    //Removes a God from currentGodList & listLength-1
 
     /**
      *Removes the parameter from the GodList after it's use.
@@ -148,7 +151,7 @@ public class GodList {
     //Check the dimension of currentGodList == playerNumber
 
     /**
-     *Check if the dimension of the list is equal to the number of players.
+     *Checks if the dimension of the list is equal to the number of players.
      * @return A boolean: <code>true</code> if the lenght of the list is the same as players' number, otherwise <code>false</code>.
      */
     public boolean checkLength(){

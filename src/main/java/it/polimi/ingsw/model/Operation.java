@@ -2,7 +2,12 @@ package it.polimi.ingsw.model;
 
 import java.io.Serializable;
 /**
- * Class that is used to represent the operations move or build actions.
+ * Class that is used to represent the operations "move" or "build" actions.
+ * <p></p>
+ * If the variable type equals to the integer 1, the action is a "move".
+ * <p>
+ * If the variable type equals to the integer 2, the action is a "build".
+ * <p></p>
  * @author GC44
  * @version 1.0
  * @since 1.0

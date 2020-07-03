@@ -18,7 +18,7 @@ public class TurnController {
 
     /**
      *Creates a <code>TurnController</code> with the specified attributes.
-     * @param model
+     * @param model Variable that indicates the Model of the current Lobby.
      */
     public TurnController(Model model) {
         this.model = model;
@@ -117,7 +117,7 @@ public class TurnController {
 
     /* end of build operation */
     /**
-     *Handles the end of the <worker>move</worker> action.
+     *Handles the end of the "move" operation.
      */
     /* fine build */
     private void endBuild(){
@@ -184,7 +184,7 @@ public class TurnController {
 
     /* check after lose */
     /**
-     *Checks if the game is over.If not brings the game to the next turn.
+     *Checks if the game is over.If not,brings the game to the next turn.
      */
     /* check dopo lose */
     private void checkGameOver(){
@@ -194,7 +194,7 @@ public class TurnController {
     }
 
     /**
-     *Applies the operation checking the game state for losing/winning conditions.
+     *Applies the operation checking the game state for losing or winning conditions.
      */
     protected void operation() {
         model.sendBoard();

@@ -6,14 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 /**
  * Class that is used to represent the PLayer.
+ * <p></p>
+ * Each player has his own client.
+ * <p>
+ * In the game each player possess 2 workers and a GodPower.
+ * <p>
+ * One player is the Challenger: he selects the available GodPowers in the game and he chooses the starting player.
+ * <p>
+ * A player wins is his worker does the "move" operation from a level 2 "Block" <code>Tile</code> to a level 3 "Block" <code>Tile</code>.
+ * <p>
+ * If a player cannot make both his workers do the "move" operation he loses.
+ * <p></p>
  * @author GC44
  * @version 1.0
  * @since 1.0
  */
 public class Player {
-
-    // da sistemare implementazione dei workers: prima c'era una classe astratta worker estesa dai vari gods(worker)
-    //introduzione di interfaccia workerMove, workerBuild
 
 
     //ID assigned to each player in order by their join succession
@@ -26,16 +34,16 @@ public class Player {
     private List<UndecoratedWorker> workerList;
 
     /**
-     *
-     * @param playerName
+     *Sets the player's nickname.
+     * @param playerName Variable that represents the player's nickname as a string.
      */
     public Player(String playerName) {
         this.playerNickname = playerName;
     }
 
     /**
-     *
-     * @return
+     *Gets the player's nickname.
+     * @return A string which represents the players's nickname.
      */
     public String getPlayerNickname() {
         return playerNickname;
@@ -45,16 +53,16 @@ public class Player {
     //PlayerID getter&setter
 
     /**
-     *
-     * @return
+     *Gets the player's ID in the lobby.
+     * @return An integer that represents the ID of the player in the current lobby.
      */
     public int getPlayerID() {
         return playerID;
     }
 
     /**
-     *
-     * @param playerID
+     *Sets the player's ID in the lobby.
+     * @param playerID Variable that represents the ID of the player in the current lobby.
      */
     public void setPlayerID(int playerID) {
         this.playerID = playerID;
@@ -64,35 +72,35 @@ public class Player {
     //Challenger getter&setter
 
     /**
-     *
-     * @return
+     *Checks if the player is the challenger.
+     * @return A boolean: <code>true</code> if the player at issue is the challenger, otherwise <code>false</code>.
      */
     public boolean isChallenger() {
         return challenger;
     }
 
     /**
-     *
-     * @param challenger
+     *Sets the player at issue as the challenger.
+     * @param challenger Variable that represents a boolean that indicates if the player at issue is the challenger.
      */
     public void setChallenger(boolean challenger){
         this.challenger = challenger;
     }
 
 
-    //Choose a God from the list
+    //When the player chooses a God from the list
 
     /**
-     *
-     * @param god
+     *Sets a God Card to the player at issue.
+     * @param god Variable that represents which GodCard is at issue.
      */
     public void setGodCard(String god) {
         godCard = god;
     }
 
     /**
-     *
-     * @return
+     *Gets the specific God Card of the player at issue.
+     * @return A string that represents the God Card at issue.
      */
     public String getGodCard() {
         return godCard;
@@ -101,13 +109,12 @@ public class Player {
 
 
 
-    //Create 2 specific worker classes as indicated in godCard ( da sistemare)
-
+    //Create 2 specific worker classes as indicated in godCard
     /**
-     *
-     * @param godCard
-     * @param condition
-     * @param totalWorkerList
+     *Creats 2 specific <code>worker</code> classes as indicate in the GodCard.
+     * @param godCard Variable that represents which GodCard is at issue.
+     * @param condition Variable that represents the <code>condition</code> as some specific Gods need.
+     * @param totalWorkerList Variable that is a list of strings that represents all the workers in the game.
      */
     public void createWorker(String godCard, Conditions condition, List<UndecoratedWorker> totalWorkerList) {
 
@@ -193,8 +200,8 @@ public class Player {
     }
 
     /**
-     *
-     * @return
+     *Gets the current worker list of the game.
+     * @return A list of strings that represents all the workers in the game.
      */
     public List<UndecoratedWorker> getWorkerList() {
         return workerList;
@@ -204,9 +211,9 @@ public class Player {
     //Select the worker to move/build
 
     /**
-     *
-     * @param index
-     * @return
+     *Selects a particular worker which is the one the player choose to do a "move" or "build" operation.
+     * @param index Variable that indicates the index of the worker in question.
+     * @return The worker that was chosen by the player at issue.
      */
     public UndecoratedWorker chooseWorker(int index) {
         return workerList.get(index);
@@ -216,7 +223,7 @@ public class Player {
     //Lost in 3-players game, delete workers
 
     /**
-     *
+     *Deletes the workers of a particular player.This method is only needed in a 3-players game.
      */
     public void deleteWorker() {
         for (UndecoratedWorker w : workerList){

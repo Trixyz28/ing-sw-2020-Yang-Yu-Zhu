@@ -124,8 +124,8 @@ public class Controller implements Observer {
 
     /**
      * Updates the game state based on the <code>answer</code> sent by a particular player.
-     * @param player
-     * @param answer
+     * @param player Variable that indicates the player at issue.
+     * @param answer Variable that indicates the answer sent by the player at issue.
      */
     private void stringUpdate(String player, String answer){
         Player challenger = model.getMatchPlayersList().get(model.getChallengerID());

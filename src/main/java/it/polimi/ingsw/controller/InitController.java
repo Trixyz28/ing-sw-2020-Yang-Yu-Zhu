@@ -27,7 +27,7 @@ public class InitController {
     }
 
     /**
-     * Get of the <code>endInitialize</code> variable.
+     * Gets the <code>endInitialize</code> variable.
      * @return A boolean that is used to end the initializing sequence of the game.
      */
     protected boolean isEndInitialize(){
@@ -87,7 +87,7 @@ public class InitController {
     }
 
     /**
-     * Handle the positioning of the first 2 workers at the start of the game.
+     * Handles the positioning of the first 2 workers at the start of the game.
      * @param position Variable that indicates the position of the <code>Tile</code> where the <code>worker</code>
      *                 is put.
      */
