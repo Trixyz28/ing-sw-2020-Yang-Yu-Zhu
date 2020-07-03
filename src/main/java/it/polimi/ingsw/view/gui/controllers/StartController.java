@@ -8,7 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-
+/**
+ * Class that implements the StartController of the GUI of the game.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 
 public class StartController {
 
@@ -22,12 +27,18 @@ public class StartController {
     private ImageView startLogo;
     @FXML
     private Label firstPageLabel;
+
+    /**
+     * Loads the JavaFX scene.
+     */
     @FXML
     public void loadingScene() {
         guiLauncher.appStarted();
     }
 
-
+    /**
+     * Handles the transition effect at the start of the GUI.
+     */
     public void setEffects() {
         ScaleTransition scale = new ScaleTransition();
         scale.setNode(startLogo);
@@ -50,7 +61,10 @@ public class StartController {
         glowing.play();
     }
 
-
+    /**
+     * Sets the GuiLauncher for the StartController
+     * @param guiLauncher Variable that helps the initial setting and start for the GUI implementation.
+     */
     public void setGuiLauncher(GuiLauncher guiLauncher) {
         this.guiLauncher = guiLauncher;
     }

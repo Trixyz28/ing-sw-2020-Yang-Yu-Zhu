@@ -17,7 +17,12 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Class that implements the GUI of the game.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class GUI implements Ui {
 
     private Stage stage;
@@ -46,12 +51,17 @@ public class GUI implements Ui {
 
     private ArrayList<FXMLLoader> allScenes;
 
-
+    /**
+     *Creates a <code>GUI</code> with the specified attributes.
+     */
     public GUI() {
         this.challengerSet = false;
         this.boardReceived = false;
     }
 
+    /**
+     *Initialize the GUI for the client at issue.
+     */
     public void initialize() {
         allScenes = new ArrayList<>();
         allScenes.add(new FXMLLoader(getClass().getResource("/fxml/Nickname.fxml")));
@@ -75,7 +85,10 @@ public class GUI implements Ui {
         });
     }
 
-
+    /**
+     *Updates the scene for the GUI.
+     * @param index Variable that represents which type of scene needs to be updated to.
+     */
     public void changeScene(int index)  {
 
         Platform.runLater(() -> {
@@ -116,7 +129,9 @@ public class GUI implements Ui {
         });
 
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showObj(Obj obj) {
 
@@ -127,6 +142,9 @@ public class GUI implements Ui {
         }
     }
 
+    /**
+     *Sets the server for the GUI.
+     */
     public void setServer() {
         try {
             Socket socket = new Socket(ip, Integer.parseInt(port));
@@ -138,6 +156,11 @@ public class GUI implements Ui {
         }
     }
 
+
+    /**
+     *Shows a parameter that is used for Model updating the nickname of the player at issue.
+     * @param message Variable that represents the nickname chosen.
+     */
     public void handleNameMsg(String message) {
         if(message.equals(Messages.nicknameAvailable)) {
             this.nickname = loadingController.getNickname();
@@ -148,6 +171,10 @@ public class GUI implements Ui {
         }
     }
 
+    /**
+     *Shows a parameter that is used for Model updating after the first player has been chosen.
+     * @param message Variable that represents the message that was shown to the user.
+     */
     public void handleGodMsg(String message) {
 
         if(message.equals(Messages.chooseStartPlayer)) {
@@ -155,20 +182,26 @@ public class GUI implements Ui {
         }
 
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handlePlayerList(List<String> list) {
         playerList = list;
         changeScene(2);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleDefineGod(String message) {
         Platform.runLater(() -> godController.setDefinedGod(message));
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleChooseGod(Obj obj) {
         for (String name : playerList) {
@@ -178,7 +211,9 @@ public class GUI implements Ui {
         }
         Platform.runLater(() -> godController.setChosenGod(obj));
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleTurn(String message) {
         if (!challengerSet) {
@@ -188,7 +223,9 @@ public class GUI implements Ui {
         Platform.runLater(() -> godController.setTurn(message));
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleGameMsg(String message) {
         if(message.equals(Messages.worker)) {
@@ -203,7 +240,9 @@ public class GUI implements Ui {
             showBoardMsg(god.getMessage());
         }
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleBoardMsg(String message) {
         if(message.equals(Messages.workerChose)) {
@@ -214,7 +253,9 @@ public class GUI implements Ui {
             showBoardMsg(message);
         }
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateBoard(BoardView boardView) {
         this.lastView = boardView;
@@ -226,12 +267,16 @@ public class GUI implements Ui {
             boardController.showBoard(lastView);
         });
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void endGame(Obj obj) {
         showEndMsg(obj);
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void showMessage(String str) {
         System.out.println("Received in gui: " + str);
@@ -240,6 +285,9 @@ public class GUI implements Ui {
         }
     }
 
+    /**
+     *Prints for the GUI the final window as the game has terminated.
+     */
     public void finalWindow() {
         Platform.runLater(() -> {
             this.popup = new Stage();
@@ -261,22 +309,33 @@ public class GUI implements Ui {
     }
 
 
-
+    /**
+     *Shows on the GUI a name of a player.
+     * @param str Variable that is the name of the player at issue.
+     */
     public void showNameMsg(String str) {
         Platform.runLater(() -> loadingController.showNameMsg(str));
     }
 
-
+    /**
+     *Show on the GUI a message from the board.
+     * @param str Variable that is the message from the board.
+     */
     public void showBoardMsg(String str) {
         Platform.runLater(() -> boardController.setRecvMsg(str));
     }
 
-
+    /**
+     *Shows on the GUI a message when the game ends.
+     * @param obj Variable that is encapsulating the messages that needs to be shown.
+     */
     public void showEndMsg(Obj obj) {
         Platform.runLater( () -> boardController.setEndMsg(obj));
     }
 
-
+    /**
+     *Restart the GUI.
+     */
     public void restart() {
         popup.close();
 
@@ -296,26 +355,49 @@ public class GUI implements Ui {
         login.resetServer(ip,port);
     }
 
-
+    /**
+     *Loads the scene for the GUI based on JavaFX.
+     * @param index Variable that indicates which scene needs to be shown
+     * @return A FXMLLoader of JavaFX of the scene at issue.
+     */
     public FXMLLoader loadScene(int index) {
         return allScenes.get(index);
     }
 
-
+    /**
+     *Sets the IP for the client that hosts the GUI.
+     * @param ip Variable that represents the IP at issue.
+     */
     public void setIp(String ip) {
         this.ip = ip;
     }
 
+    /**
+     *Sets the Port for the client that hosts the GUI.
+     * @param port Variable that represents the Port at issue.
+     */
     public void setPort(String port) {
         this.port = port;
     }
 
+    /**
+     *Sets the stage for the client that hosts the GUI.
+     * @param stage Variable that represents the stage at issue.
+     */
     public void setStage(Stage stage) { this.stage = stage; }
 
+    /**
+     *Sets the sender for the client that hosts the GUI.
+     * @param sender Variable that represents the sender at issue.
+     */
     public void setSender(Sender sender) {
         this.sender = sender;
     }
 
+    /**
+     *Sets the LoginController for the client that hosts the GUI.
+     * @param loginController Variable that represents the LoginController at issue.
+     */
     public void setLoginController(LoginController loginController) {
         this.loginController = loginController;
     }

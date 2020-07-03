@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 /**
  * Class that implements the Observable.
+ * @param <T> Variable that represents the object that is used for notify and update.
  * @author GC44
  * @version 1.0
  * @since 1.0

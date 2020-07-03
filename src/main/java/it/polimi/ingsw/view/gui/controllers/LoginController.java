@@ -8,7 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-
+/**
+ * Class that implements the Login Controller of the GUI of the game.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class LoginController {
 
     private GUI gui;
@@ -26,7 +31,9 @@ public class LoginController {
     @FXML
     private Button serverButton;
 
-
+    /**
+     * Handles the log-in infos at the connection to the server of the client that hosts the GUI.
+     */
     public void serverInfo() {
         serverMsg.setText("Connecting...");
 
@@ -37,6 +44,9 @@ public class LoginController {
         gui.setServer();
     }
 
+    /**
+     * Sets up the effects at the log-in to the server of the client that hosts the GUI.
+     */
     public void setEffects() {
         FadeTransition transition = new FadeTransition();
         transition.setNode(serverScrollImg);
@@ -49,17 +59,29 @@ public class LoginController {
     }
 
     //Reset server
+
+    /**
+     * Resets the server connection.
+     * @param ip Variable that represents the IP of the server.
+     * @param port Variable that represents the port of the server.
+     */
     public void resetServer(String ip,String port) {
         ipField.setText(ip);
         portField.setText(port);
     }
 
-
+    /**
+     * Shows a message sent by the server on the GUI.
+     * @param str Variable that represents the message sent by the server.
+     */
     public void showMessage(String str) {
         serverMsg.setText(str);
     }
 
-
+    /**
+     * Handles the GUI association to the LoginController.
+     * @param gui Variable that represents the GUI that needs a Login Handler.
+     */
     public void setGui(GUI gui) {
         this.gui = gui;
     }

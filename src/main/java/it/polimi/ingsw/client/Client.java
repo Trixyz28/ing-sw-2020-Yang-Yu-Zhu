@@ -155,7 +155,7 @@ public class Client implements Observer<String>, Runnable {
                 ui.showMessage(Messages.wrongArgument);
             }
 
-        } else if (gmReceived) {  /* Risposta al messaggio */
+        } else if (gmReceived) {  /* Answer to message*/
 
             input = input.toUpperCase();
 
@@ -186,13 +186,13 @@ public class Client implements Observer<String>, Runnable {
     }
 
     /**
-     *Splits the object,interprets it and updates the game state.
+     *Splits the obj,interprets it and updates the game state.
      * @param obj Comes from the socket stream encapsulating game updates.
      */
     public void splitMessage(Obj obj) {
         switch (obj.getTag()) {
             case Tags.OPERATION -> {
-                opReceived = true;  /* ricevuto un Operation */
+                opReceived = true;  /* receveid an Operation */
                 Operation operation = obj.getOperation();
                 if (operation.getType() == 1) {
                     ui.handleBoardMsg(Messages.move);

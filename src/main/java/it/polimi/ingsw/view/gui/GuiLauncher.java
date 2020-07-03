@@ -11,7 +11,12 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
+/**
+ * Class that helps the start and implementation of the GUI of the game.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 
 public class GuiLauncher extends Application {
 
@@ -20,12 +25,17 @@ public class GuiLauncher extends Application {
     private final GUI gui;
     private final Sender sender;
 
-
+    /**
+     * Creates a <code>GuiLauncher</code> with the specified attributes.
+     */
     public GuiLauncher() {
         this.gui = new GUI();
         this.sender = new Sender();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
         this.stage = primaryStage;
@@ -47,7 +57,9 @@ public class GuiLauncher extends Application {
         stage.show();
     }
 
-
+    /**
+     * Loads the GUI at the start of the application.
+     */
     public void appStarted() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ServerSetting.fxml"));
         try {
@@ -62,7 +74,9 @@ public class GuiLauncher extends Application {
         setupGUI();
     }
 
-
+    /**
+     * Sets up the GUI for the game.
+     */
     public void setupGUI() {
         gui.setSender(sender);
         gui.setStage(stage);

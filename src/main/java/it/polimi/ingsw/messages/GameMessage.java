@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 /**
  * Class GameMessage used by the implementation between client and server.
+ * <p></p>
+ * This class needs a specific type of answer.
+ * <p></p>
  * @author GC44
  * @version 1.0
  * @since 1.0

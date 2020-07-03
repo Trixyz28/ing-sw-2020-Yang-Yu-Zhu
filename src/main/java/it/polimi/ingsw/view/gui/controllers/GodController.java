@@ -16,7 +16,12 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Class that implements the God Controller of the GUI of the game.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class GodController {
 
     private boolean canChoosePlayer = false;
@@ -87,7 +92,12 @@ public class GodController {
     @FXML
     private ImageView rightArrow;
 
-
+    /**
+     * Initialize the playerlist and the challenger to setup the Gods.
+     * @param playerList Variable that represents the list of players in the game.
+     * @param nickname Variable that represents the nickname of the current player.
+     * @param challengerName Variable that represents the nickname of the challenger.
+     */
     public void initialize(List<String>playerList, String nickname, String challengerName) {
         this.playerNumber = playerList.size();
         setName(playerList,nickname);
@@ -95,7 +105,10 @@ public class GodController {
         closeInstruction();
     }
 
-
+    /**
+     * Checks if there's a click of the mouse.
+     * @param event Variable that represents an event of the GUI.
+     */
     public void gridClicked(MouseEvent event) {
 
         // int row;
@@ -120,7 +133,10 @@ public class GodController {
     }
 
 
-
+    /**
+     * Sets the JavaFX GUI of the gos that are chosen.
+     * @param god Variable that represents the god at issue.
+     */
     public void setDefinedGod(String god) {
 
         definedGods.add(god);
@@ -160,11 +176,19 @@ public class GodController {
         }
     }
 
+    /**
+     * Checks if the God List has been finished by the Challenger-
+     * @return A boolean: <code>true</code> if the choice is made, otherwise <code>false</code>.
+     */
     private boolean checkIfDefined() {
         return (definedGods.size() == playerNumber);
     }
-    
 
+    /**
+     *Sets the bubble with the name of the players in the GUI.
+     * @param nameList Variable that represents the list of the names of the players in the game.
+     * @param nickname Variable that represents the nickname of the current player of the client with the GUI.
+     */
     private void setName(List<String> nameList,String nickname) {
         playerName0.setText(nameList.get(0));
         if(nickname.equals(playerName0.getText())) {
@@ -187,6 +211,10 @@ public class GodController {
         }
     }
 
+    /**
+     *Sets the challenger in the GUI of the client of the current player.
+     * @param challenger Variable that represents the nickname of the challenger.
+     */
     private void setChallenger(String challenger) {
         if(challenger.equals(playerName0.getText())) {
             challenger0.setText("Challenger");
@@ -199,24 +227,37 @@ public class GodController {
         }
     }
 
+    /**
+     *Activates an input if the player 0 is chosen on the GUI.
+     */
     public void select0() {
         if(canChoosePlayer) {
             sender.sendInput(playerName0.getText());
         }
     }
 
+    /**
+     *Activates an input if the player 1 is chosen on the GUI.
+     */
     public void select1() {
         if(canChoosePlayer) {
             sender.sendInput(playerName1.getText());
         }
     }
 
+    /**
+     *Activates an input if the player 2 is chosen on the GUI.
+     */
     public void select2() {
         if(canChoosePlayer) {
             sender.sendInput(playerName2.getText());
         }
     }
 
+    /**
+     *Sets the chosen God in the GUI.
+     * @param message Variable that encapsulate the information about the God at issue.
+     */
     public void setChosenGod(Obj message) {
 
         for(Node node : cardGrid.getChildren()) {
@@ -246,7 +287,11 @@ public class GodController {
         }
     }
 
-
+    /**
+     *Sets the bubble of the God in the GUI of the current client.
+     * @param imageView Variable that represents the assigned image of the God in JavaFX.
+     * @param god Variable that represents the name of the God.
+     */
     public void setCloud(ImageView imageView,String god) {
 
         Image image = switch (god.toLowerCase()) {
@@ -273,7 +318,10 @@ public class GodController {
         imageView.setImage(image);
     }
 
-
+    /**
+     *Sets the bubble of the player to indicate who is the current player in the GUI.
+     * @param player Variable that represents the current player of the turn.
+     */
     public void setTurn(String player) {
         if(player.equals(playerName0.getText())) {
             cloud0.setOpacity(1);
@@ -294,11 +342,17 @@ public class GodController {
         setCurrentPlayer(player);
     }
 
+    /**
+     *Sets the current player of the turn in the GUI.
+     * @param str Variable that represents the string of the name of the current player.
+     */
     public void setCurrentPlayer(String str) {
         currentPlayer.setText(str);
     }
 
-
+    /**
+     *Opens the instructions of the Gods in the GUI.
+     */
     public void openInstruction() {
         mainHBox.setDisable(true);
         instructionPane.setDisable(false);
@@ -306,13 +360,18 @@ public class GodController {
         loadFirstPage();
     }
 
+    /**
+     *Closes the instruction of the Gods in the GUI.
+     */
     public void closeInstruction() {
         mainHBox.setDisable(false);
         instructionPane.setDisable(true);
         instructionPane.setVisible(false);
     }
 
-
+    /**
+     *Loads the first page of the instruction of the Gods in the GUI.
+     */
     public void loadFirstPage() {
         leftArrow.setVisible(false);
         leftArrow.setDisable(true);
@@ -321,6 +380,9 @@ public class GodController {
         instructionPage.setImage(new Image("/components/Rules1.png"));
     }
 
+    /**
+     *Loads the second page of the instruction of the Gods in the GUI.
+     */
     public void loadSecondPage() {
         leftArrow.setDisable(false);
         leftArrow.setVisible(true);
@@ -330,7 +392,9 @@ public class GodController {
 
     }
 
-
+    /**
+     *Hides the Unchosen Gods in the GUI during the God Choice for the players.
+     */
     private void hideUnchosenGods() {
 
         for(Node node : cardGrid.getChildren()) {
@@ -349,12 +413,18 @@ public class GodController {
         }
     }
 
+    /**
+     *Sets a player as "choosing god" in the GUI.
+     */
     private void setChooseTitle() {
         title.setImage(new Image("/components/choosingGod.png"));
     }
 
 
-
+    /**
+     *Handles the choice of the starting player in the GUI.
+     * @param size Variable that changes the JavaFX of the starting player in the GUI.
+     */
     public void chooseStartPlayer(int size) {
         this.canChoosePlayer = true;
 
@@ -369,6 +439,10 @@ public class GodController {
         }
     }
 
+    /**
+     *Sets a cloud effect in the GUI of the current client.
+     * @param node Variable that is used by JavaFX.
+     */
     private void setCloudEffects(Node node) {
         FadeTransition fade = new FadeTransition();
         fade.setDuration(Duration.millis(1000));
@@ -380,6 +454,10 @@ public class GodController {
         fade.play();
     }
 
+    /**
+     *Handles the fade-out transition for unchosen Gods.
+     * @param node Variable that is used by JavaFX.
+     */
     private void disappearGod(Node node) {
         FadeTransition fade = new FadeTransition();
         fade.setDuration(Duration.millis(600));
@@ -389,7 +467,10 @@ public class GodController {
         fade.setNode(node);
         fade.play();
     }
-
+    /**
+     *Sets the Sender of the GUI messages.
+     * @param sender Variable that is an <code>Sender</code> used for the client-GUI and server interactions.
+     */
     public void setSender(Sender sender) {
         this.sender = sender;
     }

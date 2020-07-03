@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Descrizione
+ * Class that implements the CLI of the game.
  * @author GC44
  * @version 1.0
  * @since 1.0
@@ -26,17 +26,14 @@ public class CLI implements Ui {
     private String[] godList;
 
     /**
-     *
-     * @param message
+     * {@inheritDoc}
      */
     @Override
     public void showMessage(String message) {
         System.out.println(message);
     }
-
     /**
-     *
-     * @param obj
+     * {@inheritDoc}
      */
     @Override
     public void showObj(Obj obj) {
@@ -51,8 +48,7 @@ public class CLI implements Ui {
     }
 
     /**
-     *
-     * @param boardView
+     * {@inheritDoc}
      */
     @Override
     public void updateBoard(BoardView boardView) {
@@ -133,8 +129,8 @@ public class CLI implements Ui {
     }
 
     /**
-     *
-     * @param t
+     *Prints the worker for the CLI.
+     * @param t Variable that indicates the <code>Tile</code> where the worker is.
      */
     private void printWorker(Tile t) {
 
@@ -166,22 +162,22 @@ public class CLI implements Ui {
     }
 
     /**
-     *
+     *Prints the "move" and "build" operation possibility for the CLI.
      */
     private void printCanOp() {
         System.out.print(CliPrinter.CAN_OP_COLOR);
     }
 
     /**
-     *
+     *Prints the Block for the CLI.
      */
     private void printDome() {
         System.out.print(CliPrinter.DOME_COLOR + "  ^  ");
     }
 
     /**
-     *
-     * @param t
+     *Prints the Block for the CLI.
+     * @param t Variable that indicates the <code>Tile</code> at issue.
      */
     private void printBlock(Tile t) {
         if(checkCanOp(t)) {
@@ -191,8 +187,8 @@ public class CLI implements Ui {
     }
 
     /**
-     *
-     * @param index
+     *Prints the workers of the players for the CLI.
+     * @param index Variable that indicates which worker is being printed.
      */
     private void printPlayer(int index) {
         if(playerList.get(index).equals(nickname)) {
@@ -209,9 +205,9 @@ public class CLI implements Ui {
     }
 
     /**
-     *
-     * @param t
-     * @return
+     *Checks if on the <code>Tile</code> selected can be done a "move" or "build" operation.
+     * @param t Variable that indicates the <code>Tile</code> at issue.
+     * @return A boolean: <code>true</code> if a "move" or "build" operation can be done, otherwise <code>false</code>.
      */
     private boolean checkCanOp(Tile t) {
 
@@ -231,9 +227,9 @@ public class CLI implements Ui {
     }
 
     /**
-     *
-     * @param playerID
-     * @return
+     *Prints different colors for the different players.
+     * @param playerID Variable that represents the ID of the player at issue.
+     * @return A string of a particular color that is shown on the CLI of the client.
      */
     private String workerColor(int playerID) {
 
@@ -247,8 +243,8 @@ public class CLI implements Ui {
     }
 
     /**
-     *
-     * @param list
+     *Prints the complete GodList for the CLI for the player at issue.
+     * @param list Variables that is a list of strings that represents all the God Cards.
      */
     public void printCompleteList(List<String> list) {
         System.out.println("You can choose godcards from this list:");
@@ -258,8 +254,8 @@ public class CLI implements Ui {
     }
 
     /**
-     *
-     * @param list
+     *Prints the current GodList for the CLI for the player at issue.
+     * @param list Variables that is a list of strings that represents all the available God Cards.
      */
     public void printCurrentList(List<String> list) {
         if(!list.isEmpty()) {
@@ -271,8 +267,7 @@ public class CLI implements Ui {
     }
 
     /**
-     *
-     * @param list
+     * {@inheritDoc}
      */
     @Override
     public void handlePlayerList(List<String> list) {
@@ -286,25 +281,30 @@ public class CLI implements Ui {
     }
 
     /**
-     *
-     * @param message
+     * {@inheritDoc}
      */
     @Override
     public void handleTurn(String message) {
         System.out.println("Turn of " + message);
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleDefineGod(String message) {
         System.out.println("The challenger chooses: " + message);
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleChooseGod(Obj obj) {
         System.out.println("The player " + obj.getPlayer() + " chooses " + obj.getMessage() + "!");
         godList[playerList.indexOf(obj.getPlayer())] = obj.getMessage();
     }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleBoardMsg(String message) {
         System.out.print(message);
@@ -315,7 +315,9 @@ public class CLI implements Ui {
         }
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handleGameMsg(String message) {
 
@@ -331,7 +333,9 @@ public class CLI implements Ui {
         System.out.println("");
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void endGame(Obj obj) {
         if(obj.getMessage().equals("win")) {

@@ -1,5 +1,12 @@
 package it.polimi.ingsw.messages;
 
+/**
+ * Class Tags used in the communication between clients-server to distinguish the different types of <code>Obj</code> objects.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
+
 public class Tags {
 
 

@@ -21,7 +21,12 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Class that implements the BoardController of the GUI of the game.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class BoardController {
 
     private String nickname;
@@ -96,7 +101,10 @@ public class BoardController {
     @FXML
     private ImageView leftArrow;
 
-
+    /**
+     * Checks if the board of the GUI has been clicked or not.
+     * @param event Variable that represents the mouse clicked that happened.
+     */
     public void boardClicked(MouseEvent event) {
 
         if(event.getSource().equals(boardGrid)) {
@@ -124,6 +132,12 @@ public class BoardController {
 
     }
 
+    /**
+     * Sets up the board of the GUI for the God Choice process.
+     * @param playerList Variable that represents a list of all the players in the game.
+     * @param nickname Variable that represents the nickname of the current player of the client at issue.
+     * @param godList Variable that represents a list of all the Gods.
+     */
     public void initialize(List<String> playerList, String nickname, String[] godList) {
         initializeGods(godList);
         setNickname(nickname);
@@ -136,7 +150,7 @@ public class BoardController {
 
     /**
      * Sets the players' names on clouds and underline the own player by a sailing boat image in the corner.
-     * @param nameList Variable that contains the players' names.
+     * @param nameList Variable that contains the available players' names.
      */
     public void setName(List<String> nameList) {
 
@@ -160,12 +174,19 @@ public class BoardController {
         }
     }
 
+    /**
+     *Updates the Gods after the choice of teh Challenger.
+     * @param godList Variable that represents a list of the available Gods.
+     */
     public void initializeGods(String[] godList) {
         setCoin(godList);
         setGod(godList);
     }
 
-
+    /**
+     *Updates the GUI during the selection of Gods.
+     * @param godList Variable that represents a list of the available Gods.
+     */
     private void setGod(String[] godList) {
 
         setCloud(god0,godList[0]);
@@ -176,7 +197,11 @@ public class BoardController {
         }
     }
 
-
+    /**
+     *Sets a JavaFX associated bubble for the Gods in the GUI.
+     * @param cloud Variable that is a custom ImageView of the JavaFX library.
+     * @param god Variable that represents the name of the God at issue.
+     */
     private void setCloud(ImageView cloud,String god) {
         Image image = switch (god) {
 
@@ -202,7 +227,10 @@ public class BoardController {
         cloud.setImage(image);
     }
 
-
+    /**
+     *Shows the board in the GUI.
+     * @param boardView Variable that is a BoardView for the GUI.
+     */
     public void showBoard(BoardView boardView) {
 
         this.lastView = boardView;
@@ -226,7 +254,12 @@ public class BoardController {
         setTurn(boardView.getCurrentName());
     }
 
-
+    /**
+     *Prints a custom image of a worker on the board of the GUI.
+     * @param imageView Variable that is a custom ImageView for the GUI.
+     * @param boardView Variable that is a BoardView for the GUI.
+     * @param t Variable that represents the tile which the worker is put on.
+     */
     private void printWorker(ImageView imageView,BoardView boardView,Tile t) {
 
         for (int i = 0; i < boardView.getWorkerList().length; i++) {
@@ -239,7 +272,11 @@ public class BoardController {
         }
     }
 
-
+    /**
+     *Prints the type of operation the worker is able to do in the board of the GUI.
+     * @param imageView  Variable that is a custom ImageView for the GUI.
+     * @param number Variable that represents the type of operation: 1-"Move", 2-"Build".
+     */
     private void printCanOp(ImageView imageView,int number) {
 
         if(!(nickname.equals(lastView.getCurrentName())) || number==0) {
@@ -255,11 +292,20 @@ public class BoardController {
         }
     }
 
+    /**
+     *Prints an empty tile on the board of the GUI:
+     * @param imageView Variable that is a custom ImageView for the GUI.
+     */
     private void printEmpty(ImageView imageView) {
         imageView.setImage(new Image("/buildings/empty.png"));
     }
 
-
+    /**
+     *Checks the board of the GUI for the available tiles to do an operation.
+     * @param boardView  Variable that is a BoardView for the GUI.
+     * @param t Variable that represents the tile which the worker is put on.
+     * @return An integer value: 1-movable to, 2-buildable, otherwise 0.
+     */
     private int checkCanOp(BoardView boardView,Tile t) {
         if(boardView.getChosenWorkerID()!=-1) {
             WorkerView chosen = boardView.getWorkerList()[boardView.getChosenWorkerID()];
@@ -278,13 +324,20 @@ public class BoardController {
         return 0;
     }
 
-
+    /**
+     *Prints a dome on the board of the GUI.
+     * @param dome Variable that is a custom ImageView for a dome for the GUI.
+     */
     private void printDome(ImageView dome) {
         Image image = new Image("/buildings/dome.png");
         dome.setImage(image);
     }
 
-
+    /**
+     *Prints a block on the board of the GUI.
+     * @param block Variable that is a custom ImageView for a block for the GUI.
+     * @param level Variable that indicates the level of the block that is being built.
+     */
     private void printBlock(ImageView block,int level) {
         Image image = switch (level) {
             case 1 -> new Image("/buildings/level1.png");
@@ -296,7 +349,10 @@ public class BoardController {
         block.setImage(image);
     }
 
-
+    /**
+     *Updates the players icons on the GUI based upon the current player.
+     * @param player Variable that represents the current player of the turn.
+     */
     private void setTurn(String player) {
         boardGrid.setDisable(!player.equals(nickname));
 
@@ -321,18 +377,27 @@ public class BoardController {
         showTurnMsg(player);
     }
 
-
+    /**
+     *Shows the messages about the current turn.
+     * @param str Variable that represents the string containing the message to be shown.
+     */
     public void showTurnMsg(String str) {
         turnMsg.setText(str);
     }
 
-
+    /**
+     *Resets the buttons visibility of the GUI.
+     */
     public void resetButtons() {
         godButtonPane.setVisible(false);
         godButtonPane.setDisable(true);
     }
 
-
+    /**
+     *Sets the buttons visibility of the GUI.
+     * @param str1  Variable that represents the string containing the message to be shown.
+     * @param str2 Variable that represents the string containing the message to be shown.
+     */
     public void setButtons(String str1,String str2) {
         godButtonPane.setDisable(false);
         godButtonPane.setVisible(true);
@@ -340,30 +405,43 @@ public class BoardController {
         godPowerButton2.setText(str2);
     }
 
-
+    /**
+     *Hides the receiving messages on the GUI.
+     */
     public void hideRecvMsg() {
         mailImg.setVisible(false);
         commandRecv.setText("");
     }
 
-
+    /**
+     *Sets to visible the receiving messages on the GUI.
+     * @param str Variable that represents the string containing the message to be shown.
+     */
     public void setRecvMsg(String str) {
         mailImg.setVisible(true);
         commandRecv.setText(str);
     }
 
-
+    /**
+     *Sends an answer to the server on click on the button 1 on the GUI.
+     */
     public void sendAnswer1() {
         sender.sendInput(godPowerButton1.getText());
         resetButtons();
     }
 
+    /**
+     *Sends an answer to the server on click on the button 2 on the GUI.
+     */
     public void sendAnswer2() {
         sender.sendInput(godPowerButton2.getText());
         resetButtons();
     }
 
-
+    /**
+     *Sets the custom coin images of the Gods on the GUI.
+     * @param godList Variable that represents a list of the available Gods.
+     */
     private void setCoin(String[] godList) {
 
         coins = new Image[godList.length];
@@ -389,12 +467,17 @@ public class BoardController {
         }
     }
 
-
+    /**
+     *Sets the nickname on the board of the GUI.
+     * @param str Variable that represents the nickname of the player at issue.
+     */
     public void setNickname(String str) {
         this.nickname = str;
     }
 
-
+    /**
+     *Opens the rulebook on the GUI.
+     */
     public void openRule() {
         leftVBox.setDisable(true);
         boardGrid.setDisable(true);
@@ -403,7 +486,9 @@ public class BoardController {
         loadFirstPage();
     }
 
-
+    /**
+     *Close the rulebook on the GUI.
+     */
     public void closeRule() {
         rulePane.setVisible(false);
         rulePane.setDisable(true);
@@ -411,6 +496,9 @@ public class BoardController {
         boardGrid.setDisable(false);
     }
 
+    /**
+     *Load the first page of the rulebook on the GUI.
+     */
     public void loadFirstPage() {
         ruleImage.setImage(new Image("/components/Rules1.png"));
         leftArrow.setDisable(true);
@@ -419,6 +507,9 @@ public class BoardController {
         rightArrow.setVisible(true);
     }
 
+    /**
+     *Load the second page of the rulebook on the GUI.
+     */
     public void loadSecondPage() {
         ruleImage.setImage(new Image("/components/Rules2.png"));
         leftArrow.setDisable(false);
@@ -426,11 +517,18 @@ public class BoardController {
         rightArrow.setVisible(false);
         rightArrow.setDisable(true);
     }
-
+    /**
+     *Sets the Sender of the GUI messages.
+     * @param sender Variable that is an <code>Sender</code> used for the client-GUI and server interactions.
+     */
     public void setSender(Sender sender) {
         this.sender = sender;
     }
 
+    /**
+     *Shows on the GUI the ending message after the game has ended.
+     * @param obj Variable that encapsulates the messages sent by the server after the game ended.
+     */
     public void setEndMsg(Obj obj) {
         if(obj.getMessage().equals("win")) {
             if(obj.getPlayer().equals(nickname)) {
@@ -457,6 +555,9 @@ public class BoardController {
         }
     }
 
+    /**
+     *Resets the ending message.Easter Egg.
+     */
     public void resetEndMsg() {
         endMsg.setText("");
     }

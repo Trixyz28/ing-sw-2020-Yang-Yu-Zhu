@@ -32,17 +32,28 @@ public class SocketConnection extends Observable<String> implements Runnable {
     private boolean active = true;
     private boolean lost = false;
 
+    /**
+     *  Creates a <code>SocketConnection</code> with the specified attributes.
+     * @param socket Variable that indicates the socket used.
+     * @param server Variable that indicates the server used.
+     */
     public SocketConnection(Socket socket, Server server) {
         this.socket = socket;
         this.server = server;
     }
 
-
+    /**
+     * Checks if the socket is active or not.
+     * @return A boolean: <code>true</code> if the connection is active, otherwise <code>false</code>.
+     */
     public synchronized boolean isActive() {
         return active;
     }
 
-
+    /**
+     * Sends an message through the connection to the socket.
+     * @param message Variable that represents the message that needs to be sent.
+     */
     public synchronized void send(Object message) {
         try {
             out.reset();
@@ -53,7 +64,9 @@ public class SocketConnection extends Observable<String> implements Runnable {
         }
     }
 
-
+    /**
+     * Closes the socket of the connection.
+     */
     public void closeConnection() {
         active = false;
         try {
@@ -68,21 +81,34 @@ public class SocketConnection extends Observable<String> implements Runnable {
 
     }
 
+    /**
+     * Deletes the player associated to the socket from the server.
+     */
     public void deletePlayer() {
         server.deregisterPlayer(this);
     }
 
-
+    /**
+     * Closes the match on the socket.
+     */
     public void closeMatch()  {
         server.deregisterMatch(this);
     }
 
-
+    /**
+     * Starts a new thread to send a message.
+     * @param message Variable that represents the message to be sent.
+     */
     public void asyncSend(final Object message) {
         new Thread(() -> send(message)).start();
     }
 
-
+    /**
+     * {@inheritDoc}
+     *<p></p>
+     * Handles the connection between the server and a new client.
+     * <p></p>
+     */
     @Override
     public void run() {
 
@@ -143,6 +169,9 @@ public class SocketConnection extends Observable<String> implements Runnable {
         }
     }
 
+    /**
+     * If there's no available Lobby then a new one is created for the player newly connected.
+     */
     private void noAvailableLobby() {
         int number;
         send(new Obj("lobbyMsg",Messages.canCreateLobby));
@@ -161,7 +190,9 @@ public class SocketConnection extends Observable<String> implements Runnable {
         send(new Obj("lobbyOk","Create the lobby n." + lobbyID));
     }
 
-
+    /**
+     * Sets the nickname of the player connect
+     */
     private void setNickname() {
         //Set nickname
         send(new Obj(Tags.NAME_MSG,Messages.nicknameRequest));
@@ -188,25 +219,34 @@ public class SocketConnection extends Observable<String> implements Runnable {
         server.getLobbyHandler().addPlayer(player.getPlayerNickname());
     }
 
-
+    /**
+     * Gets the Id of the lobby at issue.
+     * @return An integer that represents the Id of the lobby.
+     */
     public int getLobbyID() {
         return lobbyID;
     }
 
-
+    /**
+     * Gets the player at issue in the connection.
+     * @return A <code>Player</code> object that was selected.
+     */
     public Player getPlayer() {
         return player;
     }
 
-
+    /**
+     * Sets the attribute that represents if the player connected has lost or not.
+     */
     public void setLost(boolean lost) {
         this.lost = lost;
     }
 
 
-
-
-
+    /**
+     * Sets the attribute that indicates if the player connected is in a match or no.
+     * @param inMatch Variable boolean: <code>True</code> if the player is in the match, otherwise <code>False</code>.
+     */
     public void setInMatch(boolean inMatch) {
         this.inMatch = inMatch;
     }

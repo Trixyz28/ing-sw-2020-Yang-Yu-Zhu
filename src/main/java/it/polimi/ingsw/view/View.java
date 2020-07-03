@@ -6,7 +6,12 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observers.Observable;
 import it.polimi.ingsw.observers.Observer;
 
-
+/**
+ * Class that implements the view of the game.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public abstract class View extends Observable<Obj> implements Observer<Obj> {
 
     protected Player player;
@@ -14,12 +19,18 @@ public abstract class View extends Observable<Obj> implements Observer<Obj> {
     protected GameMessage gameMessage;
     protected Obj obj;
 
-
+    /**
+     *Creates a <code>View</code> with the specified attributes.
+     * @param player Variable that represents the player at issue.
+     */
     public View(Player player){
         this.player = player;
     }
 
-
+    /**
+     *Handles the operations that are sent in input by a client.
+     * @param input Variable that describes the operation sent by the client at issue.
+     */
     protected void handleOp(String input){  /* Update the saved Operation with Client input */
         try {
             String[] inputs = input.split(",");
@@ -36,7 +47,10 @@ public abstract class View extends Observable<Obj> implements Observer<Obj> {
         }
     }
 
-
+    /**
+     *Handles the GameMessages that are sent in input by a client.
+     * @param input Variable that describes the GameMessage sent by the client at issue.
+     */
     protected void handleGm(String input){  /* Update the saved GameMessage with Client input */
         gameMessage = obj.getGameMessage();
 
@@ -45,7 +59,10 @@ public abstract class View extends Observable<Obj> implements Observer<Obj> {
         notify(obj);
     }
 
-
+    /**
+     *Handles the Messages that are sent in input by a client.
+     * @param input Variable that describes the messages sent by the client at issue.
+     */
     protected void messageString(String input) {
         GameMessage gm = new GameMessage(null);
         gm.setAnswer(input);

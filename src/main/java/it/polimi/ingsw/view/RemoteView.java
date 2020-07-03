@@ -4,7 +4,12 @@ import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.server.SocketConnection;
-
+/**
+ * Class that implements the remote view of the game.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 
 public class RemoteView extends View {
 
@@ -15,6 +20,9 @@ public class RemoteView extends View {
 
     private class MessageReceiver implements Observer<String> {
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void update(String message) {  /* ricevere messaggi dal Client: Nickname o God */
             if(opSend){  /* se precedentemente è stata inviata una Operation */
@@ -31,6 +39,11 @@ public class RemoteView extends View {
         }
     }
 
+    /**
+     * Creates a <code>RemoteView</code> with the specified attributes.
+     * @param player Variable that represents the player of the current client.
+     * @param c Variable that indicates the socket connection of the current client.
+     */
     public RemoteView(Player player, SocketConnection c){
         super(player);
         this.connection = c;
@@ -39,6 +52,9 @@ public class RemoteView extends View {
         gmSend = false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(Obj message) {
 

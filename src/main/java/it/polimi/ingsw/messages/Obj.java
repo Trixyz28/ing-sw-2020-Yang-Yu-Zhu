@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class Obj used in the communication between clients-server.
+ * Class Obj used in the communication between clients-server as the main wrapper.
  * @author GC44
  * @version 1.0
  * @since 1.0

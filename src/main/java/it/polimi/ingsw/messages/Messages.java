@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 /**
- * Class GodPowerMessage that is used by the implementation between clients and server for God's powers.
+ * Class Messages that is used by the implementation between clients and server for miscellaneous communication.
  * @author GC44
  * @version 1.0
  * @since 1.0

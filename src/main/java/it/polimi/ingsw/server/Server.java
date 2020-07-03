@@ -34,12 +34,19 @@ public class Server {
     private final LobbyHandler lobbyHandler;
     private final LobbyController lobbyController;
 
+    /**
+     *  Creates a <code>Server</code> with the specified attributes.
+     */
     public Server() {
         lobbyHandler = new LobbyHandler();
         lobbyController = new LobbyController(lobbyHandler);
     }
 
-
+    /**
+     * Starts the server with the chosen port.
+     * @param inputPort Variable that represents the port of the server.
+     * @throws IOException If no connection is established.
+     */
     public void startServer(String inputPort) throws IOException {
 
         this.port = Integer.parseInt(inputPort);
@@ -64,7 +71,17 @@ public class Server {
         }
     }
 
-
+    /**
+     * Handles the connections and eventually starts a new match of a full lobby handling all steps to set it up,
+     * thus setting up the remoteViews, the Model and the Controller for the match of the lobby.
+     * <p></p>
+     * This method is started as the player connects. If he doesn't join an existing lobby, a new lobby is created. Otherwise
+     * it maps the player connection to an existing yet-to-be filled lobby.
+     * When a lobby is full the original <code>match</code> method sets up the "waterfall" of steps to initialize the match.
+     * <p></p>
+     * @param lobbyID Variable that indicates the lobby at issue.
+     * @param c Variable that represents the socket used for the connection by each player.
+     */
     public synchronized void match(int lobbyID, SocketConnection c) {
 
         //The match is not registered yet
@@ -125,7 +142,12 @@ public class Server {
         }
     }
 
-
+    /**
+     * Removes completely one player at issue from the lobby.
+     * @param lobbyID Variable that indicates the lobby
+     * @param connection Variable that indicates the connection of the player at issue.
+     * @param nickname Variable that represents the nickname of the player at issue.
+     */
     public synchronized void removeFromLobby(int lobbyID, SocketConnection connection,String nickname) {
         Lobby lobby = lobbyHandler.findLobby(lobbyID);
         matchConnection.get(lobbyID).remove(connection);
@@ -139,18 +161,28 @@ public class Server {
         }
     }
 
+    /**
+     * Removes a player's nickname from the lobby.
+     * @param nickname Variable that indicates which nickname has been freed from usage.
+     */
     public synchronized void removePlayerName(String nickname) {
         lobbyHandler.removePlayer(nickname);
     }
 
-
+    /**
+     * Removes a player's connection to the lobby.
+     * @param c Variable that indicates which connection needs to be cut.
+     */
     public synchronized void deregisterPlayer(SocketConnection c) {
         lobbyHandler.removePlayer(c.getPlayer().getPlayerNickname());
         matchConnection.get(c.getLobbyID()).remove(c);
         c.closeConnection();
     }
 
-
+    /**
+     * Deregisters the match from the server and deletes the associated lobby after the game has finished.
+     * @param c Variable that is the connection used by the client at issue.
+     */
     public synchronized void deregisterMatch(SocketConnection c) {
         int lobbyID = c.getLobbyID();
 
@@ -163,10 +195,18 @@ public class Server {
         }
     }
 
+    /**
+     * Gets the LobbyHandler at issue.
+     * @return An object <code>LobbyHandler</code> currently in use.
+     */
     public LobbyHandler getLobbyHandler() {
         return lobbyHandler;
     }
 
+    /**
+     * Gets the LobbyController at issue.
+     * @return An object <code>LobbyController</code> currently in use.
+     */
     public LobbyController getLobbyController() {
         return lobbyController;
     }

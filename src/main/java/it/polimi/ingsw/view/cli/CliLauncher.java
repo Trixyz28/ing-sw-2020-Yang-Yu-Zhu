@@ -5,7 +5,12 @@ import it.polimi.ingsw.view.Sender;
 
 import java.net.Socket;
 import java.util.Scanner;
-
+/**
+ * Class that helps the start and implementation of the CLI of the game.
+ * @author GC44
+ * @version 1.0
+ * @since 1.0
+ */
 public class CliLauncher {
 
     private Scanner scanner;
@@ -18,7 +23,9 @@ public class CliLauncher {
     private boolean set;
     private String playAgain;
 
-
+    /**
+     *Initialize the CLI for the client.
+     */
     public void start() {
 
         do {
@@ -49,7 +56,9 @@ public class CliLauncher {
         } while (playAgain.equalsIgnoreCase("yes"));
     }
 
-
+    /**
+     *Prints out the logo of the game on the CLI of the client.
+     */
     private void printLogo() {
         System.out.println(CliPrinter.LOGO_COLOR + "      ____              _             _       _ ");
         System.out.println(CliPrinter.LOGO_COLOR + "     / ___|  __ _ _ __ | |_ ___  _ __(_)_ __ (_)");
@@ -61,7 +70,9 @@ public class CliLauncher {
         System.out.println(CliPrinter.RESET);
     }
 
-
+    /**
+     *Prints a message at the end of the game for the CLI of the client.
+     */
     private void finalRequest() {
         scanner = new Scanner(System.in);
         System.out.println("Press ENTER first to close the match");
@@ -74,7 +85,9 @@ public class CliLauncher {
         }
     }
 
-
+    /**
+     *Sets up the IP and the Port of the client of the CLI.
+     */
     private void setIPAndPort() {
         System.out.print("Server IP: ");
         ip = scanner.nextLine();

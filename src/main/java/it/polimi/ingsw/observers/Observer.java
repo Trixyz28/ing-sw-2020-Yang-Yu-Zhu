@@ -2,6 +2,7 @@ package it.polimi.ingsw.observers;
 
 /**
  * Class that implements the Observer interface.
+ * @param <T> Variable that represents the object that is used for notify and update.
  * @author GC44
  * @version 1.0
  * @since 1.0
