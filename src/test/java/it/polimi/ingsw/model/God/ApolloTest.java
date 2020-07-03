@@ -38,7 +38,9 @@ public class ApolloTest extends TestCase {
     @Test
     public void testAvailableApolloToMove() {
         initialize();
+        /* worker can't change position with another Apollo (0,2) */
         Assert.assertFalse(worker.canMove(apollo.getPosition()));
+        /* Apollo can change position with Artemis (1,1) */
         Assert.assertTrue(worker.canMove(artemis.getPosition()));
     }
 
@@ -46,18 +48,29 @@ public class ApolloTest extends TestCase {
     @Test
     public void testCanMove() {
         initialize();
+        /* worker can move to (0,0, (1,0), (1,1), (1,2) */
         List<Tile> movableTiles = turn.movableList(worker);
         Assert.assertEquals(4,movableTiles.size());
+        Assert.assertTrue(movableTiles.contains(board.getTile(0,0)));
+        Assert.assertTrue(movableTiles.contains(board.getTile(1,0)));
+        Assert.assertTrue(movableTiles.contains(board.getTile(1,1)));
+        Assert.assertTrue(movableTiles.contains(board.getTile(1,2)));
     }
 
 
     @Test
     public void testMove() {
         initialize();
+        /* worker (0,1) moves to (1,1) -> must change position with Artemis (1,1) */
         worker.move(artemis.getPosition());
+        /* worker (1,1) artemis (0,1) */
         Assert.assertEquals(board.getTile(1,1),worker.getPosition());
         Assert.assertEquals(board.getTile(0,1),artemis.getPosition());
+
+        /* worker (1,1) moves to (2,2) */
+        Assert.assertTrue(worker.canMove(board.getTile(2,2)));
         worker.move(board.getTile(2,2));
+        Assert.assertEquals(board.getTile(2,2), worker.getPosition());
     }
 
 

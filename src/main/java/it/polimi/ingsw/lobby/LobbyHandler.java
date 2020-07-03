@@ -1,6 +1,7 @@
 package it.polimi.ingsw.lobby;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Manages all the lobbies of the server.
@@ -13,10 +14,10 @@ public class LobbyHandler {
 
 
     //List of all active lobbies
-    private final ArrayList<Lobby> lobbyList;
+    private final List<Lobby> lobbyList;
 
     //List of all players
-    private final ArrayList<String> playerList;
+    private final List<String> playerList;
 
     private int counter = 0;
 
@@ -50,7 +51,7 @@ public class LobbyHandler {
      * @return A list made of the IDs of the lobbies.
      */
     //Get() of lobbyList
-    public ArrayList<Lobby> getLobbyList() {
+    public List<Lobby> getLobbyList() {
         return lobbyList;
     }
 
@@ -59,7 +60,7 @@ public class LobbyHandler {
      * @return A list made of the IDs of the players.
      */
     //Get() of playerList
-    public ArrayList<String> getPlayerList() {
+    public List<String> getPlayerList() {
         return playerList;
     }
 
@@ -92,7 +93,7 @@ public class LobbyHandler {
         lobbyList.add(newLobby);
         newLobby.setLobbyID(counter-1);
 
-        ArrayList<String> temporaryList = new ArrayList<>();
+        List<String> temporaryList = new ArrayList<>();
         temporaryList.add(name);
 
         //copies temporaryList into the attribute of the associated Lobby object

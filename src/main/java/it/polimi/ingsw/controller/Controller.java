@@ -14,7 +14,7 @@ import it.polimi.ingsw.observers.Observer;
  * @version 1.0
  * @since 1.0
  */
-public class Controller implements Observer {
+public class Controller implements Observer<Obj> {
 
     private final Model model;
 
@@ -55,23 +55,23 @@ public class Controller implements Observer {
      * {@inheritDoc}
      */
     @Override
-    public void update(Object arg) {
+    public void update(Obj arg) {
 
-        if (arg.equals("setup")) {
+        if (arg.getTag().equals(Tags.SETUP)) {
             /* initialize match -> challenger */
             initController.initializeMatch();
 
-        } else if (checkTurn((Obj) arg)) {
+        } else if (checkTurn(arg)) {
 
-            if (((Obj) arg).getTag().equals(Tags.OPERATION)) {
-                opUpdate(((Obj) arg).getOperation());
+            if (arg.getTag().equals(Tags.OPERATION)) {
+                opUpdate(arg.getOperation());
 
-            } else if (((Obj) arg).getTag().equals(Tags.G_MSG)) {
-                GameMessage gm = ((Obj) arg).getGameMessage();
+            } else if (arg.getTag().equals(Tags.G_MSG)) {
+                GameMessage gm = arg.getGameMessage();
 
                 if (gm.getMessage() == null) {
                     /* Choose god and StartingPlayerNickname */
-                    stringUpdate(((Obj) arg).getReceiver(), gm.getAnswer());
+                    stringUpdate(arg.getReceiver(), gm.getAnswer());
                 } else {
                     if (model.checkAnswer(gm)) {
                         /* Answers : WorkerIndex, ConfirmWorker, GodPower */

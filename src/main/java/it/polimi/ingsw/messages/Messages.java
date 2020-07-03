@@ -32,7 +32,7 @@ public class Messages {
     /**
      *Message that indicates the player to choose a worker.
      */
-    public static String worker = "Choose a Worker to move";
+    public static String worker = "Choose a Worker";
 
     /**
      *Message that indicates to select one specific worker.
@@ -163,12 +163,12 @@ public class Messages {
     /**
      *Message that indicates it is the turn of the player at issue.
      */
-    public static String yourTurn = "Ecco il tuo turno!";
+    public static String yourTurn = "Your Turn!";
 
     /**
      *Message that indicates that the turn of the player at issue has terminated.
      */
-    public static String endTurn = "Il tuo turno è terminato!";
+    public static String endTurn = "End Turn";
 
 
     //Miscellaneous

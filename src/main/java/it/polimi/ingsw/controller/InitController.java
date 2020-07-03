@@ -12,7 +12,7 @@ import it.polimi.ingsw.model.*;
  */
 public class InitController {
 
-    private Model model;
+    private final Model model;
 
     private int indexWorker;
     private boolean endInitialize;

@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class GUI implements Ui {
@@ -30,12 +31,11 @@ public class GUI implements Ui {
     private Sender sender;
 
     private boolean challengerSet;
-    private boolean chooseWorker;
     private boolean boardReceived;
 
     private String nickname;
     private String challengerName;
-    private ArrayList<String> playerList;
+    private List<String> playerList;
     private String[] godList;
     private BoardView lastView;
 
@@ -49,7 +49,6 @@ public class GUI implements Ui {
 
     public GUI() {
         this.challengerSet = false;
-        this.chooseWorker = false;
         this.boardReceived = false;
     }
 
@@ -84,33 +83,29 @@ public class GUI implements Ui {
                 Parent parent = loadScene(index).load();
                 stage.getScene().setRoot(parent);
 
-                if(index==0) {
-                    loadingController = loadScene(0).getController();
-                    loadingController.setGui(this);
-                    loadingController.setSender(sender);
-                    clientThread = new Thread(client);
-                    clientThread.start();
-                }
-
-                if(index==1) {
-                    loadingController = loadScene(1).getController();
-                    loadingController.setGui(this);
-                    loadingController.setSender(sender);
-                    loadingController.setChoiceBox();
-                }
-
-                if(index==2) {
-                    godController = loadScene(2).getController();
-                    godController.setSender(sender);
-                    this.godList = new String[playerList.size()];
-                    godController.initialize(playerList,nickname,challengerName);
-                }
-
-                if(index==3) {
-                    boardController = loadScene(3).getController();
-                    boardController.setGuiLauncher(this);
-                    boardController.setSender(sender);
-                    boardController.initialize(playerList,nickname,godList);
+                switch (index) {
+                    case 0 -> {
+                        loadingController = loadScene(0).getController();
+                        loadingController.setSender(sender);
+                        clientThread = new Thread(client);
+                        clientThread.start();
+                    }
+                    case 1 -> {
+                        loadingController = loadScene(1).getController();
+                        loadingController.setSender(sender);
+                        loadingController.setChoiceBox();
+                    }
+                    case 2 -> {
+                        godController = loadScene(2).getController();
+                        godController.setSender(sender);
+                        this.godList = new String[playerList.size()];
+                        godController.initialize(playerList, nickname, challengerName);
+                    }
+                    case 3 -> {
+                        boardController = loadScene(3).getController();
+                        boardController.setSender(sender);
+                        boardController.initialize(playerList, nickname, godList);
+                    }
                 }
 
             } catch (Exception e) {
@@ -161,17 +156,18 @@ public class GUI implements Ui {
 
     }
 
-
     @Override
-    public void handlePlayerList(ArrayList<String> list) {
+    public void handlePlayerList(List<String> list) {
         playerList = list;
         changeScene(2);
     }
+
 
     @Override
     public void handleDefineGod(String message) {
         Platform.runLater(() -> godController.setDefinedGod(message));
     }
+
 
     @Override
     public void handleChooseGod(Obj obj) {
@@ -196,7 +192,7 @@ public class GUI implements Ui {
     @Override
     public void handleGameMsg(String message) {
         if(message.equals(Messages.worker)) {
-            this.chooseWorker = true;
+            sender.setChooseWorker(true);
             showBoardMsg(message);
         } else if(message.equals(Messages.confirmWorker)) {
             showBoardMsg(message);
@@ -211,7 +207,7 @@ public class GUI implements Ui {
     @Override
     public void handleBoardMsg(String message) {
         if(message.equals(Messages.workerChose)) {
-            this.chooseWorker = false;
+            sender.setChooseWorker(false);
         } else if(message.equals(Messages.endTurn)) {
             Platform.runLater(()-> boardController.hideRecvMsg());
         } else {
@@ -280,26 +276,29 @@ public class GUI implements Ui {
         Platform.runLater( () -> boardController.setEndMsg(obj));
     }
 
+
     public void restart() {
         popup.close();
 
         this.sender = new Sender();
         this.challengerSet = false;
-        this.chooseWorker = false;
         this.boardReceived = false;
         initialize();
 
-        setServer();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ServerSetting.fxml"));
+        try {
+            stage.getScene().setRoot(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LoginController login = loader.getController();
+        login.setGui(this);
+        login.resetServer(ip,port);
     }
 
 
     public FXMLLoader loadScene(int index) {
         return allScenes.get(index);
-    }
-
-
-    public boolean isChooseWorker() {
-        return chooseWorker;
     }
 
 

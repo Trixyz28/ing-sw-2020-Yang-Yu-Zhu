@@ -14,8 +14,8 @@ import javafx.application.Application;
 public class ClientApp {
 
     /**
-     *Main class that creates the client.
-     * @param args Variable that if equal to <code>null</code> the GUI is started, otherwise the CLI is started.
+     * Main class which starts the client application.
+     * @param args Variable read from command line, if equal to <code>null</code> the GUI will be launched, otherwise it will active the CLI.
      */
     public static void main(String[] args) {
 

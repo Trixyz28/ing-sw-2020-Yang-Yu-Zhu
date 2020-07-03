@@ -13,7 +13,7 @@ import it.polimi.ingsw.model.Tile;
 
 public class MoveController {
 
-    private Model model;
+    private final Model model;
 
     private Tile position;
     private UndecoratedWorker worker;

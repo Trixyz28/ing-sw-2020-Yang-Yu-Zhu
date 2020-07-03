@@ -15,9 +15,9 @@ import java.util.List;
 public class NoGod implements UndecoratedWorker {
 
     private Tile position;
-    private int belongToPlayer;
+    private final int belongToPlayer;
     private boolean godPower;
-    private Conditions condition;
+    private final Conditions condition;
     private int state;  /* 0 = Waiting   1 = Moving  2 = Building 3 = using other workers */
 
    /**

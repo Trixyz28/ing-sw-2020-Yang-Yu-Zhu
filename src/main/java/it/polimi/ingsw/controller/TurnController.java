@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.God.*;
 
 import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Controller that handles the turns of the game.
  * @author GC44
@@ -14,7 +16,7 @@ import java.util.ArrayList;
  */
 public class TurnController {
 
-    private Model model;
+    private final Model model;
 
     /**
      *Creates a <code>TurnController</code> with the specified attributes.
@@ -153,7 +155,7 @@ public class TurnController {
      */
     /* aggiornare Turn + ripristinare condizioni */
     protected void nextTurn() {
-        ArrayList<Player> playerList = model.getMatchPlayersList();
+        List<Player> playerList = model.getMatchPlayersList();
         int index = model.getNextPlayerIndex();
         currentTurn.nextTurn(playerList.get(index));
         model.sendBoard();
@@ -161,7 +163,7 @@ public class TurnController {
         if (model.checkLose()) {
             checkGameOver();
         } else {
-            model.sendMessage(Tags.BOARD_MSG,Messages.yourTurn);
+            model.sendMessage(Tags.GENERIC,Messages.yourTurn);
             /* send message to choose worker */
             model.sendMessage(Tags.G_MSG,Messages.worker);
         }

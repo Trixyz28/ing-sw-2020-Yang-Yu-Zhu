@@ -38,10 +38,13 @@ public class PlayerTest extends TestCase {
 
     @Test
     public void testCreateApollo() {
+        /* create 2 workers Apollo */
         ArrayList<UndecoratedWorker> totalWorkerList = new ArrayList<>();
         player.createWorker("APOLLO", null, totalWorkerList);
         assertTrue(player.getWorkerList().get(0) instanceof Apollo);
         assertTrue(player.chooseWorker(0) instanceof Apollo);
+        assertTrue(player.getWorkerList().get(1) instanceof Apollo);
+        assertTrue(player.chooseWorker(1) instanceof Apollo);
     }
 
     @Test
@@ -63,10 +66,12 @@ public class PlayerTest extends TestCase {
         t2.setRow(3);
         t2.setColumn(3);
 
+        /* set positions */
         player.getWorkerList().get(0).setPosition(t1);
         player.getWorkerList().get(1).setPosition(t2);
         assertTrue(t1.isOccupiedByWorker());
 
+        /* delete workers */
         player.deleteWorker();
         assertFalse(t1.isOccupiedByWorker());
         assertFalse(t2.isOccupiedByWorker());

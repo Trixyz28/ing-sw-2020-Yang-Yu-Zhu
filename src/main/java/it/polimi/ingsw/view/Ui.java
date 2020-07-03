@@ -2,7 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.messages.*;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 public interface Ui {
@@ -12,7 +12,7 @@ public interface Ui {
     //Display a message
     void showMessage(String str);
 
-    void handlePlayerList(ArrayList<String> list);
+    void handlePlayerList(List<String> list);
 
     void handleTurn(String message);
 

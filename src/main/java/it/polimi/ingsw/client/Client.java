@@ -8,7 +8,7 @@ import it.polimi.ingsw.view.cli.CLI;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.NoSuchElementException;
+
 
 /**
  * Sets up the client of the game.
@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
  * @version 1.0
  * @since 1.0
  */
-public class Client implements Observer, Runnable {
+public class Client implements Observer<String>, Runnable {
 
     private Socket socket;
     private ObjectInputStream socketIn;
@@ -62,6 +62,8 @@ public class Client implements Observer, Runnable {
         }
 
     }
+
+
     /**
      * {@inheritDoc}
      */
@@ -72,15 +74,16 @@ public class Client implements Observer, Runnable {
             t0 = asyncReadFromSocket(socketIn);
             t0.join();
 
-        } catch (NoSuchElementException | InterruptedException e) {
-            ui.showMessage(Messages.connectionClosed);
+        } catch (Exception e) {
             System.out.println("Client.run() stopped");
 
         } finally{
             try {
+                ui.showMessage(Messages.connectionClosed);
                 socketOut.close();
                 socketIn.close();
                 socket.close();
+                System.out.println("Socket closed");
             } catch (IOException e) {
                 System.out.println("Error when closing socket");
             }
@@ -104,13 +107,9 @@ public class Client implements Observer, Runnable {
                     if(inputObject instanceof String) {
                         ui.showMessage((String)inputObject);
 
-
                     } else if (inputObject instanceof Obj) {
-                        Obj obj = (Obj)inputObject;
+                        Obj obj = (Obj) inputObject;
                         splitMessage(obj);
-
-                    } else {
-                        throw new IllegalArgumentException();
                     }
                 }
             } catch (Exception e) {
@@ -159,33 +158,15 @@ public class Client implements Observer, Runnable {
         } else if (gmReceived) {  /* Risposta al messaggio */
 
             input = input.toUpperCase();
-            /*
-            if (gMessage.getMessage().equals(Messages.Worker)) {
-                try {  /* indice worker o 0 o 1
-                    int index = Integer.parseInt(input);
-                    if (index == 0 || index == 1) {
-                        socketOut.println(input);
-                        socketOut.flush();
-                        gmReceived = false;
-                        gMessage = null;
-                    } else {
-                        ui.showMessage(Messages.invalidWorker);
-                    }
-                } catch (Exception e) {
-                    ui.showMessage(Messages.wrongArgument);
-                }
-            } else {  /* problema yes or no
 
-             */
-                socketOut.println(input);
-                socketOut.flush();
-                gmReceived = false;
+            socketOut.println(input);
+            socketOut.flush();
+            gmReceived = false;
 
         } else {
             socketOut.println(input);
             socketOut.flush();
         }
-
     }
 
     /**
@@ -239,8 +220,8 @@ public class Client implements Observer, Runnable {
      * {@inheritDoc}
      */
     @Override
-    public void update(Object message) {
-        writeToSocket((String)message);
+    public void update(String message) {
+        writeToSocket(message);
     }
 
 }

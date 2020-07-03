@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class that is used to handle the GodList used to initialize the match in the lobby.
  *<p></p>
@@ -14,10 +16,13 @@ import java.util.ArrayList;
 public class GodList {
 
     //List of all Gods
-    private ArrayList<String> completeGodList;
+    private final List<String> completeGodList;
 
     //List of Gods selected by the Challenger
-    private ArrayList<String> currentGodList;
+    private final List<String> currentGodList;
+
+    //Number of players in match
+    private final int playerNumber;
 
     //Current choice of God
     private String selectedGod;
@@ -25,8 +30,6 @@ public class GodList {
     //currentGodList length
     private int currentLength;
 
-    //Number of players in match
-    private int playerNumber;
 
     /**
      * Creates a new <code>GodList</code> with the specified attributes.
@@ -71,7 +74,7 @@ public class GodList {
      *Gets the current GodList available.
      * @return An arraylist of strings which are the Gods' names.
      */
-    public ArrayList<String> getCurrentGodList() {
+    public List<String> getCurrentGodList() {
         return currentGodList;
     }
 
@@ -82,7 +85,7 @@ public class GodList {
      *Gets the complete GodList available.
      * @return An arraylist of strings which are the Gods' name.
      */
-    public ArrayList<String> getCompleteGodList() {
+    public List<String> getCompleteGodList() {
         return completeGodList;
     }
 

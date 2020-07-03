@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class Operation implements Serializable {
 
     //type of the operation: 1-move, 2-build
-    private int type;
+    private final int type;
     private int row;
     private int column;
 

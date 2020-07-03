@@ -1,9 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.messages.GameMessage;
-import it.polimi.ingsw.messages.GodPowerMessage;
-import it.polimi.ingsw.messages.Messages;
-import it.polimi.ingsw.messages.Obj;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.God.Artemis;
 import it.polimi.ingsw.model.God.NoGod;
 import it.polimi.ingsw.model.God.Prometheus;
@@ -17,6 +14,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.swing.text.TabableView;
+
 /**
  * Tests of the <code>Controller</code>
  * @author GC44
@@ -25,13 +24,13 @@ import org.junit.Test;
  */
 
 
-public class ControllerTest extends TestCase {
+public class ControllerTest extends TestCase{
 
     Model model = new Model();
     Controller controller = new Controller(model);
     Player player1 = new Player("A");
     Player player2 = new Player("B");
-    Observable observable = new Observable();
+    Observable<Obj> observable = new Observable<Obj>();
     Player challenger;
 
     /**
@@ -65,10 +64,10 @@ public class ControllerTest extends TestCase {
     public void testSetup() {
         initialize();
         /* the match hasn't been set up yet, the turn doesn't exist */
-        Assert.assertEquals(null, model.getCurrentTurn());
+        Assert.assertNull(model.getCurrentTurn());
 
         /* setup */
-        observable.notify("setup");
+        observable.notify(new Obj(Tags.SETUP,""));
 
         /* the turn is created */
         Assert.assertNotEquals(null, model.getCurrentTurn());

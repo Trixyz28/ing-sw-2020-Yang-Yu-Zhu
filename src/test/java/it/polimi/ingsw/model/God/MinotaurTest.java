@@ -38,12 +38,20 @@ public class MinotaurTest extends TestCase {
     @Test
     public void testCanMove() {
         initialize();
+
         Assert.assertTrue(worker.canMove(board.getTile(1,1)));
+        /* worker (2,2) can push athena to (4,4) */
         Assert.assertTrue(worker.canMove(athena.getPosition()));
+        /* minotaur worker cannot push another minotaur worker */
         Assert.assertFalse(worker.canMove(minotaur.getPosition()));
+
+        /* set forcedTile not available to move */
         board.getTile(4,4).setDomePresence(true);
+        /* athena can't be pushed */
         Assert.assertFalse(worker.canMove(athena.getPosition()));
+        /* change athena position */
         athena.setPosition(board.getTile(0,2));
+        /* athena can't be pushed -> forced tile doesn't exist */
         Assert.assertFalse(minotaur.canMove(athena.getPosition()));
 
     }
@@ -52,6 +60,7 @@ public class MinotaurTest extends TestCase {
     @Test
     public void testMove() {
         initialize();
+        /* worker (2,2) moves to (3,3), athena must be pushed to (4,4) */
         worker.move(athena.getPosition());
         Assert.assertEquals(board.getTile(4,4),athena.getPosition());
         Assert.assertEquals(board.getTile(3,3),worker.getPosition());

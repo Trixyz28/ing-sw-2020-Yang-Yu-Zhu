@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.Ui;
 import it.polimi.ingsw.view.WorkerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Descrizione
@@ -15,12 +16,13 @@ import java.util.ArrayList;
  * @since 1.0
  */
 public class CLI implements Ui {
+
     private BoardView boardView;
     private String nickname;
     private boolean current;
     private String lostName = " ";
 
-    private ArrayList<String> playerList;
+    private List<String> playerList;
     private String[] godList;
 
     /**
@@ -248,7 +250,7 @@ public class CLI implements Ui {
      *
      * @param list
      */
-    public void printCompleteList(ArrayList<String> list) {
+    public void printCompleteList(List<String> list) {
         System.out.println("You can choose godcards from this list:");
         for(String str : list) {
             System.out.println(str);
@@ -259,8 +261,8 @@ public class CLI implements Ui {
      *
      * @param list
      */
-    public void printCurrentList(ArrayList<String> list) {
-        if(list.size()!=0) {
+    public void printCurrentList(List<String> list) {
+        if(!list.isEmpty()) {
             System.out.println("Actual cards:");
             for(String str : list) {
                 System.out.println(str);
@@ -273,7 +275,7 @@ public class CLI implements Ui {
      * @param list
      */
     @Override
-    public void handlePlayerList(ArrayList<String> list) {
+    public void handlePlayerList(List<String> list) {
         playerList = list;
         godList = new String[playerList.size()];
 

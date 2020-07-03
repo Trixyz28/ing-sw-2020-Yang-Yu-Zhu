@@ -8,13 +8,13 @@ import java.io.Serializable;
 
 public class BoardView implements Serializable {
 
-    private Tile[][] map;
-    private WorkerView[] workerList;
-    private int chosenWorkerID;
+    private final Tile[][] map;
+    private final WorkerView[] workerList;
+    private final int chosenWorkerID;
 
-    private String currentName;
-    private int currentID;
-    private String currentGod;
+    private final String currentName;
+    private final int currentID;
+    private final String currentGod;
 
 
     public BoardView(Tile[][] map, WorkerView[] workerList, Player player, int chosenWorkerID) {

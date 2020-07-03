@@ -15,35 +15,46 @@ public class HephaestusTest extends TestCase {
 
     @Test
     public void testBuildBlock() {
+        /* worker (0,0) */
+        worker.setPosition(board.getTile(0,0));
         worker.nextState();
         Assert.assertEquals(1, worker.getState());
-        worker.setPosition(board.getTile(0,0));
+
+        /* worker build block on (0,1) */
         Tile build = board.getTile(0,1);
         Assert.assertTrue(worker.canBuildBlock(build));
         Assert.assertFalse(worker.canBuildDome(build));
         worker.buildBlock(build);
         Assert.assertEquals(1,build.getBlockLevel());
+        /* GodPower active -> build a block again */
         Assert.assertTrue(worker.getGodPower());
         Assert.assertEquals(2, worker.getState());
+        /* Hephaestus can only build a block again on the built tile */
         Assert.assertFalse(worker.canBuildBlock(board.getTile(0,2)));
+        /* another block */
         worker.useGodPower(true);
         Assert.assertEquals(2,build.getBlockLevel());
 
+        /* hepaestus can't build again a dome -> counter > 0 */
         build.setBlockLevel(3);
-        /* Hepaestus has already built -> built counter > 0 */
         Assert.assertFalse(worker.canBuildDome(build));
     }
 
     @Test
     public void testBuildBlock2() {
+        /* worker on (0,0) */
+        worker.setPosition(board.getTile(0,0));
         worker.nextState();
         Assert.assertEquals(1, worker.getState());
-        worker.setPosition(board.getTile(0,0));
         Tile build = board.getTile(0,1);
+        /* set cannot active power conditions */
         build.setBlockLevel(2);
+
+        /* build on (0,1) */
         Assert.assertTrue(worker.canBuildBlock(build));
         worker.buildBlock(build);
         Assert.assertEquals(3,build.getBlockLevel());
+        /* godPower inactive */
         Assert.assertFalse(worker.canBuildBlock(build));
         Assert.assertFalse(worker.getGodPower());
     }

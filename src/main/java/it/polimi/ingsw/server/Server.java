@@ -5,6 +5,7 @@ import it.polimi.ingsw.lobby.Lobby;
 import it.polimi.ingsw.lobby.LobbyController;
 import it.polimi.ingsw.lobby.LobbyHandler;
 import it.polimi.ingsw.messages.Obj;
+import it.polimi.ingsw.messages.Tags;
 import it.polimi.ingsw.model.Model;
 import it.polimi.ingsw.view.RemoteView;
 import it.polimi.ingsw.view.View;
@@ -87,8 +88,7 @@ public class Server {
                 connection.getPlayer().setPlayerID(matchConnection.get(lobbyID).indexOf(connection));
 
                 //Display match players info
-                connection.asyncSend(new Obj("playerList",lobbyHandler.findLobby(lobbyID).getPlayersNameList()));
-
+                connection.send(new Obj(Tags.PLAYER_LIST,lobbyHandler.findLobby(lobbyID).getPlayersNameList()));
             }
 
             //Create and initialize Model
@@ -121,7 +121,7 @@ public class Server {
             }
 
             //Initialize match conditions
-            view0.notify("setup");
+            view0.notify(new Obj(Tags.SETUP,""));
         }
     }
 
@@ -152,7 +152,6 @@ public class Server {
 
 
     public synchronized void deregisterMatch(SocketConnection c) {
-
         int lobbyID = c.getLobbyID();
 
         if(matchConnection.containsKey(lobbyID)) {

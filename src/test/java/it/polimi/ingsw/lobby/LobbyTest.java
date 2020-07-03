@@ -10,6 +10,9 @@ public class LobbyTest {
 
     Lobby lobby = new Lobby(3);
 
+    /**
+     *
+     */
     @Test
     public void testLobbyID() {
         lobby.setLobbyID(1);

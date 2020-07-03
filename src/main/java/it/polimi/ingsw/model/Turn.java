@@ -30,9 +30,6 @@ public class Turn {
     //Final tile of the move
     private Tile finalTile;
 
-    //Tile where there it was built
-    private Tile builtTile;
-
     //return state of Turn : 0 -> choosing worker, 1 -> moving, 2 -> building
     private int state;
 
@@ -60,11 +57,6 @@ public class Turn {
     }
 
     //set() of the currentPlayer
-
-    /**
-     *Sets the parameter as the current player of the turn.
-     * @param currentPlayer Variable that represents the current player of the turn.
-     */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
@@ -227,7 +219,6 @@ public class Turn {
         /* update tiles */
         initialTile = chosenWorker.getPosition();
         finalTile = null;
-        builtTile = null;
     }
 
     //check lose conditions
