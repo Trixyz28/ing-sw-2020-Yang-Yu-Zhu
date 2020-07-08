@@ -47,7 +47,7 @@ public class Controller implements Observer<Obj> {
      * @param arg Object that is used on client-server communication.
      * @return A boolean: <code>True</code> if it's the user's turn, otherwise<code>False</code>.
      */
-    private boolean checkTurn(Obj arg) {
+    private synchronized boolean checkTurn(Obj arg) {
         return model.checkTurn(arg.getReceiver());
     }
 
