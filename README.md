@@ -12,15 +12,13 @@ The distributed system includes a server and multiple clients which can join one
   The game is designed by Gord Hamilton and published by Roxley Games.  
   More information about Santorini: [Click here](https://roxley.com/products/santorini)
 
-* Game rules
-
-<p align="center">
-<img src="src/main/resources/components/Rules1.png" width="800" height="500">
-</p>
-
-<p align="center">
-<img src="src/main/resources/components/Rules2.png" width="800" height="500">
-</p>
+* Game rules  
+  Players take turn in order of their join sequence.  
+  The randomly selected **Challenger** chooses God Power cards equal to the number of players. Everyone picks a **God Power** from the chosen ones, and the Challenger receives the last card. The Challenger then chooses a Start Player.  
+  Every player has got two **Workers** which should be placed on unoccupied spaces (not containing Worker or Dome) on the board.  
+  On your turn, select one of your Workers. You **must** always perform a **move** then **build** on your turn.  
+  You **lose** if you cannot complete your turn. 
+  
 
 
 ## Group GC44
